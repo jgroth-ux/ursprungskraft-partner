@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Kangenwasser Wegweiser</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* Ursprungskraft-CI, dezent: heller Grund, Khaki als Akzent, Oliv für Überschriften.
+   A5, 28 Seiten (durch 4 teilbar, damit sie als Heft gedruckt werden kann). */
+:root{
+  --grund:#F5F1E8; --flaeche:#FBF9F4; --sand:#EAE3D3; --linie:#D9CFBA;
+  --khaki:#A8996A; --khaki-hell:#CFC4A0; --oliv:#5E6140; --oliv-tief:#4F5A35; --tinte:#2A2C22; --leise:#5F6152;
+}
+@page{size:420pt 595pt;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--flaeche)}
+body{font-family:Inter,system-ui,sans-serif;color:var(--tinte);-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:9.5pt;line-height:1.5}
+.seite{width:100vw;height:100vh;overflow:hidden;position:relative;page-break-after:always;background:var(--flaeche)}
+.seite:last-child{page-break-after:auto}
+h1,h2,h3,.zahl,.jost{font-family:Jost,system-ui,sans-serif;font-weight:400}
+.fuss{position:absolute;bottom:9mm;left:14mm;right:14mm;display:flex;justify-content:space-between;font-size:7pt;letter-spacing:.18em;text-transform:uppercase;color:var(--khaki)}
+.innen{padding:14mm 14mm 0}
+.eyebrow{font-size:7pt;letter-spacing:.24em;text-transform:uppercase;color:var(--khaki);display:flex;align-items:center;gap:3mm;margin-bottom:3.5mm}
+.eyebrow::before{content:"";width:8mm;height:.3mm;background:var(--khaki)}
+h2{font-size:19pt;line-height:1.15;letter-spacing:-.01em;color:var(--oliv);margin-bottom:5mm}
+.lead{font-size:10pt;line-height:1.6;margin-bottom:5mm}
+p+p{margin-top:2.5mm}
+
+/* ---------- Titel ---------- */
+.titel{background:var(--flaeche)}
+.titel .foto{height:128mm;background:url(../../website/bilder/hero.jpg) center 60%/cover}
+.titel .text{padding:12mm 14mm 0}
+.titel .marke{font-size:7.5pt;letter-spacing:.32em;text-transform:uppercase;color:var(--khaki);margin-bottom:5mm}
+.titel h1{font-size:36pt;line-height:1;letter-spacing:-.02em;color:var(--oliv)}
+.titel .unter{font-family:Jost,sans-serif;font-size:13pt;font-weight:300;color:var(--tinte);margin-top:4mm;line-height:1.3}
+.titel .band{position:absolute;left:14mm;right:14mm;bottom:11mm;border-top:.3mm solid var(--linie);padding-top:3mm;display:flex;justify-content:space-between;font-size:7pt;letter-spacing:.18em;text-transform:uppercase;color:var(--leise)}
+
+/* ---------- Inhalt ---------- */
+.inhalt li{list-style:none;display:flex;align-items:baseline;gap:3mm;padding:1.55mm 0;border-bottom:.3mm solid var(--linie);font-size:10pt}
+.inhalt li a{display:flex;align-items:baseline;gap:3mm;flex:1;color:inherit;text-decoration:none}
+.inhalt li span:first-child{flex:1}
+.inhalt li .nr{font-family:Jost,sans-serif;color:var(--khaki);font-size:10pt}
+.inhalt li.unter span:first-child{padding-left:5mm;color:var(--leise);font-size:9.5pt}
+
+/* ---------- Skala der fünf Wasserarten ---------- */
+.skala{margin-top:2mm}
+.skala .stufe{display:grid;grid-template-columns:22mm 1fr;gap:4mm;align-items:center;padding:3mm 0;border-bottom:.3mm solid var(--linie)}
+.skala .ph{font-family:Jost,sans-serif;font-size:15pt;color:var(--oliv);text-align:center;border-radius:2mm;padding:1.5mm 0}
+.skala b{font-weight:500;display:block;font-size:10pt}
+.skala small{font-size:8.5pt;color:var(--leise)}
+.t1{background:#E4E6D6}.t2{background:#ECEBDD}.t3{background:#F1EEE3}.t4{background:#EFE7D6}.t5{background:#E9DDC6}
+
+/* ---------- Wasserart: linke Seite ---------- */
+.art .bild{height:92mm;background-position:center;background-size:cover}
+.art .feld{height:92mm;display:flex;align-items:center;justify-content:center}
+.art .feld span{font-family:Jost,sans-serif;font-weight:300;font-size:84pt;color:rgba(94,97,64,.22);letter-spacing:-.03em}
+.art .text{padding:10mm 14mm 0}
+.zahl{font-size:42pt;line-height:.95;letter-spacing:-.02em;color:var(--oliv)}
+.zahl small{font-size:14pt;letter-spacing:0;color:var(--khaki);margin-right:2mm}
+.art h1{font-size:20pt;margin:2.5mm 0 4mm;letter-spacing:-.01em}
+.art p{font-size:9.5pt;line-height:1.6}
+.wirkung{margin-top:4mm;font-size:8.5pt;color:var(--leise);display:flex;gap:2.5mm;align-items:center}
+.wirkung::before{content:"";flex:none;width:2.4mm;height:2.4mm;border-radius:50%;background:var(--khaki-hell)}
+
+/* ---------- Wasserart: rechte Seite ---------- */
+.nutzen h2{font-size:15pt}
+.gruppe{border-top:.3mm solid var(--linie);padding:3.2mm 0 2.6mm;display:grid;grid-template-columns:22mm 1fr;gap:4mm}
+.gruppe h3{font-size:10pt;font-weight:500;color:var(--oliv)}
+.gruppe ul{list-style:none}
+.gruppe li{font-size:9.5pt;line-height:1.45;padding-left:4mm;position:relative;margin-bottom:1.1mm}
+.gruppe li::before{content:"";position:absolute;left:0;top:2.1mm;width:1.6mm;height:.3mm;background:var(--khaki)}
+.kasten{margin-top:4mm;background:var(--sand);border-radius:3mm;padding:4.5mm 5.5mm}
+.kasten h3{font-size:10.5pt;font-weight:500;color:var(--oliv);margin-bottom:1.5mm}
+.kasten p{font-size:9pt;line-height:1.5}
+.kasten p+p{margin-top:1.5mm}
+.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm;margin:2.5mm 0}
+.plan div{background:var(--flaeche);border-radius:2mm;padding:2mm 2.5mm;font-size:8pt;line-height:1.35;color:var(--leise)}
+.plan b{display:block;font-family:Jost,sans-serif;font-weight:400;font-size:11pt;color:var(--oliv)}
+.plan div:last-child{background:var(--khaki);color:#fff}
+.plan div:last-child b{color:#fff}
+.hinweis{margin-top:3mm;border-left:.8mm solid var(--khaki);padding:2.5mm 0 2.5mm 4mm;font-size:8.8pt;line-height:1.5}
+.hinweis b{font-weight:600;color:var(--oliv)}
+
+/* ---------- Anwendungen ---------- */
+.eintrag{display:grid;grid-template-columns:1fr auto;column-gap:4mm;padding:2.4mm 0;border-bottom:.3mm solid var(--linie);break-inside:avoid}
+.eintrag h4{font-size:9.5pt;font-weight:600;color:var(--tinte);margin-bottom:.6mm}
+.eintrag p{font-size:9pt;line-height:1.45;color:var(--tinte);grid-column:1}
+.eintrag .chips{grid-column:2;grid-row:1 / span 2;display:flex;flex-direction:column;gap:1mm;align-items:flex-end;padding-top:.3mm}
+.chip{font-family:Jost,sans-serif;font-size:8pt;white-space:nowrap;border-radius:5mm;padding:.5mm 2.4mm;background:var(--sand);color:var(--oliv)}
+.chip.c25{background:#E9DDC6}.chip.c60{background:#EFE7D6}.chip.c70{background:#F1EEE3}.chip.c95{background:#ECEBDD}.chip.c115{background:#E4E6D6}
+
+/* ---------- Gesundheit ---------- */
+.punkte{list-style:none}
+.punkte li{padding:2.1mm 0 2.1mm 6mm;border-bottom:.3mm solid var(--linie);position:relative;font-size:9.3pt;line-height:1.45}
+.punkte li::before{content:"";position:absolute;left:0;top:3.9mm;width:2mm;height:2mm;border-radius:50%;background:var(--khaki-hell)}
+
+.kapitelbild{height:46mm;background-position:center;background-size:cover;margin:-14mm -14mm 7mm}
+.kapitelbild.mitte{margin:5mm -14mm 6mm;height:40mm}
+/* ---------- Kundenstimmen ---------- */
+.stimme{padding:3mm 0 3.2mm;border-bottom:.3mm solid var(--linie)}
+.stimme h4{font-size:7.5pt;letter-spacing:.16em;text-transform:uppercase;color:var(--khaki);font-weight:600;margin-bottom:1.5mm}
+.stimme p{font-size:8.8pt;line-height:1.5;font-style:normal}
+.stimme p::before{content:"„";color:var(--khaki)}
+.stimme p::after{content:"“";color:var(--khaki)}
+.stimmen-foto{height:58mm;background:url(../../website/bilder/video-3.jpg) center/cover;margin:-14mm -14mm 7mm}
+
+/* ---------- Pflege ---------- */
+.zweier{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-bottom:4mm}
+.zweier div{background:var(--sand);border-radius:2.5mm;padding:3mm 4mm}
+.zweier b{display:block;font-family:Jost,sans-serif;font-weight:400;font-size:14pt;color:var(--oliv);line-height:1.1}
+.zweier span{font-size:8.5pt;color:var(--leise)}
+
+/* ---------- Rückseite ---------- */
+.rueck{background:var(--oliv);color:var(--grund)}
+.rueck .innen{padding-top:60mm}
+.rueck h2{color:var(--grund);font-size:22pt}
+.rueck .zeile{border-top:.3mm solid rgba(234,227,211,.3);padding:3.5mm 0;font-size:10pt}
+.rueck .zeile a{color:inherit;text-decoration:none}
+.rueck .zeile small{display:block;font-size:7pt;letter-spacing:.2em;text-transform:uppercase;color:var(--khaki-hell);margin-bottom:.8mm}
+.rueck .marke{position:absolute;bottom:12mm;left:14mm;right:14mm;font-size:7.5pt;letter-spacing:.32em;text-transform:uppercase;color:var(--khaki-hell);display:flex;justify-content:space-between}
+.klein-hinweis{font-size:7.8pt;line-height:1.5;color:rgba(234,227,211,.75);margin-top:9mm}
+/* Blocksatz nur für echten Fliesstext. Trennung erst ab 10 Buchstaben, mind. 4 vor und nach dem Strich */
+.lead,.art p,.stimme p,.klein-hinweis{text-align:justify;hyphens:auto;-webkit-hyphens:auto;hyphenate-limit-chars:10 4 4}
+</style>
+</head>
+<body>
+
+<!-- 1 Titel -->
+<section id="s1" class="seite titel">
+  <div class="foto"></div>
+  <div class="text">
+    <div class="marke">Ursprungskraft</div>
+    <h1>Kangenwasser</h1>
+    <div class="unter">Dein Wegweiser für den Start<br>mit basischem Wasser</div>
+  </div>
+  <div class="band"><span>LeveLuk K8</span><span>Daniel Zürcher</span></div>
+</section>
+
+<!-- 2 Willkommen und Inhalt -->
+<section id="s2" class="seite"><div class="innen" style="padding-top:12mm">
+  <div class="eyebrow">Willkommen</div>
+  <h2>Schön, dass du da bist</h2>
+  <p class="lead">Dein Gerät macht aus deinem Leitungswasser fünf verschiedene Wasserarten, vom stark basischen bis zum stark sauren. Jede hat ihre eigenen Aufgaben: zum Trinken, Kochen, für die Pflege und für den Haushalt. In diesem Heft findest du alles, was du für deinen Start brauchst, und kannst jederzeit nachschlagen.</p>
+  <ul class="inhalt">
+    <li><a href="#s3"><span>Die fünf Wasserarten auf einen Blick</span><span class="nr">3</span></a></li>
+    <li><a href="#s4"><span>Vorteile für die Gesundheit</span><span class="nr">4</span></a></li>
+    <li><a href="#s5"><span>Die Wasserarten im Einzelnen</span><span class="nr">5</span></a></li>
+    <li class="unter"><a href="#s5"><span>pH 11,5 · Stark basisches Wasser</span><span class="nr">5</span></a></li>
+    <li class="unter"><a href="#s7"><span>pH 8,5 bis 9,5 · Trinkwasser</span><span class="nr">7</span></a></li>
+    <li class="unter"><a href="#s9"><span>pH 7,0 · Sauberes Wasser</span><span class="nr">9</span></a></li>
+    <li class="unter"><a href="#s11"><span>pH 6,0 · Schönheitswasser</span><span class="nr">11</span></a></li>
+    <li class="unter"><a href="#s13"><span>pH 2,5 · Stark saures Wasser</span><span class="nr">13</span></a></li>
+    <li><a href="#s15"><span>Körperpflege</span><span class="nr">15</span></a></li>
+    <li><a href="#s17"><span>Entzündungen und Infektionen</span><span class="nr">17</span></a></li>
+    <li><a href="#s19"><span>Haushalt</span><span class="nr">19</span></a></li>
+    <li><a href="#s22"><span>Ernährung und Kochen</span><span class="nr">22</span></a></li>
+    <li><a href="#s23"><span>Tiere und Pflanzen</span><span class="nr">23</span></a></li>
+    <li><a href="#s24"><span>Erfahrungen von Kunden</span><span class="nr">24</span></a></li>
+    <li><a href="#s27"><span>Pflege deines Geräts</span><span class="nr">27</span></a></li>
+  </ul>
+</div><div class="fuss"><span>Ursprungskraft</span><span>2</span></div></section>
+
+<!-- 3 Überblick -->
+<section id="s3" class="seite"><div class="innen">
+  <div class="eyebrow">Überblick</div>
+  <h2>Die fünf Wasserarten auf einen Blick</h2>
+  <p class="lead">Unser Körper besteht zu bis zu 80 % aus Wasser. Mit lebendigem Wasser haben wir den grössten Hebel auf unsere Gesundheit. Wassermangel ist eine echte Volkskrankheit.</p>
+  <div class="skala">
+    <div class="stufe"><div class="ph t1">11,5</div><div><b>Stark basisches Wasser</b><small>Entfetten, Obst und Gemüse waschen, Wäsche, Haushalt</small></div></div>
+    <div class="stufe"><div class="ph t2" style="font-size:11pt;padding:2.6mm 0">8,5 bis 9,5</div><div><b>Trinkwasser</b><small>Trinken, Kochen, Kaffee und Tee</small></div></div>
+    <div class="stufe"><div class="ph t3">7,0</div><div><b>Sauberes Wasser</b><small>Babynahrung, Medikamente, für alle, die neutral trinken</small></div></div>
+    <div class="stufe"><div class="ph t4">6,0</div><div><b>Schönheitswasser</b><small>Haut und Haar, Eier und Pasta kochen, Pflanzen</small></div></div>
+    <div class="stufe"><div class="ph t5">2,5</div><div><b>Stark saures Wasser</b><small>Reinigen und Desinfizieren im ganzen Haus</small></div></div>
+  </div>
+</div><div class="fuss"><span>Ursprungskraft</span><span>3</span></div></section>
+
+<!-- 4 Gesundheit -->
+<section id="s4" class="seite"><div class="innen">
+  <div class="eyebrow">Gesundheit</div>
+  <h2>Vorteile für die Gesundheit</h2>
+  <ul class="punkte">
+    <li>Unterstützt den Entgiftungs- und Reinigungsprozess des Körpers. Auch Schwermetalle werden ausgeschieden.</li>
+    <li>Reduziert den Säuregehalt im Körper erheblich und wirkt als starkes natürliches Entzündungshemmmittel.</li>
+    <li>Hilft bei Gelenkproblemen und Steifheit.</li>
+    <li>Fördert ein ausgewogenes Mikrobiom (Darmbakterien) und unterstützt die Verdauung.</li>
+    <li>Die antioxidative Wirkung stärkt das Immunsystem. Oxidativer Stress wird durch molekularen Wasserstoff (H₂) neutralisiert.</li>
+    <li>Durch die Ionisierung werden die natürlichen Mineralien wie Kalzium, Magnesium und Kalium bioverfügbar.</li>
+    <li>Der Stoffwechsel wird angekurbelt, das kann die Gewichtsreduktion unterstützen.</li>
+    <li>Nahrung und Nahrungsergänzungsmittel werden besser aufgenommen.</li>
+    <li>Innere und äussere Anwendung tragen zu einem schöneren Hautbild bei.</li>
+    <li>Schnellere Regeneration nach dem Sport, weil Laktat schneller abgebaut wird.</li>
+    <li>Durch die Micro Clusterung werden die Zellen optimal hydriert und besser mit Sauerstoff versorgt.</li>
+    <li>Die Schlafqualität wird positiv beeinflusst.</li>
+  </ul>
+</div><div class="fuss"><span>Ursprungskraft</span><span>4</span></div></section>
+
+<!-- 5 pH 11,5 links -->
+<section id="s5" class="seite art">
+  <div class="bild" style="background-image:url(../../website/bilder/video-2.jpg)"></div>
+  <div class="text">
+    <div class="eyebrow">Wasserart 1 von 5</div>
+    <div class="zahl"><small>pH</small>11,5</div>
+    <h1>Stark basisches Wasser</h1>
+    <p>Ein natürlicher Entfetter und Emulgator. Am häufigsten wird es genutzt, um Öle und Spritzmittel wie Herbizide und Pestizide von Obst und Gemüse zu lösen. Im Haushalt ersetzt es Reiniger, Waschmittel und manches Pflegeprodukt.</p>
+    <div class="wirkung">Zum Entfetten hält es kühl gelagert bis zu einer Woche. Zum Trinken lässt die starke Wirkung nach 1 bis 2 Tagen nach.</div>
+  </div>
+  <div class="fuss"><span>Ursprungskraft</span><span>5</span></div>
+</section>
+
+<!-- 6 pH 11,5 rechts -->
+<section id="s6" class="seite"><div class="innen nutzen">
+  <h2>So nutzt du es</h2>
+  <div class="gruppe"><h3>Küche</h3><ul>
+    <li>Obst und Gemüse 45 Minuten einlegen, mit pH 9,5 abspülen</li>
+    <li>Reis, Bohnen und Hülsenfrüchte 30 Minuten einlegen</li>
+    <li>Fleisch und Fisch 45 Minuten einlegen, wird zarter</li>
+    <li>Fettige Töpfe und Pfannen einweichen</li>
+  </ul></div>
+  <div class="gruppe"><h3>Haushalt</h3><ul>
+    <li>Fenster und Spiegel vorreinigen</li>
+    <li>Backofen, Grill und Dunstabzug-Gitter einweichen</li>
+    <li>Wäsche: 1.500 ml statt Waschmittel</li>
+    <li>Flecken in Kleidung, Teppich und Autopolster</li>
+    <li>Felgen und ölbasierte Farbflecken</li>
+  </ul></div>
+  <div class="gruppe"><h3>Körper</h3><ul>
+    <li>Gesichtsreinigung, entfettet die Haut</li>
+    <li>Fettige Kopfhaut einmassieren, danach pH 6,0</li>
+    <li>Fussbad, etwa 45 Minuten, am besten kalt</li>
+  </ul></div>
+  <div class="gruppe"><h3>Abends</h3><ul>
+    <li>Ein Glas vor dem Schlafengehen. Es entgiftet stark, entkalkt die Zirbeldrüse und fördert so die Melatoninbildung.</li>
+  </ul></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>6</span></div></section>
+
+<!-- 7 pH 9,5 links -->
+<section id="s7" class="seite art">
+  <div class="bild" style="background-image:url(../../website/bilder/glas-holz.jpg)"></div>
+  <div class="text">
+    <div class="eyebrow">Wasserart 2 von 5</div>
+    <div class="zahl"><small>pH</small>8,5 bis 9,5</div>
+    <h1>Trinkwasser</h1>
+    <p>Das Wasser für jeden Tag. Es eignet sich hervorragend zum Trinken und zum gesunden Kochen. Das elektrolytisch reduzierte, wasserstoffreiche Wasser bringt deinen Körper wieder in einen alkalischen Zustand, der für deine Gesundheit optimal ist.</p>
+    <div class="wirkung">Frisch am besten: die starke Wirkung lässt nach 1 bis 2 Tagen nach.</div>
+  </div>
+  <div class="fuss"><span>Ursprungskraft</span><span>7</span></div>
+</section>
+
+<!-- 8 pH 9,5 rechts mit Start -->
+<section id="s8" class="seite"><div class="innen nutzen">
+  <h2>So nutzt du es</h2>
+  <div class="gruppe"><h3>Trinken</h3><ul>
+    <li>Pur über den Tag verteilt, für Kaffee und Tee</li>
+    <li>Auch für deine Haustiere</li>
+  </ul></div>
+  <div class="gruppe"><h3>Küche</h3><ul>
+    <li>Kochen, Suppen und Eintöpfe</li>
+    <li>Obst, Gemüse und Hülsenfrüchte nach dem Bad in pH 11,5 damit abspülen</li>
+  </ul></div>
+  <div class="gruppe"><h3>Zuhause</h3><ul>
+    <li>Pflanzen giessen, im Diffuser mit ätherischem Öl</li>
+  </ul></div>
+  <div class="kasten">
+    <h3>Dein Start</h3>
+    <p>Dein Körper braucht ein paar Tage, um sich an basisches Wasser zu gewöhnen. Fang deshalb niedrig an und geh erst eine Stufe höher, wenn du dich wohlfühlst.</p>
+    <div class="plan">
+      <div><b>pH 8,5</b>1. Woche</div>
+      <div><b>pH 9,0</b>2. Woche</div>
+      <div><b>pH 9,5</b>ab der 3. Woche</div>
+    </div>
+    <p>Trinkmenge: 40 ml je Kilogramm Körpergewicht am Tag, zum Beispiel 80 kg × 40 ml = 3,2 Liter. Steigere auch die Menge langsam.</p>
+  </div>
+  <div class="hinweis"><b>Wichtig:</b> Babys, ältere Menschen und alle, die Medikamente nehmen, trinken nur pH 7,0. Medikamente immer mit pH 7,0 einnehmen. Im Zweifel vorher ärztlich abklären.</div>
+</div><div class="fuss"><span>Kangenwasser</span><span>8</span></div></section>
+
+<!-- 9 pH 7,0 links -->
+<section id="s9" class="seite art">
+  <div class="bild" style="background-image:url(../../website/bilder/video-1.jpg)"></div>
+  <div class="text">
+    <div class="eyebrow">Wasserart 3 von 5</div>
+    <div class="zahl"><small>pH</small>7,0</div>
+    <h1>Sauberes Wasser</h1>
+    <p>Frei von Chlor, Rost und Trübungen. Neutral gereinigtes Wasser ist ein köstliches Trinkwasser, das der Körper leicht aufnehmen kann. Es ist das Wasser für die Kleinsten, für empfindliche Menschen und immer dann, wenn Medikamente im Spiel sind.</p>
+  </div>
+  <div class="fuss"><span>Ursprungskraft</span><span>9</span></div>
+</section>
+
+<!-- 10 pH 7,0 rechts -->
+<section id="s10" class="seite"><div class="innen nutzen">
+  <h2>So nutzt du es</h2>
+  <div class="gruppe"><h3>Trinken</h3><ul>
+    <li>Für Babys und ältere Menschen</li>
+    <li>Für alle, die Medikamente nehmen</li>
+    <li>Wenn du neutrales, sauberes Wasser möchtest</li>
+  </ul></div>
+  <div class="gruppe"><h3>Küche</h3><ul>
+    <li>Zubereitung von Babynahrung</li>
+  </ul></div>
+  <div class="gruppe"><h3>Medikamente</h3><ul>
+    <li>Tabletten und Arzneien immer mit pH 7,0 einnehmen, nie mit basischem Wasser</li>
+  </ul></div>
+  <div class="hinweis"><b>Gut zu wissen:</b> pH 7,0 ist die sichere Wahl für alle, bei denen du unsicher bist. Im Zweifel vorher ärztlich abklären, ob basisches Wasser passt.</div>
+</div><div class="fuss"><span>Kangenwasser</span><span>10</span></div></section>
+
+<!-- 11 pH 6,0 links -->
+<section id="s11" class="seite art">
+  <div class="bild" style="background-image:url(../../reference/broschuere-bilder/ph-6.jpg);background-position:center 25%"></div>
+  <div class="text">
+    <div class="eyebrow">Wasserart 4 von 5</div>
+    <div class="zahl"><small>pH</small>6,0</div>
+    <h1>Schönheitswasser</h1>
+    <p>Leitungswasser ist meist stark verarbeitet, enthält Chemikalien und liegt bei pH 7,0 bis 7,5. Der natürliche pH-Wert gesunder Haut liegt dagegen bei 5,4 bis 5,9, also leicht sauer. pH 6,0 bringt Haut und Haar auf natürliche Weise zurück in ihr Gleichgewicht. Durch die Micro Clusterung wird die Hautzelle optimal befeuchtet.</p>
+    <div class="wirkung">Die starke Wirkung lässt nach 3 bis 5 Tagen nach.</div>
+  </div>
+  <div class="fuss"><span>Ursprungskraft</span><span>11</span></div>
+</section>
+
+<!-- 12 pH 6,0 rechts -->
+<section id="s12" class="seite"><div class="innen nutzen">
+  <h2>So nutzt du es</h2>
+  <div class="gruppe"><h3>Gesicht</h3><ul>
+    <li>Als Gesichtswasser statt Hauttoner</li>
+    <li>Nach der Rasur als Tonikum</li>
+  </ul></div>
+  <div class="gruppe"><h3>Körper</h3><ul>
+    <li>Aufsprühen statt Creme und Bodylotion</li>
+    <li>2 bis 4 Liter ins Vollbad</li>
+    <li>Bei Cellulite mehrmals täglich aufsprühen</li>
+  </ul></div>
+  <div class="gruppe"><h3>Haare</h3><ul>
+    <li>Nach dem Waschen aufsprühen statt Conditioner</li>
+  </ul></div>
+  <div class="gruppe"><h3>Küche</h3><ul>
+    <li>Eier kochen: sie platzen nicht und lassen sich leichter schälen</li>
+    <li>Pasta kochen: sie bleibt al dente</li>
+  </ul></div>
+  <div class="gruppe"><h3>Pflanzen</h3><ul>
+    <li>Für Orchideen, Tomaten und alle, die es leicht sauer mögen</li>
+  </ul></div>
+  <div class="gruppe"><h3>Gerät</h3><ul>
+    <li>Jeden Morgen 1 Minute laufen lassen, das lädt die Platten auf</li>
+  </ul></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>12</span></div></section>
+
+<!-- 13 pH 2,5 links -->
+<section id="s13" class="seite art">
+  <div class="bild" style="background-image:url(../../reference/broschuere-bilder/ph-2-5.jpg)"></div>
+  <div class="text">
+    <div class="eyebrow">Wasserart 5 von 5</div>
+    <div class="zahl"><small>pH</small>2,5</div>
+    <h1>Stark saures Wasser</h1>
+    <p>Hypochlorige Säure ist der natürliche Immunabwehrstoff des Körpers, gebildet in den weissen Blutkörperchen. Sie ist auch der antimikrobielle Bestandteil von pH 2,5. Sie tötet 99,9 % der Keime ab, Salmonellen in 30 Sekunden, und ist für Mensch und Tier ungiftig. Im Geschäft gibt es sie nicht zu kaufen, weil sie nur begrenzt haltbar ist. Dein Gerät stellt sie auf Knopfdruck frisch her.</p>
+    <div class="wirkung">Die starke Wirkung lässt nach 3 bis 5 Tagen nach.</div>
+  </div>
+  <div class="fuss"><span>Ursprungskraft</span><span>13</span></div>
+</section>
+
+<!-- 14 pH 2,5 rechts -->
+<section id="s14" class="seite"><div class="innen nutzen">
+  <h2>So nutzt du es</h2>
+  <div class="gruppe"><h3>Haushalt</h3><ul>
+    <li>Bad, Toilette, Küche und Kühlschrank reinigen</li>
+    <li>Schneidebretter und Arbeitsflächen desinfizieren</li>
+    <li>Fenster und Spiegel nachwischen, abstauben</li>
+    <li>Statt Weichspüler: 500 ml in die Wäsche</li>
+    <li>Gerüche aus Abfluss, Schuhen und Sportwäsche</li>
+  </ul></div>
+  <div class="gruppe"><h3>Küche</h3><ul>
+    <li>Angebrannte Töpfe über Nacht einweichen</li>
+    <li>Fleisch und Fisch besprühen, gegen Gerüche</li>
+    <li>Lebensmittel vor dem Einfrieren besprühen</li>
+  </ul></div>
+  <div class="gruppe"><h3>Körper</h3><ul>
+    <li>Zahnbürste besprühen, als Mundspray</li>
+    <li>Statt Handdesinfektionsmittel</li>
+    <li>Insektenstiche, lindert den Juckreiz</li>
+  </ul></div>
+  <div class="gruppe"><h3>Gerät</h3><ul>
+    <li>Schläuche ab und zu damit reinigen</li>
+  </ul></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>14</span></div></section>
+
+<!-- 15 Körperpflege 1 -->
+<section id="s15" class="seite"><div class="innen">
+  <div class="eyebrow">Anwendungen</div>
+  <h2>Körperpflege</h2>
+  <div class="eintrag"><h4>Gesichtswasser</h4><p>Ersetzt den Hauttoner. Als letzten Spülgang in Dusche oder Bad, tonisiert und strafft die Haut.</p><div class="chips"><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Gesicht straffen und festigen</h4><p>Gesicht und Hals (nicht die Augen) mit pH 2,5 besprühen und die Haut nach oben reiben, bis sie trocken ist. Danach mit pH 6,0 tonisieren.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Hautpflege</h4><p>Einsprühen befeuchtet und strafft das Gewebe. Ersetzt Creme und Bodylotion.</p><div class="chips"><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Cellulite</h4><p>Mehrmals täglich auf die gewünschte Stelle sprühen und nicht abtrocknen.</p><div class="chips"><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Gesichtsreinigung</h4><p>Entfettet die Haut und entfernt Schmutzpartikel.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Akne und Ausschläge</h4><p>Mehrmals täglich mit pH 2,5 besprühen zum Desinfizieren, an der Luft trocknen lassen. Danach mit pH 6,0 pflegen.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Rasur</h4><p>Nach der Rasur als Tonikum.</p><div class="chips"><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Deodorant</h4><p>Achseln besprühen oder damit waschen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+</div><div class="fuss"><span>Ursprungskraft</span><span>15</span></div></section>
+
+<!-- 16 Körperpflege 2 -->
+<section id="s16" class="seite"><div class="innen">
+  <div class="eintrag"><h4>Zähneputzen und Gurgeln</h4><p>Zahnbürste besprühen. Nach dem Zähneputzen gurgeln, wirkt leicht zahnaufhellend. Auch als Mundspray.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Haare</h4><p>Nach dem Waschen besprühen, für bessere Kämmbarkeit. Ersetzt den Conditioner und hilft bei Schuppen und juckender Kopfhaut.</p><div class="chips"><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Fettige Kopfhaut</h4><p>Mit pH 11,5 besprühen und einmassieren, nach einigen Minuten pH 6,0 verwenden.</p><div class="chips"><span class="chip c115">pH 11,5</span><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Bäder</h4><p>2 bis 4 Liter ins Vollbad geben.</p><div class="chips"><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Fussbad</h4><p>Füsse etwa 45 Minuten baden. Weicht Hornhaut auf und unterstützt die Entgiftung. Am besten mit kaltem Wasser.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Händedesinfektion</h4><p>Statt antibakterieller Seife und alkoholhaltigem Desinfektionsmittel.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Krampfadern</h4><p>Durch das Trinken und die Reparatur der Zellen können sich Krampfadern mit der Zeit verbessern.</p><div class="chips"><span class="chip c95">pH 9,5</span></div></div>
+  <div class="eintrag"><h4>Intimbereich</h4><p>Zur Desinfektion besprühen. Hilft gegen Juckreiz und Scheidenpilz und kann einer Blasenentzündung vorbeugen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>16</span></div></section>
+
+<!-- 17 Entzündungen 1 -->
+<section id="s17" class="seite"><div class="innen">
+  <div class="eyebrow">Anwendungen</div>
+  <h2>Entzündungen und Infektionen</h2>
+  <div class="eintrag"><h4>Augenentzündung</h4><p>Das Auge mehrmals täglich zuerst mit pH 2,5 besprühen, dann zum Beruhigen mit pH 11,5.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Schwellungen um die Augen</h4><p>Auf die Augen sprühen, um Schwellungen zu reduzieren.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Nasennebenhöhlen</h4><p>Zweimal täglich mit pH 2,5 besprühen, zwei Minuten warten, dann mit pH 11,5 durchspülen.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Halsschmerzen</h4><p>3 bis 4 Mal täglich mit pH 2,5 gurgeln oder in den Rachen sprühen. Danach zum Beruhigen pH 11,5.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Fieberbläschen und Wunden</h4><p>Besprühen oder gurgeln, damit sie austrocknen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Trockene Nasenschleimhaut</h4><p>Mehrmals täglich besprühen.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Neurodermitis und Hautausschläge</h4><p>Wickel auf die betroffenen Stellen. Hand- oder Fussbad etwa 45 Minuten.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Schmerzen jeglicher Art</h4><p>Innere Entzündungen, Prellungen, Rheuma, Arthrose, Arthritis, Gelenke, Gicht: Wickel auf die betroffenen Stellen.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+</div><div class="fuss"><span>Ursprungskraft</span><span>17</span></div></section>
+
+<!-- 18 Entzündungen 2 -->
+<section id="s18" class="seite"><div class="innen">
+  <div class="eintrag"><h4>Verletzungen der Haut</h4><p>Schnitt- und Schürfwunden, Verbrennungen, Infektionen, Fusspilz, Candida, Blutstillung: mit pH 2,5 besprühen oder Wickel machen. Für die Heilung pH 6,0.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Muttermale und Warzen</h4><p>Eine Gaze mit pH 2,5 tränken, auf ein Pflaster legen und aufkleben. Mindestens einmal täglich wechseln. Oft dauert es 30 bis 60 Tage, bis man etwas sieht.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Alkoholkater</h4><p>Vor dem Schlafengehen 1 bis 2 Gläser trinken.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Allergien, Erkältung, Schnarchen</h4><p>Als Nasenspülung bei verstopften Nebenhöhlen. Weil die Entzündung in der Nase zurückgeht, kann auch das Schnarchen weniger werden.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Insektenstiche</h4><p>Sofort besprühen, lindert den Juckreiz.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Sonnenbrand, Schwellungen, Stiche</h4><p>Besprühen oder ein getränktes Handtuch mindestens 30 Minuten auflegen, mehrmals täglich.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Magen und Darm</h4><p>Bei Verdauungsstörungen, Lebensmittelvergiftung oder Magen-Darm-Infekt sofort etwa 100 ml pH 2,5 trinken, 45 Minuten später etwa 250 ml pH 11,5.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Besser schlafen</h4><p>Vor dem Schlafengehen etwa 250 ml trinken. Fördert die Schlafqualität und die Melatoninbildung.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>18</span></div></section>
+
+<!-- 19 Haushalt 1 -->
+<section id="s19" class="seite"><div class="innen">
+  <div class="kapitelbild" style="background-image:url(../../reference/broschuere-bilder/haushalt.jpg)"></div>
+  <div class="eyebrow">Anwendungen</div>
+  <h2>Haushalt</h2>
+  <div class="eintrag"><h4>Desinfektion</h4><p>Alles lässt sich mit pH 2,5 desinfizieren. Tötet 99,9 % der Keime ab und ist dabei völlig ungiftig und sicher in der Anwendung.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Schimmel</h4><p>Betroffene Stellen besprühen und reinigen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Waschbecken und Toilette</h4><p>Einsprühen, kurz einwirken lassen, abwischen. Toilettenbürste und Halter gleich mit besprühen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Abfluss</h4><p>Gegen Gerüche 500 ml hineingeben und etwa 30 Minuten einwirken lassen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Brillen</h4><p>Brillen und Sonnenbrillen besprühen und abwischen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+</div><div class="fuss"><span>Ursprungskraft</span><span>19</span></div></section>
+
+<!-- 20 Haushalt 2 -->
+<section id="s20" class="seite"><div class="innen">
+  <div class="eintrag"><h4>Fenster, Glas, Spiegel</h4><p>Mit pH 11,5 vorreinigen, mit pH 2,5 besprühen und mit einem Mikrofasertuch abwischen.</p><div class="chips"><span class="chip c115">pH 11,5</span><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Töpfe und Pfannen</h4><p>Angebranntes über Nacht in pH 2,5 einweichen, Fettiges in pH 11,5.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Küche</h4><p>Spüle, Kühlschrank und Arbeitsflächen besprühen und abwischen. Schneidebretter damit desinfizieren.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Dunstabzug</h4><p>Gitter besprühen oder einlegen.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Backofen und Grill</h4><p>Mit pH 11,5 einweichen, mit pH 2,5 nachreinigen.</p><div class="chips"><span class="chip c115">pH 11,5</span><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Silberbesteck</h4><p>Zum Polieren einweichen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Böden und Fliesen</h4><p>Alle Oberflächen, auch Keramikfliesen. Geht auch in Reinigungsmaschinen.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Teppiche</h4><p>Flecken einwirken lassen und auswaschen.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Abstauben</h4><p>Mikrofasertuch besprühen und Oberflächen abstauben.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>20</span></div></section>
+
+<!-- 21 Haushalt 3 -->
+<section id="s21" class="seite"><div class="innen">
+  <div class="eintrag"><h4>Wäsche</h4><p>1.500 ml pH 11,5 ersetzen das Waschmittel, für den Duft ein paar Tropfen ätherisches Öl. Statt Weichspüler etwa 500 ml pH 2,5.</p><div class="chips"><span class="chip c115">pH 11,5</span><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Flecken</h4><p>Besprühen, bei starker Verschmutzung über Nacht einlegen.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Sportwäsche</h4><p>Nach dem Training besprühen, neutralisiert Gerüche.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Schuhe</h4><p>Besprühen, neutralisiert Gerüche.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Auto</h4><p>Armaturen und Fenster mit pH 2,5. Flecken im Polster und Felgen mit pH 11,5.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c115">pH 11,5</span></div></div>
+  <div class="eintrag"><h4>Aromatherapie</h4><p>Im Diffuser, zusammen mit ätherischen Ölen.</p><div class="chips"><span class="chip c95">pH 9,5</span></div></div>
+  <div class="eintrag"><h4>Farbflecken</h4><p>Flecken von ölbasierten Farben entfernen.</p><div class="chips"><span class="chip c115">pH 11,5</span></div></div>
+  <div class="kasten" style="margin-top:7mm"><h3>Merkhilfe</h3><p><b>pH 11,5</b> löst Fett und Schmutz.<br><b>pH 2,5</b> reinigt nach und desinfiziert.<br>Erst basisch, dann sauer: so wird fast alles sauber.</p></div>
+</div><div class="fuss"><span>Ursprungskraft</span><span>21</span></div></section>
+
+<!-- 22 Ernährung und Kochen -->
+<section id="s22" class="seite"><div class="innen">
+  <div class="kapitelbild" style="background-image:url(../../reference/broschuere-bilder/kueche.jpg)"></div>
+  <div class="eyebrow">Anwendungen</div>
+  <h2>Ernährung und Kochen</h2>
+  <div class="eintrag"><h4>Kochen</h4><p>Kangenwasser kocht schneller, das spart Energie.</p><div class="chips"><span class="chip c95">pH 9,5</span></div></div>
+  <div class="eintrag"><h4>Eier und Pasta</h4><p>Eier platzen nicht, das Eiweiss läuft nicht aus, sie lassen sich leichter schälen. Pasta bleibt al dente.</p><div class="chips"><span class="chip c60">pH 6,0</span></div></div>
+  <div class="eintrag"><h4>Einfrieren</h4><p>Lebensmittel vorher besprühen, der Geschmack bleibt nach dem Auftauen erhalten.</p><div class="chips"><span class="chip c25">pH 2,5</span></div></div>
+  <div class="eintrag"><h4>Reis, Bohnen, Hülsenfrüchte</h4><p>30 Minuten in pH 11,5 einlegen, mit pH 9,5 abspülen.</p><div class="chips"><span class="chip c115">pH 11,5</span><span class="chip c95">pH 9,5</span></div></div>
+  <div class="eintrag"><h4>Fleisch und Fisch</h4><p>Mit pH 2,5 besprühen, beseitigt Gerüche und tötet Salmonellen in 30 Sekunden. 45 Minuten in pH 11,5 eingelegt wird es zarter und schmeckt besser.</p><div class="chips"><span class="chip c25">pH 2,5</span><span class="chip c115">pH 11,5</span></div></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>22</span></div></section>
+
+<!-- 23 Tiere und Pflanzen -->
+<section id="s23" class="seite"><div class="innen">
+  <div class="eintrag"><h4>Obst und Gemüse</h4><p>45 Minuten in pH 11,5 einlegen. Löst Spritzmittel, Herbizide, Pestizide und Fungizide. Mit pH 9,5 abspülen. Der Überschuss an Elektronen gibt Obst und Gemüse wieder mehr Reife, Geschmack und Wertigkeit.</p><div class="chips"><span class="chip c115">pH 11,5</span><span class="chip c95">pH 9,5</span></div></div>
+  <div class="kapitelbild mitte" style="background-image:url(../../reference/broschuere-bilder/tiere-pflanzen.jpg)"></div>
+  <div class="eyebrow">Anwendungen</div>
+  <h2>Tiere und Pflanzen</h2>
+  <div class="eintrag"><h4>Haustiere</h4><p>Als Trinkwasser pH 8,5 bis 9,5. Besserer Gesundheitszustand, glänzenderes Fell, kein unangenehmer Körpergeruch, bessere Verdauung. Wirksam gegen Haarverlust.</p><div class="chips"><span class="chip c95">pH 8,5 bis 9,5</span></div></div>
+  <div class="eintrag"><h4>Pflanzen</h4><p>Manche Pflanzen mögen saures, andere basisches Wasser. Es verlängert Frische und Lebensdauer und kann kranken Pflanzen helfen. Orchideen und Tomaten zum Beispiel mögen pH 6,0.</p><div class="chips"><span class="chip c60">pH 6,0</span><span class="chip c95">pH 9,5</span></div></div>
+  <div class="eintrag"><h4>Aussaat</h4><p>Sprossen wachsen schneller.</p><div class="chips"><span class="chip c60">pH 6,0</span></div></div>
+</div><div class="fuss"><span>Ursprungskraft</span><span>23</span></div></section>
+
+<!-- 24 Stimmen 1 -->
+<section id="s24" class="seite"><div class="innen">
+  <div class="stimmen-foto"></div>
+  <div class="eyebrow">Erfahrungen</div>
+  <h2>Was Kunden erzählen</h2>
+  <div class="stimme"><h4>Kein Muskelkater nach dem Tennis</h4><p>Ich durfte die Maschine eine Woche testen. Nach zwei harten Matches spürte ich meine Beine, rechts hatte ich neben dem Muskelkater auch einen leichten Muskelfaserriss. Am Abend trank ich ein Glas pH 11,5. Am nächsten Tag war der Muskelkater weg, und auch der Faserriss tat nicht mehr weh. Eine wirklich coole Sache.</p></div>
+  <div class="stimme"><h4>Cellulite und Magen</h4><p>Nach vier Wochen fleissigem Trinken bemerkte ich eine Verbesserung meines Gewebes, meine Cellulite verschwand. Auch mein Magen hat sich vollständig beruhigt. Ich bin sehr froh, dass ich mich für diese Maschine entschieden habe.</p></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>24</span></div></section>
+
+<!-- 25 Stimmen 2 -->
+<section id="s25" class="seite"><div class="innen">
+  <div class="stimme"><h4>Gute Blutwerte nach Krebs</h4><p>Seit meiner Krebserkrankung hatte ich immer sehr schlechte Blutwerte, mein Immunsystem war geschwächt. Seit zwei Monaten trinke ich regelmässig Kangenwasser. Jetzt hatte ich das grosse Labor mit über 70 Werten, und alle liegen im guten Bereich. So gute Werte hatte ich noch nie. Die Onkologen können es sich nicht erklären, ich mir schon: Das Wasser tut mir gut. <i>Barbara, Wald ZH</i></p></div>
+  <div class="stimme"><h4>Hashimoto</h4><p>Vor einem Jahr erhielt ich die Diagnose Hashimoto. Mir wurde gesagt, dass meine Schilddrüse früher oder später entfernt werden muss. L-Thyroxin habe ich nicht vertragen und bin auf Nahrungsergänzung umgestiegen. Dann haben wir uns die LeveLuk angeschafft, und meine scheinbar unheilbare Krankheit ist nicht mehr nachweisbar.</p></div>
+  <div class="stimme"><h4>Allgemeine Gesundheit und Neurodermitis</h4><p>Ich nutze die Maschine seit über zwei Jahren und würde keine Sekunde mehr darauf verzichten. Mein Sohn und ich waren seit Jahren nicht mehr krank. Die Tochter einer Freundin hatte Neurodermitis. Seit sie Kangenwasser trinkt und ihre Haut mit pH 11,5, 6,0 und 2,5 besprüht, ist alles verschwunden, ohne Salben und ohne andere Ernährung.</p></div>
+</div><div class="fuss"><span>Ursprungskraft</span><span>25</span></div></section>
+
+<!-- 26 Stimmen 3 -->
+<section id="s26" class="seite"><div class="innen">
+  <div class="stimme"><h4>Magenprobleme</h4><p>Seit über 20 Jahren nehme ich täglich Säureblocker. Schon ein Stück Brot führt zu ständigem Aufstossen. In der Testwoche, in der ich viel von diesem Wasser getrunken habe, brauchte ich keine einzige Tablette, und die Beschwerden waren weg. Genau das hat mich überzeugt.</p></div>
+  <div class="stimme"><h4>Migräne</h4><p>Ich war rund zehn Jahre Migränepatientin und brauchte bei jeder Attacke ein starkes Schmerzmittel. Heute trinke ich regelmässig basisches Wasser, an manchen Tagen bis zu drei Liter. Seitdem hat sich meine Situation deutlich verbessert. Wenn Schmerzen kommen, dann abgeschwächt.</p></div>
+  <div class="stimme"><h4>Chronische Schmerzen</h4><p>Ich war drei Wochen stationär in einer Schmerzklinik, die Prognose: lernen, mit den Schmerzen zu leben. Morgens kam ich teils nicht allein aus dem Bett. Dann begann ich, regelmässig dieses Wasser zu trinken. Die Schmerzen wurden immer weniger, bis ich schmerzfrei war. Heute reite ich wieder, fahre Fahrrad und gehe tanzen.</p></div>
+  <div class="stimme"><h4>Durchschlafen</h4><p>Ich trinke seit Dezember Kangenwasser und bin begeistert: Ich schlafe wieder durch, habe keine Menstruationsbeschwerden mehr und weniger Heisshunger. Die beste Ernährung bringt nichts ohne das richtige Wasser als Träger.</p></div>
+</div><div class="fuss"><span>Kangenwasser</span><span>26</span></div></section>
+
+<!-- 27 Pflege des Geräts -->
+<section id="s27" class="seite"><div class="innen">
+  <div class="eyebrow">Pflege</div>
+  <h2>So bleibt dein Gerät in Form</h2>
+  <div class="zweier">
+    <div><b>1 × im Monat</b><span>bei normalem Leitungswasser</span></div>
+    <div><b>alle 14 Tage</b><span>bei stark kalkhaltigem Wasser</span></div>
+  </div>
+  <div class="eintrag"><h4>Zitronensäure</h4><p>Nur die Original-Zitronensäure von Enagic oder die reine Zitronensäure von Heitmann. 90 g in den Tank, mit warmem Wasser auffüllen und schütteln, bis sich alles aufgelöst hat. Am besten über Nacht einwirken lassen.</p></div>
+  <div class="eintrag"><h4>Oberer Schlauch</h4><p>Leicht nach oben biegen, dann bleibt die Zitronensäure länger drin und reinigt ihn gründlich.</p></div>
+  <div class="eintrag"><h4>Danach</h4><p>1 Minute pH 6,0 laufen lassen. Das lädt die Platten auf, am besten sogar jeden Morgen.</p></div>
+  <div class="eintrag"><h4>Zwischendurch</h4><p>Schläuche ab und zu abschrauben und mit pH 2,5 reinigen, auch am Filter.</p></div>
+  <div class="eintrag"><h4>Nachbestellen</h4><p>FC1 Filter (Art.-Nr. FC01) und Elektrolyse-Verstärker gibt es im Enagic-Shop. Deine ID für den Shop steht in deiner Bestellbestätigung.</p></div>
+  <div class="kasten" style="margin-top:5mm"><p>Die Videos zur Reinigung und alles zum Shop findest du auf deiner persönlichen Startseite. Den Link bekommst du von Daniel.</p></div>
+</div><div class="fuss"><span>Ursprungskraft</span><span>27</span></div></section>
+
+<!-- 28 Rückseite -->
+<section id="s28" class="seite rueck"><div class="innen">
+  <h2>Fragen?<br>Melde dich einfach.</h2>
+  <div class="zeile"><small>Ansprechpartner</small>Daniel Zürcher, Ursprungskraft GmbH</div>
+  <div class="zeile"><small>Telefon und WhatsApp</small><a href="https://wa.me/41796249410">+41 79 624 94 10</a></div>
+  <div class="zeile"><small>E-Mail</small><a href="mailto:info@ursprungskraft.net">info@ursprungskraft.net</a></div>
+  <p class="klein-hinweis">Die Anwendungen und Erfahrungen in diesem Heft beruhen auf Erfahrungen von Anwendern. Sie ersetzen keine ärztliche Diagnose oder Behandlung. Erfahrungen aus der Vergangenheit sind keine Garantie für zukünftige Ergebnisse. Medikamente nie eigenmächtig absetzen und bei Beschwerden immer ärztlichen Rat einholen.</p>
+</div><div class="marke"><span>Ursprungskraft</span><span>Wasen · Schweiz</span></div></section>
+
+</body>
+</html>

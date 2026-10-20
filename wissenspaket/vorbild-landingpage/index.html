@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wasser-Check · Kangenwasser zu Hause testen</title>
+<meta name="description" content="Ein Gerät, fünf Wasserarten. Gefiltertes Wasser zum Trinken, Kochen, für Pflege und Haushalt, direkt aus deinem Wasserhahn. Teste das Gerät bei dir zu Hause, mit persönlicher Beratung.">
+<meta name="robots" content="noindex, nofollow">
+<!-- Vor dem Hochladen die Schriften selbst einbinden statt von Google laden (Datenschutz) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hochwertig.css?v=20261010o">
+<style>
+:root{--ground:#F5F1E8;--surface:#FBF9F4;--sand:#EAE3D3;--line:#D9CFBA;--khaki-light:#CFC4A0;--khaki:#A8996A;--olive:#4F5A35;--olive-deep:#5E6140;--ink:#2A2C22;--muted:#5F6152}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/26px Inter,system-ui,sans-serif}
+h1,h2,h3,.display{font-family:Jost,system-ui,sans-serif;font-weight:500;margin:0}
+.display{font-size:56px;line-height:60px}
+h2{font-size:28px;line-height:34px;margin-bottom:16px}
+h3{font-size:20px;line-height:28px;margin-bottom:8px}
+p{margin:0 0 16px;max-width:70ch}
+a{color:var(--olive)}
+.eyebrow{font-size:12px;line-height:16px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--olive);margin-bottom:8px}
+.small{font-size:13px;line-height:20px;color:var(--muted)}
+.muted{color:var(--muted)}
+.innen{max-width:1080px;margin:0 auto;padding:0 32px}
+section{padding:64px 0}
+.sand{background:var(--sand)}
+.dunkel{background:var(--olive-deep);color:var(--surface)}
+.dunkel .eyebrow{color:var(--khaki-light)}
+.dunkel p{color:var(--sand)}
+.knopf{display:inline-block;background:var(--olive);color:var(--surface);text-decoration:none;border:0;border-radius:4px;padding:12px 22px;font:600 15px/22px Inter,sans-serif;cursor:pointer}
+.knopf:hover{background:#414A2C}
+.knopf.hell{background:var(--surface);color:var(--olive-deep)}
+.knopf.rahmen{background:none;border:1px solid var(--khaki-light);color:var(--surface)}
+.platzhalter{background:var(--surface);border:1px dashed var(--khaki);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;line-height:20px;text-align:center;padding:16px}
+.dunkel .platzhalter{background:#3A412C;border-color:var(--khaki);color:var(--khaki-light)}
+header{position:sticky;top:0;z-index:10;background:var(--ground);border-bottom:1px solid var(--line)}
+header .innen{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.marke{text-decoration:none;color:var(--olive)}
+.marke b{display:block;font:500 18px/20px Jost,sans-serif;letter-spacing:.12em}
+.marke span{display:block;font-size:10px;line-height:14px;font-weight:600;letter-spacing:.16em;color:var(--muted)}
+nav{display:flex;gap:24px;align-items:center}
+nav a{color:var(--ink);text-decoration:none;font-size:15px}
+nav a:hover{color:var(--olive)}
+.hero{padding:72px 0 64px}
+.hero .innen{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.hero .display{margin-bottom:24px}
+.hero p{font-size:18px;line-height:28px}
+.hero .leiste{display:flex;gap:16px;flex-wrap:wrap;margin:32px 0 24px}
+.vertrauen{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:13px;color:var(--khaki-light)}
+.vertrauen span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--khaki);margin-right:8px;vertical-align:middle}
+.hero .platzhalter{aspect-ratio:4/5}
+.band{height:8px;background:linear-gradient(90deg,var(--olive) 0 60%,var(--khaki) 60% 85%,var(--khaki-light) 85%)}
+.drei{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:32px}
+.drei .platzhalter{aspect-ratio:4/3;margin-bottom:16px}
+.ueberleitung{margin-top:48px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.ueberleitung p{font:500 22px/30px Jost,sans-serif;margin:0;color:var(--olive)}
+.zwei{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.zwei .platzhalter{aspect-ratio:4/3}
+.schritte{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+.nr{font:500 64px/64px Jost,sans-serif;color:var(--khaki-light);margin-bottom:8px}
+.skala{height:10px;border-radius:4px;margin-top:32px;background:linear-gradient(90deg,#C8463A 0%,#E2973B 18%,#D9C94A 33%,#7DB15A 50%,#3E9A8C 66%,#3C6FB0 80%,#6B4FA0 100%)}
+.skala-text{display:flex;justify-content:space-between;margin-top:8px}
+.karten{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:32px}
+.karte{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 20px 24px;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s}
+.karte:hover,.karte:focus-visible{border-color:var(--olive);outline:none}
+.karte .ph{font:500 28px/34px Jost,sans-serif;color:var(--olive);white-space:nowrap}
+.karte .art{font-weight:600;margin:4px 0 12px}
+.karte ul{margin:0 0 24px;padding-left:18px;font-size:14px;line-height:22px;color:var(--muted)}
+.karte .fuss{margin-top:auto;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.marker{font-size:12px;line-height:16px;font-weight:600;border-radius:4px;padding:4px 8px}
+.marker.ja{background:#E3E6D5;color:var(--olive)}
+.marker.nein{background:var(--sand);color:var(--muted)}
+.mehr{font-size:14px;font-weight:600;color:var(--olive)}
+.mehr::after{content:" →"}
+.hinweis{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin-top:32px;font-size:14px;line-height:22px}
+dialog{border:0;border-radius:8px;padding:0;width:min(620px,94vw);max-height:88vh;background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(47,53,36,.55)}
+.dlg{padding:32px}
+.dlg .ph{font:500 44px/48px Jost,sans-serif;color:var(--olive)}
+.dlg h3{margin:4px 0 16px}
+.dlg h4{font:600 13px/18px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);margin:24px 0 8px}
+.dlg ul{margin:0;padding-left:20px}
+.dlg li{margin-bottom:6px}
+.dlg .zu{float:right;background:none;border:0;font-size:28px;line-height:28px;cursor:pointer;color:var(--muted)}
+.geraet{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.geraet .platzhalter{aspect-ratio:1}
+.merkmale{list-style:none;padding:0;margin:24px 0 32px;border-top:1px solid var(--line)}
+.merkmale li{padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:12px}
+.merkmale b{font:500 18px/26px Jost,sans-serif;color:var(--olive);min-width:56px}
+.test{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin:32px 0}
+.test .nr{color:var(--khaki)}
+.reiter{display:flex;gap:8px;margin:24px 0 32px;border-bottom:1px solid var(--line)}
+.reiter button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 4px;margin-right:16px;font:600 15px/22px Inter,sans-serif;color:var(--muted);cursor:pointer}
+.reiter button[aria-selected="true"]{color:var(--olive);border-color:var(--olive)}
+.videos{display:grid;grid-template-columns:1.4fr 1fr;gap:24px}
+.videos .gross{grid-row:span 2}
+.video .platzhalter{aspect-ratio:16/9;margin-bottom:12px;position:relative}
+.video .platzhalter::before{content:"";width:0;height:0;border-left:18px solid var(--khaki);border-top:11px solid transparent;border-bottom:11px solid transparent;position:absolute;top:50%;left:50%;transform:translate(-40%,-50%);opacity:.6}
+.video .platzhalter span{position:absolute;bottom:12px;left:12px;right:12px}
+.video h3{font-size:18px;line-height:26px;margin-bottom:2px}
+.stimmen{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.stimme{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px}
+.stimme blockquote{margin:0 0 16px;font:500 18px/26px Jost,sans-serif;color:var(--olive);border-left:2px solid var(--khaki);padding-left:16px}
+.ablauf{list-style:none;padding:0;margin:32px 0 0;border-top:1px solid var(--line)}
+.ablauf li{display:grid;grid-template-columns:80px 1fr;gap:16px;padding:24px 0;border-bottom:1px solid var(--line)}
+.ablauf .nr{font-size:40px;line-height:40px;margin:0}
+.ablauf h3{margin-bottom:4px}
+.ablauf p{margin:0;color:var(--muted)}
+details{border-bottom:1px solid var(--line);padding:16px 0}
+details summary{cursor:pointer;font:500 18px/26px Jost,sans-serif;list-style:none;display:flex;justify-content:space-between;gap:16px}
+details summary::after{content:"+";color:var(--olive);font-size:22px}
+details[open] summary::after{content:"−"}
+details p{margin:12px 0 0;color:var(--muted)}
+form{background:var(--surface);color:var(--ink);border-radius:8px;padding:32px}
+.wahl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.wahl label{border:1px solid var(--line);border-radius:4px;padding:12px;cursor:pointer;display:flex;gap:8px;align-items:flex-start;font-size:15px}
+.wahl input{accent-color:var(--olive);margin-top:5px}
+.wahl label:has(input:checked){border-color:var(--olive);background:#EEF0E6}
+.feld{display:block;font-size:13px;color:var(--muted);margin-bottom:12px}
+.feld input,.feld textarea{display:block;width:100%;margin-top:4px;border:1px solid var(--line);border-radius:4px;padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);background:#fff}
+.feld textarea{min-height:90px;resize:vertical}
+.reihe{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.interessen{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.interessen label{border:1px solid var(--line);border-radius:20px;padding:6px 12px;cursor:pointer;font-size:14px;display:flex;gap:6px;align-items:center}
+.interessen input{accent-color:var(--olive);margin:0;display:inline;width:auto}
+.interessen label:has(input:checked){border-color:var(--olive);background:#EEF0E6;color:var(--ink)}
+.haken{display:flex;gap:10px;font-size:13px;line-height:20px;color:var(--muted);margin:8px 0 16px}
+.haken input{accent-color:var(--olive);margin-top:3px;flex:none}
+.fehler{color:#9A4E3E;font-size:14px;margin-bottom:8px}
+.empfohlen{margin-top:24px;padding-top:16px;border-top:1px solid #4A5238;color:var(--khaki-light);font-size:15px}
+.empfohlen b{color:var(--surface);font-weight:600}
+/* Wie bei Zinzino: wer den Link geschickt hat, steht unten links auf jeder Bildschirmhöhe */
+.empfohlen-fest{position:fixed;left:16px;bottom:16px;z-index:50;white-space:nowrap;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis;background:var(--surface);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:13px;box-shadow:0 8px 24px rgba(42,44,34,.12)}
+.empfohlen-fest b{color:var(--olive);font-weight:600}
+footer{background:var(--olive-deep);color:var(--khaki-light);padding:48px 0 32px;font-size:13px;line-height:20px;border-top:1px solid #72764F}
+footer .spalten{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:32px}
+footer a{color:var(--surface)}
+footer .rechtlich{margin-top:32px;padding-top:16px;border-top:1px solid #72764F}
+@media (max-width:900px){
+  .karten{grid-template-columns:1fr 1fr}
+  .stimmen,.test{grid-template-columns:1fr}
+  nav a.klein{display:none}
+}
+@media (max-width:720px){
+  .innen{padding:0 16px}
+  nav a:not(.knopf){display:none}
+  nav .knopf{padding:10px 14px;font-size:14px;white-space:nowrap}
+  .marke b{font-size:15px}
+  .display{font-size:38px;line-height:44px}
+  section{padding:48px 0}
+  .hero{padding:40px 0 48px}
+  .hero .innen,.zwei,.schritte,.geraet,.reihe,.wahl,.drei,.videos{grid-template-columns:1fr;gap:32px}
+  .hero .platzhalter{aspect-ratio:4/3;order:-1}
+  .wahl{gap:8px}
+  .karten{grid-template-columns:1fr}
+  .videos .gross{grid-row:auto}
+  .ablauf li{grid-template-columns:56px 1fr}
+  footer .spalten{grid-template-columns:1fr}
+  form{padding:24px 16px}
+  .dlg{padding:24px 20px}
+}
+
+/* Fotos (10.10.2026) */
+img.foto.foto-geraet{aspect-ratio:1;object-fit:contain;background:#fff;padding:6%}
+
+.foto{display:block;width:100%;height:auto;object-fit:cover;border-radius:4px;background:var(--sand)}
+.foto-hero{aspect-ratio:4/5}
+.foto-drei{aspect-ratio:4/3;margin-bottom:16px}
+.foto-zwei{aspect-ratio:4/3}
+.video .platzhalter.vorschau{background-size:cover;background-position:center;border:0}
+.video .platzhalter.vorschau::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(30,34,22,.55),rgba(30,34,22,0) 55%);border-radius:inherit}
+.video .platzhalter.vorschau::before{z-index:1;border-left-color:#fff;opacity:.95}
+.video .platzhalter.vorschau span{z-index:1;color:#fff;font-size:12px}
+@media (max-width:720px){.foto-hero{aspect-ratio:4/3;order:-1}}
+</style>
+</head>
+<body class="hochwertig">
+
+<header>
+  <div class="innen">
+    <a class="marke" href="#"><b>WASSER-CHECK</b><span>ZU HAUSE TESTEN · BERATUNG</span></a>
+    <nav>
+      <a href="#wasserarten">Wasserarten</a>
+      <a href="#geraet">Das Gerät</a>
+      <a href="#mediathek" class="klein">Mediathek</a>
+      <a href="#fragen" class="klein">Fragen</a>
+      <a class="knopf" href="#kontakt" data-anliegen="beratung">Beratung vereinbaren</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero dunkel">
+  <div class="innen">
+    <div>
+      <div class="eyebrow">Kangenwasser aus deinem Wasserhahn</div>
+      <h1 class="display" style="color:var(--surface)"><span class="zeile">Ein Gerät.</span> <span class="zeile">Fünf Wasserarten.</span></h1>
+      <p>Gefiltertes Wasser zum Trinken und Kochen, dazu Wasser für Pflege und Haushalt. Direkt aus deinem Wasserhahn.</p>
+      <div class="leiste">
+        <a class="knopf hell" href="#kontakt" data-anliegen="beratung">Beratung vereinbaren</a>
+        <a class="knopf rahmen" href="#kontakt" data-anliegen="test">Testgerät anfragen</a>
+      </div>
+    </div>
+    <img class="foto foto-hero" src="../bilder/hero.jpg" alt="Ein frisch eingeschenktes Glas Wasser neben der Spüle im Morgenlicht">
+  </div>
+</section>
+
+<section>
+  <div class="innen">
+    <div class="versprechen">
+      <div><b>Persönliche Beratung</b><span>Zu Hause oder per Video</span></div>
+      <div><b>Testgerät für zu Hause</b><span>Erst ausprobieren</span></div>
+      <div><b>Betreuung nach dem Kauf</b><span>Filter, Reinigung, Fragen</span></div>
+    </div>
+    <h2>Wasser sollte einfach sein</h2>
+    <div class="mosaik">
+      <figure class="gross"><img class="foto" src="../bilder/kisten.jpg" alt="Eine Frau trägt zwei Wasserkisten die Treppe hoch" loading="lazy"><figcaption><h3>Kisten schleppen</h3><p class="muted">Einkaufen, tragen, lagern, Pfand zurückbringen. Jede Woche aufs Neue.</p></figcaption></figure>
+      <figure><img class="foto" src="../bilder/chlor.jpg" alt="Ein Mann riecht skeptisch an einem Glas Leitungswasser" loading="lazy"><figcaption><h3>Chlor im Glas</h3><p class="muted">Praktisch, aber Geruch und Geschmack machen keine Lust darauf.</p></figcaption></figure>
+      <figure><img class="foto" src="../bilder/plastik.jpg" alt="Ein gelber Sack voller leerer Plastikflaschen" loading="lazy"><figcaption><h3>Berge aus Plastik</h3><p class="muted">Leere Flaschen in Küche, Keller und gelbem Sack.</p></figcaption></figure>
+    </div>
+    <div class="ueberleitung"><p>Es geht auch einfacher: direkt aus deinem Wasserhahn.</p><a class="knopf" href="#kontakt" data-anliegen="beratung">Beratung vereinbaren</a></div>
+  </div>
+</section>
+
+<section class="sand">
+  <div class="innen zwei">
+    <div>
+      <h2>Rückkehr zum Ursprung</h2>
+      <p>„Kangen“ bedeutet auf Japanisch sinngemäß Rückkehr zum Ursprung. So heißt das Wasser, das die Geräte der japanischen Firma Enagic aus ganz normalem Leitungswasser herstellen. Enagic wurde 1974 in Okinawa gegründet.</p>
+      <p>Das Gerät wird an deinen Wasserhahn angeschlossen. Es filtert das Wasser und teilt es danach in verschiedene Wasserarten auf, je nachdem, wofür du es gerade brauchst: zum Trinken, für den Kaffee, für die Haut oder zum Putzen.</p>
+    </div>
+    <img class="foto foto-zwei" src="../bilder/glas-holz.jpg" alt="Ein Glas Wasser auf einem alten Holztisch im Sonnenlicht" loading="lazy">
+  </div>
+  <div class="innen schritte">
+    <div><div class="nr">01</div><h3>Filtern</h3><p class="muted">Ein Filter im Gerät reduziert Chlor, Geruch und unerwünschten Geschmack. Die Mineralien aus deinem Leitungswasser bleiben dabei weitgehend erhalten.</p></div>
+    <div><div class="nr">02</div><h3>Elektrolyse</h3><p class="muted">Platinbeschichtete Titanplatten teilen das gefilterte Wasser mit Strom in basisches und saures Wasser. So entstehen per Knopfdruck fünf verschiedene Wasserarten.</p></div>
+  </div>
+</section>
+
+<section id="wasserarten">
+  <div class="innen">
+    <div class="eyebrow">Fünf Wasserarten</div>
+    <h2>Für Küche, Pflege und Haushalt</h2>
+    <p class="muted">Jede Wasserart hat einen eigenen pH-Wert. Der pH-Wert zeigt, wie sauer oder basisch Wasser ist: 7 ist neutral, darunter sauer, darüber basisch. Klick auf eine Wasserart, um alle Anwendungen zu sehen.</p>
+    <div class="skala" aria-hidden="true"></div>
+    <div class="skala-text small"><span>sauer</span><span>neutral</span><span>basisch</span></div>
+    <div class="karten" id="karten"></div>
+    <div class="hinweis"><b>Gut zu wissen:</b> Für Babynahrung nimmst du die Einstellung pH 7, also gefiltertes Wasser ohne Ionisierung. Für stark saures Wasser braucht das Gerät eine Zusatzflüssigkeit, den Elektrolyseverstärker.</div>
+  </div>
+</section>
+<dialog id="dlg"><div class="dlg" id="dlg-inhalt"></div></dialog>
+
+<section class="sand" id="geraet">
+  <div class="innen geraet">
+    <img class="foto foto-geraet" src="../bilder/k8.jpg" alt="Das Gerät LeveLuk K8 mit Touchscreen" loading="lazy">
+    <div>
+      <h2>LeveLuk K8</h2>
+      <p>Das leistungsstärkste Gerät von Enagic. Es steht neben deiner Spüle, wird an den Wasserhahn angeschlossen und liefert dir auf Knopfdruck die passende Wasserart.</p>
+      <ul class="merkmale">
+        <li><b>8</b><span>platinbeschichtete Titanplatten für die Elektrolyse</span></li>
+        <li><b>5</b><span>Wasserarten, per Touchscreen gewählt, mit Sprachansage</span></li>
+        <li><b>1×</b><span>Filterwechsel im Jahr, je nach Verbrauch</span></li>
+        <li><b>∞</b><span>Netzteil für alle gängigen Spannungen weltweit, die Reinigung läuft automatisch</span></li>
+      </ul>
+      <a class="knopf" href="#kontakt" data-anliegen="beratung">Beratung vereinbaren</a>
+    </div>
+  </div>
+</section>
+
+<section class="dunkel" id="testen">
+  <div class="innen">
+    <h2 style="color:var(--surface)">Teste den K8 bei dir zu Hause</h2>
+    <p>Was Wasser im Alltag ausmacht, merkst du nicht im Prospekt, sondern beim ersten Kaffee am Morgen. Deshalb kannst du das Gerät erst eine Weile bei dir nutzen und dann in Ruhe entscheiden.</p>
+    <div class="test">
+      <div><div class="nr">01</div><h3 style="color:var(--surface)">Anfragen</h3><p>Du sagst kurz, wo du wohnst und wann es dir passt.</p></div>
+      <div><div class="nr">02</div><h3 style="color:var(--surface)">Ausprobieren</h3><p>Du bekommst ein Testgerät und nutzt es beim Trinken, Kochen und Putzen.</p></div>
+      <div><div class="nr">03</div><h3 style="color:var(--surface)">Entscheiden</h3><p>Ohne Druck. Passt es, wählt ihr gemeinsam den Weg zum eigenen Gerät, auch in Raten.</p></div>
+    </div>
+    <a class="knopf hell" href="#kontakt" data-anliegen="test">Testgerät anfragen</a>
+  </div>
+</section>
+
+<section id="mediathek">
+  <div class="innen">
+    <h2>Sieh es dir in Ruhe an</h2>
+    <div class="reiter" role="tablist">
+      <button role="tab" aria-selected="true" data-reiter="videos">Videos</button>
+      <button role="tab" aria-selected="false" data-reiter="stimmen">Kundenstimmen</button>
+    </div>
+    <div id="r-videos" class="videos">
+      <div class="video gross"><div class="platzhalter vorschau" style="background-image:url(../bilder/video-1.jpg)"><span>Video folgt</span></div><h3>Der K8 in zwei Minuten</h3><p class="small">Anschließen, Wasserart wählen, einschenken.</p></div>
+      <div class="video"><div class="platzhalter vorschau" style="background-image:url(../bilder/video-2.jpg)"><span>Video folgt</span></div><h3>Fünf Wasserarten im Alltag</h3><p class="small">Kaffee, Gemüse, Haut und Putzen.</p></div>
+      <div class="video"><div class="platzhalter vorschau" style="background-image:url(../bilder/video-3.jpg)"><span>Video folgt</span></div><h3>So läuft dein Test zu Hause</h3><p class="small">Vom ersten Anruf bis zur Entscheidung.</p></div>
+    </div>
+    <div id="r-stimmen" class="stimmen" hidden>
+      <div class="stimme"><blockquote>Platzhalter: eine echte Stimme zu Geschmack, Kaffee oder Alltag.</blockquote><div class="small">Vorname, Ort</div></div>
+      <div class="stimme"><blockquote>Platzhalter: eine echte Stimme, zum Beispiel zum Ende der Wasserkisten.</blockquote><div class="small">Vorname, Ort</div></div>
+      <div class="stimme"><blockquote>Platzhalter: eine echte Stimme zur Beratung und Betreuung.</blockquote><div class="small">Vorname, Ort</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sand" id="ablauf">
+  <div class="innen">
+    <h2>Von der ersten Frage bis zur Betreuung</h2>
+    <ol class="ablauf">
+      <li><div class="nr">01</div><div><h3>Ein erstes Gespräch</h3><p>Du erzählst deinem Berater, was du dir vorstellst. Er erklärt dir das Gerät und beantwortet deine Fragen.</p></div></li>
+      <li><div class="nr">02</div><div><h3>Zu Hause testen</h3><p>Du bekommst ein Testgerät und probierst das Wasser in deinem Alltag aus.</p></div></li>
+      <li><div class="nr">03</div><div><h3>In Ruhe entscheiden</h3><p>Kein Druck. Wenn es für dich passt, bestellst du dein eigenes Gerät. Eine Ratenzahlung ist möglich.</p></div></li>
+      <li><div class="nr">04</div><div><h3>Lieferung und Einrichtung</h3><p>Das Gerät kommt zu dir, und du bekommst Hilfe beim Anschließen und Einstellen.</p></div></li>
+      <li><div class="nr">05</div><div><h3>Betreuung danach</h3><p>Erinnerung an Filterwechsel und Reinigung, Anleitungen für alle Wasserarten und ein direkter Draht zu deinem Berater.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sand" id="fragen">
+  <div class="innen">
+    <h2>Gut zu wissen</h2>
+    <details><summary>Was kostet das Gerät?</summary><p>Den aktuellen Preis erfährst du im Gespräch. Enagic bietet eine Ratenzahlung mit Anzahlung und monatlichen Raten an.</p></details>
+    <details><summary>Kann ich das Gerät vorher ausprobieren?</summary><p>Ja. Du kannst ein Testgerät eine Zeit lang zu Hause nutzen, bevor du dich entscheidest.</p></details>
+    <details><summary>Wie wird das Gerät angeschlossen?</summary><p>Es kommt neben die Spüle und wird an den Wasserhahn angeschlossen. Wir zeigen dir, wie es geht.</p></details>
+    <details><summary>Welche laufenden Kosten gibt es?</summary><p>Der Filter wird je nach Verbrauch etwa einmal im Jahr gewechselt. Für stark saures Wasser brauchst du zusätzlich den Elektrolyseverstärker. Die Reinigung macht das Gerät automatisch.</p></details>
+    <details><summary>Kann man jedes Wasser aus dem Gerät trinken?</summary><p>Nein. Zum Trinken sind pH 8,5 bis 9,5 und pH 7 gedacht. Das stark saure, das stark basische und das Schönheitswasser sind für Haushalt und Pflege da.</p></details>
+    <details><summary>Funktioniert das auch im Ausland?</summary><p>Der K8 hat ein Netzteil für alle gängigen Spannungen weltweit. Einen passenden Stecker gibt es separat.</p></details>
+  </div>
+</section>
+
+<section class="dunkel" id="kontakt">
+  <div class="innen zwei" style="align-items:start">
+    <div>
+      <div class="eyebrow">Nächster Schritt</div>
+      <h2 style="color:var(--surface)">Lass uns sprechen</h2>
+      <p>Sag kurz, was du dir wünschst. Wir melden uns bei dir.</p>
+            <div class="empfohlen" id="empfohlen" hidden></div>
+    </div>
+    <form id="anfrage" novalidate>
+      <div class="wahl">
+        <label><input type="radio" name="anliegen" value="beratung" checked> <span>Ich möchte eine Beratung</span></label>
+        <label><input type="radio" name="anliegen" value="test"> <span>Ich möchte ein Gerät zu Hause testen</span></label>
+      </div>
+      <div class="reihe">
+        <label class="feld">Vorname<input name="vorname" autocomplete="given-name" required></label>
+        <label class="feld">Nachname<input name="nachname" autocomplete="family-name" required></label>
+      </div>
+      <div class="reihe">
+        <label class="feld">E-Mail<input name="email" type="email" autocomplete="email" required></label>
+        <label class="feld">Telefon<input name="telefon" type="tel" autocomplete="tel"></label>
+      </div>
+      <label class="feld">Straße und Hausnummer<input name="strasse" autocomplete="street-address" required></label>
+      <div class="reihe">
+        <label class="feld">PLZ<input name="plz" autocomplete="postal-code" required></label>
+        <label class="feld">Ort<input name="ort" autocomplete="address-level2" required></label>
+      </div>
+      <label class="feld">Land<input name="land" value="Schweiz"></label>
+      <div class="feld">Wofür interessierst du dich? (freiwillig)<div class="interessen" id="interessen"></div></div>
+      <label class="feld">Nachricht (freiwillig)<textarea name="nachricht"></textarea></label>
+      <label class="haken"><input type="checkbox" name="ok"> <span>Ich bin einverstanden, dass meine Angaben gespeichert werden, damit ich kontaktiert werde. Mehr dazu in der <a href="#" id="ds">Datenschutzerklärung</a>.</span></label>
+      <div class="fehler" id="fehler"></div>
+      <button class="knopf" type="submit">Anfrage senden</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="innen">
+    <div class="spalten">
+      <div><b style="font:500 16px Jost,sans-serif;letter-spacing:.12em;color:var(--surface)">WASSER-CHECK</b><br>Gutes Wasser, zu Hause getestet</div>
+      <div></div>
+      <div><a href="../impressum.html">Impressum</a><br><a href="#" id="ds2">Datenschutz</a></div>
+    </div>
+    <div class="rechtlich">Die Informationen auf dieser Seite beschreiben Gerät und Anwendung. Sie sind kein medizinischer Ratgeber und enthalten keine Heilversprechen. Kangen, Kangen Water, LeveLuk und Enagic sind Marken der Enagic Co., Ltd.</div>
+  </div>
+</footer>
+
+<script src="../vendor/supabase.js"></script>
+<script src="../dashboard/daten.js?v=20261009b"></script>
+<script src="../wasserarten.js?v=20261010b"></script>
+<script src="../landing.js?v=20261017"></script>
+<script src="effekte.js?v=20261010g"></script>
+<div class="empfohlen-fest" id="empfohlen-fest" hidden></div>
+</body>
+</html>
