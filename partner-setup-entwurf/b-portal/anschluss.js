@@ -107,6 +107,7 @@ async function statusLaden() {
     naechste_abbuchung: bis.toISOString().slice(0, 10),
     betrag_monat: null,                   // {{PREIS_FEHLT}}
     link: 'https://{{DOMAIN}}/' + (p.kuerzel || '{{KUERZEL}}'),
+    bestell_link: '{{BESTELL_LINK}}', // Form offen, z. B. https://{{DOMAIN}}/kuerzel/bestellen
     telegram_verbunden: false,
     telegram_link: 'https://t.me/{{BOTNAME}}?start=' + (p.kuerzel || 'kuerzel'),
     letzte_bestellung: d.bestellung || null,

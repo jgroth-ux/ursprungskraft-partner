@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   PARTNER-PORTAL · MEIN BEREICH (Aufgabe B6), Stand 20.10.2026
-  FERTIG: Status (aktiv bis, nächste Abbuchung), eigener Link mit Kopieren, QR-Code zum Herunterladen,
+  FERTIG: Status (aktiv bis, nächste Abbuchung), eigener Link und Bestell-Link mit Kopieren, QR-Code zum Herunterladen,
           Telegram-Bot verbinden, Nachbestellen, Daten ändern, Anleitung, Kündigen mit Rückfrage.
   ANSCHLUSS: statusLaden(), aboKuendigen(), abmelden() in ../anschluss.js
   FEHLT:  Bot-Name {{BOTNAME}}, Domain {{DOMAIN}}, Kündigungsfrist, Adresse der Anleitung als Webseite
@@ -62,6 +62,12 @@
         <div class="leiste" style="margin-top:16px">
           <a class="zweit" id="ansehen" href="#" target="_blank" rel="noopener">Seite ansehen</a>
           <a class="zweit" id="whatsapp-teilen" href="#" target="_blank" rel="noopener">Per WhatsApp teilen</a>
+        </div>
+        <div class="eyebrow" style="margin-top:32px">Dein Bestell-Link</div>
+        <p class="small">Nur schicken, wenn ein Kunde kaufen will. Bestellungen darüber werden dir zugeordnet.</p>
+        <div class="link-zeile">
+          <input id="bestell-link" readonly aria-label="Dein Bestell-Link">
+          <button type="button" class="zweit" id="bestell-kopieren">Kopieren</button>
         </div>
       </div>
       <div class="qr-block">

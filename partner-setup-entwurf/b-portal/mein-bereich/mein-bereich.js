@@ -29,6 +29,14 @@
     meldung('Link kopiert.');
   });
 
+  var bestell = document.getElementById('bestell-link');
+  bestell.value = s.bestell_link;
+  document.getElementById('bestell-kopieren').addEventListener('click', async function () {
+    try { await navigator.clipboard.writeText(bestell.value); }
+    catch (e) { bestell.select(); document.execCommand('copy'); }
+    meldung('Bestell-Link kopiert.');
+  });
+
   // QR-Code (qrcodejs). Fehlt die Bibliothek, bleibt der Kasten leer und der Knopf verschwindet.
   var qrKasten = document.getElementById('qr');
   if (window.QRCode) {
