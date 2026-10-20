@@ -46,6 +46,15 @@
       b.addEventListener('click', function () { setzen(p.wert); });
       innen.appendChild(b);
     });
+    // Zurück zur vorigen Seite (in der Übersicht zum Ansehen praktisch)
+    if (history.length > 1) {
+      var zurueck = document.createElement('button');
+      zurueck.type = 'button';
+      zurueck.textContent = '← Zurück';
+      zurueck.style.marginRight = '8px';
+      zurueck.addEventListener('click', function () { history.back(); });
+      innen.insertBefore(zurueck, innen.firstChild);
+    }
     document.body.insertBefore(leiste, document.body.firstChild);
     setzen(start);
   }
