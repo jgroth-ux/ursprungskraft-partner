@@ -1,0 +1,240 @@
+<!doctype html>
+<!--
+  VORLAGE PARTNER-LANDINGPAGE (Aufgabe A), Stand 20.10.2026
+  FERTIG: alle sieben Abschnitte aus dem Briefing, Formular mit Anschluss anfrageSenden(),
+          vier Farbpakete, Handy ab 375 px, noindex.
+  FEHLT:  echte Fotos (Platzhalter-Kästen, Prompts in bild-prompts.md), Marke {{MARKE}} und
+          Domain {{DOMAIN}}, Testdauer und Testbedingungen ({{TESTBEDINGUNGEN_FEHLT}}),
+          Datenschutzerklärung und Impressum des Partners (nur Platzhalter-Links).
+  EINBAU: Platzhalter {{...}} werden beim Ausliefern durch die Partnerdaten ersetzt (Server).
+          Für die Live-Vorschau im Portal ersetzt landing.js sie im Browser (siehe dort).
+          Farbpaket: data-farbe am <html>. Vorschau-Leiste aus: data-vorschau="aus".
+-->
+<html lang="de" data-farbe="oliv" data-vorschau="an" data-kuerzel="{{KUERZEL}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>{{VORNAME}} {{NACHNAME}} · Wasserionisierer zu Hause testen</title>
+<meta name="description" content="Teste einen Wasserionisierer bei dir zu Hause. Persönliche Beratung mit {{VORNAME}} {{NACHNAME}} aus {{ORT}}.">
+<meta property="og:title" content="Gerät zu Hause testen · {{VORNAME}} {{NACHNAME}}">
+<meta property="og:url" content="https://{{DOMAIN}}/{{KUERZEL}}">
+<!-- Vor dem Livegang die Schriften selbst hosten statt von Google laden (Datenschutz, siehe f-offene-fragen.md) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../gemeinsam/farbpakete.css">
+<link rel="stylesheet" href="landing.css">
+</head>
+<body>
+
+<header class="kopf">
+  <div class="innen">
+    <a class="marke" href="#oben">
+      <b>{{MARKE}}</b>
+      <span>Beratung mit {{VORNAME}} {{NACHNAME}}</span>
+    </a>
+    <nav>
+      <a href="#ablauf" class="nav-text">So läuft es</a>
+      <a href="#fragen" class="nav-text">Fragen</a>
+      <a class="knopf klein" href="#kontakt" data-wunsch="test">Gerät testen</a>
+    </nav>
+  </div>
+</header>
+
+<main id="oben">
+
+  <!-- 1. Kopfbild -->
+  <section class="hero">
+    <div class="innen hero-raster">
+      <div class="hero-text">
+        <div class="eyebrow">Wasser aus deinem Wasserhahn</div>
+        <h1 class="display">Gutes Wasser. Direkt aus deinem Hahn.</h1>
+        <p class="hero-satz">Ein Gerät an deiner Spüle liefert dir gefiltertes Wasser zum Trinken und Kochen, dazu Wasser für Haushalt und Pflege. Probier es erst bei dir zu Hause aus.</p>
+        <a class="knopf hell" href="#kontakt" data-wunsch="test">Gerät zu Hause testen</a>
+      </div>
+      <div class="bild bild-hero" role="img" aria-label="Platzhalter für das Kopfbild">
+        <span>FOTO 1 · Kopfbild, Hochformat 4:5<br>Ein frisch gefülltes Glas Wasser auf der Arbeitsfläche neben der Spüle, Morgenlicht vom Fenster, im Hintergrund unscharf eine helle Küche.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Was sich im Alltag ändert -->
+  <section id="alltag">
+    <div class="innen">
+      <div class="eyebrow">Im Alltag</div>
+      <h2>Was sich bei dir ändert</h2>
+      <div class="drei">
+        <article>
+          <div class="bild bild-drei" role="img" aria-label="Platzhalter Foto Trinken">
+            <span>FOTO 2 · Trinken, Querformat 4:3<br>Hand füllt eine Glasflasche am Wasserhahn, daneben das Gerät angeschnitten.</span>
+          </div>
+          <div class="nr">01</div>
+          <h3>Trinken</h3>
+          <p class="muted">Keine Kisten mehr schleppen. Du füllst dein Glas oder deine Flasche direkt am Hahn und nimmst sie mit.</p>
+        </article>
+        <article>
+          <div class="bild bild-drei" role="img" aria-label="Platzhalter Foto Kochen">
+            <span>FOTO 3 · Kochen, Querformat 4:3<br>Topf mit Gemüse auf dem Herd, daneben eine Kanne Tee, warmes Licht.</span>
+          </div>
+          <div class="nr">02</div>
+          <h3>Kochen</h3>
+          <p class="muted">Kaffee, Tee, Suppe oder Nudeln: Du nimmst gefiltertes Wasser aus demselben Gerät, ohne extra Wasserfilter.</p>
+        </article>
+        <article>
+          <div class="bild bild-drei" role="img" aria-label="Platzhalter Foto Haushalt">
+            <span>FOTO 4 · Haushalt, Querformat 4:3<br>Äpfel und Salat in einer Schüssel unter dem Wasserhahn, Holzbrett, Leinentuch.</span>
+          </div>
+          <div class="nr">03</div>
+          <h3>Haushalt</h3>
+          <p class="muted">Obst und Gemüse waschen, Flächen abwischen, Pflanzen gießen. Das Gerät liefert dafür eigene Wasserarten.</p>
+        </article>
+      </div>
+      <p class="weniger-plastik">Und ganz nebenbei: weniger Plastikflaschen in Küche, Keller und gelbem Sack.</p>
+    </div>
+  </section>
+
+  <!-- 3. So läuft es -->
+  <section id="ablauf" class="sand">
+    <div class="innen">
+      <div class="eyebrow">So läuft es</div>
+      <h2>In drei Schritten zu deinem Test</h2>
+      <ol class="ablauf">
+        <li>
+          <div class="nr">01</div>
+          <div>
+            <h3>Kontakt</h3>
+            <p>Du schreibst mir über das Formular, per WhatsApp oder rufst an. Wir finden einen Termin, der dir passt.</p>
+          </div>
+        </li>
+        <li>
+          <div class="nr">02</div>
+          <div>
+            <h3>Persönliche Vorführung</h3>
+            <p>Ich zeige dir das Gerät, du probierst das Wasser und stellst alle Fragen, die du hast. Bei dir zu Hause oder per Video.</p>
+          </div>
+        </li>
+        <li>
+          <div class="nr">03</div>
+          <div>
+            <h3>Testgerät bei dir zu Hause</h3>
+            <p>Du nutzt ein Testgerät eine Weile in deinem Alltag. Danach entscheidest du in Ruhe. {{TESTBEDINGUNGEN_FEHLT}}</p>
+          </div>
+        </li>
+      </ol>
+      <a class="knopf" href="#kontakt" data-wunsch="test">Gerät zu Hause testen</a>
+    </div>
+  </section>
+
+  <!-- 4. Der Partner stellt sich vor -->
+  <section id="ueber-mich">
+    <div class="innen zwei">
+      <div class="bild bild-portraet" role="img" aria-label="Foto von {{VORNAME}} {{NACHNAME}}" data-foto="{{FOTO}}">
+        <span>FOTO 5 · Porträt des Partners, Hochformat 4:5<br>Kommt aus dem Portal ({{FOTO}}). Halbnah, freundlich, natürliches Licht, ruhiger Hintergrund.</span>
+      </div>
+      <div>
+        <div class="eyebrow">Dein Ansprechpartner</div>
+        <h2>Hallo, ich bin {{VORNAME}}</h2>
+        <p class="ort">{{VORNAME}} {{NACHNAME}} · {{ORT}}</p>
+        <p class="ueber-text">{{UEBER_MICH}}</p>
+        <ul class="kontaktwege">
+          <li><a href="https://wa.me/{{WHATSAPP}}">WhatsApp schreiben</a></li>
+          <li><a href="tel:{{TELEFON}}">{{TELEFON}}</a></li>
+          <li><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Häufige Fragen -->
+  <section id="fragen" class="sand">
+    <div class="innen schmal">
+      <div class="eyebrow">Häufige Fragen</div>
+      <h2>Gut zu wissen</h2>
+      <details>
+        <summary>Was kostet das Gerät?</summary>
+        <p>Den aktuellen Preis nenne ich dir im Gespräch. Du kannst einmal zahlen oder in Raten, mit Anzahlung und monatlicher Rate.</p>
+      </details>
+      <details>
+        <summary>Muss ich nach dem Test kaufen?</summary>
+        <p>Nein. Du testest, wir sprechen darüber, und dann entscheidest du. Passt es nicht, geht das Testgerät zurück.</p>
+      </details>
+      <details>
+        <summary>Wie lange kann ich das Gerät testen?</summary>
+        <p>{{TESTBEDINGUNGEN_FEHLT}}</p>
+      </details>
+      <details>
+        <summary>Was brauche ich dafür in der Küche?</summary>
+        <p>Etwas Platz neben der Spüle, eine Steckdose in der Nähe und einen Wasserhahn, an den das Gerät angeschlossen wird. Beim Anschließen helfe ich dir.</p>
+      </details>
+      <details>
+        <summary>Welche laufenden Kosten gibt es?</summary>
+        <p>Den Filter wechselst du je nach Verbrauch etwa einmal im Jahr. Für das stark saure Wasser brauchst du eine Zusatzflüssigkeit. Die Reinigung macht das Gerät selbst.</p>
+      </details>
+      <details>
+        <summary>Kann ich jedes Wasser aus dem Gerät trinken?</summary>
+        <p>Nein. Zum Trinken und Kochen sind die Einstellungen pH 7 und pH 8,5 bis 9,5 gedacht. Die anderen Wasserarten sind für Haushalt und Pflege da. Ich zeige dir genau, welche Taste wofür ist.</p>
+      </details>
+      <details>
+        <summary>Wer hilft mir nach dem Kauf?</summary>
+        <p>Ich. Du hast einen festen Ansprechpartner für Lieferung, Anschluss, Filterwechsel und alle Fragen, die später kommen.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- 6. Kontaktformular -->
+  <section id="kontakt" class="dunkel">
+    <div class="innen zwei oben">
+      <div>
+        <div class="eyebrow">Nächster Schritt</div>
+        <h2>Schreib mir</h2>
+        <p>Sag kurz, was du dir wünschst. Ich melde mich bei dir.</p>
+        <p class="direkt">Lieber direkt? <a href="https://wa.me/{{WHATSAPP}}">WhatsApp</a> oder <a href="tel:{{TELEFON}}">{{TELEFON}}</a></p>
+      </div>
+      <form id="anfrage" novalidate>
+        <fieldset class="wahl">
+          <legend>Was wünschst du dir?</legend>
+          <label><input type="radio" name="wunsch" value="test" checked> <span>Gerät zu Hause testen</span></label>
+          <label><input type="radio" name="wunsch" value="beratung"> <span>Erst eine Beratung</span></label>
+        </fieldset>
+        <div class="reihe">
+          <label class="feld">Vorname<input name="vorname" autocomplete="given-name" required></label>
+          <label class="feld">Nachname<input name="nachname" autocomplete="family-name" required></label>
+        </div>
+        <label class="feld">E-Mail<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+        <label class="feld">Telefon<input name="telefon" type="tel" autocomplete="tel" inputmode="tel"></label>
+        <label class="feld">Nachricht (freiwillig)<textarea name="nachricht" rows="4"></textarea></label>
+        <label class="haken"><input type="checkbox" name="datenschutz" required> <span>Ich bin einverstanden, dass meine Angaben gespeichert werden, damit {{VORNAME}} {{NACHNAME}} mich kontaktieren kann. Mehr dazu in der <a href="{{DATENSCHUTZ_URL}}">Datenschutzerklärung</a>.</span></label>
+        <div class="fehler" id="fehler" role="alert"></div>
+        <button class="knopf voll" type="submit">Anfrage senden</button>
+        <div class="danke" id="danke" hidden>
+          <h3>Danke, deine Anfrage ist da.</h3>
+          <p>Ich melde mich bei dir. Wenn es eilt, schreib mir gern per WhatsApp.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- 7. Fuß -->
+<footer class="fuss">
+  <div class="innen">
+    <div class="fuss-zeile">
+      <div>
+        <b class="fuss-marke">{{MARKE}}</b>
+        <div>{{VORNAME}} {{NACHNAME}} · {{ORT}}</div>
+      </div>
+      <div class="fuss-links">
+        <a href="{{IMPRESSUM_URL}}">Impressum</a>
+        <a href="{{DATENSCHUTZ_URL}}">Datenschutz</a>
+      </div>
+    </div>
+    <p class="rechtlich">Die Informationen auf dieser Seite beschreiben Gerät und Anwendung. Sie sind kein medizinischer Ratgeber und enthalten keine Heilversprechen. LeveLuk und Enagic sind Marken der Enagic Co., Ltd. Verantwortlich für diese Seite: {{VORNAME}} {{NACHNAME}}, siehe Impressum.</p>
+  </div>
+</footer>
+
+<script src="../gemeinsam/vorschau.js"></script>
+<script src="landing.js"></script>
+</body>
+</html>

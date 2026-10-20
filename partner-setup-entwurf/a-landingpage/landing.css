@@ -1,0 +1,163 @@
+/* ==========================================================================
+   Partner-Landingpage, Stand 20.10.2026
+   FERTIG: komplette Gestaltung, Handy ab 375 px, alle Farben nur über Variablen
+           aus ../gemeinsam/farbpakete.css.
+   FEHLT:  nichts. Echte Fotos: <img class="bild ..."> statt <div class="bild ..."> einsetzen,
+           die Klassen passen für beides.
+   Regeln: ruhig, klare Kanten (4 px, Karten 8 px), keine Schatten, keine Verläufe,
+           kein Glas, keine Leuchteffekte. Abstände nur 8 / 16 / 32 / 64 px.
+   ========================================================================== */
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/26px Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:Jost,system-ui,sans-serif;font-weight:500;margin:0;color:var(--ink)}
+.display{font-size:56px;line-height:60px;letter-spacing:-.01em}
+h2{font-size:40px;line-height:46px;margin-bottom:32px}
+h3{font-size:20px;line-height:28px;margin-bottom:8px}
+p{margin:0 0 16px;max-width:65ch}
+a{color:var(--olive);text-underline-offset:3px}
+.muted{color:var(--muted)}
+.eyebrow{font:600 12px/16px Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive);margin-bottom:8px}
+.innen{max-width:1080px;margin:0 auto;padding:0 32px}
+.schmal{max-width:780px}
+section{padding:64px 0;scroll-margin-top:68px}
+.sand{background:var(--sand)}
+
+/* ---------- Knöpfe ---------- */
+.knopf{display:inline-block;background:var(--olive);color:var(--surface);text-decoration:none;border:1px solid var(--olive);border-radius:4px;padding:14px 24px;font:600 15px/22px Inter,sans-serif;cursor:pointer;text-align:center;transition:background-color .15s}
+.knopf:hover{background:var(--olive-hover);border-color:var(--olive-hover)}
+.knopf:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
+.knopf.hell{background:var(--surface);color:var(--olive-deep);border-color:var(--surface)}
+.knopf.hell:hover{background:var(--sand);border-color:var(--sand)}
+.knopf.klein{padding:9px 16px;font-size:14px}
+.knopf.voll{width:100%}
+
+/* ---------- Bild-Platzhalter (und später echte Fotos) ---------- */
+.bild{display:flex;align-items:center;justify-content:center;width:100%;background:var(--surface) center/cover no-repeat;border:1px dashed var(--khaki);border-radius:4px;color:var(--muted);font-size:13px;line-height:20px;text-align:center;padding:16px;object-fit:cover}
+img.bild,.bild.hat-foto{border:1px solid var(--line);padding:0}
+.bild.hat-foto span{display:none}
+.bild-hero{aspect-ratio:4/5}
+.bild-drei{aspect-ratio:4/3;margin-bottom:16px}
+.bild-portraet{aspect-ratio:4/5}
+
+/* ---------- Kopfzeile ---------- */
+.kopf{position:sticky;top:0;z-index:20;background:var(--ground);border-bottom:1px solid var(--line)}
+.kopf .innen{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.marke{text-decoration:none;color:var(--olive);min-width:0}
+.marke b{display:block;font:500 18px/22px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.marke span{display:block;font-size:12px;line-height:16px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav{display:flex;align-items:center;gap:32px;flex:none}
+nav .nav-text{color:var(--ink);text-decoration:none;font-size:15px}
+nav .nav-text:hover{color:var(--olive)}
+
+/* ---------- 1. Kopfbild ---------- */
+.hero{background:var(--olive-deep);padding:64px 0}
+.hero-raster{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.hero .eyebrow{color:var(--khaki-light)}
+.hero .display{color:var(--surface);margin-bottom:32px}
+.hero-satz{color:var(--sand);font-size:18px;line-height:28px;max-width:42ch;margin-bottom:32px}
+.hero .bild{background-color:var(--olive-deep);border-color:var(--khaki);color:var(--khaki-light)}
+
+/* ---------- 2. Alltag ---------- */
+.drei{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.drei article .nr{font:500 16px/16px Jost,sans-serif;color:var(--khaki);letter-spacing:.08em;margin-bottom:8px}
+.weniger-plastik{margin:64px 0 0;padding-top:32px;border-top:1px solid var(--line);font:500 20px/28px Jost,sans-serif;color:var(--olive);max-width:none}
+
+/* ---------- 3. Ablauf ---------- */
+.ablauf{list-style:none;margin:0 0 32px;padding:0;border-top:1px solid var(--line)}
+.ablauf li{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:32px 0;border-bottom:1px solid var(--line)}
+.ablauf .nr{font:500 40px/40px Jost,sans-serif;color:var(--khaki)}
+.ablauf p{margin:0;color:var(--muted)}
+
+/* ---------- 4. Über mich ---------- */
+.zwei{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.zwei.oben{align-items:start}
+#ueber-mich h2{margin-bottom:8px}
+.ort{color:var(--muted);font-size:15px;margin-bottom:32px}
+.kontaktwege{list-style:none;margin:32px 0 0;padding:0;border-top:1px solid var(--line)}
+.kontaktwege li{border-bottom:1px solid var(--line)}
+.kontaktwege a{display:block;padding:16px 0;text-decoration:none;font-weight:600;overflow-wrap:anywhere}
+.kontaktwege a::after{content:" →";color:var(--khaki)}
+
+/* ---------- 5. Fragen ---------- */
+details{border-bottom:1px solid var(--line)}
+details:first-of-type{border-top:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0;font:500 20px/28px Jost,sans-serif}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--olive);font-size:24px;flex:none}
+details[open] summary::after{content:"−"}
+summary:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
+details p{color:var(--muted);padding-bottom:16px;margin:0}
+
+/* ---------- 6. Kontakt ---------- */
+.dunkel{background:var(--olive-deep);color:var(--sand)}
+.dunkel h2{color:var(--surface)}
+.dunkel .eyebrow{color:var(--khaki-light)}
+.dunkel a{color:var(--surface)}
+.direkt{font-size:15px}
+form{background:var(--surface);color:var(--ink);border-radius:8px;padding:32px}
+form a{color:var(--olive)}
+.wahl{border:0;margin:0 0 16px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wahl legend{font-size:13px;color:var(--muted);margin-bottom:8px;padding:0}
+.wahl label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:4px;padding:12px;cursor:pointer;font-size:15px;line-height:22px}
+.wahl label:has(input:checked){border-color:var(--olive);background:var(--ground)}
+.wahl input,.haken input{accent-color:var(--olive)}
+.reihe{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.feld{display:block;font-size:13px;line-height:20px;color:var(--muted);margin-bottom:16px}
+.feld input,.feld textarea{display:block;width:100%;margin-top:4px;border:1px solid var(--line);border-radius:4px;padding:12px;font:400 16px/24px Inter,sans-serif;color:var(--ink);background:var(--ground)}
+.feld input:focus,.feld textarea:focus{outline:none;border-color:var(--olive)}
+.feld textarea{resize:vertical;min-height:96px}
+.feld.falsch input{border-color:#9A4E3E}
+.haken{display:flex;gap:8px;font-size:13px;line-height:20px;color:var(--muted);margin:8px 0 16px}
+.haken input{margin-top:3px;flex:none;width:18px;height:18px}
+.fehler{color:#9A4E3E;font-size:14px;line-height:20px;margin-bottom:8px}
+.fehler:empty{display:none}
+.danke{border-top:1px solid var(--line);margin-top:16px;padding-top:16px}
+.danke p{margin:0;color:var(--muted)}
+
+/* ---------- 7. Fuß ---------- */
+.fuss{background:var(--olive-deep);color:var(--khaki-light);font-size:13px;line-height:20px;padding:32px 0;border-top:1px solid var(--muted)}
+.fuss-zeile{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.fuss-marke{display:block;font:500 16px/22px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--surface)}
+.fuss-links{display:flex;gap:32px}
+.fuss a{color:var(--surface)}
+.rechtlich{margin:32px 0 0;padding-top:16px;border-top:1px solid var(--muted);max-width:none}
+
+/* ---------- Tablet ---------- */
+@media (max-width:900px){
+  .display{font-size:44px;line-height:50px}
+  h2{font-size:32px;line-height:38px}
+  .hero-raster,.zwei{gap:32px}
+  .drei{grid-template-columns:1fr 1fr}
+  .drei article:last-child{grid-column:1 / -1}
+  .drei article:last-child .bild-drei{aspect-ratio:16/9}
+}
+
+/* ---------- Handy ---------- */
+@media (max-width:720px){
+  .innen{padding:0 16px}
+  section{padding:64px 0}
+  .display{font-size:38px;line-height:44px}
+  h2{font-size:28px;line-height:34px;margin-bottom:16px}
+  nav .nav-text{display:none}
+  .marke b{font-size:15px;line-height:20px}
+  .hero{padding:0 0 64px}
+  .hero-raster,.zwei,.drei,.reihe{grid-template-columns:1fr}
+  .hero .bild{order:-1;aspect-ratio:4/3;margin:0 -16px;width:calc(100% + 32px);border-radius:0;border-left:0;border-right:0}
+  .hero .display{margin-bottom:16px}
+  .hero-satz{font-size:17px;line-height:26px}
+  .hero .knopf{display:block}
+  .drei article:last-child{grid-column:auto}
+  .drei article:last-child .bild-drei{aspect-ratio:4/3}
+  .weniger-plastik{margin-top:32px}
+  .ablauf li{grid-template-columns:56px 1fr;padding:16px 0}
+  .ablauf .nr{font-size:28px;line-height:32px}
+  #ablauf .knopf{display:block}
+  .bild-portraet{aspect-ratio:1}
+  form{padding:16px;margin:0 -8px}
+  .wahl{grid-template-columns:1fr}
+  .fuss-zeile{flex-direction:column;gap:16px}
+}

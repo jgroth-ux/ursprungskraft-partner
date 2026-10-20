@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Farbpakete für alle Partner-Seiten (Landingpage, Portal, Vorschau)
+   Stand 20.10.2026
+   FERTIG: vier Pakete, alle mit denselben Variablennamen. Kontraste geprüft
+           (ink auf ground ab 12:1, muted auf ground ab 5,5:1, Knopftext auf olive ab 6:1).
+   FEHLT:  Freigabe der Pakete 2 bis 4 durch Jasmin (siehe f-offene-fragen.md).
+
+   Wechsel = eine Zeile: am <html>-Element  data-farbe="oliv" | "blau" | "sand" | "lehm"
+   Ohne Angabe gilt Oliv-Khaki.
+
+   Die Namen der Variablen kommen aus der Ursprungskraft-CI. Sie heißen in jedem Paket gleich,
+   auch wenn "--olive" im Paket Blau ein Blau ist. So muss keine andere Datei angepasst werden.
+   Zusätzlich zur Liste aus dem Briefing gibt es --olive-deep (dunkle Flächen: Kopfbild, Fuß)
+   und --olive-hover (Knopf beim Drüberfahren), weil die Seiten beides brauchen.
+   ========================================================================== */
+
+:root,
+[data-farbe="oliv"]{
+  /* 1. Oliv-Khaki, das Original */
+  --ground:#F5F1E8; --surface:#FBF9F4; --sand:#EAE3D3; --line:#D9CFBA;
+  --khaki-light:#CFC4A0; --khaki:#A8996A; --olive:#4F5A35; --ink:#2A2C22; --muted:#5F6152;
+  --olive-deep:#2F3524; --olive-hover:#414A2C;
+}
+
+[data-farbe="blau"]{
+  /* 2. Blau: Wasser, klar. Gedämpftes Schieferblau, kein Leuchtblau, kein Verlauf */
+  --ground:#F0F3F3; --surface:#F9FBFB; --sand:#E1E8EA; --line:#CAD5D9;
+  --khaki-light:#B5C8D0; --khaki:#7D98A5; --olive:#2E5163; --ink:#1E292F; --muted:#55646C;
+  --olive-deep:#1C3240; --olive-hover:#244253;
+}
+
+[data-farbe="sand"]{
+  /* 3. Sand neutral: hell, fast ohne Farbe. Warmes Grau statt Oliv */
+  --ground:#F6F4F0; --surface:#FCFBF9; --sand:#ECE8E1; --line:#DCD6CB;
+  --khaki-light:#D2CABD; --khaki:#A59C8C; --olive:#4A4640; --ink:#262420; --muted:#645F57;
+  --olive-deep:#2D2A26; --olive-hover:#3A3732;
+}
+
+[data-farbe="lehm"]{
+  /* 4. Lehm (Vorschlag): warmes Terrakotta. Deutlich anders als die drei anderen */
+  --ground:#F6EFE7; --surface:#FCF8F4; --sand:#EEE0D2; --line:#DFCCBA;
+  --khaki-light:#DDBFA6; --khaki:#B98D6C; --olive:#8A4A2F; --ink:#2D221D; --muted:#6A594F;
+  --olive-deep:#43271C; --olive-hover:#733D26;
+}
+
+/* ---------- Umschalter, nur in der Vorschau sichtbar ---------- */
+.vorschau-leiste{position:relative;z-index:100;background:#1D1E19;color:#E9E6DC;font:400 13px/20px Inter,system-ui,sans-serif}
+.vorschau-leiste .vl-innen{max-width:1080px;margin:0 auto;padding:8px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.vorschau-leiste .vl-titel{font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:#B8B4A6;margin-right:4px}
+.vorschau-leiste button{display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid #4A4B42;color:#E9E6DC;border-radius:4px;padding:4px 10px;font:inherit;cursor:pointer}
+.vorschau-leiste button[aria-pressed="true"]{border-color:#E9E6DC}
+.vorschau-leiste .vl-punkt{width:12px;height:12px;border-radius:2px;border:1px solid rgba(255,255,255,.3)}
