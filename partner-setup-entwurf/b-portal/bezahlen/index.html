@@ -1,0 +1,81 @@
+<!doctype html>
+<!--
+  PARTNER-PORTAL · BEZAHLEN (Aufgabe B5), Stand 20.10.2026
+  FERTIG: Übersicht der Bestellung (einmalig und monatlich), Knopf zur Zahlung, Anschluss bezahlenStarten().
+  FEHLT:  Stripe (Checkout mit Abo plus Einmalbetrag), Preise, Hinweise zu MwSt und Widerruf
+          (rechtlich offen, siehe f-offene-fragen.md).
+-->
+<html lang="de" data-farbe="oliv" data-vorschau="an">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Bezahlen · {{MARKE}} Partnerportal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../gemeinsam/farbpakete.css">
+<link rel="stylesheet" href="../portal.css">
+</head>
+<body>
+<header class="kopf">
+  <div class="innen">
+    <a class="marke" href="../index.html"><b>{{MARKE}}</b><span>Partnerportal</span></a>
+    <nav><a href="../paket/index.html">Zurück zum Paket</a></nav>
+  </div>
+</header>
+<main>
+  <div class="innen schmal">
+    <ol class="schritte" id="schritte" aria-label="Fortschritt">
+      <li class="fertig">Registrieren</li><li class="fertig">Deine Daten</li><li class="fertig">Paket</li><li class="jetzt">Bezahlen</li>
+    </ol>
+    <h1>Deine Bestellung</h1>
+    <div id="leer" class="hinweis" hidden>Du hast noch nichts ausgewählt. <a href="../paket/index.html">Zum Paket</a></div>
+    <div id="inhalt" hidden>
+      <div class="karte">
+        <h2 style="font-size:20px;line-height:28px">Einmalig</h2>
+        <table><tbody id="zeilen"></tbody><tfoot><tr><td>Summe einmalig</td><td class="zahl" id="summe"></td></tr></tfoot></table>
+        <div id="monat-block">
+          <h2 style="font-size:20px;line-height:28px;margin-top:32px">Monatlich</h2>
+          <table><tbody><tr><td>Landingpage, Hosting, Telegram-Bot<br><span class="small">ab Freischaltung, monatlich kündbar {{KUENDIGUNGSFRIST}}</span></td><td class="zahl" id="monat"></td></tr></tbody></table>
+        </div>
+        <p class="small" style="margin-top:16px">{{PREISHINWEIS_MWST}}</p>
+      </div>
+      <div class="hinweis" id="test-hinweis" hidden style="margin-top:16px">Vorschau mit Testpreis 1,00 je Stück. Das sind keine echten Preise.</div>
+      <div class="fehler" id="fehler" role="alert" style="margin-top:16px"></div>
+      <div class="leiste">
+        <button class="knopf voll" id="zahlen" type="button">Jetzt bezahlen</button>
+      </div>
+      <p class="small" style="margin-top:16px">Du wirst zur sicheren Zahlungsseite weitergeleitet. Danach kommst du in deinen Bereich, deine Seite wird freigeschaltet und dein Material geht in den Druck.</p>
+    </div>
+  </div>
+</main>
+<script src="../../gemeinsam/vorschau.js"></script>
+<script src="../portal.js"></script>
+<script src="../anschluss.js"></script>
+<script>
+(async function () {
+  var b = await bestellungLaden();
+  if (!b || !b.posten || !b.posten.length) { document.getElementById('leer').hidden = false; return; }
+  document.getElementById('inhalt').hidden = false;
+  if (b.art === 'nachbestellung') { document.getElementById('monat-block').hidden = true; document.getElementById('schritte').hidden = true; }
+  var test = !!b.testpreise;
+  document.getElementById('test-hinweis').hidden = !test;
+  var z = b.posten.map(function (p) { return '<tr><td>' + p.name + '<br><span class="small">' + p.stueck + ' Stück</span></td><td class="zahl">' + geld(p.summe) + '</td></tr>'; });
+  if (b.art !== 'nachbestellung') z.unshift('<tr><td>Einrichtung</td><td class="zahl">' + geld(test ? (b.einrichtung || 0) : b.einrichtung) + '</td></tr>');
+  z.push('<tr><td>Versand</td><td class="zahl">' + geld(test ? (b.versand || 0) : b.versand) + '</td></tr>');
+  document.getElementById('zeilen').innerHTML = z.join('');
+  document.getElementById('summe').textContent = geld(b.einmalig_summe);
+  document.getElementById('monat').textContent = geld(test ? (b.monatlich || 0) : b.monatlich);
+
+  document.getElementById('zahlen').addEventListener('click', async function (e) {
+    var knopf = e.target; knopf.disabled = true; knopf.textContent = 'Einen Moment …';
+    var r = await bezahlenStarten(b);
+    if (r.ok) { location.href = r.weiter || '../mein-bereich/index.html?bezahlt=1'; return; }
+    knopf.disabled = false; knopf.textContent = 'Jetzt bezahlen';
+    document.getElementById('fehler').textContent = r.fehler || 'Die Zahlung konnte nicht gestartet werden.';
+  });
+})();
+</script>
+</body>
+</html>

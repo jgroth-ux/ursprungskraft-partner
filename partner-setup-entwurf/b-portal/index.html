@@ -1,0 +1,123 @@
+<!doctype html>
+<!--
+  PARTNER-PORTAL · STARTSEITE (Aufgabe B1), Stand 20.10.2026
+  FERTIG: Was der Partner bekommt, Ablauf, Preise als Platzhalter, Knopf "Jetzt registrieren", noindex.
+  FEHLT:  echte Preise ({{PREIS_...}}), Marke {{MARKE}}, Anbieter {{ANBIETER}}, Kündigungsfrist,
+          Impressum und Datenschutz des Portals. Foto (Platzhalter-Kasten).
+-->
+<html lang="de" data-farbe="oliv" data-vorschau="an">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>{{MARKE}} · Partnerportal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../gemeinsam/farbpakete.css">
+<link rel="stylesheet" href="portal.css">
+<link rel="stylesheet" href="start.css">
+</head>
+<body>
+
+<header class="kopf">
+  <div class="innen">
+    <a class="marke" href="./index.html"><b>{{MARKE}}</b><span>Partnerportal</span></a>
+    <nav>
+      <a class="nav-text" href="anmelden/index.html">Anmelden</a>
+      <a class="knopf" href="registrieren/index.html">Jetzt registrieren</a>
+    </nav>
+  </div>
+</header>
+
+<section class="start-hero">
+  <div class="innen start-raster">
+    <div>
+      <div class="eyebrow">Für Vertriebspartner</div>
+      <h1 class="start-titel">Deine eigene Seite. Dein Material. Fertig eingerichtet.</h1>
+      <p class="start-satz">Du bekommst eine Landingpage mit deinem Namen, gedrucktes Material mit deinem QR-Code und eine Telegram-Nachricht bei jeder Anfrage. Du trägst deine Daten ein, den Rest machen wir.</p>
+      <a class="knopf hell" href="registrieren/index.html">Jetzt registrieren</a>
+    </div>
+    <div class="bild-kasten" role="img" aria-label="Platzhalter Foto">
+      <span>FOTO · Querformat 4:3<br>Handy auf einem Holztisch mit geöffneter Partnerseite, daneben ein Stapel Broschüren und ein Glas Wasser. Tageslicht.</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <section class="innen">
+    <div class="eyebrow">Was du bekommst</div>
+    <h2>Alles, was du für den Start brauchst</h2>
+    <ul class="leistungen">
+      <li><div class="nr">01</div><div><h3>Deine Landingpage</h3><p class="muted">Eine fertige Seite mit deinem Foto, deinem Text und deinen Kontaktdaten. Kunden fragen dort ein Testgerät oder eine Beratung an. Die Seite ist nicht bei Google zu finden. Du gibst den Link selbst weiter.</p></div></li>
+      <li><div class="nr">02</div><div><h3>Druckmaterial mit deinen Daten</h3><p class="muted">Broschüre, Wegweiser, Flyer, Detox-Blatt und Visitenkarten. Mit deinem Namen, deinen Kontaktdaten und einem QR-Code zu deiner Seite. Gedruckt und direkt zu dir geschickt.</p></div></li>
+      <li><div class="nr">03</div><div><h3>Bestellformular für deine Kunden</h3><p class="muted">Will ein Kunde kaufen, schickst du ihm einen Link. Er trägt seine Daten einmal ein, die Vertragsunterlagen werden daraus ausgefüllt.</p></div></li>
+      <li><div class="nr">04</div><div><h3>Dein Telegram-Bot</h3><p class="muted">Du bekommst eine Nachricht aufs Handy, sobald eine Anfrage, ein Fragebogen oder eine Bestellung reinkommt.</p></div></li>
+      <li><div class="nr">05</div><div><h3>Anleitung Schritt für Schritt</h3><p class="muted">Vom Registrieren bis zur ersten Bestellung. Ohne Technikwissen.</p></div></li>
+    </ul>
+  </section>
+
+  <section class="sand-band">
+    <div class="innen">
+      <div class="eyebrow">Pakete und Preise</div>
+      <h2>Einmal starten, monatlich nutzen</h2>
+      <div class="raster-3 pakete">
+        <div class="karte">
+          <h3>Starterpaket</h3>
+          <p class="preis">{{PREIS_STARTERPAKET}}</p>
+          <p class="small">einmalig</p>
+          <ul class="liste">
+            <li>Einrichtung deiner Seite</li>
+            <li>Erstausstattung Druck, ab 100 Stück je Dokument</li>
+            <li>Telegram-Bot eingerichtet</li>
+          </ul>
+        </div>
+        <div class="karte">
+          <h3>Landingpage</h3>
+          <p class="preis">{{PREIS_LANDINGPAGE_MONAT}}</p>
+          <p class="small">im Monat</p>
+          <ul class="liste">
+            <li>Seite online und gepflegt</li>
+            <li>Kontaktformular und Bestellformular</li>
+            <li>Telegram-Nachrichten</li>
+          </ul>
+        </div>
+        <div class="karte">
+          <h3>Nachdruck</h3>
+          <p class="preis">{{PREIS_NACHDRUCK}}</p>
+          <p class="small">je Bestellung</p>
+          <ul class="liste">
+            <li>Jederzeit im Portal nachbestellen</li>
+            <li>ab 100 Stück je Dokument</li>
+            <li>Versand direkt zu dir</li>
+          </ul>
+        </div>
+      </div>
+      <p class="small preis-hinweis">Alle Preise {{PREISHINWEIS_MWST}}. Kündigen kannst du {{KUENDIGUNGSFRIST}}. Die Seite und das Material nutzt du, solange du zahlst. Sie gehören weiter uns. Details stehen in den <a href="../c-nutzungsbedingungen.md">Nutzungsbedingungen</a>.</p>
+    </div>
+  </section>
+
+  <section class="innen">
+    <div class="eyebrow">So läuft es</div>
+    <h2>In fünf Schritten online</h2>
+    <ol class="ablauf">
+      <li><span class="nr">01</span><div><h3>Registrieren</h3><p class="muted">E-Mail, Passwort, Name. Dauert eine Minute.</p></div></li>
+      <li><span class="nr">02</span><div><h3>Daten eintragen</h3><p class="muted">Foto, Kontakt, ein paar Sätze über dich, Farbe. Du siehst sofort, wie deine Seite aussieht.</p></div></li>
+      <li><span class="nr">03</span><div><h3>Paket zusammenstellen</h3><p class="muted">Du wählst die Dokumente und die Stückzahl.</p></div></li>
+      <li><span class="nr">04</span><div><h3>Bezahlen</h3><p class="muted">Einmal das Paket, danach monatlich die Seite.</p></div></li>
+      <li><span class="nr">05</span><div><h3>Loslegen</h3><p class="muted">Deine Seite geht online, das Material kommt per Post. Du verbindest den Telegram-Bot und gibst deinen Link weiter.</p></div></li>
+    </ol>
+    <div class="leiste"><a class="knopf" href="registrieren/index.html">Jetzt registrieren</a><a class="zweit" href="anmelden/index.html">Ich habe schon ein Konto</a></div>
+  </section>
+</main>
+
+<footer class="fuss">
+  <div class="innen">
+    <span>{{MARKE}} ist ein Angebot von {{ANBIETER}}.</span>
+    <span><a href="../c-nutzungsbedingungen.md">Nutzungsbedingungen</a> · <a href="{{PORTAL_IMPRESSUM_URL}}">Impressum</a> · <a href="{{PORTAL_DATENSCHUTZ_URL}}">Datenschutz</a></span>
+  </div>
+</footer>
+
+<script src="../gemeinsam/vorschau.js"></script>
+</body>
+</html>

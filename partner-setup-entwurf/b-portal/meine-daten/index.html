@@ -1,0 +1,147 @@
+<!doctype html>
+<!--
+  PARTNER-PORTAL · MEINE DATEN (Aufgabe B3), Stand 20.10.2026
+  FERTIG: alle Felder für Landingpage und Druckmaterial, Foto hochladen, Kürzel prüfen,
+          Impressum-Angaben, Farbpaket, Enagic-ID und Sponsor, Live-Vorschau der echten
+          Landingpage-Vorlage (../../a-landingpage/index.html) daneben, am Handy als Vollbild.
+  ANSCHLUSS: partnerLaden(), partnerSpeichern(), fotoHochladen(), kuerzelPruefen() in ../anschluss.js
+  FEHLT:  Vorschau des Druckmaterials (kommt, wenn die Druckvorlagen personalisiert sind).
+          Pfad zur Vorlage beim Einbau anpassen (VORLAGE_PFAD in meine-daten.js).
+-->
+<html lang="de" data-farbe="oliv" data-vorschau="an">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Deine Daten · {{MARKE}} Partnerportal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../gemeinsam/farbpakete.css">
+<link rel="stylesheet" href="../portal.css">
+<link rel="stylesheet" href="meine-daten.css">
+</head>
+<body>
+<header class="kopf">
+  <div class="innen">
+    <a class="marke" href="../index.html"><b>{{MARKE}}</b><span>Partnerportal</span></a>
+    <nav><a class="nav-text" href="../mein-bereich/index.html">Mein Bereich</a><a href="../anmelden/index.html" id="abmelden">Abmelden</a></nav>
+  </div>
+</header>
+
+<main>
+  <div class="innen">
+    <ol class="schritte" aria-label="Fortschritt">
+      <li class="fertig">Registrieren</li><li class="jetzt">Deine Daten</li><li>Paket</li><li>Bezahlen</li>
+    </ol>
+    <h1>Deine Daten</h1>
+    <p class="muted">Alles hier erscheint auf deiner Landingpage und auf deinem Druckmaterial. Rechts siehst du sofort, wie deine Seite aussieht.</p>
+
+    <div class="daten-raster">
+      <form id="form" novalidate>
+
+        <fieldset>
+          <legend>Über dich</legend>
+          <div class="reihe">
+            <label class="feld">Vorname<input name="vorname" autocomplete="given-name" required></label>
+            <label class="feld">Nachname<input name="nachname" autocomplete="family-name" required></label>
+          </div>
+          <div class="reihe">
+            <label class="feld">Ort (steht auf der Seite)<input name="ort" autocomplete="address-level2" required></label>
+            <label class="feld">Land<select name="land"><option value="DE">Deutschland</option><option value="CH">Schweiz</option></select>
+              <span class="zusatz">Bestimmt, wo dein Material gedruckt wird.</span></label>
+          </div>
+          <div class="feld">Foto von dir
+            <div class="foto-wahl">
+              <div class="foto-vorschau" id="foto-vorschau"><span>Noch kein Foto</span></div>
+              <div>
+                <label class="zweit" for="foto-datei">Foto auswählen</label>
+                <input type="file" id="foto-datei" accept="image/jpeg,image/png,image/webp" hidden>
+                <span class="zusatz">Hochformat, Tageslicht, ruhiger Hintergrund. JPG oder PNG, höchstens 10 MB.</span>
+              </div>
+            </div>
+          </div>
+          <label class="feld">Ein paar Sätze über dich (in Ich-Form)
+            <textarea name="ueber_mich" maxlength="400" required placeholder="Zum Beispiel: Seit wann du das Gerät nutzt, was dir im Alltag gefällt, wo du wohnst."></textarea>
+            <span class="zusatz"><span id="zeichen">0</span> von 400 Zeichen. Bitte keine Aussagen zu Gesundheit oder Krankheiten.</span></label>
+        </fieldset>
+
+        <fieldset class="gruppe">
+          <legend>Kontakt</legend>
+          <div class="reihe">
+            <label class="feld">Telefon<input name="telefon" type="tel" autocomplete="tel" inputmode="tel" placeholder="+49 170 1234567" required></label>
+            <label class="feld">WhatsApp-Nummer<input name="whatsapp" type="tel" inputmode="tel" placeholder="+49 170 1234567">
+              <span class="zusatz">Leer lassen, wenn gleich wie Telefon.</span></label>
+          </div>
+          <label class="feld">E-Mail für Kunden<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+        </fieldset>
+
+        <fieldset class="gruppe">
+          <legend>Dein Link</legend>
+          <label class="feld">Kürzel
+            <span class="mit-vorsatz"><span>{{DOMAIN}}/</span><input name="kuerzel" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="30" required></span>
+            <span class="zusatz" id="kuerzel-info">Nur Kleinbuchstaben, Zahlen und Bindestrich. Zum Beispiel dein Vorname.</span></label>
+        </fieldset>
+
+        <fieldset class="gruppe">
+          <legend>Angaben für dein Impressum</legend>
+          <p class="small">Diese Angaben stehen im Impressum deiner Seite. Deine Seite läuft unter deinem Namen.</p>
+          <label class="feld">Name oder Firma<input name="impressum_name" autocomplete="name" required></label>
+          <label class="feld">Straße und Hausnummer<input name="impressum_strasse" autocomplete="street-address" required></label>
+          <div class="reihe">
+            <label class="feld">PLZ<input name="impressum_plz" autocomplete="postal-code" inputmode="numeric" required></label>
+            <label class="feld">Ort<input name="impressum_ort" autocomplete="address-level2" required></label>
+          </div>
+          <div class="reihe">
+            <label class="feld">Telefon<input name="impressum_telefon" type="tel" inputmode="tel" required></label>
+            <label class="feld">E-Mail<input name="impressum_email" type="email" inputmode="email" required></label>
+          </div>
+          <label class="feld">USt-IdNr. oder UID (falls vorhanden)<input name="impressum_ustid"></label>
+        </fieldset>
+
+        <fieldset class="gruppe">
+          <legend>Farbpaket</legend>
+          <div class="farben" id="farben">
+            <label><input type="radio" name="farbe" value="oliv" checked><span class="muster" style="--a:#F5F1E8;--b:#4F5A35;--c:#A8996A"></span><b>Oliv-Khaki</b></label>
+            <label><input type="radio" name="farbe" value="blau"><span class="muster" style="--a:#F0F3F3;--b:#2E5163;--c:#7D98A5"></span><b>Blau</b></label>
+            <label><input type="radio" name="farbe" value="sand"><span class="muster" style="--a:#F6F4F0;--b:#4A4640;--c:#A59C8C"></span><b>Sand neutral</b></label>
+            <label><input type="radio" name="farbe" value="lehm"><span class="muster" style="--a:#F6EFE7;--b:#8A4A2F;--c:#B98D6C"></span><b>Lehm</b></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="gruppe">
+          <legend>Enagic</legend>
+          <p class="small">Damit die Bestellungen deiner Kunden dir zugeordnet werden.</p>
+          <label class="feld">Deine Enagic-ID<input name="enagic_id" inputmode="numeric" placeholder="z. B. 21000000000"></label>
+          <div class="reihe">
+            <label class="feld">Name deines Sponsors<input name="sponsor_name"></label>
+            <label class="feld">Enagic-ID deines Sponsors<input name="sponsor_id" inputmode="numeric"></label>
+          </div>
+        </fieldset>
+
+        <div class="fehler" id="fehler" role="alert"></div>
+        <div class="leiste">
+          <button class="knopf" type="submit">Speichern und weiter zum Paket</button>
+          <button class="zweit" type="button" id="nur-speichern">Nur speichern</button>
+        </div>
+      </form>
+
+      <aside class="vorschau-spalte" id="vorschau-spalte" aria-label="Vorschau deiner Landingpage">
+        <div class="vorschau-kopf">
+          <span class="eyebrow" style="margin:0">Vorschau deiner Seite</span>
+          <button type="button" class="zweit klein" id="vorschau-zu">Schließen</button>
+        </div>
+        <div class="handy"><iframe id="vorschau" title="Vorschau deiner Landingpage" src="../../a-landingpage/index.html"></iframe></div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<button type="button" class="knopf vorschau-auf" id="vorschau-auf">Vorschau ansehen</button>
+
+<script src="../../gemeinsam/vorschau.js"></script>
+<script src="../portal.js"></script>
+<script src="../anschluss.js"></script>
+<script src="meine-daten.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+/* Paket zusammenstellen, Stand 20.10.2026. FERTIG. */
+.paket-raster{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:32px;align-items:start;margin-top:32px}
+.dokumente{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.dok{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"wahl menge" "preis preis";gap:8px 16px;align-items:center;padding:16px;border-bottom:1px solid var(--line)}
+.dok.an{background:var(--surface)}
+.dok-wahl{grid-area:wahl;display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.dok-wahl input{accent-color:var(--olive);width:20px;height:20px;margin-top:3px;flex:none}
+.dok-wahl b{display:block;font:500 18px/26px Jost,sans-serif}
+.dok-wahl .small{display:block}
+.menge{grid-area:menge;display:flex;align-items:stretch}
+.menge .zweit{padding:8px 14px;border-radius:4px 0 0 4px;font-size:18px;line-height:22px}
+.menge .zweit:last-child{border-radius:0 4px 4px 0}
+.menge input{width:72px;border:1px solid var(--line);border-left:0;border-right:0;text-align:center;font:600 16px/22px Inter,sans-serif;color:var(--ink);background:var(--ground);-moz-appearance:textfield;appearance:textfield}
+.menge input::-webkit-inner-spin-button,.menge input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.menge input:disabled{color:var(--muted)}
+.dok-preis{grid-area:preis;padding-left:32px}
+.dok-preis:empty{display:none}
+.summe-karte{position:sticky;top:16px}
+.summe-karte h2{font-size:20px;line-height:28px}
+@media (max-width:900px){.paket-raster{grid-template-columns:1fr}.summe-karte{position:static}}
+@media (max-width:720px){
+  .dok{grid-template-columns:1fr;grid-template-areas:"wahl" "menge" "preis";padding:16px 0}
+  .dok.an{background:none}
+  .menge{padding-left:32px}
+}

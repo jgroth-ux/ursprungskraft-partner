@@ -1,0 +1,110 @@
+<!doctype html>
+<!--
+  PARTNER-PORTAL · MEIN BEREICH (Aufgabe B6), Stand 20.10.2026
+  FERTIG: Status (aktiv bis, nächste Abbuchung), eigener Link mit Kopieren, QR-Code zum Herunterladen,
+          Telegram-Bot verbinden, Nachbestellen, Daten ändern, Anleitung, Kündigen mit Rückfrage.
+  ANSCHLUSS: statusLaden(), aboKuendigen(), abmelden() in ../anschluss.js
+  FEHLT:  Bot-Name {{BOTNAME}}, Domain {{DOMAIN}}, Kündigungsfrist, Adresse der Anleitung als Webseite
+          (zeigt im Entwurf auf ../../e-anleitung-partner.md).
+  QR-Code: qrcodejs 1.0.0 von cdnjs.
+-->
+<html lang="de" data-farbe="oliv" data-vorschau="an">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mein Bereich · {{MARKE}} Partnerportal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../gemeinsam/farbpakete.css">
+<link rel="stylesheet" href="../portal.css">
+<link rel="stylesheet" href="mein-bereich.css">
+</head>
+<body>
+<header class="kopf">
+  <div class="innen">
+    <a class="marke" href="../index.html"><b>{{MARKE}}</b><span>Partnerportal</span></a>
+    <nav><a class="nav-text" href="../meine-daten/index.html">Deine Daten</a><a href="../anmelden/index.html" id="abmelden">Abmelden</a></nav>
+  </div>
+</header>
+<main>
+  <div class="innen">
+    <div class="hinweis" id="bezahlt" hidden style="margin-bottom:32px"><b>Danke, die Zahlung ist da.</b> Deine Seite wird freigeschaltet und dein Material geht in den Druck. Verbinde jetzt deinen Telegram-Bot, dann bekommst du jede Anfrage aufs Handy.</div>
+    <h1 id="hallo">Mein Bereich</h1>
+
+    <div class="raster-3 status">
+      <div class="karte">
+        <div class="eyebrow">Landingpage</div>
+        <p class="gross" id="st-aktiv"></p>
+        <p class="small" id="st-bis"></p>
+      </div>
+      <div class="karte">
+        <div class="eyebrow">Nächste Abbuchung</div>
+        <p class="gross" id="st-abbuchung"></p>
+        <p class="small" id="st-betrag"></p>
+      </div>
+      <div class="karte">
+        <div class="eyebrow">Telegram-Bot</div>
+        <p class="gross" id="st-bot"></p>
+        <p class="small"><a id="bot-link" href="#" target="_blank" rel="noopener">Bot öffnen und auf „Starten“ tippen</a></p>
+      </div>
+    </div>
+
+    <section class="karte link-karte">
+      <div>
+        <div class="eyebrow">Dein Link</div>
+        <h2>Gib deine Seite weiter</h2>
+        <div class="link-zeile">
+          <input id="link" readonly aria-label="Dein Link">
+          <button type="button" class="knopf" id="kopieren">Kopieren</button>
+        </div>
+        <div class="leiste" style="margin-top:16px">
+          <a class="zweit" id="ansehen" href="#" target="_blank" rel="noopener">Seite ansehen</a>
+          <a class="zweit" id="whatsapp-teilen" href="#" target="_blank" rel="noopener">Per WhatsApp teilen</a>
+        </div>
+      </div>
+      <div class="qr-block">
+        <div id="qr" class="qr" aria-label="QR-Code zu deiner Seite"></div>
+        <button type="button" class="zweit" id="qr-laden">QR-Code herunterladen</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Was du hier machen kannst</h2>
+      <ul class="aktionen">
+        <li><a href="../paket/index.html?art=nachbestellung"><b>Material nachbestellen</b><span>Broschüren, Flyer, Visitenkarten und mehr, ab 100 Stück</span></a></li>
+        <li><a href="../meine-daten/index.html"><b>Deine Daten ändern</b><span>Foto, Text, Kontakt, Farbe. Gilt sofort für deine Seite.</span></a></li>
+        <li><a href="../../e-anleitung-partner.md"><b>Anleitung</b><span>Schritt für Schritt, vom Link bis zur Bestellung</span></a></li>
+        <li id="letzte" hidden><a href="../bezahlen/index.html"><b>Letzte Bestellung</b><span id="letzte-text"></span></a></li>
+      </ul>
+    </section>
+
+    <section class="kuendigen">
+      <h2>Kündigen</h2>
+      <p class="muted">Du kannst {{KUENDIGUNGSFRIST}} kündigen. Deine Seite bleibt bis zum Ende der bezahlten Zeit online. Danach wird sie abgeschaltet.</p>
+      <button type="button" class="zweit warn" id="kuendigen-auf">Abo kündigen</button>
+      <p class="ok" id="gekuendigt" hidden></p>
+    </section>
+  </div>
+</main>
+
+<dialog id="kuendigen-dialog">
+  <form method="dialog" class="dlg">
+    <h2>Wirklich kündigen?</h2>
+    <p class="muted">Deine Seite bleibt bis zum Ende der bezahlten Zeit online. Danach ist sie nicht mehr erreichbar und dein Telegram-Bot schickt keine Nachrichten mehr.</p>
+    <label class="feld">Magst du uns sagen, warum? (freiwillig)<textarea name="grund" rows="3"></textarea></label>
+    <div class="leiste">
+      <button class="zweit warn" value="ja">Ja, kündigen</button>
+      <button class="knopf" value="nein">Nein, behalten</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="../../gemeinsam/vorschau.js"></script>
+<script src="../portal.js"></script>
+<script src="../anschluss.js"></script>
+<script src="mein-bereich.js"></script>
+</body>
+</html>
