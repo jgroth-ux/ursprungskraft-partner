@@ -111,7 +111,7 @@ Onlineprinters CH. Bitte nachfragen, das war ja der Grund für die Trennung DE /
 | Anbieter | 100 | 200 | 500 | Was der Auszug sagt | Stand |
 |---|---|---|---|---|---|
 | Heididruck | ab CHF 215.00 exkl. MwSt. | nicht gefunden | nicht gefunden | Auflage 50 oder 100, 12 bis 40 Seiten, Spanne bis CHF 540.00, Preis für 28 Seiten unklar. [Link](https://heididruck.swiss/produkt/broschueren-a5-hochformat/) | abweichend |
-| Printzessin | ab CHF 191.– | nicht gefunden | nicht gefunden | 100 Stück, Drahtheftung oder Klebebindung, Seitenzahl unklar. [Link](https://www.printzessin.ch/broschueren) | abweichend |
+| Printzessin | ab CHF 191.00 | nicht gefunden | nicht gefunden | 100 Stück, Drahtheftung oder Klebebindung, Seitenzahl unklar. [Link](https://www.printzessin.ch/broschueren) | abweichend |
 | druckfee.ch | CHF 154.20 netto / 166.70 brutto | nicht gefunden | nicht gefunden | Seite heißt „Broschüre A5 **8 Seiten**“, für 28 Seiten also deutlich mehr. [Link](https://www.druckfee.ch/broschuere-a5-8-seiten-drucken.htm) | abweichend |
 | Onlineprinters CH | CHF 73.00 | nicht gefunden | nicht gefunden | Staffel passt laut Suche nicht eindeutig zur Konfiguration. [Link](https://de.onlineprinters.ch/p/broschueren-klammerheftung-a5) | abweichend |
 
