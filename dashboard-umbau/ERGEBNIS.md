@@ -27,12 +27,13 @@ Getestet mit `?demo` in Chromium (Playwright), Handy 375 px und Rechner 1280 px.
 - `index.html`: Umschalter `#umschalter` entfernt. Neuer letzter Reiter `<button data-reiter="meine">Meine Zahlen</button>`.
 - `style.css`: Regeln `.umschalter` entfernt (`.umschalter-klein` im Kalender bleibt).
 - `app.js`: Variable `ansicht` und ihr Speicher `uk-ansicht` entfernt. `zeichnen()` kennt `meine: zeigeMeine` wie jeden anderen Reiter.
-  Neu `meinKuerzel()`: admin heißt Jasmin, Kürzel `jasmin`, sonst Daniel, Kürzel `daniel`. `zeigeMeine()` sucht den Partner darüber.
-  Gibt es ihn nicht: "Hier stehen bald deine Zahlen. Dafür braucht es dich im Reiter Partner mit dem Link ursprungskraft.net/daniel."
+  `zeigeMeine()`: Jasmin (admin) sieht die Kunden über ihren Partner-Link `jasmin` (gibt es ihn nicht, freundlicher Leertext).
+  Daniel ist der Vertriebler und kein Partner: er sieht alle Verkäufe, direkt und über seine Partner, dazu "Käufe direkt / über Partner"
+  und bei jedem Kontakt, über welchen Partner er kam (Jasmin, 21.10.2026). Dafür `zahlenVon()` aufgeteilt in `zahlenAus(kunden)`.
   Untertitel jetzt "Nur für dich sichtbar." Der Provisions-Satz hieß "sobald du mir deine Zahlen nennst", das passt nicht für Daniel.
   Jetzt: "Folgt, sobald die Zahlen je verkauftem Gerät feststehen."
 - `daten.js`: Vorschau als Daniel mit `?demo&als=daniel` (Rolle team). Ohne Zusatz wie bisher als Jasmin (admin). Nur zum Testen.
-- Getestet: 375 px und 1280 px, als Jasmin (8 Kontakte aus Hamburg) und als Daniel (Leertext, weil es in den Beispieldaten keinen Partner `daniel` gibt).
+- Getestet: 375 px und 1280 px, als Jasmin (8 Kontakte aus Hamburg) und als Daniel (alle 14 Kontakte, 3 Käufe, alle über Partner).
 
 ## 4. Glocke: fertig (im Code), Datenbank bitte gegenprüfen
 
@@ -48,6 +49,7 @@ Getestet mit `?demo` in Chromium (Playwright), Handy 375 px und Rechner 1280 px.
     zurück oder lehnt die Datenbank ab (zum Beispiel Row Level Security, dann findet `.single()` keine Zeile), erscheint eine Meldung,
     statt dass es still scheitert. Genutzt von: Zeile in der Glocke, "alle als gesehen" und Antippen einer neuen Karte im Board.
   - Antippen einer neuen Karte im Board aktualisiert jetzt auch die Zahl an der Glocke sofort.
+  - Öffnen einer neuen Karte im Kalender (`kalOeffnen()`) gilt ebenfalls als gesehen. Getestet: Glocke 2, Termin im Kalender geöffnet, neu laden: 1.
 - `style.css`: Knopf "alle als gesehen" als schlichter Textlink (war ein ungestalteter Standardknopf).
 - Getestet (375 px, Vorschau): drei neue Aufgaben angelegt, Glocke auf Kunden, Testmaschinen, Meine Zahlen in der Leiste sichtbar.
   Zeile antippen, neu laden: eine weniger. Aufgabe mit altem Stand gespeichert, neu laden: bleibt gesehen (alter Code: kam zurück).
@@ -64,8 +66,8 @@ Getestet mit `?demo` in Chromium (Playwright), Handy 375 px und Rechner 1280 px.
     "Von Partnern". Partner-Kacheln zeigen "Gehört …". Sortiert nach Nummer, dann Name. Beide Listen mit gleich breiten Kacheln, weiterhin
     etwa drei Zeilen (mindestens 4 Spalten am Rechner). Ziehen mit der Maus zwischen den Listen wie bei den Aufgaben-Karten
     (`ondragstart`, `ondrop`). Wird ein Gerät ohne Besitzer zu den Partnern gezogen, öffnet sich gleich das Gerät, damit man den Besitzer eintippt.
-  - `maschineBearbeiten()`: neue Felder Name, Liste (Auswahl "Daniels Geräte" / "Von Partnern") und Besitzer (nur bei Partnern sichtbar,
-    dann Pflicht). Löschen mit Rückfrage "Gerät X wirklich löschen? Der Verlauf geht mit verloren." Neue Geräte werden zuerst gespeichert,
+  - `maschineBearbeiten()`: neue Felder Name, Liste (Auswahl "Daniels Geräte" / "Von Partnern") und Besitzer (immer sichtbar,
+    bei Partnern Pflicht). Der Besitzer wird nie gelöscht, auch nicht beim Verschieben zu Daniels Geräten (Jasmin, 21.10.2026). Löschen mit Rückfrage "Gerät X wirklich löschen? Der Verlauf geht mit verloren." Neue Geräte werden zuerst gespeichert,
     damit der Verlauf ihre id hat. Vorschlag für neue Geräte: nächster freier Name "Daniel NN".
   - `dialog()`: fünfter, freiwilliger Wert `frage` für eine eigene Rückfrage beim Löschen. Ohne ihn wie bisher "Wirklich löschen?".
 - `style.css`: `.maschinen-liste`, `.trenner`, `.maschine .besitzer`, Ziehen (`.ziel`, `.zieht`). Lange Namen werden mit … gekürzt.
@@ -76,7 +78,7 @@ Getestet mit `?demo` in Chromium (Playwright), Handy 375 px und Rechner 1280 px.
 - Getestet (375 px): Gerät hinzufügen (Vorschlag Daniel 14), umbenennen, zu Partnern wechseln (ohne Besitzer kommt "Bitte eintippen,
   wem das Gerät gehört."), Besitzer erscheint auf der Kachel, an einen Kunden ausgeben (Statuszeile zählt mit), löschen mit Rückfrage
   (kein Verlauf bleibt übrig), bestehendes Gerät ohne Namen umbenannt, alles nach Neuladen noch da.
-  1280 px: K8 Bern zu Daniels Geräten gezogen und zurück (fragt nach dem Besitzer).
+  1280 px: K8 Bern zu Daniels Geräten gezogen (Besitzer bleibt), umbenannt und zurückgezogen (Besitzer noch da).
 
 ## Sonstiges
 
@@ -96,10 +98,8 @@ Getestet mit `?demo` in Chromium (Playwright), Handy 375 px und Rechner 1280 px.
 
 ## Offene Fragen an Jasmin
 
-1. Meine Zahlen für Daniel: Gerechnet wird über den Partner mit Kürzel `daniel`. Den gibt es wohl noch nicht. Soll er angelegt werden?
-   Und sollen Daniels direkte Kunden (ohne Partner, im Reiter Partner "Käufe direkt bei Daniel") dort mitzählen?
-2. Sollen die bestehenden Geräte ihren Namen "Daniel 01" usw. fest eingetragen bekommen (Zeile im Entwurf, auskommentiert)? Nötig ist es nicht.
-3. Wenn du ein Gerät zu Daniels Geräten zurückschiebst, wird der Besitzer gelöscht (leer heißt Daniel). Passt das so?
-4. Glocke: Wenn Meldungen nach dem Einspielen trotzdem wiederkommen, schreibt vermutlich Daniels Assistent die Aufgaben neu. Weißt du, ob er
-   bestehende Aufgaben ändert?
-5. Gilt eine Karte auch als gesehen, wenn du sie im Kalender öffnest? Heute zählt nur Glocke und Board.
+Mit Jasmin geklärt (21.10.2026): Daniel sieht alle seine Verkäufe, Testgeräte nur umbenennen und hinzufügen, Besitzer wird nie gelöscht,
+Öffnen im Kalender zählt als gesehen.
+
+Noch offen, aber nicht von Jasmin zu beantworten: Falls Meldungen in der Glocke nach dem Einspielen trotzdem wiederkommen, bitte die
+Prüfabfragen B1 bis B4 in `datenbank-entwurf.sql` ansehen (Trigger, Regeln, Daniels Assistent).

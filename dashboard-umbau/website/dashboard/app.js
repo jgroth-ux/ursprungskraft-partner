@@ -281,7 +281,12 @@ function kalEintraege(d) {
 }
 const kalTitel = (e) => (e.k ? name(e.k) + (e.titel && !e.auto ? ' · ' + e.titel : '') : e.titel);
 function kalOeffnen(el, d) {
-  if (el.dataset.id) return aufgabeBearbeiten(d.aufgaben.find((a) => a.id === el.dataset.id), d);
+  if (el.dataset.id) {
+    const a = d.aufgaben.find((x) => x.id === el.dataset.id);
+    // Neue Meldung im Kalender geöffnet: gilt ebenfalls als gesehen
+    if (a.neu && ich.rolle === 'admin') gesehen(a).then(() => glocke(d)).catch((err) => alert(fehlerText(err)));
+    return aufgabeBearbeiten(a, d);
+  }
   return el.dataset.auto === 'maschine' ? maschineBearbeiten(d.maschinen.find((m) => m.id === el.dataset.autoId), d) : kundeBearbeiten(d.kundeVon(el.dataset.autoId), d);
 }
 const kalDaten = (e) => (e.id ? `data-id="${e.id}"` : `data-auto="${e.auto}" data-auto-id="${e.autoId}"`);
@@ -545,7 +550,7 @@ async function zeigeMaschinen(d) {
     const klasse = faellig ? 'faellig' : m.status === 'Beim Kunden' ? 'unterwegs' : m.status === 'Wartung' ? 'wartung' : '';
     return `<div class="maschine ${klasse}" data-id="${m.id}" draggable="true">
         <div class="nr" title="${esc(maschineName(m))}">${esc(maschineName(m))}</div>
-        ${listeVon(m) === 'partner' ? `<div class="besitzer">${m.besitzer ? 'Gehört ' + esc(m.besitzer) : 'Besitzer fehlt'}</div>` : ''}
+        ${m.besitzer ? `<div class="besitzer">Gehört ${esc(m.besitzer)}</div>` : listeVon(m) === 'partner' ? '<div class="besitzer">Besitzer fehlt</div>' : ''}
         <div style="margin-top:8px"><span class="marker ${m.status === 'Verfügbar' ? 'gut' : m.status === 'Wartung' ? 'warn' : ''}">${esc(m.status)}</span></div>
         ${bei ? `<div style="margin-top:8px">${esc(bei)}</div><div class="klein">seit ${datum(m.seit)}${m.rueckgabe_bis ? (m.bei_art === 'Eigene Nutzung' ? ' · verplant bis ' : ' · zurück ') + datum(m.rueckgabe_bis) : ''}</div>` : ''}
         ${(m.filter_wechsel || []).length ? `<div class="klein">Filter zuletzt ${datum([...m.filter_wechsel].sort().pop())}</div>` : ''}
@@ -579,7 +584,7 @@ async function zeigeMaschinen(d) {
       if (!m || listeVon(m) === ziel) return;
       // Bei Partnern muss drinstehen, wem das Gerät gehört: dann gleich nachfragen
       if (ziel === 'partner' && !m.besitzer) return maschineBearbeiten({ ...m, liste: 'partner' }, d);
-      await Daten.speichern('uk_maschinen', { id: m.id, liste: ziel, besitzer: ziel === 'partner' ? m.besitzer : null });
+      await Daten.speichern('uk_maschinen', { id: m.id, liste: ziel });
       zeichnen();
     };
   });
@@ -600,7 +605,7 @@ function maschineBearbeiten(m, d) {
     <div class="formular">
       <label>Name<input name="name" required autocomplete="off" value="${esc(m.id ? maschineName(m) : geraetName(nr))}"></label>
       <label>Liste<select name="liste">${LISTEN.map(([l, titel]) => `<option value="${l}" ${l === listeVon(m) ? 'selected' : ''}>${titel}</option>`).join('')}</select></label>
-      <label class="breit nur-partner">Besitzer<input name="besitzer" list="kunden-namen" autocomplete="off" placeholder="Wem gehört das Gerät?" value="${esc(m.besitzer)}"></label>
+      <label class="breit">Besitzer<input name="besitzer" list="kunden-namen" autocomplete="off" placeholder="Wem gehört das Gerät? Leer heißt Daniel" value="${esc(m.besitzer)}"></label>
       <label>Status<select name="status">${STATUS_MASCHINE.map((x) => `<option ${x === m.status ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
       <label>Bei wem<input name="bei_name" list="kunden-namen" autocomplete="off" placeholder="Name eintippen" value="${esc(m.bei_name || name(d.kundeVon(m.kunde_id)))}"></label>
       <datalist id="kunden-namen">${namenVorschlaege(d).map((n) => `<option value="${esc(n)}">`).join('')}</datalist>
@@ -616,7 +621,8 @@ function maschineBearbeiten(m, d) {
     ${verlauf.length ? `<div class="verlauf"><b>Wo war diese Maschine?</b><br>${verlauf.map((v) => `${datum(v.von)} bis ${v.bis ? datum(v.bis) : 'heute'}: ${esc(v.kunde_name || '')}${v.kaufinteresse ? ', Kaufinteresse ' + esc(v.kaufinteresse) : ''}`).join('<br>')}</div>` : ''}`,
   m.id, async (w) => {
     w.name = (w.name || '').trim().replace(/\s+/g, ' ');
-    w.besitzer = w.liste === 'partner' ? (w.besitzer || '').trim().replace(/\s+/g, ' ') || null : null;
+    // Besitzer bleibt immer stehen, auch wenn das Gerät zu Daniels Geräten wandert (Jasmin, 21.10.2026)
+    w.besitzer = (w.besitzer || '').trim().replace(/\s+/g, ' ') || null;
     if (!w.name) { alert('Bitte dem Gerät einen Namen geben.'); return false; }
     if (w.liste === 'partner' && !w.besitzer) { alert('Bitte eintippen, wem das Gerät gehört.'); return false; }
     // Filterwechsel: jedes Datum bleibt in der Liste, nichts wird überschrieben
@@ -657,15 +663,11 @@ function maschineBearbeiten(m, d) {
     for (const v of verlauf) await Daten.loeschen('uk_maschinen_verlauf', v.id);
     await Daten.loeschen('uk_maschinen', m.id);
   }, `Gerät ${maschineName(m)} wirklich löschen? Der Verlauf geht mit verloren.`);
-  // Besitzer nur bei Geräten von Partnern
-  const form = document.querySelector('#dialog-form .formular');
-  const passen = () => { form.querySelector('.nur-partner').hidden = form.querySelector('[name=liste]').value !== 'partner'; };
-  form.querySelector('[name=liste]').onchange = passen; passen();
 }
 
 // ---------- Partner ----------
-function zahlenVon(p, d) {
-  const ks = d.kunden.filter((k) => k.partner_id === p.id);
+function zahlenVon(p, d) { return zahlenAus(d.kunden.filter((k) => k.partner_id === p.id)); }
+function zahlenAus(ks) {
   const kaeufe = ks.filter(gekauft);
   const jahr = String(new Date().getFullYear());
   const geraete = {};
@@ -1360,24 +1362,27 @@ function dialog(html, darfLoeschen, speichern, loeschen, frage) {
 }
 
 // ---------- Meine Zahlen (für die angemeldete Person) ----------
-// Jasmin (admin) sieht ihre Zahlen, Daniel seine. Gefunden über das Partner-Kürzel.
+// Daniel ist der Vertriebler: er sieht alle Verkäufe, direkt und über seine Partner.
+// Jasmin (admin) ist Vertriebspartnerin unter ihm: sie sieht die Kunden über ihren Link (Partner-Kürzel jasmin).
 // Provisionen folgen, sobald Jasmin die Zahlen nennt (Aufgabe im Board).
-const meinKuerzel = () => (ich.rolle === 'admin' ? 'jasmin' : 'daniel');
 async function zeigeMeine(d) {
-  const kurz = meinKuerzel();
-  const p = d.partner.find((x) => x.kurz === kurz);
-  const z = p ? zahlenVon(p, d) : null;
+  const daniel = ich.rolle !== 'admin';
+  const p = daniel ? null : d.partner.find((x) => x.kurz === 'jasmin');
+  const z = daniel ? zahlenAus(d.kunden) : p ? zahlenVon(p, d) : null;
+  const ueberPartner = daniel ? z.kaeufe.filter((k) => k.partner_id).length : 0;
+  const vonWem = (k) => (daniel && k.partner_id ? 'über ' + name(d.partnerVon(k.partner_id)) : '');
   $('#inhalt').innerHTML = `
-    <h1>Meine Zahlen</h1><p class="unter">Nur für dich sichtbar.</p>
+    <h1>Meine Zahlen</h1><p class="unter">Nur für dich sichtbar.${daniel ? ' Alle Verkäufe, direkt bei dir und über deine Partner.' : ''}</p>
     ${z ? `<div class="zahlen">
-      <div class="zahl"><b>${z.anfragen}</b><span>Kontakte über deinen Link</span></div>
+      <div class="zahl"><b>${z.anfragen}</b><span>${daniel ? 'Kontakte gesamt' : 'Kontakte über deinen Link'}</span></div>
       <div class="zahl"><b>${z.tester}</b><span>testen gerade</span></div>
       <div class="zahl"><b>${z.kaeufe.length}</b><span>Käufe gesamt, ${z.jahr} in diesem Jahr</span></div>
+      ${daniel ? `<div class="zahl"><b>${z.kaeufe.length - ueberPartner} / ${ueberPartner}</b><span>Käufe direkt / über Partner</span></div>` : ''}
       <div class="zahl"><b>${z.quote === null ? '0 %' : z.quote + ' %'}</b><span>Quote Kontakt zu Kauf</span></div>
-    </div>` : `<p class="leer" style="margin-bottom:18px">Hier stehen bald deine Zahlen. Dafür braucht es dich im Reiter Partner mit dem Link ${esc(LINK_BASIS + kurz)}.</p>`}
+    </div>` : `<p class="leer" style="margin-bottom:18px">Hier stehen bald deine Zahlen. Dafür braucht es dich im Reiter Partner mit dem Link ${esc(LINK_BASIS)}jasmin.</p>`}
     <div class="raster">
       <section class="feld"><h2>Meine Kontakte</h2>
-        ${z ? z.ks.sort((a, b) => name(a).localeCompare(name(b))).map((k) => `<div class="zeile"><div class="haupt">${esc(name(k))}<div class="klein">${esc([k.ort, k.geraet].filter(Boolean).join(' · '))}</div></div><span class="marker ${statusKlasse(k.status)}">${esc(k.status)}</span></div>`).join('') || '<p class="leer">Noch keine Kontakte.</p>' : '<p class="leer">Noch keine Kontakte.</p>'}
+        ${z ? [...z.ks].sort((a, b) => name(a).localeCompare(name(b))).map((k) => `<div class="zeile"><div class="haupt">${esc(name(k))}<div class="klein">${esc([k.ort, k.geraet, vonWem(k)].filter(Boolean).join(' · '))}</div></div><span class="marker ${statusKlasse(k.status)}">${esc(k.status)}</span></div>`).join('') || '<p class="leer">Noch keine Kontakte.</p>' : '<p class="leer">Noch keine Kontakte.</p>'}
       </section>
       <section class="feld"><h2>Provision</h2><p class="leer">Folgt, sobald die Zahlen je verkauftem Gerät feststehen.</p></section>
     </div>`;
