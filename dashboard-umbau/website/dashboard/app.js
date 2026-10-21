@@ -199,7 +199,7 @@ async function zeigeAufgaben(d) {
     };
     el.onclick = async () => {
       // Jasmin öffnet eine neue Karte: ab jetzt gilt sie als gesehen
-      if (a.neu && ich.rolle === 'admin') { a.neu = false; await Daten.speichern('uk_aufgaben', { id: a.id, neu: false }); el.classList.remove('ist-neu'); }
+      if (a.neu && ich.rolle === 'admin') { try { await gesehen(a); el.classList.remove('ist-neu'); glocke(d); } catch (err) { alert(fehlerText(err)); } }
       aufgabeBearbeiten(a, d);
     };
     el.ondragstart = (e) => { e.dataTransfer.setData('text/plain', a.id); el.classList.add('zieht'); };
@@ -242,7 +242,10 @@ function aufgabeBearbeiten(a, d) {
     const ganztags = !!w.ganztags && !!w.art;
     // Bis vor Von ergibt keinen Sinn, dann gilt der Termin nur für den einen Tag
     const bis = w.art && w.bis_datum && w.faellig && w.bis_datum > w.faellig ? w.bis_datum : null;
-    await Daten.speichern('uk_aufgaben', { ...a, ...w, wer: w.wer || null, art: w.art || null, ort: w.ort || null, faellig: w.faellig || null, uhrzeit: ganztags ? null : (w.uhrzeit || null), bis_datum: bis, bis_uhrzeit: ganztags || !w.art ? null : (w.bis_uhrzeit || null), ganztags, kunde_id: w.kunde_id || null, prio: w.prio || '', erledigt: !!a.erledigt, eingang });
+    // "neu" nie aus dem geladenen Stand zurückschreiben: war die Seite schon länger offen (oder Daniel
+    // speichert), käme eine längst gesehene Meldung sonst wieder (Jasmin, 21.10.2026)
+    const { neu, ...bisher } = a;
+    await Daten.speichern('uk_aufgaben', { ...bisher, ...w, wer: w.wer || null, art: w.art || null, ort: w.ort || null, faellig: w.faellig || null, uhrzeit: ganztags ? null : (w.uhrzeit || null), bis_datum: bis, bis_uhrzeit: ganztags || !w.art ? null : (w.bis_uhrzeit || null), ganztags, kunde_id: w.kunde_id || null, prio: w.prio || '', erledigt: !!a.erledigt, eingang });
   }, async () => Daten.loeschen('uk_aufgaben', a.id));
   // Felder für Termine nur zeigen, wenn eine Art gewählt ist; bei ganztägig keine Uhrzeiten
   const form = document.querySelector('#dialog-form .formular');
@@ -1379,6 +1382,13 @@ function passwortMaske() {
 
 // ---------- Glocke: was ist neu (nur Jasmin) ----------
 // Neu sind Aufgaben von Daniels Assistent, die Jasmin noch nicht geöffnet hat.
+// Gesehen speichern und prüfen, was die Datenbank zurückgibt. Fehler nicht verschlucken,
+// sonst sieht es gespeichert aus und die Meldung ist nach dem Neuladen wieder da.
+async function gesehen(a) {
+  const z = await Daten.speichern('uk_aufgaben', { id: a.id, neu: false });
+  if (z && z.neu) throw new Error('Die Datenbank hat „gesehen“ nicht übernommen.');
+  a.neu = false;
+}
 function wo(a) {
   if (a.erledigt) return 'Erledigt';
   if (a.eingang) return 'Eingang';
@@ -1402,14 +1412,16 @@ function glocke(d) {
     b.onclick = async () => {
       const a = d.aufgaben.find((x) => x.id === b.dataset.id);
       feld.hidden = true;
-      await Daten.speichern('uk_aufgaben', { id: a.id, neu: false });
-      a.neu = false;
+      try { await gesehen(a); } catch (err) { alert(fehlerText(err)); }
       await reiterWechseln('aufgaben');
       aufgabeBearbeiten(a, d);
     };
   });
   const alle = $('#alle-gesehen');
-  if (alle) alle.onclick = async () => { for (const a of neu) await Daten.speichern('uk_aufgaben', { id: a.id, neu: false }); feld.hidden = true; zeichnen(); };
+  if (alle) alle.onclick = async () => {
+    try { for (const a of neu) await gesehen(a); } catch (err) { alert(fehlerText(err)); }
+    feld.hidden = true; zeichnen();
+  };
 }
 
 async function zeichnen() {

@@ -33,3 +33,24 @@ Getestet mit `?demo` in Chromium (Playwright), Handy 375 px und Rechner 1280 px.
   Jetzt: "Folgt, sobald die Zahlen je verkauftem Gerät feststehen."
 - `daten.js`: Vorschau als Daniel mit `?demo&als=daniel` (Rolle team). Ohne Zusatz wie bisher als Jasmin (admin). Nur zum Testen.
 - Getestet: 375 px und 1280 px, als Jasmin (8 Kontakte aus Hamburg) und als Daniel (Leertext, weil es in den Beispieldaten keinen Partner `daniel` gibt).
+
+## 4. Glocke: fertig (im Code), Datenbank bitte gegenprüfen
+
+- Platz: Die Glocke steckt jetzt in `.symbole` (siehe Aufgabe 2), am Handy rechts in der Leiste neben der Tür, am Rechner oben rechts.
+  Auf jeder Seite, nicht mehr im Inhalt. Weiterhin nur für admin (Jasmin) sichtbar.
+- Gefundene Ursache, warum Meldungen wiederkommen: `aufgabeBearbeiten()` (`app.js`) speichert die ganze Aufgabe mit `{ ...a, ...w }`,
+  also auch `neu` aus dem Stand beim Laden der Seite. War die Seite schon offen, bevor Jasmin die Meldung gesehen hat (zweites Gerät, Tab im
+  Hintergrund, oder Daniel bearbeitet die Aufgabe, was bei Aufgaben aus seinem Assistenten naheliegt), schreibt jedes Speichern im Dialog
+  `neu = true` zurück. Mit dem alten Code nachgestellt: Meldung gesehen, Aufgabe mit älterem Stand gespeichert, nach Neuladen wieder da.
+- Geändert in `app.js`:
+  - `aufgabeBearbeiten()`: `neu` wird beim Speichern nicht mehr mitgeschickt. Die Datenbank behält, was drinsteht.
+  - Neue Funktion `gesehen(a)`: setzt `neu = false` für genau diese Aufgabe und prüft die Antwort der Datenbank. Kommt `neu` trotzdem als true
+    zurück oder lehnt die Datenbank ab (zum Beispiel Row Level Security, dann findet `.single()` keine Zeile), erscheint eine Meldung,
+    statt dass es still scheitert. Genutzt von: Zeile in der Glocke, "alle als gesehen" und Antippen einer neuen Karte im Board.
+  - Antippen einer neuen Karte im Board aktualisiert jetzt auch die Zahl an der Glocke sofort.
+- `style.css`: Knopf "alle als gesehen" als schlichter Textlink (war ein ungestalteter Standardknopf).
+- Getestet (375 px, Vorschau): drei neue Aufgaben angelegt, Glocke auf Kunden, Testmaschinen, Meine Zahlen in der Leiste sichtbar.
+  Zeile antippen, neu laden: eine weniger. Aufgabe mit altem Stand gespeichert, neu laden: bleibt gesehen (alter Code: kam zurück).
+  "alle als gesehen", neu laden: 0, keine Zahl an der Glocke. Als Daniel (`?demo&als=daniel`): keine Glocke.
+- Nicht prüfbar ohne Datenbank: ob ein Trigger oder Daniels Assistent `neu` beim Ändern wieder auf true setzt, und ob die Regeln
+  (Row Level Security) Jasmin das Ändern erlauben. Prüfabfragen dafür stehen in `datenbank-entwurf.sql` (nur lesend).

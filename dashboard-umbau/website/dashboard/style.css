@@ -171,6 +171,7 @@ body.gesperrt{display:block}
 .kopf .glocke.hat-neues{border-color:var(--khaki-hell)}
 .glocke-liste{position:absolute;top:calc(100% + 8px);right:0;color:var(--text);width:min(360px,calc(100vw - 32px));max-height:60vh;overflow:auto;background:#fff;border:1px solid var(--linie);border-radius:10px;box-shadow:0 12px 32px rgba(40,42,30,.18);padding:8px}
 .glocke-kopf{display:flex;justify-content:space-between;align-items:center;padding:6px 8px 10px}
+.glocke-kopf .link{background:none;border:0;color:var(--oliv);text-decoration:underline;cursor:pointer;padding:0;font-size:14px}
 .glocke-zeile{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--linie);padding:10px 8px;cursor:pointer;font:inherit;color:inherit}
 .glocke-zeile:hover{background:#F3F1EA}
 .glocke-zeile span{display:block}
