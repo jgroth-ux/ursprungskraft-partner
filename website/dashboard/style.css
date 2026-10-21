@@ -1,0 +1,287 @@
+:root{
+  --oliv:#5E6343; --oliv-dunkel:#3F4230; --khaki:#8A8460; --khaki-hell:#C2BCA3;
+  --grund:#F4F1EA; --karte:#FFFFFF; --linie:#E2DDCF; --text:#2E3024; --leise:#7A7A68;
+  --gut:#5E7A4A; --warn:#B08A3E; --rot:#9A4E3E;
+  /* Prioritäten in Erdtönen statt Ampel (Jasmin, 09.10.2026): Umbra und warmes Khaki */
+  --prio-hoch:#7A4A2E; --prio-mittel:#A99A5B;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--grund);color:var(--text);font:400 15px/1.5 Jost,system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+body{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+.kopf{background:var(--oliv-dunkel);color:var(--grund);padding:24px 14px;display:flex;flex-direction:column;gap:28px;position:sticky;top:0;height:100vh}
+.marke{letter-spacing:.2em;font-weight:500;font-size:14px;display:flex;align-items:flex-start;gap:12px;padding:0 8px}
+.marke small{display:block;letter-spacing:.08em;font-weight:300;color:var(--khaki-hell);font-size:12px;margin-top:2px}
+.kopf .marke{flex-direction:column;gap:8px}
+.zeichen{width:46px;height:46px;flex:none;object-fit:contain}
+.anmeldung .logo{width:84px;height:84px;margin:0 auto 4px;display:block}
+.anmeldung .marke{justify-content:center}
+nav{display:flex;flex-direction:column;gap:2px}
+nav button{background:none;border:0;color:var(--khaki-hell);padding:10px 12px;border-radius:7px;cursor:pointer;text-align:left}
+nav button.aktiv,nav button:hover{background:var(--oliv);color:#fff}
+.rechts{min-width:0}
+.demo{background:var(--khaki-hell);color:var(--oliv-dunkel);text-align:center;font-size:13px;padding:6px}
+main{max-width:1180px;margin:0 auto;padding:28px 24px 60px}
+h1{font-weight:400;font-size:28px;margin:0 0 4px;color:var(--oliv-dunkel)}
+h2{font-weight:500;font-size:17px;margin:0 0 12px;color:var(--oliv-dunkel)}
+.unter{color:var(--leise);margin:0 0 24px}
+.zahlen{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px}
+.zahl{background:var(--karte);border:1px solid var(--linie);border-radius:10px;padding:16px 18px}
+.zahl b{display:block;font-size:30px;font-weight:400;color:var(--oliv)}
+.zahl span{color:var(--leise);font-size:13px}
+.raster{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.feld{background:var(--karte);border:1px solid var(--linie);border-radius:10px;padding:18px}
+.leer{color:var(--leise);font-size:14px;margin:4px 0}
+.zeile{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--linie)}
+.zeile:last-child{border-bottom:0}
+.zeile .haupt{flex:1;min-width:0}
+.zeile .klein{color:var(--leise);font-size:13px}
+.marker{font-size:12px;padding:2px 9px;border-radius:20px;background:var(--grund);color:var(--oliv-dunkel);white-space:nowrap}
+.marker.warn{background:#F1E6CC;color:#7A5C1E}
+.marker.rot{background:#EED9D3;color:var(--rot)}
+.marker.gut{background:#DFE7D6;color:#3E5530}
+.leiste{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.leiste input[type=search]{flex:1;min-width:200px}
+input,select,textarea{border:1px solid var(--linie);background:#fff;border-radius:7px;padding:8px 10px;width:100%}
+textarea{min-height:70px;resize:vertical}
+.knopf{background:var(--oliv);color:#fff;border:0;border-radius:7px;padding:9px 16px;cursor:pointer;white-space:nowrap}
+.knopf:hover{background:var(--oliv-dunkel)}
+.knopf.leise{background:none;color:var(--oliv);border:1px solid var(--khaki-hell)}
+.knopf.rot{background:none;color:var(--rot);border:1px solid #DCC2BA}
+.spalten{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;align-items:start}
+.spalte{background:#EBE7DC;border-radius:10px;padding:12px}
+.spalte h2{font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:4px 4px 10px}
+.karte{background:var(--karte);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border:1px solid transparent}
+.karte:hover{border-color:var(--khaki-hell)}
+.karte input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--oliv);flex:none}
+.karte.fertig .titel{text-decoration:line-through;color:var(--leise)}
+table{width:100%;border-collapse:collapse;background:var(--karte);border:1px solid var(--linie);border-radius:10px;overflow:hidden}
+th{text-align:left;font-weight:500;font-size:13px;color:var(--leise);padding:10px 12px;border-bottom:1px solid var(--linie);background:#FAF8F3}
+td{padding:10px 12px;border-bottom:1px solid var(--linie);vertical-align:top}
+tr.klickbar{cursor:pointer}
+tr.klickbar:hover td{background:#FAF8F3}
+.tabelle-huelle{overflow-x:auto}
+/* Alle Geräte auf drei Zeilen verteilt, Kacheln entsprechend breiter (19.10.2026) */
+.maschinen{display:grid;grid-template-columns:repeat(var(--spalten,5),minmax(0,1fr));gap:14px}
+@media (max-width:900px){.maschinen{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){.maschinen{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.maschine{background:var(--karte);border:1px solid var(--linie);border-left:5px solid var(--khaki-hell);border-radius:10px;padding:14px 16px;cursor:pointer}
+.maschine:hover{box-shadow:0 2px 10px rgba(63,66,48,.08)}
+.maschine.unterwegs{border-left-color:var(--oliv)}
+.maschine.faellig{border-left-color:var(--rot)}
+.maschine.wartung{border-left-color:var(--warn)}
+.maschine .nr{font-size:clamp(17px,1.7vw,24px);color:var(--oliv-dunkel);white-space:nowrap}
+.maschine .klein{color:var(--leise);font-size:13px}
+dialog{border:0;border-radius:12px;padding:0;width:min(560px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(46,48,36,.45)}
+#dialog-form{padding:22px 24px}
+.formular{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.formular label{font-size:13px;color:var(--leise);display:flex;flex-direction:column;gap:4px}
+.formular .breit{grid-column:1/-1}
+.knoepfe{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.knoepfe .links{margin-right:auto}
+.verlauf{font-size:13px;color:var(--leise);margin-top:14px;border-top:1px solid var(--linie);padding-top:10px}
+@media (max-width:820px){
+  body{display:block}
+  .kopf{flex-direction:row;flex-wrap:wrap;align-items:center;height:auto;padding:12px 16px;gap:10px;z-index:5}
+  nav{flex-direction:row;flex-wrap:wrap}
+  nav button{padding:7px 10px}
+}
+@media (max-width:640px){
+  main{padding:20px 16px 50px}
+  .formular{grid-template-columns:1fr}
+}
+
+/* Board */
+.board{display:flex;gap:14px;overflow-x:auto;padding-bottom:14px;align-items:flex-start;scroll-snap-type:x proximity}
+.board .spalte{flex:0 0 272px;scroll-snap-align:start;max-height:calc(100vh - 230px);display:flex;flex-direction:column}
+.board .spalte h2{display:flex;justify-content:space-between}
+.board .spalte h2 span{color:var(--leise);font-weight:400}
+.board .karten{overflow-y:auto;min-height:40px;flex:1}
+.board .spalte.ziel{outline:2px dashed var(--khaki);outline-offset:-2px}
+.karte{border-left:4px solid transparent}
+.karte.prio-rot{border-left-color:var(--prio-hoch)}
+.karte.prio-orange{border-left-color:var(--prio-mittel)}
+.karte.zieht{opacity:.4}
+.karte .titel{line-height:1.35}
+.label{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;margin-bottom:4px;color:#fff}
+.label.rot{background:var(--prio-hoch)}
+.label.orange{background:var(--prio-mittel)}
+.fuss{display:flex;align-items:center;gap:8px;margin-top:6px;color:var(--leise);font-size:12.5px}
+.avatar{width:22px;height:22px;border-radius:50%;color:#fff;font-size:11px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.plus{background:none;border:0;color:var(--leise);text-align:left;padding:8px 6px;cursor:pointer;border-radius:6px}
+.plus:hover{background:#E2DDCF;color:var(--text)}
+
+/* Vermerke zu Haushalt und Interessen */
+.vermerke{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.blick{background:var(--grund);border-radius:8px;padding:12px 14px;margin:0 0 16px;font-size:14px;display:grid;gap:6px}
+.blick .leise{color:var(--leise)}
+.titel-klein{font-size:13px;color:var(--leise);margin-bottom:6px}
+.kaestchen{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px}
+.kaestchen label{display:flex;flex-direction:row;gap:6px;align-items:center;font-size:14px;border:1px solid var(--linie);border-radius:4px;padding:6px 8px;cursor:pointer}
+.kaestchen label:has(input:checked){border-color:var(--oliv-dunkel);background:#EEF0E6}
+.kaestchen input,.gesundheit input{width:auto}
+.gesundheit .haken{display:flex;flex-direction:row;gap:8px;align-items:flex-start;font-size:13px;margin-bottom:6px}
+.gesundheit textarea:disabled{opacity:.5}
+.blick .marker{background:var(--weiss,#fff);border:1px solid var(--linie)}
+.klein-knopf{padding:3px 12px;font-size:13px;text-decoration:none;display:inline-block}
+
+/* Anmeldung */
+body.gesperrt{display:block}
+.anmeldung{min-height:100vh;display:grid;place-items:center;padding:16px}
+.anmeldung .karte-an{background:var(--karte);border:1px solid var(--linie);border-radius:10px;padding:28px;width:100%;max-width:380px;display:grid;gap:12px}
+.anmeldung h1{font-size:24px}
+.anmeldung label{font-size:13px;color:var(--leise);display:grid;gap:4px}
+.anmeldung .meldung{font-size:14px;color:var(--rot);min-height:1em}
+.anmeldung .meldung.gut{color:var(--gut)}
+.anmeldung .link{background:none;border:0;color:var(--oliv);text-decoration:underline;cursor:pointer;padding:0;justify-self:start;font-size:14px}
+/* Umschalter Daniel | Meine Zahlen und Abmelden */
+.umschalter{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.08);border-radius:8px;padding:3px;gap:3px}
+.umschalter button{background:none;border:0;color:var(--khaki-hell);padding:7px 6px;border-radius:6px;cursor:pointer;font-size:13px}
+.umschalter button.aktiv{background:var(--grund);color:var(--oliv-dunkel)}
+.wer{margin-top:auto;font-size:13px;color:var(--khaki-hell);display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 8px}
+.wer button{background:none;border:1px solid rgba(255,255,255,.25);color:var(--khaki-hell);border-radius:6px;padding:4px 10px;cursor:pointer}
+@media (max-width:760px){.wer{margin-top:0;margin-left:auto}.umschalter{order:3;width:100%}}
+[hidden]{display:none!important}
+
+/* Automatische Karten (Testgerät abholen, Filterwechsel) */
+/* Automatische Karten sehen aus wie normale, nur das Etikett sagt, woher sie kommen */
+.karte.auto{background:var(--karte);cursor:pointer}
+.label.auto{background:var(--khaki);color:#fff}
+.zeile.klickbar{cursor:pointer}
+/* Eingang und neue Karten von Daniels Assistent (11.10.2026) */
+.board .spalte.eingang{background:#E3DCC8}
+.label.neu{background:var(--oliv-dunkel)}
+.karte.ist-neu{box-shadow:inset 3px 0 0 var(--oliv-dunkel)}
+/* Glocke oben rechts: was ist neu (11.10.2026) */
+.obenleiste{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;height:0}
+.glocke{position:relative;margin:14px 22px 0 0;width:44px;height:44px;border-radius:50%;border:1px solid var(--linie);background:#fff;color:var(--oliv-dunkel);display:grid;place-items:center;cursor:pointer}
+.glocke:hover{border-color:var(--oliv-dunkel)}
+.glocke #glocke-zahl{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--rot);color:#fff;font-size:12px;line-height:20px;font-weight:600}
+.glocke #glocke-zahl:empty{display:none}
+.glocke.hat-neues{border-color:var(--oliv-dunkel)}
+.glocke-liste{position:absolute;top:64px;right:22px;width:min(360px,calc(100vw - 32px));max-height:60vh;overflow:auto;background:#fff;border:1px solid var(--linie);border-radius:10px;box-shadow:0 12px 32px rgba(40,42,30,.18);padding:8px}
+.glocke-kopf{display:flex;justify-content:space-between;align-items:center;padding:6px 8px 10px}
+.glocke-zeile{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--linie);padding:10px 8px;cursor:pointer;font:inherit;color:inherit}
+.glocke-zeile:hover{background:#F3F1EA}
+.glocke-zeile span{display:block}
+.glocke-zeile small{color:var(--leise)}
+/* Wohnung: Räume mit Bildern und Einkaufsliste (11.10.2026) */
+.raum{margin:28px 0 8px}
+.raum h2{font-size:20px;display:flex;align-items:baseline;gap:10px;margin:0 0 12px}
+.raum h2 span{font-size:13px;color:var(--leise);font-weight:400}
+.raum-bilder{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-bottom:12px}
+.raum-bilder a{flex:0 0 auto;scroll-snap-align:start}
+.raum-bilder img{display:block;height:220px;width:auto;border-radius:8px;border:1px solid var(--linie)}
+.einkaufsliste{background:var(--karte);border:1px solid var(--linie);border-radius:10px}
+.einkauf{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;border-bottom:1px solid var(--linie);cursor:pointer}
+.einkauf input{width:auto;margin-top:4px}
+.einkauf.gekauft .haupt{color:var(--leise);text-decoration:line-through}
+.einkauf .klein{font-size:13px;color:var(--leise)}
+form.dazu{display:flex;gap:8px;padding:10px 14px}
+form.dazu input{flex:1}
+@media (max-width:700px){.raum-bilder img{height:170px}}
+/* Termine außer Haus: weiß mit dunklem Rahmen, klar anders als Aufgaben (11.10.2026) */
+/* Termine: zartes Salbeigrün, weder weiß wie Aufgaben noch beige wie die Spalte */
+.karte.termin{background:#DFE5D5;border:1px solid #B9C2A8;border-left:4px solid var(--oliv-dunkel)}
+.label.termin{background:var(--oliv-dunkel);color:#fff}
+.karte .klein{font-size:12px;color:var(--leise)}
+/* Kalender */
+.kal-tag{margin:22px 0 6px}
+.kal-kopf{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.kal-kopf h2{font-size:18px;margin:0}
+.kal-eintrag{display:flex;gap:14px;align-items:center;background:#DFE5D5;border:1px solid var(--linie);border-left:4px solid var(--oliv-dunkel);border-radius:8px;padding:10px 14px;margin-bottom:8px;cursor:pointer}
+.kal-eintrag .haupt{flex:1;min-width:0}
+.kal-eintrag .klein{font-size:13px;color:var(--leise)}
+.kal-zeit{font-weight:600;min-width:46px;color:var(--oliv-dunkel)}
+/* Unterlagen (11.10.2026) */
+.unterlage{display:flex;gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--linie)}
+.unterlage .haupt{cursor:pointer}
+.unterlage .haupt:hover>:first-child,.unterlage .haupt:hover{color:var(--oliv)}
+.unterlage .haupt{flex:1;min-width:0}
+.unterlage .klein{font-size:13px;color:var(--leise)}
+.u-art{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--grund);color:var(--leise);min-width:44px;text-align:center}
+.u-art.datei{background:var(--oliv-dunkel);color:#fff}
+.ablage{border:1.5px dashed var(--khaki);border-radius:10px;padding:18px;text-align:center;color:var(--leise);margin:6px 0 4px}
+.ablage.ziel{background:#EEF0E6;border-color:var(--oliv-dunkel)}
+.u-art.zugang{background:var(--khaki);color:#fff}
+.unterlage .geheim{font-family:ui-monospace,Menlo,monospace;letter-spacing:.05em}
+.unterlage{flex-wrap:wrap}
+.unterlage .auge{background:none;border:0;padding:0 4px;margin-left:4px;color:var(--leise);cursor:pointer;vertical-align:-3px}
+.unterlage .auge:hover{color:var(--oliv-dunkel)}
+
+/* Wohnung: Ausgaben, Rabatte, Quittungen (19.10.2026) */
+.einkauf .preis{text-align:right;font-size:14px;white-space:nowrap;color:var(--oliv-dunkel)}
+.einkauf .preis small{display:block;font-size:12px;color:#3E5530}
+.zahl.gespart b{color:#3E5530}
+.schnaeppchen{background:#DFE7D6;border:1px solid #B9C2A8;border-radius:10px;padding:14px 18px;margin:0 0 22px}
+.schnaeppchen h2{font-size:16px;margin:0 0 8px}
+.schnaeppchen div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px solid #C9D2BB;font-size:14px}
+.schnaeppchen div:first-of-type{border-top:0}
+.schnaeppchen b{color:#3E5530;white-space:nowrap}
+.beleg-feld{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:var(--leise)}
+@media (max-width:720px){.einkauf{flex-wrap:wrap}.einkauf .preis{width:100%;text-align:left;padding-left:28px}}
+
+/* Kalender wie bei Apple (19.10.2026). Farben je Art, dezent */
+.a-vorstellen{--art:#6E7A4A}.a-beratung{--art:#5E6343}.a-testgeraet{--art:#8A8460}.a-filter{--art:#7C8C8A}
+.a-lieferung{--art:#9A7B4F}.a-geschaeft{--art:#4F6A7A}.a-event{--art:#8C5E5E}
+.label.termin[class*="a-"]{background:var(--art)}
+.umschalter-klein{display:inline-grid;grid-template-columns:1fr 1fr;background:var(--grund);border:1px solid var(--linie);border-radius:8px;padding:3px;gap:3px}
+.umschalter-klein button{background:none;border:0;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--leise)}
+.umschalter-klein button.aktiv{background:var(--karte,#fff);color:var(--oliv-dunkel);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.kal-monat{font-size:18px;margin:0 4px;min-width:150px;text-align:center}
+.kal-raster{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--linie);border-left:1px solid var(--linie);background:var(--karte,#fff);border-radius:8px;overflow:hidden;margin-top:6px}
+.kal-wt{font-size:12px;color:var(--leise);text-align:right;padding:6px 8px;border-right:1px solid var(--linie);border-bottom:1px solid var(--linie);background:var(--grund)}
+.kal-feld{min-height:108px;border-right:1px solid var(--linie);border-bottom:1px solid var(--linie);padding:4px 0 6px;cursor:pointer;position:relative}
+.kal-feld:hover{background:#FAF8F2}
+.kal-feld.fremd{background:#F6F3EC}.kal-feld.fremd .kal-nr{color:#B7B09A}
+.kal-nr{font-size:13px;text-align:right;padding:0 8px 4px;color:var(--oliv-dunkel)}
+.kal-feld.heute .kal-nr{color:#fff;margin-left:auto;width:max-content;padding:1px 7px;margin-right:6px;margin-bottom:4px;border-radius:10px;background:var(--oliv-dunkel)}
+.kal-chips{display:flex;flex-direction:column;gap:2px}
+.kal-chip{font-size:11.5px;line-height:1.35;margin:0 4px;padding:2px 6px;border-radius:4px;background:color-mix(in srgb,var(--art,#5E6343) 16%,#fff);border-left:3px solid var(--art,#5E6343);color:#2A2C22;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.kal-chip.mehrtag{background:var(--art,#5E6343);color:#fff;border-left:0}
+.kal-chip.weiter{margin-left:0;border-top-left-radius:0;border-bottom-left-radius:0}
+.kal-chip.offen-rechts{margin-right:0;border-top-right-radius:0;border-bottom-right-radius:0}
+.kal-chip.erledigt{opacity:.5;text-decoration:line-through}
+.kal-mehr{font-size:11px;color:var(--leise);padding:0 8px}
+.kal-punkte{display:none}
+#kal-tagliste h3{margin:18px 0 8px;font-size:16px}
+#kal-tagliste:empty{display:none}
+#kal-tagliste{display:none}
+@media (max-width:720px){
+  .kal-feld{min-height:52px;padding:3px 0}
+  .kal-chips{display:none}
+  .kal-punkte{display:flex;justify-content:center;gap:3px;padding-top:2px}
+  .kal-punkte i{width:6px;height:6px;border-radius:50%;background:var(--art,#5E6343)}
+  .kal-feld.gewaehlt{background:#EEF1E6}
+  #kal-tagliste{display:block}
+  .kal-monat{min-width:0;font-size:16px}
+}
+.formular .haken{display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-direction:row;align-self:end;padding-bottom:10px}
+.formular .haken input{width:auto;margin:0}
+.unterlage .vorschau{width:54px;height:76px}
+.formular [hidden]{display:none!important}
+
+/* Vorschaubilder in den Unterlagen */
+.unterlage .vorschau{width:46px;height:64px;flex:none;border-radius:4px;border:1px solid var(--linie);background:var(--grund) center top/cover no-repeat;box-shadow:0 1px 3px rgba(42,44,34,.08)}
+.unterlage .vorschau:not(.da){background-image:linear-gradient(110deg,var(--grund) 30%,#fff 50%,var(--grund) 70%);background-size:200% 100%;animation:vorschau-laedt 1.4s linear infinite}
+@keyframes vorschau-laedt{to{background-position:-200% 0}}
+
+/* Privat: klar anders als alles Geschäftliche, gestreift (19.10.2026) */
+.a-privat{--art:#6F68A6}
+.kal-chip.a-privat:not(.mehrtag){background:repeating-linear-gradient(135deg,#ECEAF6 0 6px,#E2DFF1 6px 12px)}
+
+/* Bestellungen (19.10.2026) */
+.bestellung{cursor:pointer}
+.bestell-daten{display:grid;gap:4px;font-size:14px;background:var(--grund);border-radius:8px;padding:12px 14px}
+.bestell-daten>div{display:flex;gap:10px}.bestell-daten span{min-width:130px;color:var(--leise)}.bestell-daten b{font-weight:500}
+.bestell-dateien{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sponsor-pad{position:relative;height:120px;border:1px solid var(--linie);border-radius:8px;background:#fff;touch-action:none}
+.sponsor-pad canvas{width:100%;height:100%;display:block}
+.sponsor-pad span{position:absolute;left:12px;bottom:8px;font-size:12px;color:var(--leise);pointer-events:none}
+
+/* Fragebogen-Antworten */
+.fb-antworten{display:grid;gap:0;max-height:62vh;overflow:auto}
+.fb-antworten>div{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--linie);font-size:14px}
+.fb-antworten span{color:var(--leise)}
+@media (max-width:620px){.fb-antworten>div{grid-template-columns:1fr;gap:2px}}
