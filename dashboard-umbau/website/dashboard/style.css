@@ -70,7 +70,14 @@ tr.klickbar:hover td{background:#FAF8F3}
 .maschine.unterwegs{border-left-color:var(--oliv)}
 .maschine.faellig{border-left-color:var(--rot)}
 .maschine.wartung{border-left-color:var(--warn)}
-.maschine .nr{font-size:clamp(17px,1.7vw,24px);color:var(--oliv-dunkel);white-space:nowrap}
+.maschine .nr{font-size:clamp(17px,1.7vw,24px);color:var(--oliv-dunkel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Zwei Listen: Daniels Geräte und von Partnern (21.10.2026) */
+.maschinen-liste{border-radius:10px;min-height:80px}
+.maschinen-liste h2 span{color:var(--leise);font-weight:400;margin-left:4px}
+.maschinen-liste.ziel{outline:2px dashed var(--khaki);outline-offset:6px}
+.trenner{border:0;border-top:1px solid var(--linie);margin:28px 0 24px}
+.maschine.zieht{opacity:.4}
+.maschine .besitzer{font-size:13px;color:var(--oliv);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .maschine .klein{color:var(--leise);font-size:13px}
 dialog{border:0;border-radius:12px;padding:0;width:min(560px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25)}
 dialog::backdrop{background:rgba(46,48,36,.45)}

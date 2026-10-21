@@ -54,3 +54,52 @@ Getestet mit `?demo` in Chromium (Playwright), Handy 375 px und Rechner 1280 px.
   "alle als gesehen", neu laden: 0, keine Zahl an der Glocke. Als Daniel (`?demo&als=daniel`): keine Glocke.
 - Nicht prüfbar ohne Datenbank: ob ein Trigger oder Daniels Assistent `neu` beim Ändern wieder auf true setzt, und ob die Regeln
   (Row Level Security) Jasmin das Ändern erlauben. Prüfabfragen dafür stehen in `datenbank-entwurf.sql` (nur lesend).
+
+## 5. Testmaschinen als Kacheln, zwei Listen: fertig (braucht vorher `datenbank-entwurf.sql`, Teil 1)
+
+- `app.js`:
+  - Neu `maschineName(m)`: `name`, sonst wie bisher `geraetName(nummer)`. Genutzt in Kacheln, Dialog, Abhol-Karten (Board und Kalender)
+    und im Verlauf beim Kunden. Neu `LISTEN` und `listeVon(m)` (fehlt `liste`, gilt "daniel").
+  - `zeigeMaschinen()`: Knopf "+ Gerät hinzufügen", darüber die Statuszeile über beide Listen. Dann "Daniels Geräte", feine Trennlinie,
+    "Von Partnern". Partner-Kacheln zeigen "Gehört …". Sortiert nach Nummer, dann Name. Beide Listen mit gleich breiten Kacheln, weiterhin
+    etwa drei Zeilen (mindestens 4 Spalten am Rechner). Ziehen mit der Maus zwischen den Listen wie bei den Aufgaben-Karten
+    (`ondragstart`, `ondrop`). Wird ein Gerät ohne Besitzer zu den Partnern gezogen, öffnet sich gleich das Gerät, damit man den Besitzer eintippt.
+  - `maschineBearbeiten()`: neue Felder Name, Liste (Auswahl "Daniels Geräte" / "Von Partnern") und Besitzer (nur bei Partnern sichtbar,
+    dann Pflicht). Löschen mit Rückfrage "Gerät X wirklich löschen? Der Verlauf geht mit verloren." Neue Geräte werden zuerst gespeichert,
+    damit der Verlauf ihre id hat. Vorschlag für neue Geräte: nächster freier Name "Daniel NN".
+  - `dialog()`: fünfter, freiwilliger Wert `frage` für eine eigene Rückfrage beim Löschen. Ohne ihn wie bisher "Wirklich löschen?".
+- `style.css`: `.maschinen-liste`, `.trenner`, `.maschine .besitzer`, Ziehen (`.ziel`, `.zieht`). Lange Namen werden mit … gekürzt.
+- `daten.js`: Beispieldaten mit `name`, `liste`, `besitzer`, dazu drei Partner-Geräte (Bern, Stuttgart, Wien), eins davon beim Kunden.
+  Speicher-Schlüssel auf `uk-dashboard-v12`, damit die Vorschau die neuen Beispieldaten lädt.
+- `datenbank-entwurf.sql`: Spalten `name`, `besitzer`, `liste` (mit check daniel/partner), `nummer` ohne Pflicht und ohne Eindeutigkeit.
+  Darf mehrfach laufen. Dazu nur lesende Prüfabfragen.
+- Getestet (375 px): Gerät hinzufügen (Vorschlag Daniel 14), umbenennen, zu Partnern wechseln (ohne Besitzer kommt "Bitte eintippen,
+  wem das Gerät gehört."), Besitzer erscheint auf der Kachel, an einen Kunden ausgeben (Statuszeile zählt mit), löschen mit Rückfrage
+  (kein Verlauf bleibt übrig), bestehendes Gerät ohne Namen umbenannt, alles nach Neuladen noch da.
+  1280 px: K8 Bern zu Daniels Geräten gezogen und zurück (fragt nach dem Besitzer).
+
+## Sonstiges
+
+- `index.html`: Versionsnummern von `style.css`, `daten.js`, `app.js` auf `?v=20261021d`, damit kein Handy die alte Fassung aus dem Zwischenspeicher nimmt.
+- Rundgang durch alle Reiter auf 375 und 1280 px, als Jasmin und als Daniel: keine waagrechte Rollleiste, keine neuen Fehler.
+  Einziger Fehler: `DURCHGAENGE is not defined` im Reiter Auswertung und beim Kunden. Kommt aus `../fragebogen/fragen.js`, das nicht im Paket
+  liegt. Tritt mit den alten Dateien genauso auf, hat mit dem Umbau nichts zu tun.
+- Bestellungen, Unterlagen, Wohnung: nur geprüft, dass sie laden und nichts kaputtgeht.
+- Das Paket lag nicht in `dashboard-umbau-paket/`, sondern direkt im Hauptordner des Repos (`00-LIESMICH.md`, `website/`, `schema-maschinen.sql`).
+  Ich habe damit gearbeitet und dort nichts geändert.
+
+## Reihenfolge beim Einspielen
+
+1. `datenbank-entwurf.sql` Teil 1 einspielen (sonst scheitert das Speichern von Testgeräten).
+2. Teil 2 (Prüfabfragen) laufen lassen, vor allem B1 bis B3 zur Glocke.
+3. Die vier Dateien aus `website/dashboard/` hochladen.
+
+## Offene Fragen an Jasmin
+
+1. Meine Zahlen für Daniel: Gerechnet wird über den Partner mit Kürzel `daniel`. Den gibt es wohl noch nicht. Soll er angelegt werden?
+   Und sollen Daniels direkte Kunden (ohne Partner, im Reiter Partner "Käufe direkt bei Daniel") dort mitzählen?
+2. Sollen die bestehenden Geräte ihren Namen "Daniel 01" usw. fest eingetragen bekommen (Zeile im Entwurf, auskommentiert)? Nötig ist es nicht.
+3. Wenn du ein Gerät zu Daniels Geräten zurückschiebst, wird der Besitzer gelöscht (leer heißt Daniel). Passt das so?
+4. Glocke: Wenn Meldungen nach dem Einspielen trotzdem wiederkommen, schreibt vermutlich Daniels Assistent die Aufgaben neu. Weißt du, ob er
+   bestehende Aufgaben ändert?
+5. Gilt eine Karte auch als gesehen, wenn du sie im Kalender öffnest? Heute zählt nur Glocke und Board.

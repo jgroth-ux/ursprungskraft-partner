@@ -4,8 +4,13 @@ const $ = (s, el = document) => el.querySelector(s);
 const esc = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const datum = (d) => (d ? new Date(d + 'T12:00:00').toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '');
 const tageBis = (d) => Math.round((new Date(d + 'T12:00:00') - new Date(Daten.heute() + 'T12:00:00')) / 86400000);
-// Testmaschinen heißen Daniel 01 bis Daniel 13
+// Testmaschinen hießen fest Daniel 01 bis Daniel 13. Jetzt hat jedes Gerät einen Namen,
+// ältere ohne Namen zeigen weiter den alten aus der Nummer.
 const geraetName = (nr) => 'Daniel ' + String(nr ?? '?').padStart(2, '0');
+const maschineName = (m) => (m && m.name) || geraetName(m && m.nummer);
+// Zwei Listen: Daniels Geräte und Geräte von Partnern (besitzer = wem es gehört, leer heißt Daniel)
+const LISTEN = [['daniel', 'Daniels Geräte'], ['partner', 'Von Partnern']];
+const listeVon = (m) => (m.liste === 'partner' ? 'partner' : 'daniel');
 const name = (k) => (k ? [k.vorname, k.nachname].filter(Boolean).join(' ') : '');
 // Wer ein Testgerät hat: frei eingetippt (bei_name), sonst der verknüpfte Kunde
 // Testgeräte gehen nur an Interessenten. Steht Jasmin oder Daniel drin, ist es eigene Nutzung:
@@ -140,7 +145,7 @@ async function zeigeAufgaben(d) {
   const auto = !zeigeAuto ? [] : [
     // Bei eigener Nutzung ist das Gerät nur verplant, da muss niemand etwas abholen
     ...d.maschinen.filter((m) => m.status === 'Beim Kunden' && m.rueckgabe_bis && m.bei_art !== 'Eigene Nutzung').map((m) => ({ auto: 'maschine', id: m.id, faellig: m.rueckgabe_bis,
-      titel: `${geraetName(m.nummer)} bei ${m.bei_name || name(d.kundeVon(m.kunde_id)) || 'Kunde'} abholen` })),
+      titel: `${maschineName(m)} bei ${m.bei_name || name(d.kundeVon(m.kunde_id)) || 'Kunde'} abholen` })),
     ...d.kunden.map((k) => ({ k, f: naechsterFilter(k) })).filter((x) => x.f && tageBis(x.f) <= 60).map((x) => ({ auto: 'filter', id: x.k.id, faellig: x.f,
       titel: `Filterwechsel bei ${name(x.k)}` })),
   ];
@@ -270,7 +275,7 @@ const plusTage = (t, n) => { const x = new Date(t + 'T12:00:00'); x.setDate(x.ge
 function kalEintraege(d) {
   return [
     ...d.aufgaben.filter((a) => a.art && a.faellig).map((a) => ({ id: a.id, tag: a.faellig, bis: a.bis_datum || a.faellig, uhr: a.uhrzeit, uhrBis: a.bis_uhrzeit, ganz: a.ganztags, art: a.art, k: d.kundeVon(a.kunde_id), ort: a.ort, titel: a.titel, wer: a.wer, erledigt: a.erledigt })),
-    ...d.maschinen.filter((m) => m.status === 'Beim Kunden' && m.rueckgabe_bis && m.bei_art !== 'Eigene Nutzung').map((m) => ({ auto: 'maschine', autoId: m.id, tag: m.rueckgabe_bis, bis: m.rueckgabe_bis, art: 'Testgerät abholen', k: d.kundeVon(m.kunde_id), titel: `${geraetName(m.nummer)} abholen`, wer: 'Daniel' })),
+    ...d.maschinen.filter((m) => m.status === 'Beim Kunden' && m.rueckgabe_bis && m.bei_art !== 'Eigene Nutzung').map((m) => ({ auto: 'maschine', autoId: m.id, tag: m.rueckgabe_bis, bis: m.rueckgabe_bis, art: 'Testgerät abholen', k: d.kundeVon(m.kunde_id), titel: `${maschineName(m)} abholen`, wer: 'Daniel' })),
     ...d.kunden.map((k) => ({ k, f: naechsterFilter(k) })).filter((x) => x.f).map((x) => ({ auto: 'filter', autoId: x.k.id, tag: x.f, bis: x.f, art: 'Filterwechsel', k: x.k, titel: 'Filterwechsel', wer: 'Daniel' })),
   ].map((e) => ({ ...e, adresse: adresseVon(e.k, e.ort) }));
 }
@@ -467,7 +472,7 @@ function kundeBearbeiten(k, d) {
         <label class="haken"><input type="checkbox" name="gesundheit_einwilligung" id="g-ok" ${k.gesundheit_einwilligung ? 'checked' : ''}> Der Kunde hat selbst davon erzählt und eingewilligt, dass wir es notieren.</label>
         <textarea name="gesundheit" id="g-text" placeholder="Nur ausfüllen, wenn der Haken gesetzt ist" ${k.gesundheit_einwilligung ? '' : 'disabled'}>${esc(k.gesundheit)}</textarea></div>
     </div>
-    ${maschinen.length ? `<div class="verlauf"><b>Testmaschinen</b><br>${maschinen.map((v) => `${geraetName(d.maschinen.find((m) => m.id === v.maschine_id)?.nummer)}: ${datum(v.von)} bis ${v.bis ? datum(v.bis) : 'heute'}${v.kaufinteresse ? ', Kaufinteresse ' + esc(v.kaufinteresse) : ''}`).join('<br>')}</div>` : ''}
+    ${maschinen.length ? `<div class="verlauf"><b>Testmaschinen</b><br>${maschinen.map((v) => `${esc(maschineName(d.maschinen.find((m) => m.id === v.maschine_id)))}: ${datum(v.von)} bis ${v.bis ? datum(v.bis) : 'heute'}${v.kaufinteresse ? ', Kaufinteresse ' + esc(v.kaufinteresse) : ''}`).join('<br>')}</div>` : ''}
     ${fragebogenHtml(k, d)}
     ${offeneAufgaben.length ? `<div class="verlauf"><b>Offene Aufgaben</b><br>${offeneAufgaben.map((a) => esc(a.titel) + (a.faellig ? ' (' + datum(a.faellig) + (a.uhrzeit ? ', ' + zeit(a) : '') + ')' : '')).join('<br>')}</div>` : ''}`,
   k.id, async (w) => {
@@ -525,26 +530,59 @@ function fragebogenHtml(k, d) {
 }
 
 // ---------- Testmaschinen ----------
+// Kacheln in zwei Listen. Klick öffnet das Gerät, am Rechner lassen sie sich zwischen den Listen ziehen.
+const maschinenFolge = (a, b) => (a.nummer ?? 1e9) - (b.nummer ?? 1e9) || maschineName(a).localeCompare(maschineName(b), 'de', { numeric: true });
 async function zeigeMaschinen(d) {
-  const liste = [...d.maschinen].sort((a, b) => a.nummer - b.nummer);
+  const liste = [...d.maschinen].sort(maschinenFolge);
   const zaehl = (s) => liste.filter((m) => m.status === s).length;
-  $('#inhalt').innerHTML = `
-    <h1>Testmaschinen</h1>
-    <p class="unter">${zaehl('Verfügbar')} verfügbar · ${zaehl('Beim Kunden')} beim Kunden · ${zaehl('Wartung')} in Wartung. Klick auf eine Maschine zum Ausgeben, Zurücknehmen oder Bearbeiten.</p>
-    <div class="maschinen" style="--spalten:${Math.max(1, Math.ceil(liste.length / 3))}">${liste.map((m) => {
-      const k = d.kundeVon(m.kunde_id);
-      const bei = m.bei_name || name(k);
-      const faellig = m.status === 'Beim Kunden' && m.bei_art !== 'Eigene Nutzung' && m.rueckgabe_bis && tageBis(m.rueckgabe_bis) <= 0;
-      const klasse = faellig ? 'faellig' : m.status === 'Beim Kunden' ? 'unterwegs' : m.status === 'Wartung' ? 'wartung' : '';
-      return `<div class="maschine ${klasse}" data-id="${m.id}">
-        <div class="nr">${geraetName(m.nummer)}</div>
+  const inListe = (l) => liste.filter((m) => listeVon(m) === l);
+  // Alle Geräte einer Liste auf etwa drei Zeilen, beide Listen mit gleich breiten Kacheln
+  const spalten = Math.max(4, ...LISTEN.map(([l]) => Math.ceil(inListe(l).length / 3)));
+  const kachel = (m) => {
+    const k = d.kundeVon(m.kunde_id);
+    const bei = m.bei_name || name(k);
+    const faellig = m.status === 'Beim Kunden' && m.bei_art !== 'Eigene Nutzung' && m.rueckgabe_bis && tageBis(m.rueckgabe_bis) <= 0;
+    const klasse = faellig ? 'faellig' : m.status === 'Beim Kunden' ? 'unterwegs' : m.status === 'Wartung' ? 'wartung' : '';
+    return `<div class="maschine ${klasse}" data-id="${m.id}" draggable="true">
+        <div class="nr" title="${esc(maschineName(m))}">${esc(maschineName(m))}</div>
+        ${listeVon(m) === 'partner' ? `<div class="besitzer">${m.besitzer ? 'Gehört ' + esc(m.besitzer) : 'Besitzer fehlt'}</div>` : ''}
         <div style="margin-top:8px"><span class="marker ${m.status === 'Verfügbar' ? 'gut' : m.status === 'Wartung' ? 'warn' : ''}">${esc(m.status)}</span></div>
         ${bei ? `<div style="margin-top:8px">${esc(bei)}</div><div class="klein">seit ${datum(m.seit)}${m.rueckgabe_bis ? (m.bei_art === 'Eigene Nutzung' ? ' · verplant bis ' : ' · zurück ') + datum(m.rueckgabe_bis) : ''}</div>` : ''}
         ${(m.filter_wechsel || []).length ? `<div class="klein">Filter zuletzt ${datum([...m.filter_wechsel].sort().pop())}</div>` : ''}
         ${m.kaufinteresse ? `<div class="klein">Kaufinteresse: ${esc(m.kaufinteresse)}</div>` : ''}
         ${m.notiz ? `<div class="klein">${esc(m.notiz)}</div>` : ''}
-      </div>`; }).join('')}</div>`;
-  document.querySelectorAll('.maschine').forEach((el) => { el.onclick = () => maschineBearbeiten(d.maschinen.find((m) => m.id === el.dataset.id), d); });
+      </div>`;
+  };
+  $('#inhalt').innerHTML = `
+    <h1>Testmaschinen</h1>
+    <p class="unter">${zaehl('Verfügbar')} verfügbar · ${zaehl('Beim Kunden')} beim Kunden · ${zaehl('Wartung')} in Wartung. Klick auf ein Gerät zum Ausgeben, Zurücknehmen oder Bearbeiten. Am Rechner lassen sich Geräte in die andere Liste ziehen.</p>
+    <div class="leiste"><button class="knopf" id="neu">+ Gerät hinzufügen</button></div>
+    ${LISTEN.map(([l, titel]) => `
+      <section class="maschinen-liste" data-liste="${l}">
+        <h2>${titel} <span>${inListe(l).length}</span></h2>
+        <div class="maschinen" style="--spalten:${spalten}">${inListe(l).map(kachel).join('')}</div>
+        ${inListe(l).length ? '' : `<p class="leer">${l === 'partner' ? 'Noch keine Geräte von Partnern.' : 'Noch keine Geräte.'} Neues Gerät hinzufügen oder beim Gerät die Liste wechseln.</p>`}
+      </section>`).join('<hr class="trenner">')}`;
+  $('#neu').onclick = () => maschineBearbeiten({ status: 'Verfügbar', liste: 'daniel', filter_wechsel: [] }, d);
+  document.querySelectorAll('.maschine').forEach((el) => {
+    el.onclick = () => maschineBearbeiten(d.maschinen.find((m) => m.id === el.dataset.id), d);
+    el.ondragstart = (e) => { e.dataTransfer.setData('text/plain', el.dataset.id); el.classList.add('zieht'); };
+    el.ondragend = () => el.classList.remove('zieht');
+  });
+  document.querySelectorAll('.maschinen-liste').forEach((sp) => {
+    sp.ondragover = (e) => { e.preventDefault(); sp.classList.add('ziel'); };
+    sp.ondragleave = (e) => { if (!sp.contains(e.relatedTarget)) sp.classList.remove('ziel'); };
+    sp.ondrop = async (e) => {
+      e.preventDefault(); sp.classList.remove('ziel');
+      const m = d.maschinen.find((x) => x.id === e.dataTransfer.getData('text/plain'));
+      const ziel = sp.dataset.liste;
+      if (!m || listeVon(m) === ziel) return;
+      // Bei Partnern muss drinstehen, wem das Gerät gehört: dann gleich nachfragen
+      if (ziel === 'partner' && !m.besitzer) return maschineBearbeiten({ ...m, liste: 'partner' }, d);
+      await Daten.speichern('uk_maschinen', { id: m.id, liste: ziel, besitzer: ziel === 'partner' ? m.besitzer : null });
+      zeichnen();
+    };
+  });
 }
 
 // Alle Namen, die schon irgendwo vorkommen: Kunden, Partner, frühere Ausleihen, Jasmin und Daniel
@@ -554,8 +592,15 @@ function namenVorschlaege(d) {
 }
 function maschineBearbeiten(m, d) {
   const verlauf = d.verlauf.filter((v) => v.maschine_id === m.id).sort((a, b) => b.von.localeCompare(a.von));
-  dialog(`<h2>Testmaschine ${geraetName(m.nummer)}</h2>
+  // Vorschlag für ein neues Gerät bei Daniel: nächster freier Name "Daniel NN"
+  const vergeben = new Set(d.maschinen.map((x) => maschineName(x).toLowerCase()));
+  let nr = d.maschinen.filter((x) => listeVon(x) === 'daniel').length + 1;
+  while (vergeben.has(geraetName(nr).toLowerCase())) nr++;
+  dialog(`<h2>${m.id ? 'Testmaschine ' + esc(maschineName(m)) : 'Neues Gerät'}</h2>
     <div class="formular">
+      <label>Name<input name="name" required autocomplete="off" value="${esc(m.id ? maschineName(m) : geraetName(nr))}"></label>
+      <label>Liste<select name="liste">${LISTEN.map(([l, titel]) => `<option value="${l}" ${l === listeVon(m) ? 'selected' : ''}>${titel}</option>`).join('')}</select></label>
+      <label class="breit nur-partner">Besitzer<input name="besitzer" list="kunden-namen" autocomplete="off" placeholder="Wem gehört das Gerät?" value="${esc(m.besitzer)}"></label>
       <label>Status<select name="status">${STATUS_MASCHINE.map((x) => `<option ${x === m.status ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
       <label>Bei wem<input name="bei_name" list="kunden-namen" autocomplete="off" placeholder="Name eintippen" value="${esc(m.bei_name || name(d.kundeVon(m.kunde_id)))}"></label>
       <datalist id="kunden-namen">${namenVorschlaege(d).map((n) => `<option value="${esc(n)}">`).join('')}</datalist>
@@ -569,7 +614,11 @@ function maschineBearbeiten(m, d) {
     ${(m.filter_wechsel || []).length ? `<div class="verlauf"><b>Filter getauscht</b><br>${[...m.filter_wechsel].sort().reverse().map(datum).join('<br>')}</div>` : ''}
     <p class="leer">Zum Ausgeben: Status „Beim Kunden“ und den Namen eintippen. Gibt es den Namen schon bei den Kunden, wird er verknüpft, sonst als neuer Interessent angelegt. Steht Jasmin oder Daniel drin, ist das Gerät nur verplant. Zum Zurücknehmen: Status „Verfügbar“.</p>
     ${verlauf.length ? `<div class="verlauf"><b>Wo war diese Maschine?</b><br>${verlauf.map((v) => `${datum(v.von)} bis ${v.bis ? datum(v.bis) : 'heute'}: ${esc(v.kunde_name || '')}${v.kaufinteresse ? ', Kaufinteresse ' + esc(v.kaufinteresse) : ''}`).join('<br>')}</div>` : ''}`,
-  null, async (w) => {
+  m.id, async (w) => {
+    w.name = (w.name || '').trim().replace(/\s+/g, ' ');
+    w.besitzer = w.liste === 'partner' ? (w.besitzer || '').trim().replace(/\s+/g, ' ') || null : null;
+    if (!w.name) { alert('Bitte dem Gerät einen Namen geben.'); return false; }
+    if (w.liste === 'partner' && !w.besitzer) { alert('Bitte eintippen, wem das Gerät gehört.'); return false; }
     // Filterwechsel: jedes Datum bleibt in der Liste, nichts wird überschrieben
     const filterNeu = w.filter_neu; delete w.filter_neu;
     w.filter_wechsel = [...new Set([...(m.filter_wechsel || []), ...(filterNeu ? [filterNeu] : [])])].sort();
@@ -588,12 +637,14 @@ function maschineBearbeiten(m, d) {
       }
       neu.kunde_id = k.id;
     }
+    // Erst das Gerät speichern: ein neues bekommt dabei seine id, die der Verlauf braucht
+    const gespeichert = await Daten.speichern('uk_maschinen', neu);
     // Verlauf führen: alte Ausleihe schließen, neue öffnen
     const offen = verlauf.find((v) => !v.bis);
     const wechsel = (v) => v && (v.kunde_id !== neu.kunde_id || (v.kunde_name || '') !== (neu.bei_name || ''));
     if (offen && wechsel(offen)) await Daten.speichern('uk_maschinen_verlauf', { id: offen.id, bis: Daten.heute(), kaufinteresse: m.kaufinteresse });
     if (neu.bei_name && (!offen || wechsel(offen))) {
-      await Daten.speichern('uk_maschinen_verlauf', { maschine_id: m.id, kunde_id: neu.kunde_id, kunde_name: neu.bei_name, von: neu.seit || Daten.heute(), bis: null, kaufinteresse: neu.kaufinteresse });
+      await Daten.speichern('uk_maschinen_verlauf', { maschine_id: gespeichert.id, kunde_id: neu.kunde_id, kunde_name: neu.bei_name, von: neu.seit || Daten.heute(), bis: null, kaufinteresse: neu.kaufinteresse });
     } else if (offen && neu.bei_name) {
       await Daten.speichern('uk_maschinen_verlauf', { id: offen.id, kaufinteresse: neu.kaufinteresse });
     }
@@ -601,8 +652,15 @@ function maschineBearbeiten(m, d) {
       const k = d.kundeVon(neu.kunde_id);
       if (k && k.status === 'Interessent') await Daten.speichern('uk_kunden', { id: k.id, status: 'Testet' });
     }
-    await Daten.speichern('uk_maschinen', neu);
-  }, null);
+  }, async () => {
+    // Verlauf mit löschen (die Datenbank macht das ohnehin, die Vorschau nicht)
+    for (const v of verlauf) await Daten.loeschen('uk_maschinen_verlauf', v.id);
+    await Daten.loeschen('uk_maschinen', m.id);
+  }, `Gerät ${maschineName(m)} wirklich löschen? Der Verlauf geht mit verloren.`);
+  // Besitzer nur bei Geräten von Partnern
+  const form = document.querySelector('#dialog-form .formular');
+  const passen = () => { form.querySelector('.nur-partner').hidden = form.querySelector('[name=liste]').value !== 'partner'; };
+  form.querySelector('[name=liste]').onchange = passen; passen();
 }
 
 // ---------- Partner ----------
@@ -1282,14 +1340,15 @@ function unterlageBearbeiten(u) {
 }
 
 // ---------- Dialog ----------
-function dialog(html, darfLoeschen, speichern, loeschen) {
+// frage: eigene Rückfrage vor dem Löschen, sonst "Wirklich löschen?"
+function dialog(html, darfLoeschen, speichern, loeschen, frage) {
   const dlg = $('#dialog'), form = $('#dialog-form');
   form.innerHTML = html + `<div class="knoepfe">
     ${darfLoeschen && loeschen ? '<button type="button" class="knopf rot links" id="d-loeschen">Löschen</button>' : ''}
     <button type="button" class="knopf leise" id="d-abbrechen">Abbrechen</button>
     <button type="submit" class="knopf">Speichern</button></div>`;
   $('#d-abbrechen').onclick = () => dlg.close();
-  if ($('#d-loeschen')) $('#d-loeschen').onclick = async () => { if (confirm('Wirklich löschen?')) { await loeschen(); dlg.close(); zeichnen(); } };
+  if ($('#d-loeschen')) $('#d-loeschen').onclick = async () => { if (confirm(frage || 'Wirklich löschen?')) { await loeschen(); dlg.close(); zeichnen(); } };
   form.onsubmit = async (e) => {
     e.preventDefault();
     const werte = Object.fromEntries(new FormData(form).entries());

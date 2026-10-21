@@ -4,7 +4,7 @@
 // Tabellen und Felder: ../../supabase/schema.sql, öffentliche Funktionen: ../../supabase/funktionen.sql.
 
 const Daten = (() => {
-  const SCHLUESSEL = 'uk-dashboard-v11';
+  const SCHLUESSEL = 'uk-dashboard-v12'; // v12: Testgeräte mit Name, Liste und Besitzer
   const TABELLEN = ['uk_partner', 'uk_kunden', 'uk_maschinen', 'uk_maschinen_verlauf', 'uk_aufgaben', 'uk_fragebogen', 'uk_wohnung', 'uk_unterlagen'];
   const token = () => Math.random().toString(36).slice(2, 8) + Math.random().toString(36).slice(2, 8);
 
@@ -38,15 +38,23 @@ const Daten = (() => {
         filter_zuletzt: null, partner_id: pj, empfohlen_von: '', notiz: [HH, hinweis].filter(Boolean).join('. ') });
     });
     kunden.forEach((k) => { k.token = token(); });
+    // name leer: zeigt den alten Namen aus der Nummer (Daniel 01 ...). liste: daniel oder partner
     const maschinen = Array.from({ length: 13 }, (_, i) => ({
-      id: id(), nummer: i + 1, modell: '', seriennummer: '', status: 'Verfügbar',
+      id: id(), nummer: i + 1, name: null, liste: 'daniel', besitzer: null, modell: '', seriennummer: '', status: 'Verfügbar',
       kunde_id: null, seit: null, rueckgabe_bis: null, kaufinteresse: null, notiz: '',
     }));
+    // Geräte von Partnern: ohne Nummer, mit Namen und Besitzer
+    [['K8 Bern', 'Beispiel Lena Brunner'], ['K8 Stuttgart', 'Beispiel Tom Wagner'], ['K8 Wien', 'Beispiel Mia Fit']].forEach(([n, besitzer]) => {
+      maschinen.push({ id: id(), nummer: null, name: n, liste: 'partner', besitzer, modell: 'LeveLuk K8', seriennummer: '', status: 'Verfügbar',
+        kunde_id: null, seit: null, rueckgabe_bis: null, kaufinteresse: null, notiz: '' });
+    });
+    Object.assign(maschinen[13], { status: 'Beim Kunden', kunde_id: k3, bei_name: 'Beispiel Marco Keller', bei_art: 'Interessent', seit: tageAb(-3), rueckgabe_bis: tageAb(11), kaufinteresse: 'Offen' });
     Object.assign(maschinen[2], { status: 'Beim Kunden', kunde_id: k2, seit: tageAb(-6), rueckgabe_bis: tageAb(1), kaufinteresse: 'Offen' });
     Object.assign(maschinen[6], { status: 'Wartung', notiz: 'Reinigung fällig' });
     const verlauf = [
       { id: id(), maschine_id: maschinen[2].id, kunde_id: k2, kunde_name: 'Beispiel Familie Huber', von: tageAb(-6), bis: null, kaufinteresse: 'Offen', notiz: '' },
       { id: id(), maschine_id: maschinen[2].id, kunde_id: k1, kunde_name: 'Beispiel Anna Muster', von: tageAb(-370), bis: tageAb(-356), kaufinteresse: 'Ja', notiz: 'Hat danach gekauft' },
+      { id: id(), maschine_id: maschinen[13].id, kunde_id: k3, kunde_name: 'Beispiel Marco Keller', von: tageAb(-3), bis: null, kaufinteresse: 'Offen', notiz: '' },
     ];
     // Echte Projektaufgaben (Stand 08.10.2026), keine Beispiele. prio: rot, orange oder leer
     const A = (titel, wer, faellig, prio = '', notiz = '') => ({ id: id(), titel, wer, faellig, prio, notiz, kunde_id: null, erledigt: false });
