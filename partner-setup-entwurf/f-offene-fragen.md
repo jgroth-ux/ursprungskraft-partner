@@ -229,7 +229,7 @@ und ist für Partner riskant, weil sie damit werben.
 
 **37. Wörter „Kangen“ und „Kangenwasser“:** Auf der Ursprungskraft-Seite und in der Broschüre stehen
 sie, auf der Partnervorlage habe ich sie weggelassen (Briefing: geschützt).
-- [ ] Partnerseiten ganz ohne „Kangen“ (so gebaut)
+- [x] Kangenwasser klar benennen, auch in der Überschrift (Jasmin, 21.10.2026, so jetzt gebaut)
 - [ ] Im Fließtext erlaubt, nur nicht als Überschrift
 
 **38. Kundenstimmen auf Partnerseiten?**

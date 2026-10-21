@@ -19,15 +19,15 @@ async function anfrageSenden(daten) {
 var BEISPIEL_PARTNER = {
   MARKE: 'Marke folgt',
   DOMAIN: 'beispiel-domain.de',
-  VORNAME: 'Sabine',
-  NACHNAME: 'Muster',
-  ORT: 'Lüneburg',
+  VORNAME: 'Max',
+  NACHNAME: 'Mustermann',
+  ORT: 'Hamburg',
   TELEFON: '+49 170 0000000',
   WHATSAPP: '491700000000',
-  EMAIL: 'sabine@beispiel.de',
-  KUERZEL: 'sabine',
-  FOTO: '',
-  UEBER_MICH: 'Ich trinke seit drei Jahren Wasser aus meinem eigenen Gerät und mag vor allem, dass die Kisten aus dem Keller verschwunden sind. Ich wohne mit meiner Familie in Lüneburg und komme gern bei dir vorbei, um dir alles in Ruhe zu zeigen.',
+  EMAIL: 'max@beispiel.de',
+  KUERZEL: 'max',
+  FOTO: '../bilder/beispiel-partner.jpg',
+  UEBER_MICH: 'Ich trinke seit drei Jahren Kangenwasser aus meinem eigenen Gerät. Am meisten mag ich, dass die Wasserkisten aus dem Keller verschwunden sind. Ich wohne in Hamburg und komme gern bei dir vorbei, um dir alles in Ruhe zu zeigen.',
   IMPRESSUM_URL: '#impressum',
   DATENSCHUTZ_URL: '#datenschutz'
 };

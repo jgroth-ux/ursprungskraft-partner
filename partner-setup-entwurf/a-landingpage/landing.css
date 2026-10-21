@@ -62,6 +62,13 @@ nav .nav-text:hover{color:var(--olive)}
 .hero-satz{color:var(--sand);font-size:18px;line-height:28px;max-width:42ch;margin-bottom:32px}
 .hero .bild{background-color:var(--olive-deep);border-color:var(--khaki);color:var(--khaki-light)}
 
+/* ---------- 2a. Was ist Kangenwasser ---------- */
+.bild-was{aspect-ratio:4/3}
+.fakten{list-style:none;margin:32px 0 0;padding:0;border-top:1px solid var(--line)}
+.fakten li{display:flex;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+.fakten b{font:500 32px/32px Jost,sans-serif;color:var(--olive);min-width:40px}
+#was{border-bottom:1px solid var(--line)}
+
 /* ---------- 2. Alltag ---------- */
 .drei{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
 .drei article .nr{font:500 16px/16px Jost,sans-serif;color:var(--khaki);letter-spacing:.08em;margin-bottom:8px}
