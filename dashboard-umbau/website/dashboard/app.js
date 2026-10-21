@@ -1297,30 +1297,33 @@ function dialog(html, darfLoeschen, speichern, loeschen) {
   dlg.showModal();
 }
 
-// ---------- Start ----------
-// ---------- Meine Zahlen (nur Jasmin) ----------
+// ---------- Meine Zahlen (für die angemeldete Person) ----------
+// Jasmin (admin) sieht ihre Zahlen, Daniel seine. Gefunden über das Partner-Kürzel.
 // Provisionen folgen, sobald Jasmin die Zahlen nennt (Aufgabe im Board).
+const meinKuerzel = () => (ich.rolle === 'admin' ? 'jasmin' : 'daniel');
 async function zeigeMeine(d) {
-  const ich = d.partner.find((p) => p.kurz === 'jasmin');
-  const z = ich ? zahlenVon(ich, d) : null;
+  const kurz = meinKuerzel();
+  const p = d.partner.find((x) => x.kurz === kurz);
+  const z = p ? zahlenVon(p, d) : null;
   $('#inhalt').innerHTML = `
-    <h1>Meine Zahlen</h1><p class="unter">Nur für dich sichtbar. Daniel sieht diese Ansicht nicht.</p>
+    <h1>Meine Zahlen</h1><p class="unter">Nur für dich sichtbar.</p>
     ${z ? `<div class="zahlen">
       <div class="zahl"><b>${z.anfragen}</b><span>Kontakte über deinen Link</span></div>
       <div class="zahl"><b>${z.tester}</b><span>testen gerade</span></div>
       <div class="zahl"><b>${z.kaeufe.length}</b><span>Käufe gesamt, ${z.jahr} in diesem Jahr</span></div>
       <div class="zahl"><b>${z.quote === null ? '0 %' : z.quote + ' %'}</b><span>Quote Kontakt zu Kauf</span></div>
-    </div>` : '<p class="leer">Es gibt noch keinen Partner mit dem Kürzel jasmin.</p>'}
+    </div>` : `<p class="leer" style="margin-bottom:18px">Hier stehen bald deine Zahlen. Dafür braucht es dich im Reiter Partner mit dem Link ${esc(LINK_BASIS + kurz)}.</p>`}
     <div class="raster">
       <section class="feld"><h2>Meine Kontakte</h2>
-        ${z ? z.ks.sort((a, b) => name(a).localeCompare(name(b))).map((k) => `<div class="zeile"><div class="haupt">${esc(name(k))}<div class="klein">${esc([k.ort, k.geraet].filter(Boolean).join(' · '))}</div></div><span class="marker ${statusKlasse(k.status)}">${esc(k.status)}</span></div>`).join('') || '<p class="leer">Noch keine Kontakte.</p>' : ''}
+        ${z ? z.ks.sort((a, b) => name(a).localeCompare(name(b))).map((k) => `<div class="zeile"><div class="haupt">${esc(name(k))}<div class="klein">${esc([k.ort, k.geraet].filter(Boolean).join(' · '))}</div></div><span class="marker ${statusKlasse(k.status)}">${esc(k.status)}</span></div>`).join('') || '<p class="leer">Noch keine Kontakte.</p>' : '<p class="leer">Noch keine Kontakte.</p>'}
       </section>
-      <section class="feld"><h2>Provision</h2><p class="leer">Folgt, sobald du mir deine Zahlen je verkauftem Gerät nennst.</p></section>
+      <section class="feld"><h2>Provision</h2><p class="leer">Folgt, sobald die Zahlen je verkauftem Gerät feststehen.</p></section>
     </div>`;
 }
 
+// ---------- Start ----------
 // ---------- Anmeldung ----------
-let ansicht = 'daniel', ich = { rolle: 'team', name: '' };
+let ich = { rolle: 'team', name: '' };
 function maske(html, binden) {
   document.body.classList.add('gesperrt');
   $('.kopf').hidden = true; $('.rechts').hidden = true;
@@ -1401,7 +1404,6 @@ function glocke(d) {
       feld.hidden = true;
       await Daten.speichern('uk_aufgaben', { id: a.id, neu: false });
       a.neu = false;
-      ansicht = 'daniel';
       await reiterWechseln('aufgaben');
       aufgabeBearbeiten(a, d);
     };
@@ -1413,12 +1415,9 @@ function glocke(d) {
 async function zeichnen() {
   const d = await alles();
   glocke(d);
-  document.querySelectorAll('#umschalter button').forEach((b) => b.classList.toggle('aktiv', b.dataset.ansicht === ansicht));
-  $('#reiter').hidden = ansicht === 'meine';
-  if (ansicht === 'meine') return zeigeMeine(d);
   document.querySelectorAll('#reiter button').forEach((b) => b.classList.toggle('aktiv', b.dataset.reiter === reiter));
   aktivZeigen();
-  ({ aufgaben: zeigeAufgaben, kalender: zeigeKalender, unterlagen: zeigeUnterlagen, bestellungen: zeigeBestellungen, kunden: zeigeKunden, maschinen: zeigeMaschinen, partner: zeigePartner, auswertung: zeigeAuswertung, wohnung: zeigeWohnung }[reiter] || zeigeAufgaben)(d);
+  ({ aufgaben: zeigeAufgaben, kalender: zeigeKalender, unterlagen: zeigeUnterlagen, bestellungen: zeigeBestellungen, kunden: zeigeKunden, maschinen: zeigeMaschinen, partner: zeigePartner, auswertung: zeigeAuswertung, wohnung: zeigeWohnung, meine: zeigeMeine }[reiter] || zeigeAufgaben)(d);
 }
 
 // Am Handy ist das Menü eine wischbare Zeile: den aktiven Reiter in die Mitte holen
@@ -1456,13 +1455,6 @@ async function start() {
   breit.addEventListener('change', () => { symbolePlatzieren(); aktivZeigen(); });
   try { reiter = localStorage.getItem('uk-reiter') || 'aufgaben'; } catch (e) {}
   if (reiter === 'uebersicht') reiter = 'aufgaben';
-  if (ich.rolle === 'admin') {
-    $('#umschalter').hidden = false;
-    try { ansicht = localStorage.getItem('uk-ansicht') || 'daniel'; } catch (e) {}
-    document.querySelectorAll('#umschalter button').forEach((b) => {
-      b.onclick = () => { ansicht = b.dataset.ansicht; try { localStorage.setItem('uk-ansicht', ansicht); } catch (e) {} zeichnen(); };
-    });
-  }
   document.querySelectorAll('#reiter button').forEach((b) => {
     b.onclick = () => reiterWechseln(b.dataset.reiter);
   });

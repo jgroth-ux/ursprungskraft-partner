@@ -214,7 +214,8 @@ const Daten = (() => {
   // ---------- Anmeldung fürs Dashboard ----------
   const anmeldung = demo ? {
     async sitzung() { return { user: { email: 'vorschau' } }; },
-    async rolle() { return { rolle: 'admin', name: 'Vorschau' }; },
+    // Vorschau als Daniel: ?demo&als=daniel, sonst als Jasmin (admin)
+    async rolle() { return new URLSearchParams(location.search).get('als') === 'daniel' ? { rolle: 'team', name: 'Daniel (Vorschau)' } : { rolle: 'admin', name: 'Vorschau' }; },
     async anmelden() {}, async abmelden() {}, async passwortSetzen() {}, async passwortVergessen() {},
   } : {
     async sitzung() { return pruefen(await sb.auth.getSession()).session; },

@@ -19,5 +19,17 @@ Getestet mit `?demo` in Chromium (Playwright), Handy 375 px und Rechner 1280 px.
   Alte Regeln `.wer` und `.glocke` (Größe, Rand) gehen in der gemeinsamen Klasse `.symbol` auf.
 - `app.js`: `symbolePlatzieren()` hängt die Symbole am Handy in die Leiste und am Rechner oben rechts über den Inhalt (`.obenleiste`), auch beim Drehen
   oder Ändern der Fenstergröße. `aktivZeigen()` holt den aktiven Reiter in der wischbaren Zeile in die Mitte, beim Öffnen und bei jedem `zeichnen()`.
-- Getestet: 375 px (Kopf ohne Umschalter 88 px hoch statt vorher rund ein Drittel), Reiter Wohnung beim Öffnen sichtbar gescrollt, keine waagrechte
+- Getestet: 375 px (Kopf nach Aufgabe 3 ohne Umschalter 97 px hoch, vorher rund ein Drittel des Bildschirms), Reiter Wohnung beim Öffnen sichtbar gescrollt, keine waagrechte
   Rollleiste der Seite. 1280 px: Seitenleiste wie bisher, Name, Glocke und Tür oben rechts.
+
+## 3. Umschalter "Daniel / Meine Zahlen" auflösen: fertig
+
+- `index.html`: Umschalter `#umschalter` entfernt. Neuer letzter Reiter `<button data-reiter="meine">Meine Zahlen</button>`.
+- `style.css`: Regeln `.umschalter` entfernt (`.umschalter-klein` im Kalender bleibt).
+- `app.js`: Variable `ansicht` und ihr Speicher `uk-ansicht` entfernt. `zeichnen()` kennt `meine: zeigeMeine` wie jeden anderen Reiter.
+  Neu `meinKuerzel()`: admin heißt Jasmin, Kürzel `jasmin`, sonst Daniel, Kürzel `daniel`. `zeigeMeine()` sucht den Partner darüber.
+  Gibt es ihn nicht: "Hier stehen bald deine Zahlen. Dafür braucht es dich im Reiter Partner mit dem Link ursprungskraft.net/daniel."
+  Untertitel jetzt "Nur für dich sichtbar." Der Provisions-Satz hieß "sobald du mir deine Zahlen nennst", das passt nicht für Daniel.
+  Jetzt: "Folgt, sobald die Zahlen je verkauftem Gerät feststehen."
+- `daten.js`: Vorschau als Daniel mit `?demo&als=daniel` (Rolle team). Ohne Zusatz wie bisher als Jasmin (admin). Nur zum Testen.
+- Getestet: 375 px und 1280 px, als Jasmin (8 Kontakte aus Hamburg) und als Daniel (Leertext, weil es in den Beispieldaten keinen Partner `daniel` gibt).

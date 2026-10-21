@@ -142,11 +142,6 @@ body.gesperrt{display:block}
 .anmeldung .meldung{font-size:14px;color:var(--rot);min-height:1em}
 .anmeldung .meldung.gut{color:var(--gut)}
 .anmeldung .link{background:none;border:0;color:var(--oliv);text-decoration:underline;cursor:pointer;padding:0;justify-self:start;font-size:14px}
-/* Umschalter Daniel | Meine Zahlen und Abmelden */
-.umschalter{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.08);border-radius:8px;padding:3px;gap:3px}
-.umschalter button{background:none;border:0;color:var(--khaki-hell);padding:7px 6px;border-radius:6px;cursor:pointer;font-size:13px}
-.umschalter button.aktiv{background:var(--grund);color:var(--oliv-dunkel)}
-@media (max-width:760px){.umschalter{order:3;width:100%}}
 /* Symbole oben rechts: Name, Glocke, Abmelden (21.10.2026) */
 .symbole{position:relative;display:flex;align-items:center;gap:8px;flex:none}
 #wer-name{font-size:13px;color:var(--leise);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
