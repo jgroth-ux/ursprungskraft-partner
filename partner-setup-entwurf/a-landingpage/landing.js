@@ -149,7 +149,8 @@ originaleMerken();
 fotoZeigen();
 (function () {
   if (document.documentElement.getAttribute('data-vorschau') !== 'an') return;
-  var an = new URLSearchParams(location.search).get('demo') === '1';
+  // In der Vorschau starten die Beispieldaten sofort; ?vorlage=1 zeigt die leere Vorlage
+  var an = new URLSearchParams(location.search).get('vorlage') !== '1';
   function knopfAnhaengen() {
     var innen = document.querySelector('.vorschau-leiste .vl-innen');
     if (!innen) return;

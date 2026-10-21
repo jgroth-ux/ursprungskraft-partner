@@ -39,6 +39,7 @@ function vorschauSchicken() {
     typ: 'partnerdaten',
     farbe: d.farbe,
     daten: {
+      MARKE: 'Marke folgt',
       VORNAME: leer(d.vorname, 'Vorname'),
       NACHNAME: leer(d.nachname, 'Nachname'),
       ORT: leer(d.ort, 'Ort'),

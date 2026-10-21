@@ -7,16 +7,17 @@
            sich das Portal durchklicken lässt. Live gehört das in die Datenbank.
    ========================================================================== */
 
-var DEMO_SPEICHER = 'portal-demo';
+var DEMO_SPEICHER = 'portal-demo-2';
 function demoLesen() { try { return JSON.parse(localStorage.getItem(DEMO_SPEICHER)) || {}; } catch (e) { return {}; } }
 function demoSchreiben(teil) { var d = demoLesen(); Object.assign(d, teil); try { localStorage.setItem(DEMO_SPEICHER, JSON.stringify(d)); } catch (e) {} return d; }
 
 var BEISPIEL_PARTNERDATEN = {
-  vorname: 'Sabine', nachname: 'Muster', email: 'sabine@beispiel.de', telefon: '+49 170 0000000',
-  whatsapp: '491700000000', ort: 'Lüneburg', land: 'DE', kuerzel: 'sabine', foto: '',
-  ueber_mich: 'Ich trinke seit drei Jahren Wasser aus meinem eigenen Gerät und mag vor allem, dass die Kisten aus dem Keller verschwunden sind. Ich komme gern bei dir vorbei und zeige dir alles in Ruhe.',
-  impressum_name: 'Sabine Muster', impressum_strasse: 'Musterweg 1', impressum_plz: '21335', impressum_ort: 'Lüneburg',
-  impressum_telefon: '+49 170 0000000', impressum_email: 'sabine@beispiel.de', impressum_ustid: '',
+  vorname: 'Max', nachname: 'Mustermann', email: 'max@beispiel.de', telefon: '+49 170 0000000',
+  whatsapp: '491700000000', ort: 'Hamburg', land: 'DE', kuerzel: 'max',
+  foto: new URL('../../bilder/beispiel-partner.jpg', location.href).href,
+  ueber_mich: 'Ich trinke seit drei Jahren Kangenwasser aus meinem eigenen Gerät. Am meisten mag ich, dass die Wasserkisten aus dem Keller verschwunden sind. Ich wohne in Hamburg und komme gern bei dir vorbei, um dir alles in Ruhe zu zeigen.',
+  impressum_name: 'Max Mustermann', impressum_strasse: 'Musterweg 1', impressum_plz: '20095', impressum_ort: 'Hamburg',
+  impressum_telefon: '+49 170 0000000', impressum_email: 'max@beispiel.de', impressum_ustid: '',
   farbe: 'oliv', enagic_id: '', sponsor_name: '', sponsor_id: ''
 };
 
