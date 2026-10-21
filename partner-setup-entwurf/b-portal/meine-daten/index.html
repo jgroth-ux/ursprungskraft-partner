@@ -48,8 +48,9 @@
           </div>
           <div class="reihe">
             <label class="feld">Ort (steht auf der Seite)<input name="ort" autocomplete="address-level2" required></label>
-            <label class="feld">Land<select name="land"><option value="DE">Deutschland</option><option value="CH">Schweiz</option></select>
-              <span class="zusatz">Bestimmt, wo dein Material gedruckt wird.</span></label>
+            <label class="feld">Land<select name="land"><option value="DE">Deutschland</option><option value="CH">Schweiz</option><option value="AT">Österreich</option><option value="ANDERE">Anderes Land</option></select>
+              <span class="zusatz">Bestimmt Preise, Währung und wo dein Material gedruckt wird.</span></label>
+            <label class="feld" id="land-anderes" hidden>Welches Land?<input name="land_name" autocomplete="country-name"></label>
           </div>
           <div class="feld">Foto von dir
             <div class="foto-wahl">

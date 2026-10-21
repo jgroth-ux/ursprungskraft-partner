@@ -68,6 +68,10 @@ document.getElementById('vorschau-zu').addEventListener('click', function () {
   document.getElementById('vorschau-spalte').classList.remove('offen');
 });
 
+/* ---------- Anderes Land ---------- */
+function landFeld() { document.getElementById('land-anderes').hidden = form.elements.land.value !== 'ANDERE'; }
+form.elements.land.addEventListener('change', landFeld);
+
 /* ---------- Zeichen zählen ---------- */
 var ueber = form.elements.ueber_mich;
 function zaehlen() { document.getElementById('zeichen').textContent = ueber.value.length; }
@@ -124,6 +128,7 @@ form.elements.vorname.addEventListener('blur', function () {
   if (farbe) farbe.checked = true;
   fotoUrl = p.foto || '';
   fotoZeigen();
+  landFeld();
   zaehlen();
   vorschauSchicken();
 })();

@@ -1,6 +1,6 @@
 /* ==========================================================================
    Paket zusammenstellen (Aufgabe B4), Stand 21.10.2026
-   FERTIG: Land wählen (Deutschland oder Schweiz, eigene Preise und Währung), "Nur online" ohne Druck,
+   FERTIG: Land wählen (Deutschland, Schweiz, Österreich oder anderes Land, je eigene Preise und Währung), "Nur online" ohne Druck,
            Dokumente anklicken, Stückzahl 100, 200 oder 500 (Jasmin 21.10.2026), Summe live,
            Nachbestellung über ?art=nachbestellung.
    FEHLT:  ALLE PREISE. Sie stehen unten als null und erscheinen als {{PREIS_FEHLT}}.
@@ -32,6 +32,34 @@ var PREISE = {
   },
   CH: {
     waehrung: 'CHF',
+    aufschlag_prozent: null,
+    einrichtung: null,
+    landingpage_monat: null,
+    versand: null,
+    dokumente: {
+      broschuere:    { 100: null, 200: null, 500: null },
+      wegweiser:     { 100: null, 200: null, 500: null },
+      flyer:         { 100: null, 200: null, 500: null },
+      detox:         { 100: null, 200: null, 500: null },
+      visitenkarten: { 100: null, 200: null, 500: null }
+    }
+  },
+  AT: {   // Druck vermutlich in Deutschland mit Versand nach Österreich (offen, siehe g-entscheidungen.md)
+    waehrung: 'EUR',
+    aufschlag_prozent: null,
+    einrichtung: null,
+    landingpage_monat: null,
+    versand: null,
+    dokumente: {
+      broschuere:    { 100: null, 200: null, 500: null },
+      wegweiser:     { 100: null, 200: null, 500: null },
+      flyer:         { 100: null, 200: null, 500: null },
+      detox:         { 100: null, 200: null, 500: null },
+      visitenkarten: { 100: null, 200: null, 500: null }
+    }
+  },
+  ANDERE: {   // jedes andere Land: Preise in EUR, Versand je Land offen
+    waehrung: 'EUR',
     aufschlag_prozent: null,
     einrichtung: null,
     landingpage_monat: null,
@@ -138,7 +166,7 @@ function rechnen() {
   var v = wert(tabelle().versand);
   if (ps.length) {
     if (v === null) fehlt = true; else summe += v;
-    zeilen.push('<tr><td>Versand nach ' + (land === 'CH' ? 'Schweiz' : 'Deutschland') + '</td><td class="zahl">' + g(v) + '</td></tr>');
+    zeilen.push('<tr><td>Versand nach ' + LAND_NAME[land] + '</td><td class="zahl">' + g(v) + '</td></tr>');
   }
   document.getElementById('summe-zeilen').innerHTML = zeilen.join('') || '<tr><td colspan="2" class="small">Noch nichts ausgewählt.</td></tr>';
   document.getElementById('summe').textContent = fehlt ? '{{PREIS_FEHLT}}' : g(summe);
@@ -149,11 +177,17 @@ function rechnen() {
   return { posten: ps, summe: fehlt ? null : Math.round(summe * 100) / 100 };
 }
 
+var LAND_TEXT = {
+  DE: 'Gedruckt in Deutschland und direkt zu dir geschickt. Preise in EUR.',
+  CH: 'Gedruckt in der Schweiz und direkt zu dir geschickt. Preise in CHF.',
+  AT: 'Direkt zu dir nach Österreich geschickt. Preise in EUR.',
+  ANDERE: 'Direkt zu dir geschickt. Preise in EUR, Versand je nach Land.'
+};
+var LAND_NAME = { DE: 'Deutschland', CH: 'Schweiz', AT: 'Österreich', ANDERE: 'dein Land' };
 function landSetzen(neu) {
-  land = neu === 'CH' ? 'CH' : 'DE';
-  document.getElementById('druckort').textContent = land === 'CH'
-    ? 'Gedruckt in der Schweiz und direkt zu dir geschickt. Preise in CHF.'
-    : 'Gedruckt in Deutschland und direkt zu dir geschickt. Preise in EUR.';
+  land = PREISE[neu] ? neu : 'DE';
+  document.getElementById('druckort').textContent = LAND_TEXT[land];
+  document.getElementById('land-name').hidden = land !== 'ANDERE';
   rechnen();
 }
 
@@ -165,7 +199,8 @@ function landSetzen(neu) {
   }
   var p = await partnerLaden();
   zeilenBauen();
-  var startLand = p.land === 'CH' ? 'CH' : 'DE';
+  var startLand = PREISE[p.land] ? p.land : 'DE';
+  if (p.land_name) document.querySelector('#land-name input').value = p.land_name;
   document.querySelector('input[name="land"][value="' + startLand + '"]').checked = true;
   document.querySelectorAll('input[name="land"]').forEach(function (r) {
     r.addEventListener('change', function () { landSetzen(r.value); });
@@ -195,6 +230,7 @@ document.getElementById('weiter').addEventListener('click', async function () {
   var b = {
     art: nachbestellung ? 'nachbestellung' : (nurOnline ? 'nur-online' : 'start'),
     land: land,
+    land_name: land === 'ANDERE' ? document.querySelector('#land-name input').value.trim() : '',
     waehrung: t.waehrung,
     posten: r.posten,
     einrichtung: nachbestellung ? 0 : wert(t.einrichtung),
