@@ -6,7 +6,7 @@
 .start-satz{color:var(--sand);font-size:18px;line-height:28px;margin-bottom:32px}
 .knopf.hell{background:var(--surface);color:var(--olive-deep);border-color:var(--surface)}
 .knopf.hell:hover{background:var(--sand);border-color:var(--sand)}
-.bild-kasten{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;border:1px dashed var(--khaki);border-radius:4px;color:var(--khaki-light);font-size:13px;line-height:20px}
+.bild-kasten{aspect-ratio:4/3;width:100%;height:auto;object-fit:cover;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;border:1px dashed var(--khaki);border-radius:4px;color:var(--khaki-light);font-size:13px;line-height:20px}
 .leistungen,.ablauf{list-style:none;margin:32px 0 0;padding:0;border-top:1px solid var(--line)}
 .leistungen li,.ablauf li{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:32px 0;border-bottom:1px solid var(--line)}
 .leistungen p,.ablauf p{margin:0}
