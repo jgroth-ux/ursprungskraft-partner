@@ -8,7 +8,7 @@
   FEHLT:  Vorschau des Druckmaterials (kommt, wenn die Druckvorlagen personalisiert sind).
           Pfad zur Vorlage beim Einbau anpassen (VORLAGE_PFAD in meine-daten.js).
 -->
-<html lang="de" data-farbe="oliv" data-vorschau="an">
+<html lang="de" data-farbe="sand" data-vorschau="an">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -64,6 +64,13 @@
           <label class="feld">Ein paar Sätze über dich (in Ich-Form)
             <textarea name="ueber_mich" maxlength="400" required placeholder="Zum Beispiel: Seit wann du das Gerät nutzt, was dir im Alltag gefällt, wo du wohnst."></textarea>
             <span class="zusatz"><span id="zeichen">0</span> von 400 Zeichen. Bitte keine Aussagen zu Gesundheit oder Krankheiten.</span></label>
+          <div class="feld">Bietest du Kunden ein Testgerät an?
+            <div class="ja-nein">
+              <label><input type="radio" name="testgeraet" value="ja" checked> <span>Ja, kostenlos zum Ausprobieren</span></label>
+              <label><input type="radio" name="testgeraet" value="nein"> <span>Nein, nur Beratung</span></label>
+            </div>
+            <span class="zusatz">Bei „Nein“ zeigt deine Seite keinen Test an, sondern lädt zur Beratung ein.</span>
+          </div>
         </fieldset>
 
         <fieldset class="gruppe">

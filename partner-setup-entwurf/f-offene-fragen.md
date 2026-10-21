@@ -8,6 +8,8 @@
 
 # Offene Fragen zum Partner-Setup
 
+> **Stand 21.10.2026:** Jasmins Antworten stehen in `g-entscheidungen.md`. Was dort entschieden ist, gilt.
+
 Sortiert nach: Marke, Geld, Recht, Ablauf, Inhalte, Technik. Die wichtigsten für den Start sind mit
 **(Start)** markiert. Ohne diese Antworten kann nichts live gehen.
 

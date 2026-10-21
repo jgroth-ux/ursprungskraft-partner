@@ -76,5 +76,20 @@
     document.getElementById('st-betrag').textContent = 'Abo ist gekündigt';
   }
 
+  document.getElementById('csv-export').addEventListener('click', async function (e) {
+    e.preventDefault();
+    var zeilen = await kundenLaden();
+    var spalten = ['datum', 'vorname', 'nachname', 'email', 'telefon', 'art', 'status', 'betrag'];
+    var kopf = ['Datum', 'Vorname', 'Nachname', 'E-Mail', 'Telefon', 'Art', 'Status', 'Betrag'];
+    var feld = function (v) { v = String(v == null ? '' : v); return /[";\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    // Semikolon und BOM, damit Excel in Deutschland und der Schweiz die Spalten richtig trennt
+    var csv = '\ufeff' + [kopf.join(';')].concat(zeilen.map(function (z) { return spalten.map(function (k) { return feld(z[k]); }).join(';'); })).join('\r\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = 'kunden-' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.click();
+    meldung(zeilen.length + ' Kunden exportiert.');
+  });
+
   document.getElementById('abmelden').addEventListener('click', function () { abmelden(); });
 })();

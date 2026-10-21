@@ -4,13 +4,15 @@
   FERTIG: alle sieben Abschnitte aus dem Briefing, Formular mit Anschluss anfrageSenden(),
           vier Farbpakete, Handy ab 375 px, noindex.
   FEHLT:  Partnerfoto (kommt aus dem Portal), Marke {{MARKE}} und
-          Domain {{DOMAIN}}, Testdauer und Testbedingungen ({{TESTBEDINGUNGEN_FEHLT}}),
+          Domain {{DOMAIN}}.
+  TESTGERÄT: der Partner wählt im Portal, ob er ein Testgerät anbietet (data-test="ja" | "nein").
+          Bei "nein" blendet die Seite alles zum Test aus (.nur-test) und zeigt .ohne-test.
           Datenschutzerklärung und Impressum des Partners (nur Platzhalter-Links).
   EINBAU: Platzhalter {{...}} werden beim Ausliefern durch die Partnerdaten ersetzt (Server).
           Für die Live-Vorschau im Portal ersetzt landing.js sie im Browser (siehe dort).
           Farbpaket: data-farbe am <html>. Vorschau-Leiste aus: data-vorschau="aus".
 -->
-<html lang="de" data-farbe="oliv" data-vorschau="an" data-kuerzel="{{KUERZEL}}">
+<html lang="de" data-farbe="oliv" data-vorschau="an" data-kuerzel="{{KUERZEL}}" data-test="{{TESTGERAET}}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,7 +39,8 @@
     <nav>
       <a href="#ablauf" class="nav-text">So läuft es</a>
       <a href="#fragen" class="nav-text">Fragen</a>
-      <a class="knopf klein" href="#kontakt" data-wunsch="test">Gerät testen</a>
+      <a class="knopf klein nur-test" href="#kontakt" data-wunsch="test">Gerät testen</a>
+      <a class="knopf klein ohne-test" href="#kontakt" data-wunsch="beratung">Beratung</a>
     </nav>
   </div>
 </header>
@@ -50,8 +53,9 @@
       <div class="hero-text">
         <div class="eyebrow">Wasserionisierer aus Japan</div>
         <h1 class="display">Kangenwasser. Direkt aus deinem Wasserhahn.</h1>
-        <p class="hero-satz">Der LeveLuk K8 macht aus deinem Leitungswasser fünf verschiedene Wasserarten: zum Trinken, Kochen, für Pflege und Haushalt. Teste ihn bei dir zu Hause.</p>
-        <a class="knopf hell" href="#kontakt" data-wunsch="test">Gerät zu Hause testen</a>
+        <p class="hero-satz">Der LeveLuk K8 macht aus deinem Leitungswasser fünf verschiedene Wasserarten: zum Trinken, Kochen, für Pflege und Haushalt. <span class="nur-test">Teste ihn kostenlos bei dir zu Hause.</span></p>
+        <a class="knopf hell nur-test" href="#kontakt" data-wunsch="test">Gerät kostenlos zu Hause testen</a>
+        <a class="knopf hell ohne-test" href="#kontakt" data-wunsch="beratung">Beratung vereinbaren</a>
       </div>
       <img class="bild bild-hero" src="../bilder/hero.jpg" alt="Ein frisch gefülltes Glas Wasser auf der Arbeitsfläche neben dem Wasserhahn, Morgenlicht" width="1122" height="1402">
     </div>
@@ -108,7 +112,8 @@
   <section id="ablauf" class="sand">
     <div class="innen">
       <div class="eyebrow">So läuft es</div>
-      <h2>In drei Schritten zu deinem Test</h2>
+      <h2 class="nur-test">In drei Schritten zu deinem Test</h2>
+      <h2 class="ohne-test">In zwei Schritten zu deiner Beratung</h2>
       <ol class="ablauf">
         <li>
           <div class="nr">01</div>
@@ -124,15 +129,16 @@
             <p>Ich zeige dir das Gerät, du probierst das Wasser und stellst alle Fragen, die du hast. Bei dir zu Hause oder per Video.</p>
           </div>
         </li>
-        <li>
+        <li class="nur-test">
           <div class="nr">03</div>
           <div>
             <h3>Testgerät bei dir zu Hause</h3>
-            <p>Du nutzt ein Testgerät eine Weile in deinem Alltag. Danach entscheidest du in Ruhe. {{TESTBEDINGUNGEN_FEHLT}}</p>
+            <p>Du nutzt ein Testgerät eine Weile in deinem Alltag. Das kostet dich nichts, auch keine Kaution. Danach entscheidest du in Ruhe.</p>
           </div>
         </li>
       </ol>
-      <a class="knopf" href="#kontakt" data-wunsch="test">Gerät zu Hause testen</a>
+      <a class="knopf nur-test" href="#kontakt" data-wunsch="test">Gerät kostenlos zu Hause testen</a>
+      <a class="knopf ohne-test" href="#kontakt" data-wunsch="beratung">Beratung vereinbaren</a>
     </div>
   </section>
 
@@ -165,13 +171,13 @@
         <summary>Was kostet das Gerät?</summary>
         <p>Den aktuellen Preis nenne ich dir im Gespräch. Du kannst einmal zahlen oder in Raten, mit Anzahlung und monatlicher Rate.</p>
       </details>
-      <details>
+      <details class="nur-test">
         <summary>Muss ich nach dem Test kaufen?</summary>
         <p>Nein. Du testest, wir sprechen darüber, und dann entscheidest du. Passt es nicht, geht das Testgerät zurück.</p>
       </details>
-      <details>
-        <summary>Wie lange kann ich das Gerät testen?</summary>
-        <p>{{TESTBEDINGUNGEN_FEHLT}}</p>
+      <details class="nur-test">
+        <summary>Was kostet der Test?</summary>
+        <p>Nichts. Keine Gebühr, keine Kaution. Wie lange du testest, sprechen wir zusammen ab.</p>
       </details>
       <details>
         <summary>Was brauche ich dafür in der Küche?</summary>
@@ -204,7 +210,7 @@
       <form id="anfrage" novalidate>
         <fieldset class="wahl">
           <legend>Was wünschst du dir?</legend>
-          <label><input type="radio" name="wunsch" value="test" checked> <span>Gerät zu Hause testen</span></label>
+          <label class="nur-test"><input type="radio" name="wunsch" value="test" checked> <span>Gerät zu Hause testen</span></label>
           <label><input type="radio" name="wunsch" value="beratung"> <span>Erst eine Beratung</span></label>
         </fieldset>
         <div class="reihe">

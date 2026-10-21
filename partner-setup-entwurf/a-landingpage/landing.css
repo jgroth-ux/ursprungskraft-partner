@@ -9,6 +9,11 @@
    ========================================================================== */
 
 *{box-sizing:border-box}
+/* Testgerät: der Partner entscheidet im Portal, ob er eins anbietet */
+.ohne-test{display:none!important}
+html[data-test="nein"] .nur-test{display:none!important}
+html[data-test="nein"] .ohne-test{display:revert!important}
+html[data-test="nein"] a.ohne-test{display:inline-block!important}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

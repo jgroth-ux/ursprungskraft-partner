@@ -31,3 +31,7 @@
 @media (max-width:720px){
   .farben{grid-template-columns:1fr 1fr}
 }
+.ja-nein{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.ja-nein label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:4px;padding:10px 14px;cursor:pointer;background:var(--surface);color:var(--ink);font-size:15px}
+.ja-nein label:has(input:checked){border-color:var(--olive)}
+.ja-nein input{accent-color:var(--olive)}

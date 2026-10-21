@@ -35,6 +35,7 @@ function datenAusForm() {
 function vorschauSchicken() {
   var d = datenAusForm();
   var leer = function (w, ph) { return w ? w : ph; };
+  if (iframe.contentDocument) { try { iframe.contentDocument.documentElement.setAttribute('data-test', d.testgeraet || 'ja'); } catch (e) {} }
   iframe.contentWindow && iframe.contentWindow.postMessage({
     typ: 'partnerdaten',
     farbe: d.farbe,
@@ -49,6 +50,7 @@ function vorschauSchicken() {
       KUERZEL: d.kuerzel,
       FOTO: d.foto,
       UEBER_MICH: leer(d.ueber_mich, 'Hier stehen deine Sätze über dich.'),
+      TESTGERAET: d.testgeraet || 'ja',
       IMPRESSUM_URL: '#', DATENSCHUTZ_URL: '#'
     }
   }, '*');
@@ -113,9 +115,11 @@ form.elements.vorname.addEventListener('blur', function () {
   var p = await partnerLaden();
   Object.keys(p).forEach(function (k) {
     var el = form.elements[k];
-    if (!el || k === 'farbe') return;
+    if (!el || k === 'farbe' || k === 'testgeraet') return;
     el.value = p[k] || '';
   });
+  var test = form.querySelector('input[name="testgeraet"][value="' + (p.testgeraet || 'ja') + '"]');
+  if (test) test.checked = true;
   var farbe = form.querySelector('input[name="farbe"][value="' + (p.farbe || 'oliv') + '"]');
   if (farbe) farbe.checked = true;
   fotoUrl = p.foto || '';

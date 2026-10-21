@@ -7,6 +7,17 @@
 .dok-wahl input{accent-color:var(--olive);width:20px;height:20px;margin-top:3px;flex:none}
 .dok-wahl b{display:block;font:500 18px/26px Jost,sans-serif}
 .dok-wahl .small{display:block}
+.stufen{grid-area:menge;display:flex;gap:8px}
+.stufen label{border:1px solid var(--line);border-radius:4px;padding:6px 12px;cursor:pointer;font-weight:600;font-size:15px;background:var(--surface)}
+.stufen label:has(input:checked){border-color:var(--olive);color:var(--olive)}
+.stufen label:has(input:disabled){opacity:.5;cursor:default}
+.stufen input{accent-color:var(--olive)}
+.wahl-zeile{display:flex;flex-wrap:wrap;gap:16px 32px;margin-top:32px}
+.knopf-wahl{margin:0}
+.knopf-wahl legend{font:600 13px/20px Inter,sans-serif;color:var(--muted);margin-bottom:8px}
+.knopf-wahl label{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:0 8px 8px 0;cursor:pointer;background:var(--surface);font-size:15px}
+.knopf-wahl label:has(input:checked){border-color:var(--olive)}
+.knopf-wahl input{accent-color:var(--olive)}
 .menge{grid-area:menge;display:flex;align-items:stretch}
 .menge .zweit{padding:8px 14px;border-radius:4px 0 0 4px;font-size:18px;line-height:22px}
 .menge .zweit:last-child{border-radius:0 4px 4px 0}
@@ -21,5 +32,5 @@
 @media (max-width:720px){
   .dok{grid-template-columns:1fr;grid-template-areas:"wahl" "menge" "preis";padding:16px 0}
   .dok.an{background:none}
-  .menge{padding-left:32px}
+  .menge,.stufen{padding-left:32px}
 }

@@ -18,12 +18,13 @@ var BEISPIEL_PARTNERDATEN = {
   ueber_mich: 'Ich trinke seit drei Jahren Kangenwasser aus meinem eigenen Gerät. Am meisten mag ich, dass die Wasserkisten aus dem Keller verschwunden sind. Ich wohne in Hamburg und komme gern bei dir vorbei, um dir alles in Ruhe zu zeigen.',
   impressum_name: 'Max Mustermann', impressum_strasse: 'Musterweg 1', impressum_plz: '20095', impressum_ort: 'Hamburg',
   impressum_telefon: '+49 170 0000000', impressum_email: 'max@beispiel.de', impressum_ustid: '',
-  farbe: 'oliv', enagic_id: '', sponsor_name: '', sponsor_id: ''
+  farbe: 'oliv', testgeraet: 'ja', enagic_id: '', sponsor_name: '', sponsor_id: ''
 };
 
 // ANSCHLUSS: legt ein Konto an (Login-Dienst) und einen leeren Datensatz in Tabelle partner.
 // Schickt die Bestätigungsmail. Erwartet { vorname, nachname, email, passwort, nutzungsbedingungen_version }
 // Gibt zurück { ok: true } oder { ok: false, fehler: 'E-Mail ist schon registriert' }
+// Schickt außerdem die Mail mit Bestätigungslink. Erst nach dem Klick darauf ist das Konto aktiv (Jasmin 21.10.2026).
 async function registrieren(daten) {
   console.log('Demo registrieren', Object.assign({}, daten, { passwort: '***' }));
   demoSchreiben({ partner: Object.assign({}, BEISPIEL_PARTNERDATEN, { vorname: daten.vorname, nachname: daten.nachname, email: daten.email }) });
@@ -114,6 +115,16 @@ async function statusLaden() {
     letzte_bestellung: d.bestellung || null,
     gekuendigt: !!d.gekuendigt
   };
+}
+
+// ANSCHLUSS: liefert die Kunden des Partners mit Anfragen und Verkäufen (Tabellen anfragen, bestellungen,
+// nur Datensätze mit seinem partner_kuerzel). Der Partner lädt sie als CSV, zum Beispiel für die Steuer.
+// Gibt eine Liste von Zeilen zurück: [{ datum, vorname, nachname, email, telefon, art, status, betrag }]
+async function kundenLaden() {
+  return [
+    { datum: '2026-10-02', vorname: 'Anna', nachname: 'Beispiel', email: 'anna@beispiel.de', telefon: '+49 170 1111111', art: 'Anfrage Testgerät', status: 'Test läuft', betrag: '' },
+    { datum: '2026-10-09', vorname: 'Jonas', nachname: 'Probe', email: 'jonas@beispiel.de', telefon: '+49 170 2222222', art: 'Bestellung K8', status: 'an Enagic geschickt', betrag: '{{PREIS_FEHLT}}' }
+  ];
 }
 
 // ANSCHLUSS: kündigt das Abo bei Stripe zum Ende der Laufzeit. Die Seite bleibt bis dahin aktiv.

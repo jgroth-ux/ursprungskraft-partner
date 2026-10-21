@@ -1,11 +1,11 @@
 <!doctype html>
 <!--
   PARTNER-PORTAL · PAKET ZUSAMMENSTELLEN (Aufgabe B4), Stand 20.10.2026
-  FERTIG: Auswahl der fünf Dokumente, Stückzahl ab 100, Summe live, Nachbestellung (?art=nachbestellung).
+  FERTIG: Land DE/CH mit eigenen Preisen, Nur online, fünf Dokumente mit 100/200/500 Stück, Summe live, Nachbestellung (?art=nachbestellung).
   FEHLT:  Preise (Tabelle PREISE oben in paket.js), Format des Wegweisers, Vorschaubilder der Dokumente.
   ANSCHLUSS: partnerLaden(), bestellungSpeichern() in ../anschluss.js
 -->
-<html lang="de" data-farbe="oliv" data-vorschau="an">
+<html lang="de" data-farbe="sand" data-vorschau="an">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,7 +31,20 @@
       <li class="fertig">Registrieren</li><li class="fertig">Deine Daten</li><li class="jetzt">Paket</li><li>Bezahlen</li>
     </ol>
     <h1 id="titel">Dein Paket zusammenstellen</h1>
-    <p class="muted">Wähl die Dokumente, die du haben willst. Jedes Dokument mit deinem Namen, deinen Kontaktdaten und einem QR-Code zu deiner Seite. Mindestens 100 Stück je Dokument, mehr geht in 50er-Schritten. <span id="druckort"></span></p>
+    <p class="muted">Jedes Dokument mit deinem Namen, deinen Kontaktdaten und einem QR-Code zu deiner Seite. Je Dokument 100, 200 oder 500 Stück. <span id="druckort"></span></p>
+
+    <div class="wahl-zeile">
+      <fieldset class="knopf-wahl">
+        <legend>Wo bist du Partner?</legend>
+        <label><input type="radio" name="land" value="DE" checked> <span>Deutschland</span></label>
+        <label><input type="radio" name="land" value="CH"> <span>Schweiz</span></label>
+      </fieldset>
+      <fieldset class="knopf-wahl" id="art-wahl">
+        <legend>Was brauchst du?</legend>
+        <label><input type="radio" name="art" value="druck" checked> <span>Seite und Druckmaterial</span></label>
+        <label><input type="radio" name="art" value="online"> <span>Nur online, ohne Druck</span></label>
+      </fieldset>
+    </div>
 
     <div class="paket-raster">
       <ul class="dokumente" id="dokumente"></ul>

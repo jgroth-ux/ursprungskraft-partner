@@ -5,7 +5,7 @@
   FEHLT:  Stripe (Checkout mit Abo plus Einmalbetrag), Preise, Hinweise zu MwSt und Widerruf
           (rechtlich offen, siehe f-offene-fragen.md).
 -->
-<html lang="de" data-farbe="oliv" data-vorschau="an">
+<html lang="de" data-farbe="sand" data-vorschau="an">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,14 +56,16 @@
 <script>
 (async function () {
   var b = await bestellungLaden();
-  if (!b || !b.posten || !b.posten.length) { document.getElementById('leer').hidden = false; return; }
+  if (!b || !b.posten || (!b.posten.length && b.art !== 'nur-online')) { document.getElementById('leer').hidden = false; return; }
   document.getElementById('inhalt').hidden = false;
   if (b.art === 'nachbestellung') { document.getElementById('monat-block').hidden = true; document.getElementById('schritte').hidden = true; }
   var test = !!b.testpreise;
+  var w = b.waehrung || WAEHRUNG;
+  var geldAlt = geld; geld = function (x) { return geldAlt(x, w); };
   document.getElementById('test-hinweis').hidden = !test;
   var z = b.posten.map(function (p) { return '<tr><td>' + p.name + '<br><span class="small">' + p.stueck + ' Stück</span></td><td class="zahl">' + geld(p.summe) + '</td></tr>'; });
   if (b.art !== 'nachbestellung') z.unshift('<tr><td>Einrichtung</td><td class="zahl">' + geld(test ? (b.einrichtung || 0) : b.einrichtung) + '</td></tr>');
-  z.push('<tr><td>Versand</td><td class="zahl">' + geld(test ? (b.versand || 0) : b.versand) + '</td></tr>');
+  if (b.posten.length) z.push('<tr><td>Versand</td><td class="zahl">' + geld(test ? (b.versand || 0) : b.versand) + '</td></tr>');
   document.getElementById('zeilen').innerHTML = z.join('');
   document.getElementById('summe').textContent = geld(b.einmalig_summe);
   document.getElementById('monat').textContent = geld(test ? (b.monatlich || 0) : b.monatlich);

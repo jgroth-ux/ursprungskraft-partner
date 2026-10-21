@@ -29,7 +29,8 @@ var BEISPIEL_PARTNER = {
   FOTO: '../bilder/beispiel-partner.jpg',
   UEBER_MICH: 'Ich trinke seit drei Jahren Kangenwasser aus meinem eigenen Gerät. Am meisten mag ich, dass die Wasserkisten aus dem Keller verschwunden sind. Ich wohne in Hamburg und komme gern bei dir vorbei, um dir alles in Ruhe zu zeigen.',
   IMPRESSUM_URL: '#impressum',
-  DATENSCHUTZ_URL: '#datenschutz'
+  DATENSCHUTZ_URL: '#datenschutz',
+  TESTGERAET: 'ja'
 };
 
 /* ---------- Platzhalter füllen ----------
@@ -80,6 +81,8 @@ window.addEventListener('message', function (e) {
   if (!e.data || e.data.typ !== 'partnerdaten') return;
   platzhalterFuellen(e.data.daten || {});
   if (e.data.farbe) document.documentElement.setAttribute('data-farbe', e.data.farbe);
+  // Ohne Testgerät: Wunsch im Formular auf Beratung stellen
+  if (document.documentElement.getAttribute('data-test') === 'nein') { var b = form.querySelector('input[value="beratung"]'); if (b) b.checked = true; }
 });
 
 /* ---------- Formular ---------- */

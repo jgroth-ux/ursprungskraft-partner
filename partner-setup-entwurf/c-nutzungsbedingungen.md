@@ -61,8 +61,7 @@ Formularen, Druckvorlagen und Anleitung bleiben bei uns oder unseren Lizenzgeber
 3.2 Du bekommst für die Laufzeit ein **einfaches, nicht übertragbares und nicht unterlizenzierbares
 Recht**, diese Inhalte für deine eigene Tätigkeit als Vertriebspartner zu nutzen. Mehr nicht.
 
-3.3 Gedrucktes Material, das du bezahlt hast, darfst du auch nach Vertragsende aufbrauchen.
-[Jasmin: so gewollt? Siehe f-offene-fragen.md]
+3.3 Gedrucktes Material, das du bezahlt hast, gehört dir. Du darfst es auch nach Vertragsende verwenden.
 
 3.4 Deine eigenen Inhalte (Foto, Text über dich, Kontaktdaten) bleiben deine. Du erlaubst uns, sie für
 die Dauer des Vertrags auf deiner Seite und deinem Material zu verwenden.
@@ -98,9 +97,9 @@ die Vertragsstrafe wird darauf angerechnet.
 | Nachdruck | laut Portal | je Bestellung |
 | Eigene Domain (optional) | {{PREIS_EIGENE_DOMAIN}} | {{ZAHLWEISE}} |
 
-Alle Preise {{PREISHINWEIS_MWST}}.
+Für Partner in Deutschland gelten Preise in EUR, für Partner in der Schweiz eigene Preise in CHF. Alle Preise {{PREISHINWEIS_MWST}}.
 
-5.2 Die monatliche Gebühr wird über unseren Zahlungsdienst (Stripe) [per Karte / per Lastschrift]
+5.2 Die monatliche Gebühr wird über unseren Zahlungsdienst (Stripe) per Karte
 jeweils zum {{ABBUCHUNGSTAG}} abgebucht.
 
 5.3 Preisänderungen kündigen wir mindestens {{FRIST_PREISAENDERUNG}} vorher per E-Mail an. Bist du nicht
@@ -110,12 +109,11 @@ einverstanden, kannst du zum Zeitpunkt der Änderung kündigen.
 
 6.1 Schlägt eine Abbuchung fehl, informieren wir dich per E-Mail und versuchen es erneut.
 
-6.2 Ist die Zahlung **{{FRIST_ZAHLUNGSAUSFALL}}** nach Fälligkeit nicht eingegangen, dürfen wir deine
+6.2 Ist die Zahlung **7 Tage** nach Fälligkeit nicht eingegangen, dürfen wir deine
 Landingpage und deinen Bot **abschalten**. Statt der Seite erscheint dann ein neutraler Hinweis.
 [Text des Hinweises, siehe f-offene-fragen.md]
 
-6.3 Zahlst du nach, schalten wir die Seite innerhalb von {{FRIST_WIEDERFREISCHALTUNG}} wieder frei.
-[Gebühr für Wiederfreischaltung: ja / nein]
+6.3 Zahlst du nach, schalten wir die Seite innerhalb von {{FRIST_WIEDERFREISCHALTUNG}} wieder frei. Dafür berechnen wir eine Pauschale von {{PREIS_WIEDERFREISCHALTUNG}}.
 
 6.4 Bleibt die Zahlung **{{FRIST_FRISTLOS}}** aus, dürfen wir den Vertrag fristlos kündigen. Offene
 Beträge bleiben fällig.

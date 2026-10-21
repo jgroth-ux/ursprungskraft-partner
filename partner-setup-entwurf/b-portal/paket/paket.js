@@ -1,143 +1,186 @@
 /* ==========================================================================
-   Paket zusammenstellen (Aufgabe B4), Stand 20.10.2026
-   FERTIG: Dokumente anklicken, Stückzahl wählen (Mindestmenge 100, mehr freiwillig),
-           Summe live, Staffelpreise möglich, Nachbestellung über ?art=nachbestellung.
+   Paket zusammenstellen (Aufgabe B4), Stand 21.10.2026
+   FERTIG: Land wählen (Deutschland oder Schweiz, eigene Preise und Währung), "Nur online" ohne Druck,
+           Dokumente anklicken, Stückzahl 100, 200 oder 500 (Jasmin 21.10.2026), Summe live,
+           Nachbestellung über ?art=nachbestellung.
    FEHLT:  ALLE PREISE. Sie stehen unten als null und erscheinen als {{PREIS_FEHLT}}.
-           Jasmin trägt sie ein (siehe d-druckpreise.md und f-offene-fragen.md).
-   ANSCHLUSS: bestellungSpeichern() in ../anschluss.js
+           Der Druckpreis enthält einen kleinen Aufschlag für Jasmins Arbeit (Prüfung von Papier
+           und Druckdaten), Höhe offen: AUFSCHLAG_PROZENT.
+   ANSCHLUSS: partnerLaden(), bestellungSpeichern() in ../anschluss.js
    ========================================================================== */
 
 /* ---------- PREISE: hier eintragen ----------
-   staffel: Preis JE STÜCK ab der genannten Menge, in WAEHRUNG (portal.js).
-   Beispiel: { 100: 1.20, 200: 0.95, 500: 0.70 } heißt: ab 100 Stück 1,20 je Stück, ab 200 0,95 ...
+   Je Land eine eigene Tabelle. Dokumente: Preis für die GANZE Menge (100, 200 oder 500 Stück),
+   so wie die Druckerei ihn nennt, OHNE Aufschlag. Der Aufschlag wird unten draufgerechnet.
    null = Preis fehlt noch. */
-var MINDESTMENGE = 100;
-var SCHRITT = 50;
+var STUFEN = [100, 200, 500];
 
 var PREISE = {
-  einrichtung: null,          // einmalig im Starterpaket: Seite einrichten, Bot einrichten
-  landingpage_monat: null,    // monatliche Gebühr für die Landingpage
-  versand: { DE: null, CH: null }, // je Bestellung, falls nicht im Stückpreis enthalten
-  dokumente: [
-    { id: 'broschuere',    name: 'Broschüre zum Gerät', format: 'A5, 28 Seiten, geheftet, matt',   staffel: { 100: null, 200: null, 500: null } },
-    { id: 'wegweiser',     name: 'Wegweiser',           format: '{{FORMAT_FEHLT}}',                staffel: { 100: null, 200: null, 500: null } },
-    { id: 'flyer',         name: 'Flyer',               format: 'DIN lang, beidseitig',            staffel: { 100: null, 200: null, 500: null } },
-    { id: 'detox',         name: 'Detox-Blatt',         format: 'A4, beidseitig',                  staffel: { 100: null, 200: null, 500: null } },
-    { id: 'visitenkarten', name: 'Visitenkarten',       format: '85 × 55 mm, beidseitig',          staffel: { 100: null, 200: null, 500: null } }
-  ]
+  DE: {
+    waehrung: 'EUR',
+    aufschlag_prozent: null,   // Jasmins Aufschlag auf den Druck, zum Beispiel 10
+    einrichtung: null,         // einmalig: Seite und Bot einrichten
+    landingpage_monat: null,   // monatlich: Hosting, Seite, Bot
+    versand: null,             // je Druckbestellung
+    dokumente: {
+      broschuere:    { 100: null, 200: null, 500: null },
+      wegweiser:     { 100: null, 200: null, 500: null },
+      flyer:         { 100: null, 200: null, 500: null },
+      detox:         { 100: null, 200: null, 500: null },
+      visitenkarten: { 100: null, 200: null, 500: null }
+    }
+  },
+  CH: {
+    waehrung: 'CHF',
+    aufschlag_prozent: null,
+    einrichtung: null,
+    landingpage_monat: null,
+    versand: null,
+    dokumente: {
+      broschuere:    { 100: null, 200: null, 500: null },
+      wegweiser:     { 100: null, 200: null, 500: null },
+      flyer:         { 100: null, 200: null, 500: null },
+      detox:         { 100: null, 200: null, 500: null },
+      visitenkarten: { 100: null, 200: null, 500: null }
+    }
+  }
 };
+
+var DOKUMENTE = [
+  { id: 'broschuere',    name: 'Broschüre zum Gerät', format: 'A5, 28 Seiten, geheftet, matt' },
+  { id: 'wegweiser',     name: 'Wegweiser',           format: '{{FORMAT_FEHLT}}' },
+  { id: 'flyer',         name: 'Flyer',               format: 'DIN lang, beidseitig' },
+  { id: 'detox',         name: 'Detox-Blatt',         format: 'A4, beidseitig' },
+  { id: 'visitenkarten', name: 'Visitenkarten',       format: '85 × 55 mm, beidseitig' }
+];
 /* ---------- Ende PREISE ---------- */
 
-// Nur Vorschau: rechnet mit 1,00 je Stück, damit man sieht, dass die Summe live läuft.
-// Das ist KEIN Preisvorschlag.
+// Nur Vorschau: rechnet mit 1,00 je Stück, damit man sieht, dass die Summe live läuft. KEIN Preisvorschlag.
 var TESTPREIS = 1.00;
 var mitTestpreis = false;
 
 var nachbestellung = new URLSearchParams(location.search).get('art') === 'nachbestellung';
-var auswahl = {}; // id -> Stück
 var land = 'DE';
+var nurOnline = false;
+var auswahl = {}; // id -> Stück
 
-function preisJeStueck(dok, menge) {
-  if (mitTestpreis) return TESTPREIS;
-  var stufen = Object.keys(dok.staffel).map(Number).sort(function (a, b) { return a - b; });
-  var preis = null;
-  stufen.forEach(function (s) { if (menge >= s) preis = dok.staffel[s]; });
-  return preis;
-}
+function tabelle() { return PREISE[land]; }
 function wert(w) { return mitTestpreis ? (w === null ? 0 : w) : w; }
+function mitAufschlag(betrag) {
+  if (betrag === null) return null;
+  var a = tabelle().aufschlag_prozent;
+  return Math.round(betrag * (1 + (a || 0) / 100) * 100) / 100;
+}
+function dokPreis(id, menge) {
+  if (mitTestpreis) return TESTPREIS * menge;
+  return mitAufschlag(tabelle().dokumente[id][menge]);
+}
+function g(b) { return geld(b, tabelle().waehrung); }
 
 function zeilenBauen() {
   var liste = document.getElementById('dokumente');
   liste.innerHTML = '';
-  PREISE.dokumente.forEach(function (dok) {
+  DOKUMENTE.forEach(function (dok) {
     var li = document.createElement('li');
     li.className = 'dok';
+    var stufen = STUFEN.map(function (n, i) {
+      return '<label><input type="radio" name="menge-' + dok.id + '" value="' + n + '"' + (i === 0 ? ' checked' : '') + ' disabled> ' + n + '</label>';
+    }).join('');
     li.innerHTML =
       '<label class="dok-wahl"><input type="checkbox" data-id="' + dok.id + '">' +
       '<span><b>' + dok.name + '</b><span class="small">' + dok.format + '</span></span></label>' +
-      '<div class="menge" aria-label="Stückzahl ' + dok.name + '">' +
-        '<button type="button" class="zweit" data-minus aria-label="weniger">−</button>' +
-        '<input type="number" inputmode="numeric" min="' + MINDESTMENGE + '" step="' + SCHRITT + '" value="' + MINDESTMENGE + '" disabled>' +
-        '<button type="button" class="zweit" data-plus aria-label="mehr">+</button>' +
-      '</div>' +
+      '<div class="stufen" role="radiogroup" aria-label="Stückzahl ' + dok.name + '">' + stufen + '</div>' +
       '<div class="dok-preis small" data-preis></div>';
     liste.appendChild(li);
 
     var haken = li.querySelector('input[type=checkbox]');
-    var zahl = li.querySelector('input[type=number]');
-    function setzen(n) {
-      n = Math.max(MINDESTMENGE, Math.round((parseInt(n, 10) || MINDESTMENGE) / SCHRITT) * SCHRITT);
-      zahl.value = n;
-      if (haken.checked) auswahl[dok.id] = n;
-      rechnen();
-    }
+    var radios = li.querySelectorAll('input[type=radio]');
+    function menge() { return parseInt(li.querySelector('input[type=radio]:checked').value, 10); }
     haken.addEventListener('change', function () {
       li.classList.toggle('an', haken.checked);
-      zahl.disabled = !haken.checked;
-      if (haken.checked) auswahl[dok.id] = parseInt(zahl.value, 10); else delete auswahl[dok.id];
+      radios.forEach(function (r) { r.disabled = !haken.checked; });
+      if (haken.checked) auswahl[dok.id] = menge(); else delete auswahl[dok.id];
       rechnen();
     });
-    li.querySelector('[data-minus]').addEventListener('click', function () { if (!haken.checked) { haken.click(); return; } setzen(+zahl.value - SCHRITT); });
-    li.querySelector('[data-plus]').addEventListener('click', function () { if (!haken.checked) { haken.click(); return; } setzen(+zahl.value + SCHRITT); });
-    zahl.addEventListener('change', function () { setzen(zahl.value); });
+    radios.forEach(function (r) {
+      r.addEventListener('change', function () { auswahl[dok.id] = menge(); rechnen(); });
+    });
   });
 }
 
 function posten() {
-  return PREISE.dokumente.filter(function (d) { return auswahl[d.id]; }).map(function (d) {
-    var p = preisJeStueck(d, auswahl[d.id]);
-    return { dokument: d.id, name: d.name, stueck: auswahl[d.id], preis_je_stueck: p, summe: p === null ? null : Math.round(p * auswahl[d.id] * 100) / 100 };
+  if (nurOnline) return [];
+  return DOKUMENTE.filter(function (d) { return auswahl[d.id]; }).map(function (d) {
+    var n = auswahl[d.id];
+    return { dokument: d.id, name: d.name, stueck: n, summe: dokPreis(d.id, n) };
   });
 }
 
 function rechnen() {
   var ps = posten();
   document.querySelectorAll('.dok').forEach(function (li, i) {
-    var d = PREISE.dokumente[i], n = auswahl[d.id];
+    var d = DOKUMENTE[i], n = auswahl[d.id];
     var el = li.querySelector('[data-preis]');
-    if (!n) { el.textContent = ''; return; }
-    var p = preisJeStueck(d, n);
-    el.textContent = p === null ? '{{PREIS_FEHLT}}' : geld(p) + ' je Stück · ' + geld(p * n);
+    el.textContent = n ? g(dokPreis(d.id, n)) + ' für ' + n + ' Stück' : '';
   });
 
   var fehlt = false, summe = 0, stueck = 0;
   var zeilen = ps.map(function (p) {
     stueck += p.stueck;
     if (p.summe === null) fehlt = true; else summe += p.summe;
-    return '<tr><td>' + p.name + '<br><span class="small">' + p.stueck + ' Stück</span></td><td class="zahl">' + geld(p.summe) + '</td></tr>';
+    return '<tr><td>' + p.name + '<br><span class="small">' + p.stueck + ' Stück</span></td><td class="zahl">' + g(p.summe) + '</td></tr>';
   });
   if (!nachbestellung) {
-    var e = wert(PREISE.einrichtung);
+    var e = wert(tabelle().einrichtung);
     if (e === null) fehlt = true; else summe += e;
-    zeilen.unshift('<tr><td>Einrichtung</td><td class="zahl">' + geld(e) + '</td></tr>');
+    zeilen.unshift('<tr><td>Einrichtung</td><td class="zahl">' + g(e) + '</td></tr>');
   }
-  var v = wert(PREISE.versand[land]);
+  var v = wert(tabelle().versand);
   if (ps.length) {
     if (v === null) fehlt = true; else summe += v;
-    zeilen.push('<tr><td>Versand nach ' + (land === 'CH' ? 'Schweiz' : 'Deutschland') + '</td><td class="zahl">' + geld(v) + '</td></tr>');
+    zeilen.push('<tr><td>Versand nach ' + (land === 'CH' ? 'Schweiz' : 'Deutschland') + '</td><td class="zahl">' + g(v) + '</td></tr>');
   }
   document.getElementById('summe-zeilen').innerHTML = zeilen.join('') || '<tr><td colspan="2" class="small">Noch nichts ausgewählt.</td></tr>';
-  document.getElementById('summe').textContent = fehlt ? '{{PREIS_FEHLT}}' : geld(summe);
-  document.getElementById('stueck').textContent = stueck ? stueck + ' Stück gesamt' : '';
-  var m = wert(PREISE.landingpage_monat);
-  document.getElementById('monat').textContent = nachbestellung ? '' : 'Danach monatlich ' + geld(m) + ' für deine Landingpage.';
-  document.getElementById('weiter').disabled = !ps.length;
+  document.getElementById('summe').textContent = fehlt ? '{{PREIS_FEHLT}}' : g(summe);
+  document.getElementById('stueck').textContent = stueck ? stueck + ' Stück gesamt' : (nurOnline ? 'Nur online, ohne Druckmaterial' : '');
+  var m = wert(tabelle().landingpage_monat);
+  document.getElementById('monat').textContent = nachbestellung ? '' : 'Danach monatlich ' + g(m) + ' für Seite, Hosting und Telegram-Bot.';
+  document.getElementById('weiter').disabled = nachbestellung ? !ps.length : !(ps.length || nurOnline);
   return { posten: ps, summe: fehlt ? null : Math.round(summe * 100) / 100 };
+}
+
+function landSetzen(neu) {
+  land = neu === 'CH' ? 'CH' : 'DE';
+  document.getElementById('druckort').textContent = land === 'CH'
+    ? 'Gedruckt in der Schweiz und direkt zu dir geschickt. Preise in CHF.'
+    : 'Gedruckt in Deutschland und direkt zu dir geschickt. Preise in EUR.';
+  rechnen();
 }
 
 (async function start() {
   if (nachbestellung) {
     document.getElementById('titel').textContent = 'Material nachbestellen';
     document.getElementById('schritte').hidden = true;
+    document.getElementById('art-wahl').hidden = true;
   }
   var p = await partnerLaden();
-  land = p.land === 'CH' ? 'CH' : 'DE';
-  document.getElementById('druckort').textContent = land === 'CH' ? 'Gedruckt in der Schweiz und direkt zu dir geschickt.' : 'Gedruckt in Deutschland und direkt zu dir geschickt.';
   zeilenBauen();
+  var startLand = p.land === 'CH' ? 'CH' : 'DE';
+  document.querySelector('input[name="land"][value="' + startLand + '"]').checked = true;
+  document.querySelectorAll('input[name="land"]').forEach(function (r) {
+    r.addEventListener('change', function () { landSetzen(r.value); });
+  });
+  document.querySelectorAll('input[name="art"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      nurOnline = r.value === 'online' && r.checked;
+      document.getElementById('dokumente').hidden = nurOnline;
+      rechnen();
+    });
+  });
 
-  // Vorschlag zum Start: alles mit Mindestmenge angehakt. Der Partner kann abwählen.
+  // Vorschlag zum Start: alle Dokumente mit 100 Stück angehakt. Der Partner kann abwählen.
   if (!nachbestellung) document.querySelectorAll('.dok input[type=checkbox]').forEach(function (h) { h.click(); });
-  rechnen();
+  landSetzen(startLand);
 
   if (document.documentElement.getAttribute('data-vorschau') === 'an') {
     var t = document.getElementById('testpreis');
@@ -148,15 +191,17 @@ function rechnen() {
 
 document.getElementById('weiter').addEventListener('click', async function () {
   var r = rechnen();
+  var t = tabelle();
   var b = {
-    art: nachbestellung ? 'nachbestellung' : 'start',
+    art: nachbestellung ? 'nachbestellung' : (nurOnline ? 'nur-online' : 'start'),
     land: land,
+    waehrung: t.waehrung,
     posten: r.posten,
-    einrichtung: nachbestellung ? 0 : PREISE.einrichtung,
-    versand: PREISE.versand[land],
+    einrichtung: nachbestellung ? 0 : wert(t.einrichtung),
+    versand: r.posten.length ? wert(t.versand) : 0,
     einmalig_summe: r.summe,
-    monatlich: nachbestellung ? null : PREISE.landingpage_monat,
-    waehrung: WAEHRUNG,
+    monatlich: nachbestellung ? null : wert(t.landingpage_monat),
+    aufschlag_prozent: t.aufschlag_prozent,
     testpreise: mitTestpreis
   };
   var s = await bestellungSpeichern(b);

@@ -19,6 +19,7 @@ JavaScript, ohne Framework und ohne Build-Schritt. Zum Ansehen einfach die `inde
 | C. Vertragsentwurf | `c-nutzungsbedingungen.md` | **Entwurf fertig.** Muss vom Anwalt geprüft werden, AVV fehlt, 15 Fragen an den Anwalt im Anhang |
 | D. Druckpreise | `d-druckpreise.md` | **teilweise.** Anbieter DE und CH mit Preisen aus der Websuche. Kein Preis im Konfigurator nachgeprüft (Druckerei-Seiten waren aus meiner Umgebung gesperrt). 200 und 500 Stück nicht gefunden |
 | E. Anleitung für Partner | `e-anleitung-partner.md` | **fertig.** Fehlen: Bot-Name, Bestell-Link, Support-Kontakt, Bildschirmfotos |
+| G. Entscheidungen | `g-entscheidungen.md` | **Stand 21.10.2026:** was Jasmin entschieden hat und was davon gebaut ist |
 | F. Offene Fragen | `f-offene-fragen.md` | **fertig.** 44 Fragen mit Antwortmöglichkeiten, die Start-Fragen sind markiert |
 
 ## Aufbau
@@ -76,6 +77,7 @@ Seite weiter (Schlüssel `portal-demo`), das fällt live weg.
 | `bestellungLaden()` | `b-portal/anschluss.js` | Letzten Bestellentwurf laden |
 | `bezahlenStarten(bestellung)` | `b-portal/anschluss.js` | Stripe Checkout starten: Abo (monatlich) plus Einmalbetrag. Webhook schaltet danach Seite frei und gibt den Druckauftrag weiter. Rücksprung auf `mein-bereich/index.html?bezahlt=1` |
 | `statusLaden()` | `b-portal/anschluss.js` | Für „Mein Bereich“: aktiv bis, nächste Abbuchung, Betrag, Link, Bestell-Link, Telegram verbunden, letzte Bestellung, gekündigt |
+| `kundenLaden()` | `b-portal/anschluss.js` | Kunden, Anfragen und Verkäufe des Partners für den CSV-Export |
 | `aboKuendigen(grund)` | `b-portal/anschluss.js` | Stripe-Abo zum Ende der Laufzeit kündigen, Enddatum zurückgeben |
 
 Außerdem `platzhalterFuellen(daten)` in `a-landingpage/landing.js`: füllt die Platzhalter im Browser.
@@ -110,7 +112,7 @@ Text über sich), `{{IMPRESSUM_URL}}`, `{{DATENSCHUTZ_URL}}` (neu, Seiten des Pa
 `{{KUENDIGUNGSFRIST}}` steht auch auf der Portal-Startseite, in „Bezahlen“ und „Mein Bereich“.
 
 **Fehlende Inhalte:**
-`{{TESTBEDINGUNGEN_FEHLT}}` (Landingpage: Dauer und Bedingungen des Tests), `{{FORMAT_FEHLT}}`
+`{{TESTGERAET}}` (ja/nein, am `<html>` als data-test), `{{PREIS_WIEDERFREISCHALTUNG}}`, `{{FORMAT_FEHLT}}`
 (Format des Wegweisers in `paket.js`), `{{DATUM_FEHLT}}` (erscheint, wenn `statusLaden()` kein Datum
 liefert).
 

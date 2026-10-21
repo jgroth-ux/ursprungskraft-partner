@@ -2,11 +2,11 @@
 <!--
   PARTNER-PORTAL · REGISTRIEREN (Aufgabe B2), Stand 20.10.2026
   FERTIG: Formular Vorname, Nachname, E-Mail, Passwort, Haken Nutzungsbedingungen, Prüfung,
-          Anschluss registrieren() aus ../anschluss.js, danach weiter zu "Meine Daten".
+          Anschluss registrieren() aus ../anschluss.js, danach Hinweis auf die Bestätigungsmail.
   FEHLT:  echter Login-Dienst, Bestätigungsmail, Link auf die freigegebenen Nutzungsbedingungen
           (zeigt im Entwurf auf ../../c-nutzungsbedingungen.md).
 -->
-<html lang="de" data-farbe="oliv" data-vorschau="an">
+<html lang="de" data-farbe="sand" data-vorschau="an">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,6 +49,13 @@
       <button class="knopf voll" type="submit">Konto anlegen</button>
       <p class="small" style="margin:16px 0 0">Schon registriert? <a href="../anmelden/index.html">Hier anmelden</a></p>
     </form>
+
+    <div class="karte" id="postfach" hidden>
+      <h2>Schau in dein Postfach</h2>
+      <p>Wir haben dir eine Mail an <b></b> geschickt. Tippe auf den Link darin, dann geht es weiter mit deinen Daten.</p>
+      <p class="small">Keine Mail da? Schau auch im Spam-Ordner nach.</p>
+      <p class="small" style="margin:16px 0 0">Nur in der Vorschau: <a href="../meine-daten/index.html">Link aus der Mail öffnen</a></p>
+    </div>
   </div>
 </main>
 
@@ -79,7 +86,13 @@ document.getElementById('form').addEventListener('submit', async function (e) {
 
   var knopf = f.querySelector('button'); knopf.disabled = true; knopf.textContent = 'Wird angelegt …';
   var r = await registrieren({ vorname: d.vorname.trim(), nachname: d.nachname.trim(), email: d.email.trim(), passwort: d.passwort, nutzungsbedingungen_version: NUTZUNGSBEDINGUNGEN_VERSION });
-  if (r.ok) { location.href = '../meine-daten/index.html'; return; }
+  if (r.ok) {
+    f.hidden = true;
+    var box = document.getElementById('postfach');
+    box.querySelector('b').textContent = d.email.trim();
+    box.hidden = false;
+    return;
+  }
   knopf.disabled = false; knopf.textContent = 'Konto anlegen';
   fehler.textContent = r.fehler || 'Das hat nicht geklappt. Versuch es bitte noch einmal.';
 });
