@@ -1417,8 +1417,20 @@ async function zeichnen() {
   $('#reiter').hidden = ansicht === 'meine';
   if (ansicht === 'meine') return zeigeMeine(d);
   document.querySelectorAll('#reiter button').forEach((b) => b.classList.toggle('aktiv', b.dataset.reiter === reiter));
+  aktivZeigen();
   ({ aufgaben: zeigeAufgaben, kalender: zeigeKalender, unterlagen: zeigeUnterlagen, bestellungen: zeigeBestellungen, kunden: zeigeKunden, maschinen: zeigeMaschinen, partner: zeigePartner, auswertung: zeigeAuswertung, wohnung: zeigeWohnung }[reiter] || zeigeAufgaben)(d);
 }
+
+// Am Handy ist das Menü eine wischbare Zeile: den aktiven Reiter in die Mitte holen
+function aktivZeigen() {
+  const nav = $('#reiter'), b = nav.querySelector('button.aktiv');
+  if (!b || nav.scrollWidth <= nav.clientWidth) return;
+  const links = b.getBoundingClientRect().left - nav.getBoundingClientRect().left + nav.scrollLeft;
+  nav.scrollTo({ left: links - (nav.clientWidth - b.offsetWidth) / 2, behavior: 'smooth' });
+}
+// Name, Glocke und Abmelden: am Handy in der schmalen Leiste, am Rechner oben rechts über dem Inhalt
+const breit = matchMedia('(min-width: 821px)');
+function symbolePlatzieren() { (breit.matches ? $('.obenleiste') : $('.kopf-leiste')).appendChild($('.symbole')); }
 
 // Reiterwechsel: neu zeichnen und ganz nach oben springen, sonst bleibt man am Handy unten hängen
 async function reiterWechseln(r) {
@@ -1440,6 +1452,8 @@ async function start() {
   $('#wer-name').textContent = ich.name || sitzung.user.email;
   $('#abmelden').onclick = async () => { await Daten.anmeldung.abmelden(); location.reload(); };
   $('#hinweis-demo').hidden = !Daten.demo;
+  symbolePlatzieren();
+  breit.addEventListener('change', () => { symbolePlatzieren(); aktivZeigen(); });
   try { reiter = localStorage.getItem('uk-reiter') || 'aufgaben'; } catch (e) {}
   if (reiter === 'uebersicht') reiter = 'aufgaben';
   if (ich.rolle === 'admin') {

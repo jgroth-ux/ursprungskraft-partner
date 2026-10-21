@@ -15,7 +15,16 @@
 <body>
 <section id="anmeldung" class="anmeldung" hidden></section>
 <aside class="kopf" hidden>
-  <div class="marke"><img class="zeichen" src="logo-hell.png?v=2" alt=""><span>URSPRUNGSKRAFT<small>Dashboard</small></span></div>
+  <div class="kopf-leiste">
+    <div class="marke"><img class="zeichen" src="logo-hell.png?v=2" alt=""><span>URSPRUNGSKRAFT<small>Dashboard</small></span></div>
+    <!-- Name, Glocke und Abmelden: am Handy hier rechts, am Rechner oben rechts über dem Inhalt (app.js, symbolePlatzieren) -->
+    <div class="symbole">
+      <span id="wer-name"></span>
+      <button id="glocke" class="symbol glocke" hidden aria-label="Was ist neu"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.6L4.3 16a.7.7 0 0 0 .6 1h14.2a.7.7 0 0 0 .6-1L18 12.6V9a6 6 0 0 0-6-6Zm-2.2 15.5a2.3 2.3 0 0 0 4.4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="glocke-zahl"></span></button>
+      <button id="abmelden" class="symbol" aria-label="Abmelden" title="Abmelden"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M13 4H6.5a.5.5 0 0 0-.5.5v15a.5.5 0 0 0 .5.5H13M10 12h10M17 9l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div id="glocke-liste" class="glocke-liste" hidden></div>
+    </div>
+  </div>
   <div id="umschalter" class="umschalter" hidden>
     <button data-ansicht="daniel">Daniel</button><button data-ansicht="meine">Meine Zahlen</button>
   </div>
@@ -30,14 +39,10 @@
     <button data-reiter="unterlagen">Unterlagen</button>
     <button data-reiter="wohnung">Wohnung</button>
   </nav>
-  <div class="wer"><span id="wer-name"></span><button id="abmelden">Abmelden</button></div>
 </aside>
 <div class="rechts" hidden>
   <div id="hinweis-demo" class="demo" hidden>Vorschau mit Beispieldaten. Änderungen bleiben nur in diesem Browser.</div>
-  <div class="obenleiste">
-    <button id="glocke" class="glocke" hidden aria-label="Was ist neu"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.6L4.3 16a.7.7 0 0 0 .6 1h14.2a.7.7 0 0 0 .6-1L18 12.6V9a6 6 0 0 0-6-6Zm-2.2 15.5a2.3 2.3 0 0 0 4.4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="glocke-zahl"></span></button>
-    <div id="glocke-liste" class="glocke-liste" hidden></div>
-  </div>
+  <div class="obenleiste"></div>
   <main id="inhalt"></main>
 </div>
 <dialog id="dialog"><form method="dialog" id="dialog-form"></form></dialog>

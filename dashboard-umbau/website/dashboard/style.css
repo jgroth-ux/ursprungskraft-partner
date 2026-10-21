@@ -81,11 +81,18 @@ dialog::backdrop{background:rgba(46,48,36,.45)}
 .knoepfe{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
 .knoepfe .links{margin-right:auto}
 .verlauf{font-size:13px;color:var(--leise);margin-top:14px;border-top:1px solid var(--linie);padding-top:10px}
+.kopf-leiste{display:flex;flex-direction:column;gap:28px}
 @media (max-width:820px){
   body{display:block}
-  .kopf{flex-direction:row;flex-wrap:wrap;align-items:center;height:auto;padding:12px 16px;gap:10px;z-index:5}
-  nav{flex-direction:row;flex-wrap:wrap}
-  nav button{padding:7px 10px}
+  /* Handy: schmale Leiste oben, darunter das Menü als eine wischbare Zeile (21.10.2026) */
+  .kopf{height:auto;padding:0;gap:0;z-index:20}
+  .kopf-leiste{flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px 6px}
+  .kopf .marke{flex-direction:row;align-items:center;gap:8px;padding:0;font-size:13px;min-width:0}
+  .kopf .marke small{display:none}
+  .kopf .zeichen{width:28px;height:28px}
+  nav{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:0 12px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  nav::-webkit-scrollbar{display:none}
+  nav button{flex:none;white-space:nowrap;padding:7px 12px}
 }
 @media (max-width:640px){
   main{padding:20px 16px 50px}
@@ -139,9 +146,17 @@ body.gesperrt{display:block}
 .umschalter{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.08);border-radius:8px;padding:3px;gap:3px}
 .umschalter button{background:none;border:0;color:var(--khaki-hell);padding:7px 6px;border-radius:6px;cursor:pointer;font-size:13px}
 .umschalter button.aktiv{background:var(--grund);color:var(--oliv-dunkel)}
-.wer{margin-top:auto;font-size:13px;color:var(--khaki-hell);display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 8px}
-.wer button{background:none;border:1px solid rgba(255,255,255,.25);color:var(--khaki-hell);border-radius:6px;padding:4px 10px;cursor:pointer}
-@media (max-width:760px){.wer{margin-top:0;margin-left:auto}.umschalter{order:3;width:100%}}
+@media (max-width:760px){.umschalter{order:3;width:100%}}
+/* Symbole oben rechts: Name, Glocke, Abmelden (21.10.2026) */
+.symbole{position:relative;display:flex;align-items:center;gap:8px;flex:none}
+#wer-name{font-size:13px;color:var(--leise);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.symbol{position:relative;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--linie);background:#fff;color:var(--oliv-dunkel);display:grid;place-items:center;cursor:pointer}
+.symbol:hover{border-color:var(--oliv-dunkel)}
+.obenleiste .symbole{margin:14px 22px 0 0}
+.kopf .symbol{width:38px;height:38px;background:none;border-color:rgba(255,255,255,.25);color:var(--grund)}
+.kopf .symbol:hover{border-color:var(--khaki-hell)}
+.kopf #wer-name{color:var(--khaki-hell);font-size:12px;max-width:90px}
+@media (max-width:360px){.kopf #wer-name{display:none}}
 [hidden]{display:none!important}
 
 /* Automatische Karten (Testgerät abholen, Filterwechsel) */
@@ -155,12 +170,11 @@ body.gesperrt{display:block}
 .karte.ist-neu{box-shadow:inset 3px 0 0 var(--oliv-dunkel)}
 /* Glocke oben rechts: was ist neu (11.10.2026) */
 .obenleiste{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;height:0}
-.glocke{position:relative;margin:14px 22px 0 0;width:44px;height:44px;border-radius:50%;border:1px solid var(--linie);background:#fff;color:var(--oliv-dunkel);display:grid;place-items:center;cursor:pointer}
-.glocke:hover{border-color:var(--oliv-dunkel)}
 .glocke #glocke-zahl{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--rot);color:#fff;font-size:12px;line-height:20px;font-weight:600}
 .glocke #glocke-zahl:empty{display:none}
 .glocke.hat-neues{border-color:var(--oliv-dunkel)}
-.glocke-liste{position:absolute;top:64px;right:22px;width:min(360px,calc(100vw - 32px));max-height:60vh;overflow:auto;background:#fff;border:1px solid var(--linie);border-radius:10px;box-shadow:0 12px 32px rgba(40,42,30,.18);padding:8px}
+.kopf .glocke.hat-neues{border-color:var(--khaki-hell)}
+.glocke-liste{position:absolute;top:calc(100% + 8px);right:0;color:var(--text);width:min(360px,calc(100vw - 32px));max-height:60vh;overflow:auto;background:#fff;border:1px solid var(--linie);border-radius:10px;box-shadow:0 12px 32px rgba(40,42,30,.18);padding:8px}
 .glocke-kopf{display:flex;justify-content:space-between;align-items:center;padding:6px 8px 10px}
 .glocke-zeile{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--linie);padding:10px 8px;cursor:pointer;font:inherit;color:inherit}
 .glocke-zeile:hover{background:#F3F1EA}
