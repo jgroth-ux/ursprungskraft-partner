@@ -271,3 +271,37 @@ eine Schnittstelle mit Neutralversand. Für CH habe ich keine gefunden.
 **44. Wer bekommt die Druckdaten zuerst zu sehen?**
 - [ ] Der Partner bekommt ein PDF zur Freigabe, dann erst Druck
 - [ ] Direkt in den Druck nach der Zahlung (so beschrieben)
+
+---
+
+## Nachtrag 21.10.2026: ISO-Zertifikat und Videos
+
+**45. Das ISO-Zertifikat ist abgelaufen.** Das hochgeladene DNV-Zertifikat (ISO 13485:2016, Nr. C601298,
+Enagic International, Osaka Factory) gilt laut Aufdruck vom 28.04.2023 bis **27.04.2026**. Heute ist es
+nicht mehr gültig.
+- [ ] Daniel fragt bei Enagic nach dem neuen Zertifikat
+- [ ] Zertifikat erst mal nirgends zeigen
+- [ ] Nur den Satz „Hersteller mit zertifiziertem Qualitätsmanagement“, ohne Datei
+
+**46. Was ISO 13485 aussagt und was nicht.** Das Zertifikat bestätigt das Qualitätsmanagement des
+Herstellers für Entwicklung, Herstellung und Vertrieb von Elektrolyse-Wassergeräten „for Medical Use“.
+Es ist **keine** Zulassung des K8 als Medizinprodukt in der EU oder der Schweiz, und es erlaubt keine
+Gesundheitsaussagen. Wer „medizinisches Gerät“ schreibt, braucht eine CE-Kennzeichnung als
+Medizinprodukt für genau dieses Gerät, sonst ist das eine irreführende Werbung.
+- [ ] Anwalt fragen, ob und wie das Zertifikat erwähnt werden darf (gehört zu Frage 12 im Vertrag)
+- [ ] Bei Enagic Europa nachfragen, wie der K8 in der EU eingestuft ist
+- [ ] Auf Partnerseiten gar nicht erwähnen
+
+**47. Inhalte der vorhandenen Videos.** In den Videos geht es um Sportler, um Spritzmittel, die das
+Wasser aus Tomaten „entzieht“, und um „176 mal stärker als Vitamin C“. Das sind Gesundheits- und
+Wirkungsaussagen. Sie passen nicht zur Regel „keine Heilversprechen“ und sind abmahnfähig, besonders
+auf Partnerseiten.
+- [ ] Videos nicht auf Partnerseiten, nur intern
+- [ ] Neue eigene Videos ohne Wirkungsaussagen (Alltag, Anwendung, Ablauf Test)
+- [ ] Anwalt prüft jedes Video vor Verwendung
+
+**48. Wem gehören die Videos?** Wenn sie von Enagic, anderen Vertriebspartnern oder aus dem Internet
+stammen, dürfen wir sie nicht einfach in eine Mediathek für Partner legen.
+- [ ] Sind eigene Videos, frei nutzbar
+- [ ] Stammen von Enagic, Freigabe liegt vor / wird eingeholt
+- [ ] Unklar, erst klären
