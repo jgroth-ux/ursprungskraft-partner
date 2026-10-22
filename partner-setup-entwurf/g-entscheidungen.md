@@ -33,9 +33,15 @@
 | Material nach Vertragsende (22) | gehört dem Partner, er kann damit machen, was er will | ja, Vertrag 3.3 |
 | Angaben vom Partner | vor dem Erstellen der Seite werden alle Angaben abgefragt, auch Firmierung und USt-IdNr. | ja, „Deine Daten“ |
 
+## Marke „Kangen“ (geprüft 22.10.2026 im DPMA-Register)
+
+Eingetragen, Inhaber Enagic: „KANGEN“ (DE 302008056597, IR 1075579), „KANGEN WATER“ (IR 1186118),
+„Kangen Water“ (EU 018640012, 018783643), „KANGEN-WATER“ (DE 302009051054). Angemeldet: „Kangen UKON“ (EU 019415774).
+Folge: „Kangenwasser“ im Text ja (beschreibt das echte Produkt), aber **nicht in der Domain** und nicht als eigener Markenname.
+
 ## Noch offen
 
-- **Marke und Domain:** Vorschläge im Chat, Entscheidung offen.
+- **Marke und Domain:** soll sich auf das Produkt beziehen, ohne „Kangen“. Vorschläge: wasserionisierer-testen.de, fuenf-wasserarten.de, ionisiertes-wasser.de. Entscheidung offen.
 - **Anbieter:** Jasmin oder GmbH, klärt Jasmin mit Daniel.
 - **Wer schickt die Mail an Enagic (30):** klärt Jasmin mit Daniel.
 - **Preise und Pakete:** Starterpaket als Baukasten oder feste Pakete 1, 2, 3. Jasmin entscheidet später, wir machen dann Vorschläge.
