@@ -26,6 +26,7 @@
 | Testgerät (27) | kostenlos, keine Kaution, Vertrauensbasis. Jeder Partner entscheidet selbst, ob er ein Testgerät anbietet | ja, Feld in „Deine Daten“; bei Nein zeigt die Seite nur Beratung |
 | Linie A/B (29) | jeder Partner entscheidet selbst (noch mit Daniel bestätigen) | nein |
 | Bot (31) | ein Bot für alle, jeder Partner mit eigenem Startcode | ja |
+| Bot-Nachrichten (26) | Bot schickt die Kundendaten (Name, Telefon) direkt mit. Muss in der Datenschutzerklärung stehen: Daten laufen über Telegram, Firma außerhalb der EU | ja (so geplant), Hinweis gehört in die Datenschutz-Vorlage |
 | Registrierung (32) | erst nach Klick auf den Link in der Mail weiter | ja, Hinweis „Schau in dein Postfach“ |
 | Hinweis auf der Partnerseite (19) | „selbstständiger, unabhängiger Vertriebspartner“, Enagic wird nicht genannt, auch nicht im Markenvermerk | ja, Fuß der Landingpage |
 | Schriften (25) | liegen auf unserem Server, nicht bei Google | beim Einbau (der andere Claude) |
@@ -40,6 +41,6 @@
 - **Preise und Pakete:** Starterpaket als Baukasten oder feste Pakete 1, 2, 3. Jasmin entscheidet später, wir machen dann Vorschläge.
 - **Seite nach Kündigung (7):** Weiterleitung auf eine Seite von uns oder Hinweis. Offen.
 - **Österreich:** Druck in Deutschland mit Versand nach Österreich oder eigene Druckerei in Österreich. Herausfinden.
-- **Datenschutz (20, 26):** Jasmin kennt sich nicht aus. Vorschlag: Datenschutzerklärung und AVV vom Anwalt als Vorlage für alle Partner.
+- **Datenschutz (20):** Jasmin kennt sich nicht aus. Vorschlag: Datenschutzerklärung und AVV vom Anwalt als Vorlage für alle Partner.
 - **Fragebogen für Partnerkunden (33):** ist fertig, Datei fehlt hier noch.
 - **Freigabe der Partnertexte (21):** offen.
