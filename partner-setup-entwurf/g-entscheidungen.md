@@ -46,6 +46,7 @@ Folge: „Kangenwasser“ im Text ja (beschreibt das echte Produkt), aber **nich
 - **Wer schickt die Mail an Enagic (30):** klärt Jasmin mit Daniel.
 - **Preise und Pakete:** Starterpaket als Baukasten oder feste Pakete 1, 2, 3. Jasmin entscheidet später, wir machen dann Vorschläge.
 - **Seite nach Kündigung (7):** Weiterleitung auf eine Seite von uns oder Hinweis. Offen.
+- **Verantwortung für die Partnerseite:** Jasmin sieht die Verantwortung für Texte und Gestaltung bei uns, weil der Partner darauf keinen Einfluss hat. Anwalt klären (Vertrag Frage 5). Bis dahin steht im Hinweis nur „siehe Impressum“.
 - **Österreich:** Druck in Deutschland mit Versand nach Österreich oder eigene Druckerei in Österreich. Herausfinden.
 - **Datenschutz (20):** Jasmin kennt sich nicht aus. Vorschlag: Datenschutzerklärung und AVV vom Anwalt als Vorlage für alle Partner.
 - **Fragebogen für Partnerkunden (33):** ist fertig, Datei fehlt hier noch.
