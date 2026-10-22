@@ -33,6 +33,13 @@
 | Material nach Vertragsende (22) | gehört dem Partner, er kann damit machen, was er will | ja, Vertrag 3.3 |
 | Angaben vom Partner | vor dem Erstellen der Seite werden alle Angaben abgefragt, auch Firmierung und USt-IdNr. | ja, „Deine Daten“ |
 
+## Übernommen von kangen-wasser.ch (22.10.2026, in eigenen Worten)
+
+- Abschnitt „Eine Taste für jede Aufgabe“: fünf Wasserarten mit Alltagsanwendungen (Haushalt, Babynahrung pH 7, Pflege, Pflanzen, Haustiere).
+- Abschnitt „Was man hört und was stimmt“: Mythen und Fakten (Filter, Umkehrosmose, Mikro-Cluster, Wasserkristalle, Heilung).
+- Rechtlicher Hinweis: Satz zum Schweizer Heilmittelgesetz (HMG), Nutzung auf eigene Verantwortung, Markenvermerk auch Enagic USA.
+- Bewusst NICHT übernommen: Krankheitsseiten, Studien zu Dialyse, Diabetes, Haut, Neurologie, Gicht, Arzt-Fallberichte, Sport-Block mit Laktat und Regeneration, Evidenz-Ampel (ohne Gesundheitsaussagen nicht nötig).
+
 ## Marke „Kangen“ (geprüft 22.10.2026 im DPMA-Register)
 
 Eingetragen, Inhaber Enagic: „KANGEN“ (DE 302008056597, IR 1075579), „KANGEN WATER“ (IR 1186118),
