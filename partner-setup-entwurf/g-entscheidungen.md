@@ -28,7 +28,7 @@
 | Bot (31) | ein Bot für alle, jeder Partner mit eigenem Startcode | ja |
 | Bot-Nachrichten (26) | Bot schickt die Kundendaten (Name, Telefon) direkt mit. Muss in der Datenschutzerklärung stehen: Daten laufen über Telegram, Firma außerhalb der EU | ja (so geplant), Hinweis gehört in die Datenschutz-Vorlage |
 | Registrierung (32) | erst nach Klick auf den Link in der Mail weiter | ja, Hinweis „Schau in dein Postfach“ |
-| Hinweis auf der Partnerseite (19) | „selbstständiger, unabhängiger Vertriebspartner“, Enagic wird nicht genannt, auch nicht im Markenvermerk | ja, Fuß der Landingpage |
+| Hinweis auf der Partnerseite (19) | Rechtlicher Hinweis im Fuß: nur Information, kein Heilversprechen, keine ärztliche Beratung. Kangen® und Kangen Water® sind Marken der Enagic Europe GmbH, Seite nicht von Enagic betrieben, Partner ist unabhängig. Haftung für fremde Links ausgeschlossen (Jasmin 22.10.2026, Vorbild kangen-wasser.ch, eigene Worte) | ja, Fuß der Landingpage |
 | Schriften (25) | liegen auf unserem Server, nicht bei Google | beim Einbau (der andere Claude) |
 | Material nach Vertragsende (22) | gehört dem Partner, er kann damit machen, was er will | ja, Vertrag 3.3 |
 | Angaben vom Partner | vor dem Erstellen der Seite werden alle Angaben abgefragt, auch Firmierung und USt-IdNr. | ja, „Deine Daten“ |

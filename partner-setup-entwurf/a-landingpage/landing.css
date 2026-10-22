@@ -112,7 +112,7 @@ details p{color:var(--muted);padding-bottom:16px;margin:0}
 .dunkel a{color:var(--surface)}
 .direkt{font-size:15px}
 form{background:var(--surface);color:var(--ink);border-radius:8px;padding:32px}
-form a{color:var(--olive)}
+.dunkel form a,form a{color:var(--olive)}
 .wahl{border:0;margin:0 0 16px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .wahl legend{font-size:13px;color:var(--muted);margin-bottom:8px;padding:0}
 .wahl label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:4px;padding:12px;cursor:pointer;font-size:15px;line-height:22px}
@@ -138,6 +138,8 @@ form a{color:var(--olive)}
 .fuss-links{display:flex;gap:32px}
 .fuss a{color:var(--surface)}
 .rechtlich{margin:32px 0 0;padding-top:16px;border-top:1px solid var(--muted);max-width:none}
+.rechtlich p{max-width:90ch;margin:0 0 8px}
+.rechtlich-titel{font:600 13px/20px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--surface);margin:0 0 8px}
 
 /* ---------- Tablet ---------- */
 @media (max-width:900px){
