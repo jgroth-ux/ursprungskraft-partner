@@ -15,7 +15,7 @@ const form = $('#bestellung');
 const PREISE = {
   CH: { voll: '4.657 €', zusatz: 'Die Maschine wird netto in die Schweiz geliefert. Nach der Lieferung kommen Verzollung und Mehrwertsteuer dazu, etwa 400 CHF.',
     raten: { 3: [646, 1328], 6: [676, 664], 10: [716, 398], 16: [776, 249], 24: [856, 166] } },
-  DE: { voll: '5.486 €', klein: '4.612 € netto + 874 € MwSt.',
+  DE: { voll: '5.486 €', netto: '4.612 €', mwst: '874 €',
     raten: { 3: [1532, 1328], 6: [1562, 664], 10: [1602, 398.4], 16: [1662, 249], 24: [1742, 166] } },
 };
 const eur = (n) => Number(n).toLocaleString('de-DE', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €';
@@ -24,7 +24,8 @@ function preiseZeigen(w) {
   if (!w.geraet_k8) { box.innerHTML = 'Preis und Bezahlung für deine Auswahl klären wir persönlich mit dir, bevor die Bestellung an Enagic geht.'; }
   else if (!w.land_kurz) { box.innerHTML = ''; }
   else if (!p) { box.innerHTML = 'Den Preis nennen wir dir persönlich, bevor die Bestellung an Enagic geht.'; }
-  else box.innerHTML = `Gesamtpreis bei Überweisung: <b>${p.voll}</b>${p.klein ? ` <span class="hilfe">(${p.klein})</span>` : ''}${p.zusatz ? `<span class="warn">${p.zusatz}</span>` : ''}`;
+  // Netto groß, zzgl. MwSt. (Jasmin, 23.10.2026). Den Gesamtbetrag zeigen wir hier trotzdem klein, vor dem verbindlichen Bestellen muss er sichtbar sein.
+  else box.innerHTML = p.netto ? `Preis bei Überweisung: <b>${p.netto}</b> zzgl. ${p.mwst} MwSt.<span class="warn">Gesamtbetrag ${p.voll}</span>` : `Preis bei Überweisung: <b>${p.voll}</b>${p.zusatz ? `<span class="warn">${p.zusatz}</span>` : ''}`;
   [...sel.options].forEach((o) => { const r = p && p.raten[o.value]; o.textContent = r ? `${o.value} Monate: Anzahlung ${eur(r[0])}, dann ${eur(r[1])} im Monat` : `${o.value} Monate`; });
 }
 
@@ -53,7 +54,7 @@ const ICON = {
 const PRODUKTE = [
   { id: 'k8', feld: 'geraet_k8', start: true, name: 'LeveLuk K8', marke: 'Wasserionisierer', bild: '../bilder/k8.jpg',
     kurz: 'Fünf Wasserarten aus deinem Leitungswasser, direkt an der Spüle.',
-    preis: { DE: ['5.486 €', 'inkl. MwSt., Versand aus Düsseldorf'], CH: ['4.657 €', 'geliefert, zzgl. Verzollung und MwSt. (ca. 400 CHF)'] },
+    preis: { DE: ['4.612 €', 'zzgl. MwSt.'], CH: ['4.657 €', 'zzgl. MwSt. und Verzollung (ca. 400 CHF)'] },
     text: 'Der K8 steht neben deiner Spüle und wird an den Wasserhahn angeschlossen. Er filtert dein Leitungswasser und teilt es danach per Elektrolyse in basisches und saures Wasser. So bekommst du per Knopfdruck Trinkwasser, Wasser zum Kochen und Wasser für Pflege und Haushalt.',
     highlights: [['tippen', 'Touchscreen mit Sprachansage in mehreren Sprachen'], ['kreis', 'Reinigt sich nach jeder Nutzung automatisch'], ['glocke', 'Filteranzeige meldet, wann ein Wechsel fällig ist'], ['welt', 'Netzteil für jede Stromversorgung weltweit'], ['strom', 'Schaltet sich zwischen den Nutzungen selbst ab'], ['tropfen', '5 Wasserarten von pH 2,5 bis pH 11,5']],
     skala: true,
@@ -66,14 +67,14 @@ const PRODUKTE = [
       ['Kann ich in Raten zahlen?', 'Ja. Enagic bietet 3, 6, 10, 16 oder 24 Monate an. Die Raten siehst du weiter unten bei der Bezahlung.']] },
   { id: 'anespa', name: 'ANESPA DX', marke: 'Mineral-Ionen-Wasserbad', bild: '../bilder/anespa.jpg',
     kurz: 'Filtersystem für Dusche und Badewanne, mit Massage-Duschkopf.',
-    preis: { DE: ['2.800 €', 'zzgl. MwSt., laut Enagic-Shop'] },
+    preis: { DE: ['2.800 €', 'zzgl. MwSt.'] },
     text: 'ANESPA DX wird an deine Dusche oder Badewanne angeschlossen. Aktivkohle und eine Keramikkartusche filtern das Leitungswasser, laut Enagic entfernt es nahezu das gesamte Restchlor. In der Kartusche stecken Tuffstein aus der heißen Quelle Futamata in Hokkaido und Maifan-Stein.',
     highlights: [['dusche', 'Massage-Duschkopf mit verstellbaren Einstellungen'], ['schild', 'Zweistufige Filterung: Aktivkohle und Keramik'], ['stein', 'Mineralsteine aus Japan in der Kartusche'], ['kreis', 'Einfacher Kartuschenwechsel dank neuer Basis']],
     daten: [['Erzeugt', 'Mineral-Ionen-Wasser'], ['pH-Wert', 'wie Leitungswasser'], ['Durchfluss', '2,6 l/min'], ['Gewicht', '4,2 kg'], ['Maße (B × Durchmesser)', '130 × 346 mm'], ['Keramikkartusche', 'etwa alle 3 Jahre, 200 € zzgl. MwSt.'], ['Externer Chlorfilter', '65 € zzgl. MwSt.'], ['Garantie', '3 Jahre']],
     fragen: [['Passt das an meine Dusche?', 'ANESPA DX wird zwischen Armatur und Duschschlauch gesetzt. Ob es bei dir passt, schauen wir gemeinsam an.'], ['Kann ich in Raten zahlen?', 'Laut Enagic ja, in 3, 6, 10 oder 16 Raten. Preis und Bezahlung klären wir persönlich mit dir.']] },
   { id: 'emguarde', name: 'emGuarde Go', marke: 'Set mit 2 Geräten', bild: '../bilder/emguarde.jpg',
     kurz: 'Zwei kleine Geräte von Enagic für Zuhause, Arbeit und unterwegs.',
-    preis: { DE: ['2.420 €', 'zzgl. MwSt., laut Enagic-Shop'] },
+    preis: { DE: ['2.420 €', 'zzgl. MwSt.'] },
     text: 'emGuarde Go ist ein Set aus zwei handlichen Geräten. Enagic beschreibt es als Unterstützung im Umgang mit elektromagnetischen Feldern im Alltag, zum Beispiel von WLAN, Handy und Elektrogeräten. Du stellst die Geräte dorthin, wo du viel Zeit verbringst, oder nimmst eins mit.',
     highlights: [['koffer', 'Kompakt und leicht, passt in jede Tasche'], ['akku', 'Akku mit 5.000 mAh, laden über USB-C'], ['uhr', 'Bis zu 72 Stunden pro Ladung'], ['strom', 'Eine Taste, keine Einrichtung, keine Wartung']],
     daten: [['Lieferumfang', '2 Geräte, 2 USB-C-Ladekabel'], ['Akku', '5.000 mAh Lithium, wiederaufladbar'], ['Laufzeit', 'bis zu 72 Stunden'], ['Reichweite', 'je Gerät etwa 3 m Durchmesser'], ['Bedienung', 'eine Taste'], ['Farbe', 'mattschwarz'], ['Garantie', '2 Jahre']],

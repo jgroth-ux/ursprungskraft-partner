@@ -128,6 +128,10 @@ Was zahlt ein Kunde in Österreich für K8, ANESPA DX und emGuarde Go, bei Über
 Wie gehen wir mit Kunden außerhalb von Deutschland, Schweiz und Österreich um: Darf man über uns bestellen, welche Preise gelten, welches Enagic-Büro ist zuständig? Bis dahin steht dort „Preis nennen wir dir persönlich“.
 - [ ] Antwort:
 
+**D25. Preise ohne MwSt. für Privatkunden (Anwalt)**
+Die Bestellseite zeigt jetzt bei allen Produkten den Preis ohne MwSt. mit „zzgl. MwSt.“ (Jasmins Wunsch). Bei Privatkunden verlangt die Preisangabenverordnung in Deutschland normalerweise den Endpreis inkl. MwSt. Der Gesamtbetrag steht deshalb klein im Block „Bezahlung“. Ist das so in Ordnung, oder Abmahnrisiko? Bitte vom Anwalt bestätigen lassen.
+- [ ] Antwort:
+
 ---
 
 *Weitere offene Punkte für Jasmin und den Anwalt stehen in `partner-setup-entwurf/g-entscheidungen.md`

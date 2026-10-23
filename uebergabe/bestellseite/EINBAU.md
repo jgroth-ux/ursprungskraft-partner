@@ -32,6 +32,9 @@ Die Ordner `bilder/`, `dashboard/`, `vendor/` in `fertig/website/` sind nur zum 
   dazu „Anderes Land“ mit Auswahlliste. Die Wahl setzt das vorhandene Feld `land_kurz`, es kommt kein neues Feld dazu.
   Für Österreich und andere Länder gibt es noch keine Preise (Fragen D22 bis D24), dort steht „Preis persönlich“.
   Bewusst steht nirgends, dass die Preise je Land verschieden sind (Jasmin, 23.10.2026).
+- **Preise netto:** Kacheln zeigen den Preis ohne MwSt. mit „zzgl. MwSt.“ (K8 Deutschland 4.612 €). Im Block „Bezahlung“
+  steht „4.612 € zzgl. 874 € MwSt.“ und klein der Gesamtbetrag 5.486 €. „Versand aus Düsseldorf“ ist überall raus.
+  Rechtlich offen (Frage D25).
 - Text „Wie möchtest du kaufen?“ erklärt jetzt Kunde und Vertriebspartner (Distributor). Die Werte bleiben `Verbraucher` und `Distributor`.
 - Kopf der Seite jetzt hell (statt dunkelgrün), Logo `logo-oliv.png`. Auswahlfelder (Kaufart, Bezahlung,
   Haken) sind eigene Kreise und Kästchen: leer = weiß, gewählt = Oliv.
