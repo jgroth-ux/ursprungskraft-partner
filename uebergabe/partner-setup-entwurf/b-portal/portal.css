@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Partner-Portal, gemeinsame Gestaltung aller Seiten. Stand 20.10.2026
+   FERTIG: Kopf, Schrittleiste, Formulare, Karten, Tabellen, Handy ab 375 px.
+   FEHLT:  nichts. Farben nur über ../gemeinsam/farbpakete.css.
+   Das Portal selbst läuft immer im Paket Oliv-Khaki oder in der Farbe der Marke {{MARKE}}
+   (offen, siehe f-offene-fragen.md). Der Umschalter ist nur zum Vergleichen da.
+   ========================================================================== */
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/26px Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Jost,system-ui,sans-serif;font-weight:500;margin:0;color:var(--ink)}
+h1{font-size:40px;line-height:46px;margin-bottom:16px}
+h2{font-size:28px;line-height:34px;margin-bottom:16px}
+h3{font-size:20px;line-height:28px;margin-bottom:8px}
+p{margin:0 0 16px;max-width:65ch}
+a{color:var(--olive);text-underline-offset:3px}
+.muted{color:var(--muted)}
+.small{font-size:13px;line-height:20px;color:var(--muted)}
+.eyebrow{font:600 12px/16px Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive);margin-bottom:8px}
+.innen{max-width:1080px;margin:0 auto;padding:0 32px}
+.schmal{max-width:560px}
+main{padding:64px 0}
+section+section{margin-top:64px}
+.platzhalter-wert{font-family:ui-monospace,Menlo,monospace;font-size:.9em;background:var(--sand);border-radius:4px;padding:0 4px}
+
+/* ---------- Kopf ---------- */
+.kopf{background:var(--ground);border-bottom:1px solid var(--line)}
+.kopf .innen{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.marke{text-decoration:none;color:var(--olive)}
+.marke b{display:block;font:500 17px/20px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.marke span{display:block;font-size:11px;line-height:16px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.kopf nav{display:flex;gap:16px;align-items:center;font-size:15px}
+.kopf nav a{color:var(--ink);text-decoration:none}
+.kopf nav a:hover{color:var(--olive)}
+
+/* ---------- Knöpfe ---------- */
+.knopf{display:inline-block;background:var(--olive);color:var(--surface);text-decoration:none;border:1px solid var(--olive);border-radius:4px;padding:13px 22px;font:600 15px/22px Inter,sans-serif;cursor:pointer;text-align:center}
+.knopf:hover{background:var(--olive-hover);border-color:var(--olive-hover)}
+.knopf:focus-visible,.zweit:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
+.knopf:disabled{opacity:.5;cursor:not-allowed}
+.knopf.voll{width:100%}
+.zweit{display:inline-block;background:var(--surface);color:var(--olive);text-decoration:none;border:1px solid var(--line);border-radius:4px;padding:12px 20px;font:600 15px/22px Inter,sans-serif;cursor:pointer;text-align:center}
+.zweit:hover{border-color:var(--olive)}
+.warn{color:#8A3B2E;border-color:#D9B8AE}
+.warn:hover{border-color:#8A3B2E}
+.leiste{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:32px}
+
+/* ---------- Schrittleiste ---------- */
+.schritte{list-style:none;margin:0 0 32px;padding:0;display:flex;gap:8px;counter-reset:s}
+.schritte li{flex:1;border-top:2px solid var(--line);padding-top:8px;font-size:13px;line-height:20px;color:var(--muted);counter-increment:s}
+.schritte li::before{content:counter(s,decimal-leading-zero) " ";font-family:Jost,sans-serif;color:var(--khaki)}
+.schritte li.fertig{border-color:var(--khaki)}
+.schritte li.jetzt{border-color:var(--olive);color:var(--ink);font-weight:600}
+
+/* ---------- Karten und Flächen ---------- */
+.karte{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:32px}
+.sandbox{background:var(--sand);border-radius:4px;padding:16px}
+.hinweis{background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--khaki);border-radius:4px;padding:16px;font-size:14px;line-height:22px}
+.raster-2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.raster-3{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+
+/* ---------- Formulare ---------- */
+.feld{display:block;font-size:13px;line-height:20px;color:var(--muted);margin-bottom:16px}
+.feld input,.feld textarea,.feld select{display:block;width:100%;margin-top:4px;border:1px solid var(--line);border-radius:4px;padding:11px 12px;font:400 16px/24px Inter,sans-serif;color:var(--ink);background:var(--ground)}
+.feld input:focus,.feld textarea:focus,.feld select:focus{outline:none;border-color:var(--olive)}
+.feld textarea{resize:vertical;min-height:120px}
+.feld .zusatz{display:block;margin-top:4px;font-size:12px;line-height:18px}
+.feld.falsch input,.feld.falsch textarea{border-color:#9A4E3E}
+.reihe{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mit-vorsatz{display:flex;align-items:stretch;margin-top:4px}
+.mit-vorsatz span{display:flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-right:0;border-radius:4px 0 0 4px;background:var(--sand);color:var(--muted);font-size:14px;white-space:nowrap}
+.mit-vorsatz input{margin-top:0!important;border-radius:0 4px 4px 0!important;min-width:0}
+.haken{display:flex;gap:8px;font-size:14px;line-height:22px;color:var(--muted);margin:16px 0}
+.haken input{accent-color:var(--olive);margin-top:3px;flex:none;width:18px;height:18px}
+.fehler{color:#9A4E3E;font-size:14px;line-height:20px;margin-bottom:16px}
+.fehler:empty{display:none}
+.ok{color:var(--olive);font-size:14px;line-height:20px}
+fieldset{border:0;margin:0 0 32px;padding:0;min-width:0}
+legend{font:500 20px/28px Jost,sans-serif;color:var(--ink);padding:0;margin-bottom:16px}
+.gruppe legend{float:left;width:100%;border-top:1px solid var(--line);padding-top:32px}
+.gruppe legend+*{clear:both}
+
+/* ---------- Tabellen ---------- */
+table{width:100%;border-collapse:collapse;font-size:15px;line-height:22px}
+th{background:var(--sand);text-align:left;font-weight:600;padding:10px 12px}
+td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+td.zahl,th.zahl{text-align:right;white-space:nowrap}
+tfoot td{font-weight:600;border-bottom:0;border-top:2px solid var(--ink)}
+
+/* ---------- Fuß ---------- */
+.fuss{border-top:1px solid var(--line);padding:32px 0;font-size:13px;line-height:20px;color:var(--muted)}
+.fuss .innen{display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between}
+.fuss a{color:var(--muted)}
+
+/* ---------- Meldung unten ---------- */
+.meldung{position:fixed;left:16px;right:16px;bottom:16px;max-width:420px;margin:0 auto;background:var(--olive-deep);color:var(--surface);border-radius:4px;padding:12px 16px;font-size:14px;line-height:20px;z-index:200}
+
+@media (max-width:900px){
+  .raster-3{grid-template-columns:1fr 1fr}
+}
+@media (max-width:720px){
+  .innen{padding:0 16px}
+  main{padding:32px 0 64px}
+  h1{font-size:32px;line-height:38px}
+  h2{font-size:24px;line-height:30px}
+  .raster-2,.raster-3,.reihe{grid-template-columns:1fr;gap:16px}
+  .karte{padding:16px}
+  .kopf nav .nav-text{display:none}
+  .schritte li{font-size:0;line-height:0;padding-top:0;height:10px}
+  .schritte li::before{font-size:12px;line-height:16px}
+  .leiste .knopf,.leiste .zweit{flex:1 1 100%}
+  th,td{padding:8px}
+}

@@ -1,0 +1,101 @@
+<!doctype html>
+<!--
+  PARTNER-PORTAL · REGISTRIEREN (Aufgabe B2), Stand 20.10.2026
+  FERTIG: Formular Vorname, Nachname, E-Mail, Passwort, Haken Nutzungsbedingungen, Prüfung,
+          Anschluss registrieren() aus ../anschluss.js, danach Hinweis auf die Bestätigungsmail.
+  FEHLT:  echter Login-Dienst, Bestätigungsmail, Link auf die freigegebenen Nutzungsbedingungen
+          (zeigt im Entwurf auf ../../c-nutzungsbedingungen.md).
+-->
+<html lang="de" data-farbe="sand" data-vorschau="an">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Registrieren · {{MARKE}} Partnerportal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../gemeinsam/farbpakete.css">
+<link rel="stylesheet" href="../portal.css">
+</head>
+<body>
+<header class="kopf">
+  <div class="innen">
+    <a class="marke" href="../index.html"><b>{{MARKE}}</b><span>Partnerportal</span></a>
+    <nav><a href="../anmelden/index.html">Anmelden</a></nav>
+  </div>
+</header>
+
+<main>
+  <div class="innen schmal">
+    <ol class="schritte" aria-label="Fortschritt">
+      <li class="jetzt">Registrieren</li><li>Deine Daten</li><li>Paket</li><li>Bezahlen</li>
+    </ol>
+    <h1>Konto anlegen</h1>
+    <p class="muted">Mit deinem Konto trägst du deine Daten ein, stellst dein Paket zusammen und bestellst später nach.</p>
+
+    <form id="form" class="karte" novalidate>
+      <div class="reihe">
+        <label class="feld">Vorname<input name="vorname" autocomplete="given-name" required></label>
+        <label class="feld">Nachname<input name="nachname" autocomplete="family-name" required></label>
+      </div>
+      <label class="feld">E-Mail<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+      <label class="feld">Passwort<input name="passwort" type="password" autocomplete="new-password" minlength="10" required>
+        <span class="zusatz">Mindestens 10 Zeichen.</span></label>
+      <label class="feld">Passwort wiederholen<input name="passwort2" type="password" autocomplete="new-password" required></label>
+      <label class="haken"><input type="checkbox" name="nb" required> <span>Ich habe die <a href="../../c-nutzungsbedingungen.md" target="_blank" rel="noopener">Nutzungsbedingungen</a> gelesen und bin einverstanden.</span></label>
+      <label class="haken"><input type="checkbox" name="ds" required> <span>Ich habe die <a href="{{PORTAL_DATENSCHUTZ_URL}}" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen.</span></label>
+      <div class="fehler" id="fehler" role="alert"></div>
+      <button class="knopf voll" type="submit">Konto anlegen</button>
+      <p class="small" style="margin:16px 0 0">Schon registriert? <a href="../anmelden/index.html">Hier anmelden</a></p>
+    </form>
+
+    <div class="karte" id="postfach" hidden>
+      <h2>Schau in dein Postfach</h2>
+      <p>Wir haben dir eine Mail an <b></b> geschickt. Tippe auf den Link darin, dann geht es weiter mit deinen Daten.</p>
+      <p class="small">Keine Mail da? Schau auch im Spam-Ordner nach.</p>
+      <p class="small" style="margin:16px 0 0">Nur in der Vorschau: <a href="../meine-daten/index.html">Link aus der Mail öffnen</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="fuss"><div class="innen"><span>{{MARKE}} · ein Angebot von {{ANBIETER}}</span><span><a href="{{PORTAL_IMPRESSUM_URL}}">Impressum</a> · <a href="{{PORTAL_DATENSCHUTZ_URL}}">Datenschutz</a></span></div></footer>
+
+<script src="../../gemeinsam/vorschau.js"></script>
+<script src="../portal.js"></script>
+<script src="../anschluss.js"></script>
+<script>
+// Version der Nutzungsbedingungen, der zugestimmt wird. Bei jeder Änderung von C hochzählen.
+var NUTZUNGSBEDINGUNGEN_VERSION = 'entwurf-2026-10-20';
+
+document.getElementById('form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  var f = e.target, fehler = document.getElementById('fehler');
+  var d = Object.fromEntries(new FormData(f).entries());
+  fehler.textContent = '';
+  f.querySelectorAll('input').forEach(function (i) { feldFalsch(i, false); });
+
+  var meldungen = [];
+  ['vorname', 'nachname'].forEach(function (n) { if (!(d[n] || '').trim()) { feldFalsch(f.elements[n], true); meldungen.push('Bitte gib Vor- und Nachnamen an.'); } });
+  if (!EMAIL_MUSTER.test((d.email || '').trim())) { feldFalsch(f.elements.email, true); meldungen.push('Die E-Mail-Adresse sieht nicht vollständig aus.'); }
+  if ((d.passwort || '').length < 10) { feldFalsch(f.elements.passwort, true); meldungen.push('Das Passwort braucht mindestens 10 Zeichen.'); }
+  else if (d.passwort !== d.passwort2) { feldFalsch(f.elements.passwort2, true); meldungen.push('Die beiden Passwörter sind nicht gleich.'); }
+  if (!d.nb) meldungen.push('Bitte bestätige die Nutzungsbedingungen.');
+  if (!d.ds) meldungen.push('Bitte bestätige die Datenschutzerklärung.');
+  if (meldungen.length) { fehler.textContent = meldungen.filter(function (m, i, a) { return a.indexOf(m) === i; }).join(' '); return; }
+
+  var knopf = f.querySelector('button'); knopf.disabled = true; knopf.textContent = 'Wird angelegt …';
+  var r = await registrieren({ vorname: d.vorname.trim(), nachname: d.nachname.trim(), email: d.email.trim(), passwort: d.passwort, nutzungsbedingungen_version: NUTZUNGSBEDINGUNGEN_VERSION });
+  if (r.ok) {
+    f.hidden = true;
+    var box = document.getElementById('postfach');
+    box.querySelector('b').textContent = d.email.trim();
+    box.hidden = false;
+    return;
+  }
+  knopf.disabled = false; knopf.textContent = 'Konto anlegen';
+  fehler.textContent = r.fehler || 'Das hat nicht geklappt. Versuch es bitte noch einmal.';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<!--
+  PARTNER-PORTAL · PAKET ZUSAMMENSTELLEN (Aufgabe B4), Stand 20.10.2026
+  FERTIG: Land DE/CH mit eigenen Preisen, Nur online, fünf Dokumente mit 100/200/500 Stück, Summe live, Nachbestellung (?art=nachbestellung).
+  FEHLT:  Preise (Tabelle PREISE oben in paket.js), Format des Wegweisers, Vorschaubilder der Dokumente.
+  ANSCHLUSS: partnerLaden(), bestellungSpeichern() in ../anschluss.js
+-->
+<html lang="de" data-farbe="sand" data-vorschau="an">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Paket zusammenstellen · {{MARKE}} Partnerportal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../gemeinsam/farbpakete.css">
+<link rel="stylesheet" href="../portal.css">
+<link rel="stylesheet" href="paket.css">
+</head>
+<body>
+<header class="kopf">
+  <div class="innen">
+    <a class="marke" href="../index.html"><b>{{MARKE}}</b><span>Partnerportal</span></a>
+    <nav><a class="nav-text" href="../meine-daten/index.html">Deine Daten</a><a href="../mein-bereich/index.html">Mein Bereich</a></nav>
+  </div>
+</header>
+<main>
+  <div class="innen">
+    <ol class="schritte" id="schritte" aria-label="Fortschritt">
+      <li class="fertig">Registrieren</li><li class="fertig">Deine Daten</li><li class="jetzt">Paket</li><li>Bezahlen</li>
+    </ol>
+    <h1 id="titel">Dein Paket zusammenstellen</h1>
+    <p class="muted">Jedes Dokument mit deinem Namen, deinen Kontaktdaten und einem QR-Code zu deiner Seite. Je Dokument 100, 200 oder 500 Stück. <span id="druckort"></span></p>
+
+    <div class="wahl-zeile">
+      <fieldset class="knopf-wahl">
+        <legend>Wo bist du Partner?</legend>
+        <label><input type="radio" name="land" value="DE" checked> <span>Deutschland</span></label>
+        <label><input type="radio" name="land" value="CH"> <span>Schweiz</span></label>
+        <label><input type="radio" name="land" value="AT"> <span>Österreich</span></label>
+        <label><input type="radio" name="land" value="ANDERE"> <span>Anderes Land</span></label>
+        <label class="feld" id="land-name" hidden style="display:block;border:0;padding:0;background:none;margin-top:8px">Welches Land?<input autocomplete="country-name"></label>
+      </fieldset>
+      <fieldset class="knopf-wahl" id="art-wahl">
+        <legend>Was brauchst du?</legend>
+        <label><input type="radio" name="art" value="druck" checked> <span>Seite und Druckmaterial</span></label>
+        <label><input type="radio" name="art" value="online"> <span>Nur online, ohne Druck</span></label>
+      </fieldset>
+    </div>
+
+    <div class="paket-raster">
+      <ul class="dokumente" id="dokumente"></ul>
+
+      <aside class="karte summe-karte" aria-live="polite">
+        <h2>Übersicht</h2>
+        <table><tbody id="summe-zeilen"></tbody>
+          <tfoot><tr><td>Einmalig</td><td class="zahl" id="summe"></td></tr></tfoot>
+        </table>
+        <p class="small" id="stueck" style="margin:8px 0 0"></p>
+        <p class="small" id="monat" style="margin:8px 0 16px"></p>
+        <label class="haken small" id="testpreis" hidden><input type="checkbox"> <span>Nur Vorschau: mit Testpreis 1,00 je Stück rechnen (kein echter Preis)</span></label>
+        <button class="knopf voll" type="button" id="weiter" disabled>Weiter zur Übersicht</button>
+      </aside>
+    </div>
+  </div>
+</main>
+<script src="../../gemeinsam/vorschau.js"></script>
+<script src="../portal.js"></script>
+<script src="../anschluss.js"></script>
+<script src="paket.js"></script>
+</body>
+</html>

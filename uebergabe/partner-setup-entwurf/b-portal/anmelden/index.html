@@ -1,0 +1,62 @@
+<!doctype html>
+<!--
+  PARTNER-PORTAL · ANMELDEN (Ergänzung zu B6, damit "Mein Bereich" erreichbar ist), Stand 20.10.2026
+  FERTIG: Anmelden, Passwort vergessen, Anschluss anmelden() und passwortVergessen().
+  FEHLT:  echter Login-Dienst und Mailversand.
+-->
+<html lang="de" data-farbe="sand" data-vorschau="an">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Anmelden · {{MARKE}} Partnerportal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../gemeinsam/farbpakete.css">
+<link rel="stylesheet" href="../portal.css">
+</head>
+<body>
+<header class="kopf">
+  <div class="innen">
+    <a class="marke" href="../index.html"><b>{{MARKE}}</b><span>Partnerportal</span></a>
+    <nav><a href="../registrieren/index.html">Registrieren</a></nav>
+  </div>
+</header>
+<main>
+  <div class="innen schmal">
+    <h1>Anmelden</h1>
+    <form id="form" class="karte" novalidate>
+      <label class="feld">E-Mail<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+      <label class="feld">Passwort<input name="passwort" type="password" autocomplete="current-password" required></label>
+      <div class="fehler" id="fehler" role="alert"></div>
+      <button class="knopf voll" type="submit">Anmelden</button>
+      <p class="small" style="margin:16px 0 0"><a href="#" id="vergessen">Passwort vergessen?</a> · Noch kein Konto? <a href="../registrieren/index.html">Registrieren</a></p>
+    </form>
+  </div>
+</main>
+<footer class="fuss"><div class="innen"><span>{{MARKE}} · ein Angebot von {{ANBIETER}}</span><span><a href="{{PORTAL_IMPRESSUM_URL}}">Impressum</a> · <a href="{{PORTAL_DATENSCHUTZ_URL}}">Datenschutz</a></span></div></footer>
+<script src="../../gemeinsam/vorschau.js"></script>
+<script src="../portal.js"></script>
+<script src="../anschluss.js"></script>
+<script>
+var form = document.getElementById('form'), fehler = document.getElementById('fehler');
+form.addEventListener('submit', async function (e) {
+  e.preventDefault();
+  var d = Object.fromEntries(new FormData(form).entries());
+  if (!EMAIL_MUSTER.test((d.email || '').trim()) || !d.passwort) { fehler.textContent = 'Bitte gib E-Mail und Passwort ein.'; return; }
+  var r = await anmelden(d.email.trim(), d.passwort);
+  if (r.ok) location.href = '../mein-bereich/index.html';
+  else fehler.textContent = r.fehler || 'E-Mail oder Passwort stimmt nicht.';
+});
+document.getElementById('vergessen').addEventListener('click', async function (e) {
+  e.preventDefault();
+  var email = form.elements.email.value.trim();
+  if (!EMAIL_MUSTER.test(email)) { fehler.textContent = 'Trag oben deine E-Mail ein, dann schicken wir dir einen Link.'; return; }
+  await passwortVergessen(email);
+  fehler.textContent = '';
+  meldung('Wir haben dir einen Link geschickt. Schau auch im Spam-Ordner nach.');
+});
+</script>
+</body>
+</html>

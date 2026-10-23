@@ -1,0 +1,24 @@
+/* Mein Bereich, Stand 20.10.2026. FERTIG. */
+.status{margin:32px 0}
+.status .karte{padding:16px 16px 8px}
+.gross{font:500 24px/30px Jost,sans-serif;color:var(--ink);margin:0 0 4px}
+.link-karte{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:center}
+.link-zeile{display:flex;gap:8px}
+.link-zeile input{flex:1;min-width:0;border:1px solid var(--line);border-radius:4px;padding:11px 12px;font:400 16px/24px Inter,sans-serif;background:var(--ground);color:var(--ink)}
+.qr-block{display:flex;flex-direction:column;gap:8px;align-items:center}
+.qr{width:160px;height:160px;background:#fff;padding:8px;border:1px solid var(--line);border-radius:4px}
+.qr img,.qr canvas{width:100%!important;height:auto!important;display:block}
+.aktionen{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.aktionen a{display:flex;flex-direction:column;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.aktionen b{font:500 18px/26px Jost,sans-serif;color:var(--olive)}
+.aktionen b::after{content:" →";color:var(--khaki)}
+.aktionen span{color:var(--muted);font-size:15px;line-height:22px}
+.kuendigen{border-top:1px solid var(--line);padding-top:32px}
+dialog{border:0;border-radius:8px;padding:0;width:min(520px,calc(100vw - 32px));background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(29,30,25,.5)}
+.dlg{padding:32px}
+@media (max-width:720px){
+  .link-karte{grid-template-columns:1fr}
+  .link-zeile{flex-direction:column}
+  .dlg{padding:16px}
+}
