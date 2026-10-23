@@ -112,5 +112,23 @@ Passt ANESPA DX an jede Dusche (zwischen Armatur und Schlauch)? Gibt es Duschen,
 
 ---
 
+## Nachtrag 23.10.2026: Preise je Land
+
+Die Bestellseite fragt jetzt als Erstes nach dem Land und zeigt danach die Preise. Dafür brauchen wir für jedes Land korrekte Preise.
+
+**D22. Woher kommen die korrekten Preise? (Start)**
+Gibt es bei Enagic eine offizielle Preisliste je Land (K8, ANESPA DX, emGuarde Go, mit Raten)? Wo finden wir sie, und wie erfahren wir, wenn sich Preise ändern?
+- [ ] Antwort:
+
+**D23. Preise Österreich (Start)**
+Was zahlt ein Kunde in Österreich für K8, ANESPA DX und emGuarde Go, bei Überweisung und bei Raten? Bis zur Antwort steht dort „Preis nennen wir dir persönlich“.
+- [ ] Antwort:
+
+**D24. Kunden aus anderen Ländern**
+Wie gehen wir mit Kunden außerhalb von Deutschland, Schweiz und Österreich um: Darf man über uns bestellen, welche Preise gelten, welches Enagic-Büro ist zuständig? Bis dahin steht dort „Preis nennen wir dir persönlich“.
+- [ ] Antwort:
+
+---
+
 *Weitere offene Punkte für Jasmin und den Anwalt stehen in `partner-setup-entwurf/g-entscheidungen.md`
 (Abschnitt „Noch offen“) und in `partner-setup-entwurf/c-nutzungsbedingungen.md` (Fragen an den Anwalt).*

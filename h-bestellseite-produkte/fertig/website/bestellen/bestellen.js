@@ -85,7 +85,7 @@ const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 function preisVon(p) {
   const l = form.land_kurz.value, x = p.preis[l];
   if (x) return `${esc(x[0])}<small>${esc(x[1])}</small>`;
-  return l ? 'Preis persönlich<small>nennen wir dir vor der Bestellung</small>' : 'Preis je nach Land<small>wähl unten dein Land</small>';
+  return l ? 'Preis persönlich<small>nennen wir dir vor der Bestellung</small>' : 'Preis je nach Land<small>wähl oben dein Land</small>';
 }
 const feldName = (p) => p.feld || 'zusatz_' + p.id;
 const mitK8 = () => form.elements.geraet_k8.checked;
@@ -117,8 +117,37 @@ function produktZeigen(id) {
 }
 produkteZeigen();
 
+// ---------- Land zuerst (23.10.2026) ----------
+// Drei Länder mit Flagge, der Rest unter „Anderes Land“. Bei Daniels Link (?von=daniel) steht die Schweiz vorn,
+// sonst Deutschland. Die Wahl setzt das Feld land_kurz unten bei den Angaben (und umgekehrt).
+const FLAGGE = {
+  CH: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#D52B1E"/><path d="M13 5h4v3.5h3.5v4H17V16h-4v-3.5H9.5v-4H13z" fill="#fff"/></svg>',
+  DE: '<svg viewBox="0 0 30 20"><rect width="30" height="7" fill="#000"/><rect y="6.67" width="30" height="6.67" fill="#DD0000"/><rect y="13.33" width="30" height="6.67" fill="#FFCE00"/></svg>',
+  AT: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#C8102E"/><rect y="6.67" width="30" height="6.67" fill="#fff"/></svg>',
+  XX: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#EAE3D3"/><circle cx="15" cy="10" r="6.5" fill="none" stroke="#4F5A35" stroke-width="1.2"/><path d="M8.5 10h13M15 3.5c-2.5 2-2.5 11 0 13M15 3.5c2.5 2 2.5 11 0 13" fill="none" stroke="#4F5A35" stroke-width="1.2"/></svg>'
+};
+const VORN = von === 'daniel' ? ['CH', 'DE', 'AT'] : ['DE', 'CH', 'AT'];
+$('#laender').innerHTML = [...VORN, 'XX'].map((l) => `<button type="button" class="land-knopf" data-land="${l}" aria-pressed="false">${FLAGGE[l]}${l === 'XX' ? 'Anderes Land' : LAENDER[l]}</button>`).join('');
+$('#land-sonst').innerHTML = '<option value="">bitte wählen</option>' + [...form.land_kurz.options].filter((o) => o.value && !VORN.includes(o.value)).map((o) => `<option value="${o.value}">${o.textContent}</option>`).join('');
+function landZeigen() {
+  const l = form.land_kurz.value, sonst = !!l && !VORN.includes(l), offen = sonst || $('#land-sonst-feld').dataset.offen === '1';
+  document.querySelectorAll('.land-knopf').forEach((k) => k.setAttribute('aria-pressed', String(k.dataset.land === l || (k.dataset.land === 'XX' && offen))));
+  $('#land-sonst-feld').hidden = !offen;
+  if (sonst) $('#land-sonst').value = l;
+  form.classList.toggle('land-ok', !!l);
+}
+document.querySelectorAll('.land-knopf').forEach((k) => { k.onclick = () => {
+  const sonst = k.dataset.land === 'XX';
+  $('#land-sonst-feld').dataset.offen = sonst ? '1' : '';
+  form.land_kurz.value = sonst ? $('#land-sonst').value : k.dataset.land;
+  anpassen();
+  if (sonst) $('#land-sonst').focus();
+}; });
+$('#land-sonst').onchange = (e) => { e.stopPropagation(); form.land_kurz.value = e.target.value; anpassen(); };
+
 // ---------- Felder ein- und ausblenden ----------
 function anpassen() {
+  landZeigen();
   const w = Object.fromEntries(new FormData(form).entries());
   $('#land-anders').hidden = w.land_kurz !== 'XX';
   $('#ustid').hidden = !w.firma;

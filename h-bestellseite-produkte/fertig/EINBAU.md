@@ -27,6 +27,11 @@ Die Ordner `bilder/`, `dashboard/`, `vendor/` in `fertig/website/` sind nur zum 
 - **Neu, wichtig fürs Dashboard:** In `daten` steht jetzt `k8` mit `"ja"` oder `"nein"`.
   Bei `"nein"` kein K8-Formular für Enagic ausfüllen. Ältere Bestellungen ohne das Feld sind K8-Bestellungen.
   Ohne K8 zeigt der Block „Bezahlung“ keinen K8-Preis, sondern: Preis und Bezahlung klären wir persönlich.
+- **Land zuerst:** Oben steht „Wo wohnst du?“ mit Flaggen. Erst nach der Wahl erscheint der Rest der Seite.
+  Reihenfolge: bei `?von=daniel` Schweiz, Deutschland, Österreich, sonst Deutschland, Schweiz, Österreich,
+  dazu „Anderes Land“ mit Auswahlliste. Die Wahl setzt das vorhandene Feld `land_kurz`, es kommt kein neues Feld dazu.
+  Für Österreich und andere Länder gibt es noch keine Preise (Fragen D22 bis D24), dort steht „Preis persönlich“.
+- Text „Wie möchtest du kaufen?“ erklärt jetzt Kunde und Vertriebspartner (Distributor). Die Werte bleiben `Verbraucher` und `Distributor`.
 - Kopf der Seite jetzt hell (statt dunkelgrün), Logo `logo-oliv.png`. Auswahlfelder (Kaufart, Bezahlung,
   Haken) sind eigene Kreise und Kästchen: leer = weiß, gewählt = Oliv.
 - Die Haken heißen `zusatz_emguarde` und `zusatz_anespa`. Sie stehen im Formular, landen also ohne

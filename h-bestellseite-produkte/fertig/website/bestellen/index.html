@@ -82,6 +82,16 @@ input:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0
 .preis-info b{font-family:Jost,sans-serif;font-weight:500;font-size:22px;color:var(--olive-deep)}
 .preis-info .warn{display:block;margin-top:8px;font-size:14px;color:var(--ink)}
 
+/* Land zuerst: der Rest der Seite erscheint, sobald ein Land gewählt ist */
+#bestellung:not(.land-ok) > section:not(#land-block){display:none}
+.laender{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.land-knopf{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 10px 16px;border:1px solid var(--line);border-radius:6px;background:transparent;font:600 15px Inter,sans-serif;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.land-knopf:hover{border-color:var(--khaki);background:var(--weiss)}
+.land-knopf[aria-pressed=true]{border-color:var(--olive);box-shadow:inset 0 0 0 1px var(--olive);background:var(--hell-oliv);color:var(--olive-deep)}
+.land-knopf:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
+.land-knopf svg{width:44px;height:30px;border-radius:3px;box-shadow:0 0 0 1px rgba(42,44,34,.12)}
+#land-sonst-feld{max-width:360px}
+
 /* Produkte: Kacheln */
 .block-produkte{background:var(--weiss)}
 .produkte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:4px 0 20px}
@@ -154,7 +164,7 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
   .pk-highlights{grid-template-columns:1fr}
   .pk-aktion{padding:12px 18px;flex-direction:column;align-items:stretch}
 }
-@media (max-width:620px){.raster,.ausweis{grid-template-columns:1fr}.block{padding:20px 18px 6px}.kopf .innen{padding:0 19px}.vertrauen span{padding:0 10px}}
+@media (max-width:620px){.laender{grid-template-columns:1fr 1fr}.raster,.ausweis{grid-template-columns:1fr}.block{padding:20px 18px 6px}.kopf .innen{padding:0 19px}.vertrauen span{padding:0 10px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -169,6 +179,13 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
 <main class="inhalt">
 <form id="bestellung" novalidate>
 
+  <section class="block" id="land-block">
+    <h2>Wo wohnst du?</h2>
+    <p class="hilfe">Wähl zuerst dein Land. Danach siehst du die Preise, die für dich gelten.</p>
+    <div class="laender" id="laender"></div>
+    <label class="feld" id="land-sonst-feld" hidden>Welches Land?<select id="land-sonst"></select></label>
+  </section>
+
   <section class="block block-produkte">
     <h2>Was möchtest du bestellen?</h2>
     <p class="hilfe">Wähl ein oder mehrere Produkte aus. Tippe auf ein Bild für mehr Infos.</p>
@@ -178,10 +195,10 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
 
   <section class="block">
     <h2>Wie möchtest du kaufen?</h2>
-    <p class="hilfe">Du kannst einfach kaufen. Oder du lässt dich dabei zusätzlich bei Enagic registrieren. Enagic nennt das „Distributor“. Am Kaufpreis ändert sich dadurch nichts.</p>
+    <p class="hilfe">Die meisten kaufen einfach als Kunde. Wenn dich auch das Geschäft mit Enagic interessiert, kannst du dich beim Kauf gleich als Vertriebspartner registrieren lassen. Enagic nennt das „Distributor“. Du musst dafür nichts verkaufen, du hättest nur die Möglichkeit dazu. Am Kaufpreis ändert sich nichts.</p>
     <div class="wahl">
-      <label><input type="radio" name="als" value="Verbraucher" required><span><b>Nur kaufen</b><small>Ich kaufe für mich und meine Familie. Im Formular heißt das „Verbraucher“.</small></span></label>
-      <label><input type="radio" name="als" value="Distributor"><span><b>Kaufen und eigene Enagic-ID erhalten</b><small>Im Formular heißt das „Distributor“. Mit der eigenen ID kannst du das Gerät später selbst weiterempfehlen, und Enagic vergütet dir das nach seinem Vergütungsplan. Eine Pflicht zum Verkaufen gibt es nicht. Dafür unterschreibst du zusätzlich die Distributorenvereinbarung, und Enagic braucht eine Kopie deines Ausweises.</small></span></label>
+      <label><input type="radio" name="als" value="Verbraucher" required><span><b>Als Kunde kaufen</b><small>Für dich und deine Familie, sonst nichts. Bei Enagic heißt das „Verbraucher“.</small></span></label>
+      <label><input type="radio" name="als" value="Distributor"><span><b>Kaufen und Vertriebspartner werden</b><small>Für dich, wenn du dich für das Business interessierst. Bei Enagic heißt das „Distributor“. Du bekommst eine eigene Enagic-ID. Empfiehlst du später ein Gerät weiter, vergütet Enagic das nach seinem Vergütungsplan. Eine Pflicht zum Verkaufen gibt es nicht. Dafür unterschreibst du zusätzlich die Distributorenvereinbarung, und Enagic braucht eine Kopie deines Ausweises.</small></span></label>
     </div>
   </section>
 
@@ -267,6 +284,6 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
 </main>
 
 <script src="../vendor/supabase.js"></script>
-<script src="bestellen.js?v=20261023c"></script>
+<script src="bestellen.js?v=20261023d"></script>
 </body>
 </html>
