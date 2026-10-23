@@ -1,0 +1,28 @@
+<!doctype html>
+<!--
+  VORSCHAU der Produktauswahl, Stand 23.10.2026. Nur zum Ansehen, nicht hochladen.
+  Auf der echten Bestellseite nur den <div id="produktauswahl"> und die zwei Dateien einbinden (EINBAU.md).
+-->
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Vorschau Produktauswahl</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="produkte.css">
+<style>body{margin:0;background:#F5F1E8}.rahmen{max-width:1080px;margin:0 auto;padding:16px}.land{font:400 14px Inter,sans-serif;margin-bottom:8px}</style>
+</head>
+<body>
+<div class="rahmen">
+  <div class="land">Vorschau Land: <button onclick="zusatzprodukteLand('DE')">Deutschland</button> <button onclick="zusatzprodukteLand('CH')">Schweiz</button> · Gewählt: <span id="gewaehlt">nichts</span></div>
+  <div id="produktauswahl" data-land="DE"></div>
+</div>
+<script src="produkte.js"></script>
+<script>
+document.addEventListener('zusatzprodukte-geaendert', function (e) {
+  document.getElementById('gewaehlt').textContent = e.detail.map(function (p) { return p.name; }).join(', ') || 'nichts';
+});
+</script>
+</body>
+</html>
