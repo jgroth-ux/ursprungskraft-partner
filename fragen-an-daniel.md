@@ -37,8 +37,8 @@ Was ist im Karton? (Weder Produktseite noch Shop sagen es.)
 Gibt es dafür ein eigenes Enagic-Formular, oder läuft das über das K8-Bestellformular oder den Enagic-Shop?
 - [ ] Antwort:
 
-**D7. Fotos von emGuarde und ANESPA DX**
-Laut Enagic-Richtlinie (3.3, 3.4) brauchen wir für Enagic-Bilder eine schriftliche Genehmigung. Haben wir die, oder holst du sie?
+**D7. Produktbilder K8, ANESPA DX, emGuarde**
+Laut Enagic-Richtlinie (3.3, 3.4) brauchen wir für Enagic-Bilder eine schriftliche Genehmigung. Haben wir die, oder holst du sie? Die Bestellseite nutzt jetzt KI-Bilder der drei Geräte, darauf ist aber das Enagic-Logo zu sehen. Reicht das, oder brauchen wir auch dafür die Genehmigung?
 - [ ] Antwort:
 
 **D8. Lieferadresse in einem anderen Land**

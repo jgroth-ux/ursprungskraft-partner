@@ -1,7 +1,7 @@
 <!--
   BESTELLSEITE MIT PRODUKTKACHELN, Stand 23.10.2026
-  FERTIG: index.html und bestellen.js der echten Bestellseite mit drei Produktkacheln (K8, emGuarde Go, ANESPA DX).
-  FEHLT:  Schweizer Preise für emGuarde und ANESPA DX, Fotos dieser beiden (Genehmigung Enagic), Telegram-Zeile (SQL unten).
+  FERTIG: index.html und bestellen.js der echten Bestellseite mit drei Produktkacheln (K8, ANESPA DX, emGuarde Go) mit KI-Produktbildern.
+  FEHLT:  Schweizer Preise für emGuarde und ANESPA DX, Genehmigung Enagic für Bilder mit Enagic-Logo, Telegram-Zeile (SQL unten).
 -->
 
 # Einbau: Bestellseite mit Produktkacheln
@@ -21,7 +21,7 @@ Die Ordner `bilder/`, `dashboard/`, `vendor/` in `fertig/website/` sind nur zum 
 ## 2. Was sich geändert hat
 
 - Der Block „Dein Gerät“ ist jetzt „Dein Gerät und passende Ergänzungen“ mit drei Kacheln:
-  LeveLuk K8 (fest in der Bestellung), emGuarde Go, ANESPA DX. Klick auf eine Kachel öffnet ein Fenster
+  LeveLuk K8 (fest in der Bestellung), ANESPA DX, emGuarde Go. Klick auf eine Kachel öffnet ein Fenster
   mit Infos. emGuarde und ANESPA DX haben einen Haken „Mitbestellen“.
 - Die Haken heißen `zusatz_emguarde` und `zusatz_anespa`. Sie stehen im Formular, landen also ohne
   weitere Änderung in `daten` (jsonb) in `uk_bestellungen`, Wert `"on"` wenn gewählt.
@@ -58,5 +58,5 @@ Bestellung mit dem Kunden selbst. Die Bestätigungsmail an den Kunden (`mail-sen
 ## 5. Noch offen
 
 - Schweizer Preise für emGuarde und ANESPA DX
-- Fotos von emGuarde und ANESPA DX (schriftliche Genehmigung von Enagic, Ziffer 3.3 und 3.4). Feld `bild` in `PRODUKTE`.
+- Die Produktbilder (bilder/k8.jpg, anespa.jpg, emguarde.jpg) sind KI-Bilder, zeigen aber das Enagic-Logo. Genehmigung klären (Frage D7). Ordner `bilder/` mit hochladen.
 - emGuarde laut Shop nur bei Vorauszahlung, obwohl „10 Zahlungen“ angezeigt wird: mit Daniel klären.

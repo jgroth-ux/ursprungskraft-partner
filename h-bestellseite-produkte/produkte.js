@@ -1,6 +1,6 @@
 /* ==========================================================================
    Produktauswahl für die Bestellseite (mein.ursprungskraft.net/bestellen/), Stand 23.10.2026
-   FERTIG: drei Kacheln (K8, emGuarde, ANESPA DX), Klick öffnet Details, Zusatzprodukte per
+   FERTIG: drei Kacheln (K8, ANESPA DX, emGuarde), Klick öffnet Details, Zusatzprodukte per
            Haken mitbestellen, Auswahl über zusatzprodukteAuswahl() abrufbar.
    FEHLT:  Schweizer Preise für emGuarde und ANESPA DX, Fotos von emGuarde und ANESPA DX (Genehmigung von Enagic nötig),
            Abgleich der Texte mit den Enagic-Seiten (von hier aus nicht erreichbar).
@@ -28,20 +28,6 @@
       text: 'Der K8 steht neben deiner Spüle und wird an den Wasserhahn angeschlossen. Er filtert dein Leitungswasser und teilt es danach per Elektrolyse in basisches und saures Wasser. So bekommst du per Knopfdruck Trinkwasser, Wasser zum Kochen und Wasser für Pflege und Haushalt.'
     },
     {
-      id: 'emguarde',
-      name: 'emGuarde',
-      kurz: 'Kleines Gerät von Enagic für Zuhause, Büro und unterwegs.',
-      bild: '',
-      // Preis laut Enagic-Shop: 2.420 € ohne MwSt. (Stand 23.10.2026). Schweiz: noch offen.
-      preis: { DE: '2.420 € zzgl. MwSt.', CH: null },
-      punkte: [
-        'Modell EM001 für Zuhause: laut Hersteller rund 4 m Reichweite, Betrieb über USB',
-        'Modell EM002-K (Portable): Set mit 2 Geräten, Akku für bis zu 72 Stunden',
-        'Hersteller: Enagic'
-      ],
-      text: 'Enagic beschreibt emGuarde als Technologie, die elektromagnetische Felder in deiner Umgebung ausgleichen soll, zum Beispiel von WLAN, Handy und Elektrogeräten. Nach Angaben von Enagic ist emGuarde nicht zur Diagnose, Behandlung, Heilung oder Vorbeugung von Krankheiten bestimmt. Welches Modell zu dir passt, besprechen wir gemeinsam.'
-    },
-    {
       id: 'anespa',
       name: 'ANESPA DX',
       kurz: 'Das Duschsystem von Enagic mit Mineral-Ionen-Wasser.',
@@ -55,6 +41,20 @@
         'Made in Japan, Modell ANSP-02'
       ],
       text: 'ANESPA DX wird an deine Dusche angeschlossen. Das Wasser läuft durch eine Kartusche mit Mineralien, bevor es aus dem Duschkopf kommt. Für ein angenehmes Duscherlebnis zu Hause, passend zu deinem K8 in der Küche.'
+    },
+    {
+      id: 'emguarde',
+      name: 'emGuarde',
+      kurz: 'Kleines Gerät von Enagic für Zuhause, Büro und unterwegs.',
+      bild: '',
+      // Preis laut Enagic-Shop: 2.420 € ohne MwSt. (Stand 23.10.2026). Schweiz: noch offen.
+      preis: { DE: '2.420 € zzgl. MwSt.', CH: null },
+      punkte: [
+        'Modell EM001 für Zuhause: laut Hersteller rund 4 m Reichweite, Betrieb über USB',
+        'Modell EM002-K (Portable): Set mit 2 Geräten, Akku für bis zu 72 Stunden',
+        'Hersteller: Enagic'
+      ],
+      text: 'Enagic beschreibt emGuarde als Technologie, die elektromagnetische Felder in deiner Umgebung ausgleichen soll, zum Beispiel von WLAN, Handy und Elektrogeräten. Nach Angaben von Enagic ist emGuarde nicht zur Diagnose, Behandlung, Heilung oder Vorbeugung von Krankheiten bestimmt. Welches Modell zu dir passt, besprechen wir gemeinsam.'
     }
   ];
   /* ---------- Ende PRODUKTE ---------- */

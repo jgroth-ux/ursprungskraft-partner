@@ -61,21 +61,21 @@ const PRODUKTE = [
       ['Welches Wasser kann ich trinken?', 'Zum Trinken und Kochen sind pH 7 und pH 8,5 bis 9,5 gedacht. Die anderen Wasserarten sind für Haushalt und Pflege. Für Babynahrung nimmst du pH 7.'],
       ['Wie oft wird der Filter gewechselt?', 'Je nach Verbrauch etwa einmal im Jahr. Das Gerät zeigt dir an, wann es so weit ist. Ein Ersatzfilter kostet bei Enagic 114 € zzgl. MwSt.'],
       ['Kann ich in Raten zahlen?', 'Ja. Enagic bietet 3, 6, 10, 16 oder 24 Monate an. Die Raten siehst du weiter unten bei der Bezahlung.']] },
-  { id: 'emguarde', name: 'emGuarde Go', marke: 'Set mit 2 Geräten', bild: '',
+  { id: 'anespa', name: 'ANESPA DX', marke: 'Mineral-Ionen-Wasserbad', bild: '../bilder/anespa.jpg',
+    kurz: 'Filtersystem für Dusche und Badewanne, mit Massage-Duschkopf.',
+    preis: { DE: ['2.800 €', 'zzgl. MwSt., laut Enagic-Shop'] },
+    text: 'ANESPA DX wird an deine Dusche oder Badewanne angeschlossen. Aktivkohle und eine Keramikkartusche filtern das Leitungswasser, laut Enagic entfernt es nahezu das gesamte Restchlor. In der Kartusche stecken Tuffstein aus der heißen Quelle Futamata in Hokkaido und Maifan-Stein.',
+    highlights: [['dusche', 'Massage-Duschkopf mit verstellbaren Einstellungen'], ['schild', 'Zweistufige Filterung: Aktivkohle und Keramik'], ['stein', 'Mineralsteine aus Japan in der Kartusche'], ['kreis', 'Einfacher Kartuschenwechsel dank neuer Basis']],
+    daten: [['Erzeugt', 'Mineral-Ionen-Wasser'], ['pH-Wert', 'wie Leitungswasser'], ['Durchfluss', '2,6 l/min'], ['Gewicht', '4,2 kg'], ['Maße (B × Durchmesser)', '130 × 346 mm'], ['Keramikkartusche', 'etwa alle 3 Jahre, 200 € zzgl. MwSt.'], ['Externer Chlorfilter', '65 € zzgl. MwSt.'], ['Garantie', '3 Jahre']],
+    fragen: [['Passt das an meine Dusche?', 'ANESPA DX wird zwischen Armatur und Duschschlauch gesetzt. Ob es bei dir passt, schauen wir gemeinsam an.'], ['Kann ich in Raten zahlen?', 'Laut Enagic ja, in 3, 6, 10 oder 16 Raten. Preis und Bezahlung klären wir persönlich mit dir.']] },
+  { id: 'emguarde', name: 'emGuarde Go', marke: 'Set mit 2 Geräten', bild: '../bilder/emguarde.jpg',
     kurz: 'Zwei kleine Geräte von Enagic für Zuhause, Arbeit und unterwegs.',
     preis: { DE: ['2.420 €', 'zzgl. MwSt., laut Enagic-Shop'] },
     text: 'emGuarde Go ist ein Set aus zwei handlichen Geräten. Enagic beschreibt es als Unterstützung im Umgang mit elektromagnetischen Feldern im Alltag, zum Beispiel von WLAN, Handy und Elektrogeräten. Du stellst die Geräte dorthin, wo du viel Zeit verbringst, oder nimmst eins mit.',
     highlights: [['koffer', 'Kompakt und leicht, passt in jede Tasche'], ['akku', 'Akku mit 5.000 mAh, laden über USB-C'], ['uhr', 'Bis zu 72 Stunden pro Ladung'], ['strom', 'Eine Taste, keine Einrichtung, keine Wartung']],
     daten: [['Lieferumfang', '2 Geräte, 2 USB-C-Ladekabel'], ['Akku', '5.000 mAh Lithium, wiederaufladbar'], ['Laufzeit', 'bis zu 72 Stunden'], ['Reichweite', 'je Gerät etwa 3 m Durchmesser'], ['Bedienung', 'eine Taste'], ['Farbe', 'mattschwarz'], ['Garantie', '2 Jahre']],
     fragen: [['Wo stelle ich die Geräte hin?', 'Dort, wo du viel Zeit verbringst: am Arbeitsplatz, im Wohnzimmer oder neben dem Bett. Beide zusammen in einem Raum oder getrennt in zwei Räumen.'], ['Wie wird es bezahlt?', 'Preis und Bezahlung klären wir persönlich mit dir, bevor etwas an Enagic geht.']],
-    hinweis: 'Nach Angaben von Enagic ist emGuarde nicht dazu bestimmt, Krankheiten zu diagnostizieren, zu behandeln, zu heilen oder zu verhindern.' },
-  { id: 'anespa', name: 'ANESPA DX', marke: 'Mineral-Ionen-Wasserbad', bild: '',
-    kurz: 'Filtersystem für Dusche und Badewanne, mit Massage-Duschkopf.',
-    preis: { DE: ['2.800 €', 'zzgl. MwSt., laut Enagic-Shop'] },
-    text: 'ANESPA DX wird an deine Dusche oder Badewanne angeschlossen. Aktivkohle und eine Keramikkartusche filtern das Leitungswasser, laut Enagic entfernt es nahezu das gesamte Restchlor. In der Kartusche stecken Tuffstein aus der heißen Quelle Futamata in Hokkaido und Maifan-Stein.',
-    highlights: [['dusche', 'Massage-Duschkopf mit verstellbaren Einstellungen'], ['schild', 'Zweistufige Filterung: Aktivkohle und Keramik'], ['stein', 'Mineralsteine aus Japan in der Kartusche'], ['kreis', 'Einfacher Kartuschenwechsel dank neuer Basis']],
-    daten: [['Erzeugt', 'Mineral-Ionen-Wasser'], ['pH-Wert', 'wie Leitungswasser'], ['Durchfluss', '2,6 l/min'], ['Gewicht', '4,2 kg'], ['Maße (B × Durchmesser)', '130 × 346 mm'], ['Keramikkartusche', 'etwa alle 3 Jahre, 200 € zzgl. MwSt.'], ['Externer Chlorfilter', '65 € zzgl. MwSt.'], ['Garantie', '3 Jahre']],
-    fragen: [['Passt das an meine Dusche?', 'ANESPA DX wird zwischen Armatur und Duschschlauch gesetzt. Ob es bei dir passt, schauen wir gemeinsam an.'], ['Kann ich in Raten zahlen?', 'Laut Enagic ja, in 3, 6, 10 oder 16 Raten. Preis und Bezahlung klären wir persönlich mit dir.']] }
+    hinweis: 'Nach Angaben von Enagic ist emGuarde nicht dazu bestimmt, Krankheiten zu diagnostizieren, zu behandeln, zu heilen oder zu verhindern.' }
 ];
 const SKALA = [['2,5', 'Reinigen', '#C8463A'], ['6', 'Pflege', '#D9A73B'], ['7', 'Neutral, Babynahrung', '#7DB15A'], ['8,5 bis 9,5', 'Trinken, Kochen', '#3E9A8C'], ['11,5', 'Obst, Fett, Flecken', '#5B5FA8']];
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
