@@ -45,7 +45,7 @@ Die Ordner `bilder/`, `dashboard/`, `vendor/` in `fertig/website/` sind nur zum 
 - **Haken unten neu:** nur noch ein Pflicht-Haken (AGB, Link auf `website/agb-enagic.pdf`, Datei fehlt noch, Frage D28)
   und der Newsletter-Haken (nicht vorausgewählt, so verlangt es das Recht). Den Haken „Weitergabe an Enagic“ gibt es nicht mehr,
   die Weitergabe steht als Hinweis unter dem Bestellknopf. Sie ist für den Vertrag nötig und braucht keine eigene Einwilligung (Anwalt bestätigt das mit D25/D27).
-- **WhatsApp-Kanal:** Kasten mit Knopf „Kanal folgen“ auf der Danke-Seite. In `bestellen.js` bei `KANAL` den echten Link
+- **WhatsApp-Kanal:** Kasten „Dein Begleiter für ein gesünderes Leben“ mit vier Vorteilen und Knopf „Jetzt kostenlos folgen“ auf der Danke-Seite. In `bestellen.js` bei `KANAL` den echten Link
   statt `XXX` eintragen (Frage D30). Gern auch in die Bestätigungsmail (`mail-senden`). Vorschau: `bestellen/#danke`.
 - **Impressum und Datenschutz:** neue Seiten `website/impressum/`, `website/datenschutz/` mit `website/recht/recht.css`.
   Entwürfe mit gelben Lücken (Fragen D26, D29). Mit hochladen, Fußzeile der Bestellseite verlinkt darauf.
