@@ -47,25 +47,3 @@ Der Referral-Link (`?von=daniel`, `?von=jasmin`, später Partner) bleibt unverä
   dass es nicht zur Behandlung oder Vorbeugung von Krankheiten bestimmt ist. Keine Aussagen wie „schützt vor
   Strahlung“ ergänzen (Abmahnrisiko).
 
----
-
-# Abweichende Lieferadresse
-
-Dateien: `lieferadresse.js`, `lieferadresse.css`.
-
-1. Beide Dateien nach `website/bestellen/` kopieren, im `<head>` `<link rel="stylesheet" href="lieferadresse.css">`,
-   vor `bestellen.js` `<script src="lieferadresse.js"></script>`.
-2. Im Formular direkt unter der Anschrift des Kunden: `<div id="lieferadresse"></div>`.
-   Die Felder liegen innerhalb des Formulars, `FormData` nimmt sie also automatisch mit
-   (`liefer_abweichend`, `liefer_name`, `liefer_zusatz`, `liefer_strasse`, `liefer_plz`, `liefer_ort`,
-   `liefer_land`, `liefer_telefon`).
-3. In `bestellen.js` beim Absenden zuerst `lieferadressePruefen()` aufrufen (false = abbrechen), dann
-   `lieferadresseDaten()` speichern: `null` heißt Lieferung an die Kundenadresse.
-4. In die Telegram-Nachricht „Neue Bestellung“: „Lieferadresse abweichend: …“ (nur wenn nicht null).
-5. **Enagic-Formulare:** prüfen, ob das Bestellformular ein eigenes Feld für die Lieferadresse hat
-   (Shipping Address). Wenn ja, dort eintragen, sonst als Hinweis in die Mail an Enagic
-   („Bitte liefern an: …“). Vertrag und Rechnung bleiben auf den Namen des Kunden.
-6. **Offen (Daniel fragen):** Darf die Lieferadresse in einem anderen Land liegen als die Kundenadresse
-   (z. B. Kunde in der Schweiz, Lieferung nach Deutschland)? Preise und MwSt hängen am Land. Bis das geklärt
-   ist, bietet das Feld Deutschland, Schweiz und Österreich an. Beim Wechsel der Kundenadresse am besten
-   `document.querySelector('[name=liefer_land]').value` auf dasselbe Land vorbelegen.

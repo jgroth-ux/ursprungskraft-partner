@@ -11,19 +11,14 @@
 <title>Vorschau Produktauswahl</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Jost:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="produkte.css">
-<link rel="stylesheet" href="lieferadresse.css">
 <style>body{margin:0;background:#F5F1E8}.rahmen{max-width:1080px;margin:0 auto;padding:16px}.land{font:400 14px Inter,sans-serif;margin-bottom:8px}</style>
 </head>
 <body>
 <div class="rahmen">
   <div class="land">Vorschau Land: <button onclick="zusatzprodukteLand('DE')">Deutschland</button> <button onclick="zusatzprodukteLand('CH')">Schweiz</button> · Gewählt: <span id="gewaehlt">nichts</span></div>
   <div id="produktauswahl" data-land="DE"></div>
-  <h3 style="font:500 20px Jost,sans-serif">Lieferung</h3>
-  <div id="lieferadresse"></div>
-  <button onclick="if(lieferadressePruefen()) alert(JSON.stringify(lieferadresseDaten()))">Test: Lieferadresse prüfen</button>
 </div>
 <script src="produkte.js"></script>
-<script src="lieferadresse.js"></script>
 <script>
 document.addEventListener('zusatzprodukte-geaendert', function (e) {
   document.getElementById('gewaehlt').textContent = e.detail.map(function (p) { return p.name; }).join(', ') || 'nichts';

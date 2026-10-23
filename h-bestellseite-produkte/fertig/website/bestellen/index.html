@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bestellung LeveLuk K8</title>
+<link rel="icon" type="image/png" href="../dashboard/logo-oliv.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Versteckte Bestellseite (19.10.2026). Nur per Link, nicht bei Google. Farben wie der Wasser-Check. */
+:root{--ground:#F5F1E8;--surface:#FBF9F4;--sand:#EAE3D3;--line:#D9CFBA;--khaki-light:#CFC4A0;--khaki:#A8996A;--olive:#4F5A35;--olive-deep:#5E6140;--ink:#2A2C22;--muted:#5F6152;--rot:#9A3B2E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.6 Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:Jost,system-ui,sans-serif;font-weight:400;margin:0}
+.kopf{background:var(--olive-deep);color:var(--surface);padding:28px 16px 34px}
+.kopf .innen,.inhalt{max-width:760px;margin:0 auto}
+.marke{display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--khaki-light);margin-bottom:22px}
+.marke img{width:48px;height:48px}
+.kopf h1{font-size:clamp(30px,5vw,42px);line-height:1.1}
+.kopf p{color:var(--sand);margin:10px 0 0;max-width:560px}
+.inhalt{padding:28px 16px 80px}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 22px 8px;margin-bottom:18px}
+.block h2{font-size:21px;margin-bottom:4px}
+.block .hilfe{color:var(--muted);font-size:14px;margin:0 0 14px}
+.raster{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.raster .breit{grid-column:1/-1}
+label.feld{display:block;font-size:14px;font-weight:500;margin-bottom:14px}
+label.feld span.pflicht{color:var(--rot)}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],select{display:block;width:100%;margin-top:5px;padding:11px 12px;border:1px solid var(--line);border-radius:7px;background:#fff;font:inherit;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--khaki-light);border-color:var(--khaki)}
+.wahl{display:grid;gap:10px;margin-bottom:16px}
+.wahl label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer}
+.wahl label:has(input:checked){border-color:var(--olive);background:#F1F3EA}
+.wahl input{margin-top:4px;accent-color:var(--olive)}
+.wahl b{display:block;font-weight:600}
+.wahl small{color:var(--muted)}
+.nebeneinander{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.produkt{display:flex;gap:16px;align-items:center}
+.produkt img{width:84px;height:84px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px}
+.produkt b{font-family:Jost,sans-serif;font-size:20px;font-weight:400}
+.ausweis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.ausweis label{border:1px dashed var(--khaki);border-radius:8px;padding:14px;text-align:center;font-size:14px;cursor:pointer;background:#fff}
+.ausweis label.da{border-style:solid;border-color:var(--olive);background:#F1F3EA}
+.ausweis input{display:none}
+.unterschrift{position:relative;border:1px solid var(--line);border-radius:8px;background:#fff;height:170px;touch-action:none;margin-bottom:8px}
+.unterschrift canvas{width:100%;height:100%;display:block;border-radius:8px}
+.unterschrift .linie{position:absolute;left:18px;right:18px;bottom:38px;border-bottom:1px solid var(--line);pointer-events:none}
+.unterschrift .platz{position:absolute;left:18px;bottom:12px;font-size:12px;color:var(--muted);pointer-events:none}
+.knopfzeile{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.knopf{display:inline-block;border:0;border-radius:999px;background:var(--olive-deep);color:#fff;font:500 16px Inter,sans-serif;padding:15px 30px;cursor:pointer}
+.knopf:disabled{opacity:.6;cursor:wait}
+.knopf.leise{background:none;color:var(--olive);border:1px solid var(--line);padding:8px 16px;font-size:14px}
+.haken{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-bottom:12px}
+.haken input{margin-top:4px;accent-color:var(--olive)}
+.fehler{color:var(--rot);font-weight:500;min-height:24px;margin:8px 0}
+.danke{text-align:left}
+.danke h2{font-size:28px;margin-bottom:10px}
+.schritte{counter-reset:s;list-style:none;padding:0;margin:18px 0}
+.schritte li{counter-increment:s;position:relative;padding:0 0 14px 42px}
+.schritte li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--olive-deep);color:#fff;display:grid;place-items:center;font-size:14px}
+.empfohlen{font-size:14px;color:var(--khaki-light);margin-top:14px}
+.preis-info{background:var(--sand);border-radius:8px;padding:14px 16px;margin:6px 0 14px;font-size:15px}
+.preis-info b{font-family:Jost,sans-serif;font-weight:500;font-size:20px;color:var(--olive-deep)}
+.preis-info .warn{display:block;margin-top:8px;font-size:14px;color:var(--ink)}
+/* Produktkacheln (23.10.2026): Gerät plus Ergänzungen zum Mitbestellen, Klick öffnet Details */
+.produkte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0 18px}
+.pk{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:#fff;overflow:hidden}
+.pk.haupt,.pk:has(input:checked){border-color:var(--olive)}
+.pk-info{display:flex;flex-direction:column;gap:2px;flex:1;text-align:left;background:none;border:0;padding:0 0 12px;font:inherit;color:inherit;cursor:pointer}
+.pk-info:focus-visible{outline:2px solid var(--khaki-light);outline-offset:-2px}
+.pk-bild{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;background:var(--sand);margin-bottom:10px;font:400 18px Jost,sans-serif;color:var(--muted)}
+img.pk-bild{object-fit:contain;background:#fff;padding:8px}
+.pk-name{font:400 19px/1.3 Jost,sans-serif;padding:0 12px}
+.pk-kurz{font-size:13px;line-height:1.45;color:var(--muted);padding:0 12px}
+.pk-preis{font-size:14px;font-weight:600;padding:4px 12px 0}
+.pk-mehr{font-size:13px;font-weight:600;color:var(--olive);padding:6px 12px 0;margin-top:auto}
+.pk-mehr::after{content:" →"}
+.pk-fuss{border-top:1px solid var(--line);padding:10px 12px;font-size:14px;font-weight:600}
+.pk-fuss.fest{color:var(--olive)}
+label.pk-fuss{display:flex;gap:8px;align-items:center;cursor:pointer}
+label.pk-fuss input{accent-color:var(--olive);width:18px;height:18px;margin:0}
+dialog.pk-dlg{border:0;border-radius:10px;padding:0;width:min(540px,calc(100vw - 32px));max-height:88vh;background:var(--surface);color:var(--ink)}
+dialog.pk-dlg::backdrop{background:rgba(42,44,34,.5)}
+.pk-dlg-innen{padding:22px;position:relative}
+.pk-dlg-innen h3{font-size:26px;margin:4px 0}
+.pk-dlg-innen ul{list-style:none;padding:0;margin:14px 0;border-top:1px solid var(--line)}
+.pk-dlg-innen li{padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.pk-zu{position:absolute;top:6px;right:10px;background:none;border:0;font-size:30px;line-height:30px;cursor:pointer;color:var(--muted)}
+.pk-dlg-innen .knopf{width:100%;margin-top:6px}
+@media (max-width:620px){.produkte{grid-template-columns:1fr}}
+[hidden]{display:none!important}
+@media (max-width:620px){.raster,.ausweis{grid-template-columns:1fr}.block{padding:18px 16px 4px}}
+</style>
+</head>
+<body>
+<header class="kopf"><div class="innen">
+  <div class="marke"><img src="../dashboard/logo-hell.png?v=2" alt="">Ursprungskraft</div>
+  <h1>Deine Bestellung</h1>
+  <p>Trag hier einmal deine Angaben ein. Wir füllen damit die Bestellunterlagen für Enagic für dich aus, du musst nichts ausdrucken oder einscannen.</p>
+</div></header>
+
+<main class="inhalt">
+<form id="bestellung" novalidate>
+
+  <section class="block">
+    <h2>Dein Gerät und passende Ergänzungen</h2>
+    <p class="hilfe">Tippe auf ein Produkt für mehr Infos. Ergänzungen kannst du einfach mitbestellen.</p>
+    <div class="produkte" id="produkte"></div>
+    <dialog class="pk-dlg" id="pk-dlg"><div class="pk-dlg-innen" id="pk-dlg-innen"></div></dialog>
+  </section>
+
+  <section class="block">
+    <h2>Wie möchtest du bestellen?</h2>
+    <p class="hilfe">Du kannst das Gerät einfach kaufen. Oder du lässt dich dabei zusätzlich bei Enagic registrieren. Enagic nennt das „Distributor“. Am Kaufpreis ändert sich dadurch nichts.</p>
+    <div class="wahl">
+      <label><input type="radio" name="als" value="Verbraucher" required><span><b>Nur kaufen</b><small>Ich kaufe das Gerät für mich und meine Familie. Im Formular heißt das „Verbraucher“.</small></span></label>
+      <label><input type="radio" name="als" value="Distributor"><span><b>Kaufen und eigene Enagic-ID erhalten</b><small>Im Formular heißt das „Distributor“. Mit der eigenen ID kannst du das Gerät später selbst weiterempfehlen, und Enagic vergütet dir das nach seinem Vergütungsplan. Eine Pflicht zum Verkaufen gibt es nicht. Dafür unterschreibst du zusätzlich die Distributorenvereinbarung, und Enagic braucht eine Kopie deines Ausweises.</small></span></label>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Deine Angaben</h2>
+    <p class="hilfe">Felder mit <span style="color:var(--rot)">*</span> braucht Enagic zwingend.</p>
+    <div class="raster">
+      <label class="feld">Anrede<select name="anrede"><option value="">bitte wählen</option><option>Frau</option><option>Herr</option></select></label>
+      <label class="feld">Geburtsdatum <span class="pflicht">*</span><input type="date" name="geburtsdatum" required></label>
+      <label class="feld">Vorname <span class="pflicht">*</span><input type="text" name="vorname" autocomplete="given-name" required></label>
+      <label class="feld">Nachname <span class="pflicht">*</span><input type="text" name="nachname" autocomplete="family-name" required></label>
+      <label class="feld breit">Firma (nur falls du über eine Firma bestellst)<input type="text" name="firma" autocomplete="organization"></label>
+      <label class="feld breit">Straße und Hausnummer <span class="pflicht">*</span><input type="text" name="strasse" autocomplete="street-address" required></label>
+      <label class="feld">PLZ <span class="pflicht">*</span><input type="text" name="plz" autocomplete="postal-code" required></label>
+      <label class="feld">Ort <span class="pflicht">*</span><input type="text" name="ort" autocomplete="address-level2" required></label>
+      <label class="feld">Land <span class="pflicht">*</span><select name="land_kurz" required>
+        <option value="">bitte wählen</option><option value="CH">Schweiz</option><option value="DE">Deutschland</option><option value="AT">Österreich</option><option value="LI">Liechtenstein</option><option value="IT">Italien</option><option value="FR">Frankreich</option><option value="NL">Niederlande</option><option value="BE">Belgien</option><option value="LU">Luxemburg</option><option value="ES">Spanien</option><option value="NO">Norwegen</option><option value="GB">Vereinigtes Königreich</option><option value="XX">anderes Land</option></select></label>
+      <label class="feld" id="land-anders" hidden>Welches Land?<input type="text" name="land_anders"></label>
+      <label class="feld" id="ustid" hidden>USt-IdNr. der Firma<input type="text" name="ustid"></label>
+      <label class="feld">Handy <span class="pflicht">*</span><input type="tel" name="handy" autocomplete="tel" required></label>
+      <label class="feld">Telefon (falls anders)<input type="tel" name="telefon"></label>
+      <label class="feld breit">E-Mail <span class="pflicht">*</span><input type="email" name="email" autocomplete="email" required></label>
+      <label class="haken breit"><input type="checkbox" name="liefer_anders" id="liefer-anders"> Das Gerät soll an eine andere Adresse geliefert werden</label>
+      <label class="feld breit" data-liefer hidden>Name an der Lieferadresse<input type="text" name="liefer_name"></label>
+      <label class="feld breit" data-liefer hidden>Lieferadresse (Straße, PLZ, Ort)<input type="text" name="liefer_adresse"></label>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Bezahlung</h2>
+    <div class="preis-info" id="preis-info"></div>
+    <div class="wahl">
+      <label><input type="radio" name="zahlung" value="ueberweisung" required><span><b>Überweisung</b><small>Du überweist den Betrag an Enagic. Die Bankverbindung bekommst du mit der Bestätigung.</small></span></label>
+      <label id="raten-wahl"><input type="radio" name="zahlung" value="raten"><span><b>Ratenzahlung über Enagic</b><small>Monatlich per Lastschrift vom Bankkonto. Dafür braucht Enagic eine Ausweiskopie.</small></span></label>
+    </div>
+    <div id="raten" hidden>
+      <div class="raster">
+        <label class="feld breit">Laufzeit<select name="raten_anzahl" id="raten-anzahl"><option value="3">3 Monate</option><option value="6">6 Monate</option><option value="10">10 Monate</option><option value="16">16 Monate</option><option value="24">24 Monate</option></select></label>
+        <label class="feld">Abbuchung jeweils am<select name="zahltag"><option value="1">1. des Monats</option><option value="15">15. des Monats</option></select></label>
+        <label class="feld">Finanzierst du bereits ein Gerät mit Enagic?<select name="schon_finanziert"><option value="Nein">Nein</option><option value="Ja">Ja</option></select></label>
+        <label class="feld breit">IBAN <span class="pflicht">*</span><input type="text" name="iban" autocomplete="off"></label>
+        <label class="feld">BIC<input type="text" name="bic" autocomplete="off"></label>
+        <label class="feld">Beruf<input type="text" name="beruf"></label>
+        <label class="feld">Arbeitgeber<input type="text" name="arbeitgeber"></label>
+        <label class="feld">Beschäftigt seit<input type="text" name="beschaeftigt_seit" placeholder="z. B. 03/2018"></label>
+        <label class="feld breit">Adresse des Arbeitgebers<input type="text" name="arbeitgeber_adresse"></label>
+        <label class="feld">Telefon des Arbeitgebers<input type="tel" name="arbeitgeber_tel"></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="ausweis-block" hidden>
+    <h2>Ausweis</h2>
+    <p class="hilfe">Ein Foto von Vorder- und Rückseite deines Ausweises genügt. Er geht nur an Enagic.</p>
+    <div class="ausweis">
+      <label id="ausweis-vorne-feld">Vorderseite hochladen<input type="file" name="ausweis_vorne" accept="image/*,application/pdf"></label>
+      <label id="ausweis-hinten-feld">Rückseite hochladen<input type="file" name="ausweis_hinten" accept="image/*,application/pdf"></label>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Unterschrift</h2>
+    <p class="hilfe">Unterschreib einfach mit dem Finger oder der Maus. Sie wird auf die Bestellunterlagen gesetzt.</p>
+    <div class="unterschrift"><canvas id="pad"></canvas><div class="linie"></div><div class="platz">Unterschrift</div></div>
+    <div class="knopfzeile"><span class="hilfe" style="margin:0" id="ort-datum"></span><button type="button" class="knopf leise" id="pad-leeren">Neu unterschreiben</button></div>
+    <label class="haken"><input type="checkbox" name="agb" required> <span>Ich habe die <a href="https://www.enagiceu.com" target="_blank" rel="noopener">Allgemeinen Geschäftsbedingungen und den Datenschutz von Enagic</a> gelesen und bin einverstanden. Mit meiner Unterschrift bestelle ich verbindlich.</span></label>
+    <label class="haken"><input type="checkbox" name="weitergabe" required> <span>Meine Angaben dürfen an Enagic Europe GmbH weitergegeben werden, damit die Bestellung ausgeführt werden kann.</span></label>
+    <div class="fehler" id="fehler" role="alert"></div>
+    <button class="knopf" type="submit" id="senden">Verbindlich bestellen</button>
+  </section>
+</form>
+
+<section class="block danke" id="danke" hidden>
+  <h2>Danke, <span id="danke-name"></span></h2>
+  <p>Deine Bestellung ist bei uns angekommen. So geht es jetzt weiter:</p>
+  <ol class="schritte">
+    <li>Wir prüfen deine Angaben und schicken die Unterlagen an Enagic.</li>
+    <li>Du bekommst von Enagic die Bestätigung und, bei Überweisung, die Bankverbindung.</li>
+    <li>Das Gerät kommt direkt aus Düsseldorf zu dir. Beim Einrichten helfen wir dir gern.</li>
+  </ol>
+  <p class="hilfe">Fragen? Melde dich jederzeit bei uns.</p>
+</section>
+</main>
+
+<script src="../vendor/supabase.js"></script>
+<script src="bestellen.js?v=20261023a"></script>
+</body>
+</html>
