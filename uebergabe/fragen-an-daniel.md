@@ -137,11 +137,23 @@ Die Bestellseite zeigt jetzt bei allen Produkten den Preis ohne MwSt. mit „zzg
 ## Nachtrag 23.10.2026: Newsletter und Pflichtseiten
 
 **D26. Impressum und Datenschutz (Start)**
-Die Bestellseite verlinkt unten auf `/impressum/` und `/datenschutz/` auf mein.ursprungskraft.net. Die Seiten gibt es noch nicht. Wer steht im Impressum (Jasmin, Daniel, eine Firma), und wer schreibt die Datenschutzerklärung (Bestelldaten, Ausweis, Unterschrift, Weitergabe an Enagic, Newsletter)?
+Die Bestellseite verlinkt unten auf `/impressum/` und `/datenschutz/`. Entwürfe sind gebaut, die gelb markierten Angaben fehlen. Wer steht im Impressum (Jasmin, Daniel, eine Firma), und wer schreibt die Datenschutzerklärung (Bestelldaten, Ausweis, Unterschrift, Weitergabe an Enagic, Newsletter)?
 - [ ] Antwort:
 
 **D27. Newsletter mit Double-Opt-in (Anwalt)**
 Auf der Bestellseite gibt es jetzt einen freiwilligen Haken für den Newsletter. Wer ihn setzt, bekommt eine Mail mit Bestätigungslink und ist erst nach dem Klick angemeldet. Welches Newsletter-Programm nehmen wir? Passt der Text so, oder soll der Anwalt ihn prüfen?
+- [ ] Antwort:
+
+**D28. AGB von Enagic (Start)**
+Der Haken „Ich habe die AGB von Enagic gelesen“ braucht einen Link, der wirklich auf die AGB führt, nicht auf die Startseite. Gibt es eine Adresse bei Enagic, oder schickst du uns die AGB als PDF (stehen sie auf der Rückseite des Bestellformulars)? Die Seite verlinkt vorerst auf `agb-enagic.pdf`.
+- [ ] Antwort:
+
+**D29. Datenschutz: Lücken**
+Für die Datenschutzerklärung brauchen wir: Region des Supabase-Projekts, was die Telegram-Meldung enthält, welcher Mail-Anbieter die Bestätigungen schickt, wo die Seite gehostet ist, und nach wie vielen Tagen Ausweisfotos gelöscht werden.
+- [ ] Antwort:
+
+**D30. Link zum WhatsApp-Kanal**
+Wie lautet der Link zum WhatsApp-Kanal? Er steht auf der Danke-Seite nach der Bestellung (in `bestellen.js` bei `KANAL`).
 - [ ] Antwort:
 
 ---

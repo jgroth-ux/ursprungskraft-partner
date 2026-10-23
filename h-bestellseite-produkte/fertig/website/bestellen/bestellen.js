@@ -7,6 +7,9 @@ const NICHT_EU = ['CH', 'LI', 'NO', 'GB'];
 const LAENDER = { CH: 'Schweiz', DE: 'Deutschland', AT: 'Österreich', LI: 'Liechtenstein', IT: 'Italien', FR: 'Frankreich', NL: 'Niederlande', BE: 'Belgien', LU: 'Luxemburg', ES: 'Spanien', NO: 'Norwegen', GB: 'Vereinigtes Königreich' };
 const von = (new URLSearchParams(location.search).get('von') || '').toLowerCase().replace(/[^a-z0-9-]/g, '') || null;
 const form = $('#bestellung');
+// WhatsApp-Kanal (nur lesen), Knopf auf der Danke-Seite. Beim Einbau den echten Link statt XXX eintragen.
+const KANAL = 'https://whatsapp.com/channel/XXX';
+$('#kanal-link').href = KANAL;
 
 // Wer den Link geschickt hat, wird nur intern gespeichert (Jasmins Link = automatisch über Jasmin), nicht angezeigt
 
@@ -218,7 +221,7 @@ form.onsubmit = async (e) => {
   if (ausweisNoetig && (!vorne || !hinten)) return (fehler.textContent = 'Bitte lade Vorder- und Rückseite deines Ausweises hoch.');
   if ([vorne, hinten].some((f) => f && f.size > 10 * 1024 * 1024)) return (fehler.textContent = 'Ein Ausweisfoto ist größer als 10 MB. Bitte ein kleineres Foto nehmen.');
   if (!gezeichnet) return (fehler.textContent = 'Bitte unterschreib noch im Feld oben.');
-  if (!w.agb || !w.weitergabe) return (fehler.textContent = 'Bitte bestätige noch die beiden Haken.');
+  if (!w.agb) return (fehler.textContent = 'Bitte bestätige noch, dass du die AGB gelesen hast.');
   fehler.textContent = ''; knopf.disabled = true; knopf.textContent = 'Wird gesendet ...';
   try {
     const ordner = 'eingang/' + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(16).slice(2));
@@ -243,3 +246,6 @@ form.onsubmit = async (e) => {
     knopf.disabled = false; knopf.textContent = 'Verbindlich bestellen';
   }
 };
+
+// Vorschau der Danke-Seite ohne Absenden: bestellen/#danke
+if (location.hash === '#danke') { form.hidden = true; $('#danke-name').textContent = 'Max'; $('#danke').hidden = false; }

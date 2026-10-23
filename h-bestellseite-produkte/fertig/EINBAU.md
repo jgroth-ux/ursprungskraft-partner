@@ -42,7 +42,15 @@ Die Ordner `bilder/`, `dashboard/`, `vendor/` in `fertig/website/` sind nur zum 
   2. Erst nach dem Klick in die Newsletter-Liste aufnehmen. Zeitpunkt von Anmeldung und Bestätigung speichern.
   3. Ohne Haken keine Werbemails, nur die Bestellmails.
   Newsletter-Programm ist noch offen (Frage D27).
-- **Fußzeile:** Links auf `/impressum/` und `/datenschutz/`. Die Seiten gibt es noch nicht (Frage D26).
+- **Haken unten neu:** nur noch ein Pflicht-Haken (AGB, Link auf `website/agb-enagic.pdf`, Datei fehlt noch, Frage D28)
+  und der Newsletter-Haken (nicht vorausgewählt, so verlangt es das Recht). Den Haken „Weitergabe an Enagic“ gibt es nicht mehr,
+  die Weitergabe steht als Hinweis unter dem Bestellknopf. Sie ist für den Vertrag nötig und braucht keine eigene Einwilligung (Anwalt bestätigt das mit D25/D27).
+- **WhatsApp-Kanal:** Kasten mit Knopf „Kanal folgen“ auf der Danke-Seite. In `bestellen.js` bei `KANAL` den echten Link
+  statt `XXX` eintragen (Frage D30). Gern auch in die Bestätigungsmail (`mail-senden`). Vorschau: `bestellen/#danke`.
+- **Impressum und Datenschutz:** neue Seiten `website/impressum/`, `website/datenschutz/` mit `website/recht/recht.css`.
+  Entwürfe mit gelben Lücken (Fragen D26, D29). Mit hochladen, Fußzeile der Bestellseite verlinkt darauf.
+- **Schriften selbst gehostet:** `website/schriften/` (Inter, Jost). Es wird nichts mehr von Google geladen. Mit hochladen.
+  Gilt am besten auch für den Fragebogen und das Dashboard.
 - Text „Wie möchtest du kaufen?“ erklärt jetzt Kunde und Vertriebspartner (Distributor). Die Werte bleiben `Verbraucher` und `Distributor`.
 - Kopf der Seite jetzt hell (statt dunkelgrün), Logo `logo-oliv.png`. Auswahlfelder (Kaufart, Bezahlung,
   Haken) sind eigene Kreise und Kästchen: leer = weiß, gewählt = Oliv.
