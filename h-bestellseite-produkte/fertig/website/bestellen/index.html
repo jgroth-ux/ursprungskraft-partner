@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Bestellung LeveLuk K8</title>
+<title>Deine Bestellung</title>
 <link rel="icon" type="image/png" href="../dashboard/logo-oliv.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
@@ -18,19 +18,19 @@ body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.6 Inter,
 h1,h2,h3{font-family:Jost,system-ui,sans-serif;font-weight:500;margin:0;letter-spacing:-.01em}
 a{color:var(--olive);text-underline-offset:3px}
 
-/* Kopf */
-.kopf{background:var(--olive-deep);color:var(--surface);padding:32px 16px 40px}
-.kopf .innen,.inhalt{max-width:800px;margin:0 auto}
-.marke{display:flex;align-items:center;gap:12px;font:500 12px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--khaki-light);margin-bottom:32px}
-.marke img{width:44px;height:44px}
-.kopf h1{font-size:clamp(34px,6vw,52px);line-height:1.05}
-.kopf p{color:var(--sand);margin:14px 0 0;max-width:560px;font-size:17px}
-.vertrauen{display:flex;flex-wrap:wrap;gap:8px 0;margin-top:24px;font-size:13px;color:var(--khaki-light)}
-.vertrauen span{padding:0 16px;border-left:1px solid rgba(207,196,160,.35)}
+/* Kopf: hell, Text auf derselben Kante wie der Text in den Blöcken darunter */
+.kopf{background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line);padding:32px 16px 36px}
+.kopf .innen{max-width:800px;margin:0 auto;padding:0 29px}
+.marke{display:flex;align-items:center;gap:12px;font:500 12px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--olive);margin-bottom:28px}
+.marke img{width:40px;height:40px}
+.kopf h1{font-size:clamp(34px,6vw,48px);line-height:1.05;color:var(--olive-deep)}
+.kopf p{color:var(--muted);margin:12px 0 0;max-width:560px;font-size:17px}
+.vertrauen{display:flex;flex-wrap:wrap;gap:8px 0;margin-top:22px;font-size:13px;color:var(--olive)}
+.vertrauen span{padding:0 16px;border-left:1px solid var(--line)}
 .vertrauen span:first-child{padding-left:0;border-left:0}
 
 /* Inhalt und Blöcke */
-.inhalt{padding:32px 16px 96px}
+.inhalt{max-width:832px;margin:0 auto;padding:32px 16px 96px}
 .block{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:28px 28px 12px;margin-bottom:20px}
 .block h2{font-size:24px;line-height:1.2;margin-bottom:6px}
 .block .hilfe{color:var(--muted);font-size:14px;margin:0 0 18px}
@@ -41,10 +41,16 @@ label.feld span.pflicht{color:var(--rot)}
 input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],select{display:block;width:100%;margin-top:6px;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--weiss);font:inherit;color:var(--ink);transition:border-color .15s}
 input:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0 3px var(--hell-oliv)}
 .wahl{display:grid;gap:10px;margin-bottom:18px}
-.wahl label{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1px solid var(--line);border-radius:4px;background:var(--weiss);cursor:pointer;transition:border-color .15s,background .15s}
-.wahl label:hover{border-color:var(--khaki)}
-.wahl label:has(input:checked){border-color:var(--olive);background:var(--hell-oliv)}
-.wahl input{margin-top:4px;accent-color:var(--olive)}
+.wahl label{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border:1px solid var(--line);border-radius:6px;background:transparent;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.wahl label:hover{border-color:var(--khaki);background:var(--weiss)}
+.wahl label:has(input:checked){border-color:var(--olive);box-shadow:inset 0 0 0 1px var(--olive);background:var(--hell-oliv)}
+/* Eigene Kreise und Kästchen: leer sieht leer aus, gewählt ist eindeutig */
+.wahl input,.haken input,label.pk-fuss input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:1px 0 0;border:1.5px solid var(--khaki);background:var(--weiss);cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s}
+.wahl input[type=radio]{border-radius:50%}
+.wahl input[type=radio]:checked{border-color:var(--olive);background:var(--olive);box-shadow:inset 0 0 0 5px var(--weiss)}
+.haken input,label.pk-fuss input{border-radius:5px}
+.haken input:checked,label.pk-fuss input:checked{border-color:var(--olive);background:var(--olive) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/16px no-repeat}
+.wahl input:focus-visible,.haken input:focus-visible,label.pk-fuss input:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
 .wahl b{display:block;font-weight:600}
 .wahl small{color:var(--muted);font-size:14px;line-height:1.5}
 .nebeneinander{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
@@ -65,7 +71,6 @@ input:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0
 .knopf.leise:hover{border-color:var(--olive)}
 #senden{width:100%;margin-bottom:16px}
 .haken{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-bottom:12px}
-.haken input{margin-top:4px;accent-color:var(--olive)}
 .fehler{color:var(--rot);font-weight:500;min-height:24px;margin:8px 0}
 .danke{text-align:left}
 .danke h2{font-size:30px;margin-bottom:10px}
@@ -82,7 +87,7 @@ input:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0
 .produkte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:4px 0 20px}
 .pk{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden;transition:border-color .2s}
 .pk:hover{border-color:var(--khaki)}
-.pk.haupt,.pk:has(input:checked){border-color:var(--olive)}
+.pk:has(input:checked){border-color:var(--olive);box-shadow:inset 0 0 0 1px var(--olive)}
 .pk-info{display:flex;flex-direction:column;gap:4px;flex:1;text-align:left;background:none;border:0;padding:0 0 14px;font:inherit;color:inherit;cursor:pointer}
 .pk-info:focus-visible{outline:2px solid var(--khaki);outline-offset:-2px}
 .pk-rahmen{position:relative;aspect-ratio:1/1;background:var(--ground);border-bottom:1px solid var(--line-zart);margin-bottom:12px;overflow:hidden}
@@ -96,12 +101,12 @@ input:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0
 .pk-preis small{display:block;font:400 12px/1.4 Inter,sans-serif;color:var(--muted)}
 .pk-mehr{font-size:13px;font-weight:600;color:var(--olive);padding:10px 14px 0;margin-top:auto}
 .pk-mehr::after{content:" →"}
-.pk-fuss{border-top:1px solid var(--line-zart);padding:12px 14px;font-size:14px;font-weight:600;background:var(--weiss)}
-.pk-fuss.fest{color:var(--olive);display:flex;gap:8px;align-items:center}
-.pk-fuss.fest::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--olive)}
-label.pk-fuss{display:flex;gap:10px;align-items:center;cursor:pointer}
-label.pk-fuss input{accent-color:var(--olive);width:18px;height:18px;margin:0}
+label.pk-fuss{display:flex;gap:10px;align-items:center;border-top:1px solid var(--line-zart);padding:14px;font-size:15px;font-weight:600;color:var(--ink);background:var(--weiss);cursor:pointer;transition:background .15s,color .15s}
+label.pk-fuss input{margin:0}
+label.pk-fuss .an{display:none}
 label.pk-fuss:has(input:checked){background:var(--hell-oliv);color:var(--olive-deep)}
+label.pk-fuss:has(input:checked) .an{display:inline}
+label.pk-fuss:has(input:checked) .aus{display:none}
 
 /* Produkte: Detailfenster */
 dialog.pk-dlg{border:0;border-radius:8px;padding:0;width:min(760px,calc(100vw - 24px));max-height:92vh;background:var(--surface);color:var(--ink);overflow:auto}
@@ -149,13 +154,13 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
   .pk-highlights{grid-template-columns:1fr}
   .pk-aktion{padding:12px 18px;flex-direction:column;align-items:stretch}
 }
-@media (max-width:620px){.raster,.ausweis{grid-template-columns:1fr}.block{padding:20px 18px 6px}.vertrauen span{padding:0 10px}}
+@media (max-width:620px){.raster,.ausweis{grid-template-columns:1fr}.block{padding:20px 18px 6px}.kopf .innen{padding:0 19px}.vertrauen span{padding:0 10px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <header class="kopf"><div class="innen">
-  <div class="marke"><img src="../dashboard/logo-hell.png?v=2" alt="">Ursprungskraft</div>
+  <div class="marke"><img src="../dashboard/logo-oliv.png?v=2" alt="">Ursprungskraft</div>
   <h1>Deine Bestellung</h1>
   <p>Trag hier einmal deine Angaben ein. Wir füllen damit die Bestellunterlagen für Enagic für dich aus, du musst nichts ausdrucken oder einscannen.</p>
   <div class="vertrauen"><span>Versand direkt aus Düsseldorf</span><span>Ratenzahlung möglich</span><span>Persönliche Betreuung</span></div>
@@ -165,17 +170,17 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
 <form id="bestellung" novalidate>
 
   <section class="block block-produkte">
-    <h2>Dein Gerät und passende Ergänzungen</h2>
-    <p class="hilfe">Tippe auf ein Produkt für mehr Infos. Ergänzungen kannst du einfach mitbestellen.</p>
+    <h2>Was möchtest du bestellen?</h2>
+    <p class="hilfe">Wähl ein oder mehrere Produkte aus. Tippe auf ein Bild für mehr Infos.</p>
     <div class="produkte" id="produkte"></div>
     <dialog class="pk-dlg" id="pk-dlg"><div class="pk-dlg-innen" id="pk-dlg-innen"></div></dialog>
   </section>
 
   <section class="block">
-    <h2>Wie möchtest du bestellen?</h2>
-    <p class="hilfe">Du kannst das Gerät einfach kaufen. Oder du lässt dich dabei zusätzlich bei Enagic registrieren. Enagic nennt das „Distributor“. Am Kaufpreis ändert sich dadurch nichts.</p>
+    <h2>Wie möchtest du kaufen?</h2>
+    <p class="hilfe">Du kannst einfach kaufen. Oder du lässt dich dabei zusätzlich bei Enagic registrieren. Enagic nennt das „Distributor“. Am Kaufpreis ändert sich dadurch nichts.</p>
     <div class="wahl">
-      <label><input type="radio" name="als" value="Verbraucher" required><span><b>Nur kaufen</b><small>Ich kaufe das Gerät für mich und meine Familie. Im Formular heißt das „Verbraucher“.</small></span></label>
+      <label><input type="radio" name="als" value="Verbraucher" required><span><b>Nur kaufen</b><small>Ich kaufe für mich und meine Familie. Im Formular heißt das „Verbraucher“.</small></span></label>
       <label><input type="radio" name="als" value="Distributor"><span><b>Kaufen und eigene Enagic-ID erhalten</b><small>Im Formular heißt das „Distributor“. Mit der eigenen ID kannst du das Gerät später selbst weiterempfehlen, und Enagic vergütet dir das nach seinem Vergütungsplan. Eine Pflicht zum Verkaufen gibt es nicht. Dafür unterschreibst du zusätzlich die Distributorenvereinbarung, und Enagic braucht eine Kopie deines Ausweises.</small></span></label>
     </div>
   </section>
@@ -199,7 +204,7 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
       <label class="feld">Handy <span class="pflicht">*</span><input type="tel" name="handy" autocomplete="tel" required></label>
       <label class="feld">Telefon (falls anders)<input type="tel" name="telefon"></label>
       <label class="feld breit">E-Mail <span class="pflicht">*</span><input type="email" name="email" autocomplete="email" required></label>
-      <label class="haken breit"><input type="checkbox" name="liefer_anders" id="liefer-anders"> Das Gerät soll an eine andere Adresse geliefert werden</label>
+      <label class="haken breit"><input type="checkbox" name="liefer_anders" id="liefer-anders"> Die Bestellung soll an eine andere Adresse geliefert werden</label>
       <label class="feld breit" data-liefer hidden>Name an der Lieferadresse<input type="text" name="liefer_name"></label>
       <label class="feld breit" data-liefer hidden>Lieferadresse (Straße, PLZ, Ort)<input type="text" name="liefer_adresse"></label>
     </div>
@@ -262,6 +267,6 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
 </main>
 
 <script src="../vendor/supabase.js"></script>
-<script src="bestellen.js?v=20261023b"></script>
+<script src="bestellen.js?v=20261023c"></script>
 </body>
 </html>

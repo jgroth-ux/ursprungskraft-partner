@@ -1,6 +1,6 @@
 <!--
   BESTELLSEITE MIT PRODUKTKACHELN, Stand 23.10.2026
-  FERTIG: index.html und bestellen.js der echten Bestellseite mit drei Produktkacheln (K8, ANESPA DX, emGuarde Go) mit KI-Produktbildern.
+  FERTIG: index.html und bestellen.js der echten Bestellseite mit drei wählbaren Produktkacheln (K8, ANESPA DX, emGuarde Go), heller Kopf.
   FEHLT:  Schweizer Preise für emGuarde und ANESPA DX, Genehmigung Enagic für Bilder mit Enagic-Logo, Telegram-Zeile (SQL unten).
 -->
 
@@ -20,9 +20,15 @@ Die Ordner `bilder/`, `dashboard/`, `vendor/` in `fertig/website/` sind nur zum 
 
 ## 2. Was sich geändert hat
 
-- Der Block „Dein Gerät“ ist jetzt „Dein Gerät und passende Ergänzungen“ mit drei Kacheln:
-  LeveLuk K8 (fest in der Bestellung), ANESPA DX, emGuarde Go. Klick auf eine Kachel öffnet ein Fenster
-  mit Infos. emGuarde und ANESPA DX haben einen Haken „Mitbestellen“.
+- Der Block „Dein Gerät“ ist jetzt „Was möchtest du bestellen?“ mit drei Kacheln:
+  LeveLuk K8, ANESPA DX, emGuarde Go. Klick auf ein Bild öffnet ein Fenster mit Infos.
+  Jede Kachel hat unten „Auswählen“. Der K8 ist vorausgewählt, lässt sich aber abwählen
+  (zum Beispiel wenn jemand nur emGuarde bestellt). Mindestens ein Produkt muss gewählt sein.
+- **Neu, wichtig fürs Dashboard:** In `daten` steht jetzt `k8` mit `"ja"` oder `"nein"`.
+  Bei `"nein"` kein K8-Formular für Enagic ausfüllen. Ältere Bestellungen ohne das Feld sind K8-Bestellungen.
+  Ohne K8 zeigt der Block „Bezahlung“ keinen K8-Preis, sondern: Preis und Bezahlung klären wir persönlich.
+- Kopf der Seite jetzt hell (statt dunkelgrün), Logo `logo-oliv.png`. Auswahlfelder (Kaufart, Bezahlung,
+  Haken) sind eigene Kreise und Kästchen: leer = weiß, gewählt = Oliv.
 - Die Haken heißen `zusatz_emguarde` und `zusatz_anespa`. Sie stehen im Formular, landen also ohne
   weitere Änderung in `daten` (jsonb) in `uk_bestellungen`, Wert `"on"` wenn gewählt.
 - Die Preise in den Kacheln wechseln mit dem Land. Für die Schweiz steht bei den Ergänzungen
@@ -40,6 +46,7 @@ In der Funktion `uk_bestellung_melden()` eine Zeile anhängen, wenn Ergänzungen
 
 ```sql
 -- im Aufbau des Nachrichtentexts:
+|| case when (new.daten->>'k8') = 'nein' then E'\nOHNE K8, nur Ergänzungen' else '' end
 || case when (new.daten->>'zusatz_emguarde') = 'on' or (new.daten->>'zusatz_anespa') = 'on'
      then E'\nDazu gewünscht: ' || concat_ws(', ',
        case when (new.daten->>'zusatz_emguarde') = 'on' then 'emGuarde Go' end,
@@ -51,7 +58,7 @@ Gern auch im Dashboard unter Bestellungen anzeigen.
 
 ## 4. Nicht automatisch an Enagic
 
-emGuarde und ANESPA DX gehen nicht in das K8-Bestellformular. Daniel klärt Preis, Zahlung und
+emGuarde und ANESPA DX gehen nicht in das K8-Bestellformular. Bei `k8 = "nein"` gibt es gar kein K8-Formular. Daniel klärt Preis, Zahlung und
 Bestellung mit dem Kunden selbst. Die Bestätigungsmail an den Kunden (`mail-senden`) kann einen Satz bekommen:
 „Zu deinen gewünschten Ergänzungen melden wir uns persönlich bei dir.“
 

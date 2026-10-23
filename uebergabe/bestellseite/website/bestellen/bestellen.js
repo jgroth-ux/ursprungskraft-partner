@@ -1,4 +1,4 @@
-// Bestellseite LeveLuk K8 (19.10.2026, Produktkacheln 23.10.2026).
+// Bestellseite (19.10.2026, Produktkacheln 23.10.2026, K8 abwählbar 23.10.2026).
 // Speichert die Angaben, die Unterschrift und bei Bedarf den Ausweis in Supabase.
 // Die Enagic-Formulare werden erst im Dashboard ausgefüllt, nachdem Daniel Sponsor und Linie festgelegt hat.
 const $ = (s) => document.querySelector(s);
@@ -20,15 +20,18 @@ const PREISE = {
 };
 const eur = (n) => Number(n).toLocaleString('de-DE', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €';
 function preiseZeigen(w) {
-  const p = PREISE[w.land_kurz], box = $('#preis-info'), sel = $('#raten-anzahl');
-  if (!w.land_kurz) { box.innerHTML = 'Wähl oben dein Land, dann siehst du hier den Preis.'; }
+  const p = w.geraet_k8 ? PREISE[w.land_kurz] : null, box = $('#preis-info'), sel = $('#raten-anzahl');
+  if (!w.geraet_k8) { box.innerHTML = 'Preis und Bezahlung für deine Auswahl klären wir persönlich mit dir, bevor die Bestellung an Enagic geht.'; }
+  else if (!w.land_kurz) { box.innerHTML = 'Wähl oben dein Land, dann siehst du hier den Preis.'; }
   else if (!p) { box.innerHTML = 'Den genauen Preis für dein Land nennen wir dir persönlich, bevor die Bestellung an Enagic geht.'; }
   else box.innerHTML = `Gesamtpreis bei Überweisung: <b>${p.voll}</b>${p.klein ? ` <span class="hilfe">(${p.klein})</span>` : ''}${p.zusatz ? `<span class="warn">${p.zusatz}</span>` : ''}`;
   [...sel.options].forEach((o) => { const r = p && p.raten[o.value]; o.textContent = r ? `${o.value} Monate: Anzahlung ${eur(r[0])}, dann ${eur(r[1])} im Monat` : `${o.value} Monate`; });
 }
 
 
-// ---------- Produkte (23.10.2026): K8 fest, emGuarde und ANESPA DX zum Mitbestellen ----------
+// ---------- Produkte (23.10.2026): alle drei wählbar, K8 ist vorausgewählt ----------
+// Der K8-Haken heißt geraet_k8. Beim Absenden steht in daten.k8 "ja" oder "nein".
+// Bei "nein" darf das Dashboard KEIN K8-Formular für Enagic ausfüllen.
 // Daten aus den Enagic-Produktseiten (Stand 23.10.2026), in eigenen Worten, ohne Wirkungsaussagen.
 // Preise der Ergänzungen laut Enagic-Shop ohne MwSt. Schweiz noch offen (fragen-an-daniel.md, D1 und D2).
 // Die Haken heißen zusatz_emguarde und zusatz_anespa und landen so automatisch in daten (uk_bestellungen).
@@ -48,7 +51,7 @@ const ICON = {
   schild: '<path d="M4 12h16"/><path d="M12 4v16"/><circle cx="12" cy="12" r="9"/>'
 };
 const PRODUKTE = [
-  { id: 'k8', fest: true, name: 'LeveLuk K8', marke: 'Wasserionisierer', bild: '../bilder/k8.jpg',
+  { id: 'k8', feld: 'geraet_k8', start: true, name: 'LeveLuk K8', marke: 'Wasserionisierer', bild: '../bilder/k8.jpg',
     kurz: 'Fünf Wasserarten aus deinem Leitungswasser, direkt an der Spüle.',
     preis: { DE: ['5.486 €', 'inkl. MwSt., Versand aus Düsseldorf'], CH: ['4.657 €', 'geliefert, zzgl. Verzollung und MwSt. (ca. 400 CHF)'] },
     text: 'Der K8 steht neben deiner Spüle und wird an den Wasserhahn angeschlossen. Er filtert dein Leitungswasser und teilt es danach per Elektrolyse in basisches und saures Wasser. So bekommst du per Knopfdruck Trinkwasser, Wasser zum Kochen und Wasser für Pflege und Haushalt.',
@@ -84,18 +87,19 @@ function preisVon(p) {
   if (x) return `${esc(x[0])}<small>${esc(x[1])}</small>`;
   return l ? 'Preis persönlich<small>nennen wir dir vor der Bestellung</small>' : 'Preis je nach Land<small>wähl unten dein Land</small>';
 }
+const feldName = (p) => p.feld || 'zusatz_' + p.id;
+const mitK8 = () => form.elements.geraet_k8.checked;
 const rahmen = (p) => `<div class="pk-rahmen">${p.bild ? `<img src="${p.bild}" alt="${esc(p.name)}" loading="lazy">` : `<div class="ohne">${esc(p.name)}</div>`}<span class="pk-marke">${esc(p.marke)}</span></div>`;
 const icon = (n) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[n] || ''}</svg>`;
 function produkteZeigen() {
-  const gewaehlt = (id) => form.elements['zusatz_' + id] && form.elements['zusatz_' + id].checked;
-  $('#produkte').innerHTML = PRODUKTE.map((p) => `<article class="pk${p.fest ? ' haupt' : ''}">
+  $('#produkte').innerHTML = PRODUKTE.map((p) => `<article class="pk">
     <button type="button" class="pk-info" data-produkt="${p.id}">${rahmen(p)}<span class="pk-name">${esc(p.name)}</span><span class="pk-kurz">${esc(p.kurz)}</span><span class="pk-preis">${preisVon(p)}</span><span class="pk-mehr">Mehr erfahren</span></button>
-    ${p.fest ? '<div class="pk-fuss fest">In deiner Bestellung</div>' : `<label class="pk-fuss"><input type="checkbox" name="zusatz_${p.id}"${gewaehlt(p.id) ? ' checked' : ''}> Mitbestellen</label>`}
+    <label class="pk-fuss"><input type="checkbox" name="${feldName(p)}"${p.start ? ' checked' : ''}><span class="aus">Auswählen</span><span class="an">Ausgewählt</span></label>
   </article>`).join('');
   document.querySelectorAll('[data-produkt]').forEach((b) => { b.onclick = () => produktZeigen(b.dataset.produkt); });
 }
 function produktZeigen(id) {
-  const p = PRODUKTE.find((x) => x.id === id), dlg = $('#pk-dlg'), feld = form.elements['zusatz_' + id];
+  const p = PRODUKTE.find((x) => x.id === id), dlg = $('#pk-dlg'), feld = form.elements[feldName(p)];
   $('#pk-dlg-innen').innerHTML = `<button type="button" class="pk-zu" aria-label="Schließen">×</button>
     <div class="pk-dlg-kopf">${rahmen(p)}<div class="pk-dlg-titel"><div class="pk-eyebrow">${esc(p.marke)}</div><h3>${esc(p.name)}</h3><div class="pk-preis">${preisVon(p)}</div><p>${esc(p.text)}</p></div></div>
     <div class="pk-dlg-inhalt">
@@ -105,10 +109,9 @@ function produktZeigen(id) {
       <div class="pk-abschnitt pk-fragen"><h4>Häufige Fragen</h4>${p.fragen.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>
       ${p.hinweis ? `<p class="pk-hinweis">${esc(p.hinweis)}</p>` : ''}
     </div>
-    <div class="pk-aktion">${p.fest ? '<small>Der K8 ist fest in deiner Bestellung.</small><button type="button" class="knopf" id="pk-aktion">Weiter zur Bestellung</button>'
-      : `<small>Preis und Bezahlung für Ergänzungen klären wir persönlich mit dir, bevor etwas an Enagic geht.</small><button type="button" class="knopf" id="pk-aktion">${feld.checked ? 'Wieder entfernen' : 'Mitbestellen'}</button>`}</div>`;
+    <div class="pk-aktion"><small>${p.id === 'k8' ? 'Raten und Preise für dein Land siehst du unten bei der Bezahlung.' : 'Preis und Bezahlung dafür klären wir persönlich mit dir, bevor etwas an Enagic geht.'}</small><button type="button" class="knopf" id="pk-aktion">${feld.checked ? 'Wieder abwählen' : 'Auswählen'}</button></div>`;
   $('.pk-zu').onclick = () => dlg.close();
-  $('#pk-aktion').onclick = () => { if (!p.fest) { feld.checked = !feld.checked; anpassen(); } dlg.close(); };
+  $('#pk-aktion').onclick = () => { feld.checked = !feld.checked; anpassen(); dlg.close(); };
   dlg.showModal();
   dlg.scrollTop = 0;
 }
@@ -128,8 +131,8 @@ function anpassen() {
   $('#ausweis-block').hidden = !(w.als === 'Distributor' || w.zahlung === 'raten');
   preiseZeigen(w);
   document.querySelectorAll('#produkte .pk-preis').forEach((el, i) => { el.innerHTML = preisVon(PRODUKTE[i]); });
-  const zusatz = PRODUKTE.filter((p) => w['zusatz_' + p.id]).map((p) => p.name);
-  if (zusatz.length) $('#preis-info').insertAdjacentHTML('beforeend', `<span class="warn">Dazu gewünscht: ${zusatz.join(', ')}. Preis und Bezahlung dafür klären wir persönlich mit dir, bevor etwas an Enagic geht.</span>`);
+  const zusatz = PRODUKTE.filter((p) => p.id !== 'k8' && w[feldName(p)]).map((p) => p.name);
+  if (zusatz.length && w.geraet_k8) $('#preis-info').insertAdjacentHTML('beforeend', `<span class="warn">Dazu gewünscht: ${zusatz.join(', ')}. Preis und Bezahlung dafür klären wir persönlich mit dir, bevor etwas an Enagic geht.</span>`);
 }
 form.addEventListener('change', anpassen);
 form.addEventListener('input', (e) => { if (e.target.name === 'firma') anpassen(); });
@@ -175,6 +178,7 @@ form.onsubmit = async (e) => {
   const fehler = $('#fehler'), knopf = $('#senden');
   const w = Object.fromEntries(new FormData(form).entries());
   const pflicht = [['als', 'ob du als Verbraucher oder Distributor bestellst'], ['vorname', 'deinen Vornamen'], ['nachname', 'deinen Nachnamen'], ['geburtsdatum', 'dein Geburtsdatum'], ['strasse', 'deine Straße'], ['plz', 'deine PLZ'], ['ort', 'deinen Ort'], ['land_kurz', 'dein Land'], ['handy', 'deine Handynummer'], ['email', 'deine E-Mail-Adresse'], ['zahlung', 'wie du bezahlen möchtest']];
+  if (!PRODUKTE.some((p) => w[feldName(p)])) return (fehler.textContent = 'Bitte wähl oben mindestens ein Produkt aus.');
   const fehlt = pflicht.find(([k]) => !String(w[k] || '').trim());
   if (fehlt) return (fehler.textContent = 'Bitte gib noch ' + fehlt[1] + ' an.');
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(w.email.trim())) return (fehler.textContent = 'Bitte prüf deine E-Mail-Adresse.');
@@ -195,9 +199,10 @@ form.onsubmit = async (e) => {
     const dateien = { unterschrift: await hoch('unterschrift.png', await unterschriftBlob(), 'image/png') };
     const endung = (f) => (f.name.match(/\.[a-z0-9]+$/i) || ['.jpg'])[0].toLowerCase();
     if (ausweisNoetig) { dateien.ausweis_vorne = await hoch('ausweis-vorne' + endung(vorne), vorne); dateien.ausweis_hinten = await hoch('ausweis-hinten' + endung(hinten), hinten); }
-    const rate = PREISE[w.land_kurz] && w.zahlung === 'raten' ? PREISE[w.land_kurz].raten[w.raten_anzahl] : null;
+    const rate = w.geraet_k8 && PREISE[w.land_kurz] && w.zahlung === 'raten' ? PREISE[w.land_kurz].raten[w.raten_anzahl] : null;
     if (rate) { w.anzahlung = String(rate[0]); w.monatsrate = String(rate[1]); }
     const daten = { ...w, land: w.land_kurz === 'XX' ? (w.land_anders || '').trim() : LAENDER[w.land_kurz], nicht_eu: NICHT_EU.includes(w.land_kurz), datum: new Date().toISOString().slice(0, 10) };
+    daten.k8 = w.geraet_k8 ? 'ja' : 'nein'; delete daten.geraet_k8;
     delete daten.ausweis_vorne; delete daten.ausweis_hinten;
     Object.keys(daten).forEach((k) => { if (typeof daten[k] === 'string') daten[k] = daten[k].trim(); });
     const { error } = await sb.rpc('uk_bestellung', { p: { von, daten, dateien } });
