@@ -22,8 +22,8 @@ const eur = (n) => Number(n).toLocaleString('de-DE', { minimumFractionDigits: n 
 function preiseZeigen(w) {
   const p = w.geraet_k8 ? PREISE[w.land_kurz] : null, box = $('#preis-info'), sel = $('#raten-anzahl');
   if (!w.geraet_k8) { box.innerHTML = 'Preis und Bezahlung für deine Auswahl klären wir persönlich mit dir, bevor die Bestellung an Enagic geht.'; }
-  else if (!w.land_kurz) { box.innerHTML = 'Wähl oben dein Land, dann siehst du hier den Preis.'; }
-  else if (!p) { box.innerHTML = 'Den genauen Preis für dein Land nennen wir dir persönlich, bevor die Bestellung an Enagic geht.'; }
+  else if (!w.land_kurz) { box.innerHTML = ''; }
+  else if (!p) { box.innerHTML = 'Den Preis nennen wir dir persönlich, bevor die Bestellung an Enagic geht.'; }
   else box.innerHTML = `Gesamtpreis bei Überweisung: <b>${p.voll}</b>${p.klein ? ` <span class="hilfe">(${p.klein})</span>` : ''}${p.zusatz ? `<span class="warn">${p.zusatz}</span>` : ''}`;
   [...sel.options].forEach((o) => { const r = p && p.raten[o.value]; o.textContent = r ? `${o.value} Monate: Anzahlung ${eur(r[0])}, dann ${eur(r[1])} im Monat` : `${o.value} Monate`; });
 }
@@ -85,7 +85,7 @@ const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 function preisVon(p) {
   const l = form.land_kurz.value, x = p.preis[l];
   if (x) return `${esc(x[0])}<small>${esc(x[1])}</small>`;
-  return l ? 'Preis persönlich<small>nennen wir dir vor der Bestellung</small>' : 'Preis je nach Land<small>wähl oben dein Land</small>';
+  return l ? 'Preis persönlich<small>nennen wir dir vor der Bestellung</small>' : '';
 }
 const feldName = (p) => p.feld || 'zusatz_' + p.id;
 const mitK8 = () => form.elements.geraet_k8.checked;
@@ -109,7 +109,7 @@ function produktZeigen(id) {
       <div class="pk-abschnitt pk-fragen"><h4>Häufige Fragen</h4>${p.fragen.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>
       ${p.hinweis ? `<p class="pk-hinweis">${esc(p.hinweis)}</p>` : ''}
     </div>
-    <div class="pk-aktion"><small>${p.id === 'k8' ? 'Raten und Preise für dein Land siehst du unten bei der Bezahlung.' : 'Preis und Bezahlung dafür klären wir persönlich mit dir, bevor etwas an Enagic geht.'}</small><button type="button" class="knopf" id="pk-aktion">${feld.checked ? 'Wieder abwählen' : 'Auswählen'}</button></div>`;
+    <div class="pk-aktion"><small>${p.id === 'k8' ? 'Preis und Raten siehst du unten bei der Bezahlung.' : 'Preis und Bezahlung dafür klären wir persönlich mit dir, bevor etwas an Enagic geht.'}</small><button type="button" class="knopf" id="pk-aktion">${feld.checked ? 'Wieder abwählen' : 'Auswählen'}</button></div>`;
   $('.pk-zu').onclick = () => dlg.close();
   $('#pk-aktion').onclick = () => { feld.checked = !feld.checked; anpassen(); dlg.close(); };
   dlg.showModal();
