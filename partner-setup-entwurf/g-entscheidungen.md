@@ -46,6 +46,11 @@ Eingetragen, Inhaber Enagic: „KANGEN“ (DE 302008056597, IR 1075579), „KANG
 „Kangen Water“ (EU 018640012, 018783643), „KANGEN-WATER“ (DE 302009051054). Angemeldet: „Kangen UKON“ (EU 019415774).
 Folge: „Kangenwasser“ im Text ja (beschreibt das echte Produkt), aber **nicht in der Domain** und nicht als eigener Markenname.
 
+## Stil für Kundentexte (Jasmin, 23.10.2026)
+
+- Positiv und knapp. Keine Selbstverständlichkeiten, keine abwehrenden Hinweise („jederzeit abbestellbar“, „deine Nummer sieht niemand“, „kein Gruppenchat“). Was rechtlich nötig ist, steht in der Datenschutzerklärung.
+- Nicht erwähnen, dass Preise je Land verschieden sind. Preise netto mit „zzgl. MwSt.“ (rechtlich offen, Frage D25).
+
 ## Noch offen
 
 - **Marke und Domain:** soll sich auf das Produkt beziehen, ohne „Kangen“. Vorschläge: wasserionisierer-testen.de, fuenf-wasserarten.de, ionisiertes-wasser.de. Entscheidung offen.

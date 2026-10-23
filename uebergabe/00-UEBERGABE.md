@@ -18,6 +18,9 @@ Dateien und Entwürfe, nichts ist schon live. Bitte in dieser Reihenfolge lesen.
 - Partnerseiten: rechtlicher Hinweis mit Markenvermerk und HMG-Satz steht im Fuß der Vorlage, nicht entfernen.
 - Zusatzprodukte (emGuarde, ANESPA) gehen nie automatisch an Enagic, Daniel klärt sie mit dem Kunden.
 - Fotos von emGuarde und ANESPA erst nach schriftlicher Genehmigung von Enagic.
+- Texte für Kunden positiv und knapp. Keine Selbstverständlichkeiten und keine abwehrenden Hinweise wie „jederzeit abbestellbar“, „deine Nummer sieht niemand“, „kein Gruppenchat“ (Jasmin, 23.10.2026). Nur was rechtlich nötig ist, und das in die Datenschutzerklärung.
+- Nirgends erwähnen, dass Preise je Land verschieden sind. Preise netto mit „zzgl. MwSt.“.
+- Ziel nach jeder Bestellung: Kunde folgt dem WhatsApp-Kanal (Danke-Seite, Bestätigungsmail).
 
 ## Was nicht dabei ist
 
