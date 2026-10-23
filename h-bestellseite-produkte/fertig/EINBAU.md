@@ -35,6 +35,14 @@ Die Ordner `bilder/`, `dashboard/`, `vendor/` in `fertig/website/` sind nur zum 
 - **Preise netto:** Kacheln zeigen den Preis ohne MwSt. mit „zzgl. MwSt.“ (K8 Deutschland 4.612 €). Im Block „Bezahlung“
   steht „4.612 € zzgl. 874 € MwSt.“ und klein der Gesamtbetrag 5.486 €. „Versand aus Düsseldorf“ ist überall raus.
   Rechtlich offen (Frage D25).
+- **emGuarde hervorgehoben:** Reihenfolge jetzt K8, emGuarde Go (Mitte, Band „Unsere Empfehlung“), ANESPA DX.
+  Text des Bands im Feld `empfehlung` in `PRODUKTE`.
+- **Newsletter:** freiwilliger Haken `newsletter` (Wert `"on"`), landet in `daten`. Bitte so einbauen:
+  1. Nach der Bestellung nur bei `newsletter = "on"` eine eigene Mail mit Bestätigungslink schicken (Double-Opt-in).
+  2. Erst nach dem Klick in die Newsletter-Liste aufnehmen. Zeitpunkt von Anmeldung und Bestätigung speichern.
+  3. Ohne Haken keine Werbemails, nur die Bestellmails.
+  Newsletter-Programm ist noch offen (Frage D27).
+- **Fußzeile:** Links auf `/impressum/` und `/datenschutz/`. Die Seiten gibt es noch nicht (Frage D26).
 - Text „Wie möchtest du kaufen?“ erklärt jetzt Kunde und Vertriebspartner (Distributor). Die Werte bleiben `Verbraucher` und `Distributor`.
 - Kopf der Seite jetzt hell (statt dunkelgrün), Logo `logo-oliv.png`. Auswahlfelder (Kaufart, Bezahlung,
   Haken) sind eigene Kreise und Kästchen: leer = weiß, gewählt = Oliv.

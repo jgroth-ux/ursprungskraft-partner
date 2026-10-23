@@ -134,5 +134,17 @@ Die Bestellseite zeigt jetzt bei allen Produkten den Preis ohne MwSt. mit „zzg
 
 ---
 
+## Nachtrag 23.10.2026: Newsletter und Pflichtseiten
+
+**D26. Impressum und Datenschutz (Start)**
+Die Bestellseite verlinkt unten auf `/impressum/` und `/datenschutz/` auf mein.ursprungskraft.net. Die Seiten gibt es noch nicht. Wer steht im Impressum (Jasmin, Daniel, eine Firma), und wer schreibt die Datenschutzerklärung (Bestelldaten, Ausweis, Unterschrift, Weitergabe an Enagic, Newsletter)?
+- [ ] Antwort:
+
+**D27. Newsletter mit Double-Opt-in (Anwalt)**
+Auf der Bestellseite gibt es jetzt einen freiwilligen Haken für den Newsletter. Wer ihn setzt, bekommt eine Mail mit Bestätigungslink und ist erst nach dem Klick angemeldet. Welches Newsletter-Programm nehmen wir? Passt der Text so, oder soll der Anwalt ihn prüfen?
+- [ ] Antwort:
+
+---
+
 *Weitere offene Punkte für Jasmin und den Anwalt stehen in `partner-setup-entwurf/g-entscheidungen.md`
 (Abschnitt „Noch offen“) und in `partner-setup-entwurf/c-nutzungsbedingungen.md` (Fragen an den Anwalt).*

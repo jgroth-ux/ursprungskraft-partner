@@ -51,7 +51,7 @@ input:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0
 .haken input,label.pk-fuss input{border-radius:5px}
 .haken input:checked,label.pk-fuss input:checked{border-color:var(--olive);background:var(--olive) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/16px no-repeat}
 .wahl input:focus-visible,.haken input:focus-visible,label.pk-fuss input:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
-.wahl b{display:block;font-weight:600}
+.wahl b{display:block;font-weight:600;line-height:1.5}
 .wahl small{color:var(--muted);font-size:14px;line-height:1.5}
 .nebeneinander{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
 .ausweis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
@@ -94,10 +94,15 @@ input:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0
 
 /* Produkte: Kacheln */
 .block-produkte{background:var(--weiss)}
-.produkte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:4px 0 20px}
+.produkte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:14px 0 20px;align-items:stretch}
 .pk{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden;transition:border-color .2s}
 .pk:hover{border-color:var(--khaki)}
 .pk:has(input:checked){border-color:var(--olive);box-shadow:inset 0 0 0 1px var(--olive)}
+/* Hervorgehobene Kachel (emGuarde): Band oben, Khaki-Rahmen, leicht angehoben */
+.pk.pk-top{border-color:var(--khaki);box-shadow:0 0 0 1px var(--khaki),0 14px 30px -18px rgba(47,53,36,.45)}
+.pk.pk-top:has(input:checked){border-color:var(--olive);box-shadow:0 0 0 2px var(--olive),0 14px 30px -18px rgba(47,53,36,.45)}
+.pk-band{background:var(--olive-deep);color:var(--surface);font:600 11px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;text-align:center;padding:9px 8px}
+.pk-band::before{content:"★ ";color:var(--khaki-light)}
 .pk-info{display:flex;flex-direction:column;gap:4px;flex:1;text-align:left;background:none;border:0;padding:0 0 14px;font:inherit;color:inherit;cursor:pointer}
 .pk-info:focus-visible{outline:2px solid var(--khaki);outline-offset:-2px}
 .pk-rahmen{position:relative;aspect-ratio:1/1;background:var(--ground);border-bottom:1px solid var(--line-zart);margin-bottom:12px;overflow:hidden}
@@ -152,6 +157,8 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
 .pk-aktion .knopf{flex:1}
 .pk-aktion small{color:var(--muted);font-size:12px;line-height:1.4;flex:1.2}
 .pk-hinweis{font-size:12px;line-height:1.5;color:var(--muted);margin:0}
+.fuss{display:flex;justify-content:center;gap:24px;padding:0 16px 40px;font-size:13px;margin-top:-64px}
+.fuss a{color:var(--muted)}
 [hidden]{display:none!important}
 @media (max-width:720px){
   .produkte{grid-template-columns:1fr}
@@ -195,10 +202,10 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
 
   <section class="block">
     <h2>Wie möchtest du kaufen?</h2>
-    <p class="hilfe">Die meisten kaufen einfach als Kunde. Wenn dich auch das Geschäft mit Enagic interessiert, kannst du dich beim Kauf gleich als Vertriebspartner registrieren lassen. Enagic nennt das „Distributor“. Du musst dafür nichts verkaufen, du hättest nur die Möglichkeit dazu. Am Kaufpreis ändert sich nichts.</p>
+    <p class="hilfe">Wenn du zusätzlich am Business interessiert bist, kannst du dich beim Kauf gleich als Vertriebspartner registrieren. Enagic nennt das „Distributor“. Am Kaufpreis ändert sich nichts.</p>
     <div class="wahl">
-      <label><input type="radio" name="als" value="Verbraucher" required><span><b>Als Kunde kaufen</b><small>Für dich und deine Familie, sonst nichts. Bei Enagic heißt das „Verbraucher“.</small></span></label>
-      <label><input type="radio" name="als" value="Distributor"><span><b>Kaufen und Vertriebspartner werden</b><small>Für dich, wenn du dich für das Business interessierst. Bei Enagic heißt das „Distributor“. Du bekommst eine eigene Enagic-ID. Empfiehlst du später ein Gerät weiter, vergütet Enagic das nach seinem Vergütungsplan. Eine Pflicht zum Verkaufen gibt es nicht. Dafür unterschreibst du zusätzlich die Distributorenvereinbarung, und Enagic braucht eine Kopie deines Ausweises.</small></span></label>
+      <label><input type="radio" name="als" value="Verbraucher" required><span><b>Als Kunde kaufen</b></span></label>
+      <label><input type="radio" name="als" value="Distributor"><span><b>Kaufen und Vertriebspartner werden</b><small>Für dich, wenn du dich für das Business interessierst. Du bekommst eine eigene Enagic-ID. Empfiehlst du später ein Gerät weiter, vergütet Enagic das nach seinem Vergütungsplan. Eine Pflicht zum Verkaufen gibt es nicht. Dafür unterschreibst du zusätzlich die Distributorenvereinbarung, und Enagic braucht eine Kopie deines Ausweises.</small></span></label>
     </div>
   </section>
 
@@ -266,6 +273,7 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
     <div class="knopfzeile"><span class="hilfe" style="margin:0" id="ort-datum"></span><button type="button" class="knopf leise" id="pad-leeren">Neu unterschreiben</button></div>
     <label class="haken"><input type="checkbox" name="agb" required> <span>Ich habe die <a href="https://www.enagiceu.com" target="_blank" rel="noopener">Allgemeinen Geschäftsbedingungen und den Datenschutz von Enagic</a> gelesen und bin einverstanden. Mit meiner Unterschrift bestelle ich verbindlich.</span></label>
     <label class="haken"><input type="checkbox" name="weitergabe" required> <span>Meine Angaben dürfen an Enagic Europe GmbH weitergegeben werden, damit die Bestellung ausgeführt werden kann.</span></label>
+    <label class="haken"><input type="checkbox" name="newsletter"> <span>Freiwillig: Ich möchte Tipps und Neuigkeiten rund um Wasser und meine Geräte per E-Mail bekommen. Dafür schicken wir dir eine Mail mit einem Bestätigungslink. Abmelden geht jederzeit mit einem Klick. Mehr dazu im <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutz</a>.</span></label>
     <div class="fehler" id="fehler" role="alert"></div>
     <button class="knopf" type="submit" id="senden">Verbindlich bestellen</button>
   </section>
@@ -282,8 +290,9 @@ dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
   <p class="hilfe">Fragen? Melde dich jederzeit bei uns.</p>
 </section>
 </main>
+<footer class="fuss"><a href="/impressum/" target="_blank" rel="noopener">Impressum</a><a href="/datenschutz/" target="_blank" rel="noopener">Datenschutz</a></footer>
 
 <script src="../vendor/supabase.js"></script>
-<script src="bestellen.js?v=20261023e"></script>
+<script src="bestellen.js?v=20261023f"></script>
 </body>
 </html>
