@@ -2,7 +2,7 @@
    Produktauswahl für die Bestellseite (mein.ursprungskraft.net/bestellen/), Stand 23.10.2026
    FERTIG: drei Kacheln (K8, emGuarde, ANESPA DX), Klick öffnet Details, Zusatzprodukte per
            Haken mitbestellen, Auswahl über zusatzprodukteAuswahl() abrufbar.
-   FEHLT:  Preise für emGuarde und ANESPA DX (offizielle EU-Preise nicht gefunden), Produktfotos,
+   FEHLT:  Schweizer Preise für emGuarde und ANESPA DX, Fotos von emGuarde und ANESPA DX (Genehmigung von Enagic nötig),
            Abgleich der Texte mit den Enagic-Seiten (von hier aus nicht erreichbar).
    EINBAU: siehe EINBAU.md
    ========================================================================== */
@@ -32,7 +32,8 @@
       name: 'emGuarde',
       kurz: 'Kleines Gerät von Enagic für Zuhause, Büro und unterwegs.',
       bild: '',
-      preis: { DE: null, CH: null },
+      // Preis laut Enagic-Shop: 2.420 € ohne MwSt. (Stand 23.10.2026). Schweiz: noch offen.
+      preis: { DE: '2.420 € zzgl. MwSt.', CH: null },
       punkte: [
         'Modell EM001 für Zuhause: laut Hersteller rund 4 m Reichweite, Betrieb über USB',
         'Modell EM002-K (Portable): Set mit 2 Geräten, Akku für bis zu 72 Stunden',
@@ -45,7 +46,8 @@
       name: 'ANESPA DX',
       kurz: 'Das Duschsystem von Enagic mit Mineral-Ionen-Wasser.',
       bild: '',
-      preis: { DE: null, CH: null },
+      // Preis laut Enagic-Shop: 2.800 € ohne MwSt. (Stand 23.10.2026). Schweiz: noch offen.
+      preis: { DE: '2.800 € zzgl. MwSt.', CH: null },
       punkte: [
         'Duschkopf mit Massagefunktion und Edelstahlschlauch',
         'Durchfluss laut Händlerangaben etwa 2,6 Liter pro Minute',
