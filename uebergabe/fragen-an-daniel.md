@@ -96,5 +96,21 @@ Das vorhandene ISO-13485-Zertifikat (DNV, Osaka Factory) galt bis 27.04.2026. Gi
 
 ---
 
+## Nachtrag 23.10.2026: Produktdaten
+
+**D19. Garantie K8**
+Wie viele Jahre Garantie gibt Enagic in Deutschland und der Schweiz auf den K8? (Im Screenshot der Enagic-Seite nicht sicher lesbar.)
+- [ ] Antwort:
+
+**D20. Redoxwert K8**
+Die Enagic-Seite nennt einen negativen Redoxwert in mV. Welcher Wert ist richtig, und sollen wir ihn auf der Bestellseite zeigen?
+- [ ] Antwort:
+
+**D21. ANESPA DX: Anschluss**
+Passt ANESPA DX an jede Dusche (zwischen Armatur und Schlauch)? Gibt es Duschen, bei denen es nicht geht?
+- [ ] Antwort:
+
+---
+
 *Weitere offene Punkte für Jasmin und den Anwalt stehen in `partner-setup-entwurf/g-entscheidungen.md`
 (Abschnitt „Noch offen“) und in `partner-setup-entwurf/c-nutzungsbedingungen.md` (Fragen an den Anwalt).*

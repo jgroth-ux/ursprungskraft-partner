@@ -29,45 +29,88 @@ function preiseZeigen(w) {
 
 
 // ---------- Produkte (23.10.2026): K8 fest, emGuarde und ANESPA DX zum Mitbestellen ----------
-// Preise laut Enagic-Shop ohne MwSt. (Stand 23.10.2026). Schweiz: noch offen, darum "persönlich".
+// Daten aus den Enagic-Produktseiten (Stand 23.10.2026), in eigenen Worten, ohne Wirkungsaussagen.
+// Preise der Ergänzungen laut Enagic-Shop ohne MwSt. Schweiz noch offen (fragen-an-daniel.md, D1 und D2).
 // Die Haken heißen zusatz_emguarde und zusatz_anespa und landen so automatisch in daten (uk_bestellungen).
 // Zusatzprodukte gehen NICHT automatisch an Enagic, Daniel klärt Preis und Zahlung vorher mit dem Kunden.
+const ICON = {
+  tippen: '<path d="M9 11V5a2 2 0 0 1 4 0v6"/><path d="M13 9a2 2 0 0 1 4 0v4"/><path d="M17 11a2 2 0 0 1 4 0v3a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.5L4 14a2 2 0 0 1 3.4-2L9 14"/>',
+  kreis: '<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>',
+  glocke: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/>',
+  welt: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/>',
+  strom: '<path d="M12 3v9"/><path d="M6.4 6.4a8 8 0 1 0 11.2 0"/>',
+  tropfen: '<path d="M12 3s7 7.5 7 12a7 7 0 0 1-14 0c0-4.5 7-12 7-12z"/>',
+  akku: '<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 11v2"/><path d="M7 10v4M11 10v4"/>',
+  uhr: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  koffer: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+  dusche: '<path d="M4 20V8a4 4 0 0 1 4-4h1a4 4 0 0 1 4 4"/><path d="M10 10h6"/><path d="M11 14v1M14 14v1M17 14v1M12 18v1M15 18v1"/>',
+  stein: '<ellipse cx="12" cy="15" rx="8" ry="4"/><path d="M7 12c1-3 3-5 5-5s4 2 5 5"/>',
+  schild: '<path d="M4 12h16"/><path d="M12 4v16"/><circle cx="12" cy="12" r="9"/>'
+};
 const PRODUKTE = [
-  { id: 'k8', fest: true, name: 'LeveLuk K8', bild: '../bilder/k8.jpg',
-    kurz: 'Der Wasserionisierer für deine Küche. Fünf Wasserarten aus deinem Leitungswasser.',
-    preis: { DE: '5.486 € inkl. MwSt.', CH: '4.657 € geliefert, zzgl. Zoll und MwSt.' },
-    text: 'Der K8 steht neben deiner Spüle und wird an den Wasserhahn angeschlossen. Er filtert dein Leitungswasser und teilt es per Elektrolyse in basisches und saures Wasser. So bekommst du per Knopfdruck Trinkwasser, Wasser zum Kochen und Wasser für Pflege und Haushalt.',
-    punkte: ['8 platinbeschichtete Titanplatten', '5 Wasserarten von pH 2,5 bis pH 11,5', 'Filterwechsel etwa einmal im Jahr', 'Versand direkt aus Düsseldorf', 'Ratenzahlung möglich'] },
-  { id: 'emguarde', name: 'emGuarde Go', bild: '',
-    kurz: 'Set mit 2 kleinen Geräten von Enagic für Zuhause, Arbeit und unterwegs.',
-    preis: { DE: '2.420 € zzgl. MwSt.' },
-    text: 'Enagic beschreibt emGuarde als Gerät, das den Umgang mit elektromagnetischen Feldern im Alltag unterstützen soll, zum Beispiel von WLAN, Handy und Elektrogeräten. Nach Angaben von Enagic ist es nicht dazu bestimmt, Krankheiten zu diagnostizieren, zu behandeln, zu heilen oder zu verhindern.',
-    punkte: ['Set mit 2 Geräten und 2 USB-C-Ladekabeln', 'Reichweite je Gerät etwa 3 m Durchmesser', 'Akku 5.000 mAh, bis zu 72 Stunden pro Ladung', 'Eine Taste, keine Einrichtung, keine Wartung', '2 Jahre Garantie'] },
-  { id: 'anespa', name: 'ANESPA DX', bild: '',
-    kurz: 'Filtersystem von Enagic für Dusche und Badewanne, mit Massage-Duschkopf.',
-    preis: { DE: '2.800 € zzgl. MwSt.' },
-    text: 'ANESPA DX wird an deine Dusche oder Wanne angeschlossen. Aktivkohle und eine Keramikkartusche filtern das Leitungswasser, laut Enagic entfernt es nahezu das ganze Restchlor. Die Kartusche enthält Mineralsteine aus Japan.',
-    punkte: ['Durchfluss 2,6 Liter pro Minute', 'Massage-Duschkopf mit verstellbaren Einstellungen', 'Keramikkartusche etwa alle 3 Jahre (200 € zzgl. MwSt.)', 'Externer Chlorfilter (65 € zzgl. MwSt.)', '3 Jahre Garantie, Zahlung auch in Raten'] },
+  { id: 'k8', fest: true, name: 'LeveLuk K8', marke: 'Wasserionisierer', bild: '../bilder/k8.jpg',
+    kurz: 'Fünf Wasserarten aus deinem Leitungswasser, direkt an der Spüle.',
+    preis: { DE: ['5.486 €', 'inkl. MwSt., Versand aus Düsseldorf'], CH: ['4.657 €', 'geliefert, zzgl. Verzollung und MwSt. (ca. 400 CHF)'] },
+    text: 'Der K8 steht neben deiner Spüle und wird an den Wasserhahn angeschlossen. Er filtert dein Leitungswasser und teilt es danach per Elektrolyse in basisches und saures Wasser. So bekommst du per Knopfdruck Trinkwasser, Wasser zum Kochen und Wasser für Pflege und Haushalt.',
+    highlights: [['tippen', 'Touchscreen mit Sprachansage in mehreren Sprachen'], ['kreis', 'Reinigt sich nach jeder Nutzung automatisch'], ['glocke', 'Filteranzeige meldet, wann ein Wechsel fällig ist'], ['welt', 'Netzteil für jede Stromversorgung weltweit'], ['strom', 'Schaltet sich zwischen den Nutzungen selbst ab'], ['tropfen', '5 Wasserarten von pH 2,5 bis pH 11,5']],
+    skala: true,
+    daten: [['Elektrodenplatten', '8, platinbeschichtetes Titan'], ['Plattengröße', '135 × 75 mm'], ['pH-Bereich', '2,5 bis 11,5'], ['Wasserarten', '5'], ['Durchfluss Trinkwasser', '4,5 bis 7,6 l/min'], ['Leistung', '230 W'], ['Gewicht', '5 kg'], ['Maße (B × H × T)', '279 × 349 × 147 mm'], ['Bedienung', 'vollautomatisch, Touchscreen']],
+    fragen: [
+      ['Wie wird der K8 angeschlossen?', 'Er kommt neben die Spüle und wird mit einem Umschaltventil an deinen Wasserhahn angeschlossen. Dazu brauchst du eine Steckdose in der Nähe. Beim Anschließen helfen wir dir.'],
+      ['Ist das dasselbe wie Umkehrosmose?', 'Nein. Umkehrosmose entfernt fast alles aus dem Wasser, auch die Mineralien. Der K8 filtert und lässt die Mineralien aus deinem Leitungswasser weitgehend drin. Danach teilt die Elektrolyse das Wasser auf.'],
+      ['Welches Wasser kann ich trinken?', 'Zum Trinken und Kochen sind pH 7 und pH 8,5 bis 9,5 gedacht. Die anderen Wasserarten sind für Haushalt und Pflege. Für Babynahrung nimmst du pH 7.'],
+      ['Wie oft wird der Filter gewechselt?', 'Je nach Verbrauch etwa einmal im Jahr. Das Gerät zeigt dir an, wann es so weit ist. Ein Ersatzfilter kostet bei Enagic 114 € zzgl. MwSt.'],
+      ['Kann ich in Raten zahlen?', 'Ja. Enagic bietet 3, 6, 10, 16 oder 24 Monate an. Die Raten siehst du weiter unten bei der Bezahlung.']] },
+  { id: 'emguarde', name: 'emGuarde Go', marke: 'Set mit 2 Geräten', bild: '',
+    kurz: 'Zwei kleine Geräte von Enagic für Zuhause, Arbeit und unterwegs.',
+    preis: { DE: ['2.420 €', 'zzgl. MwSt., laut Enagic-Shop'] },
+    text: 'emGuarde Go ist ein Set aus zwei handlichen Geräten. Enagic beschreibt es als Unterstützung im Umgang mit elektromagnetischen Feldern im Alltag, zum Beispiel von WLAN, Handy und Elektrogeräten. Du stellst die Geräte dorthin, wo du viel Zeit verbringst, oder nimmst eins mit.',
+    highlights: [['koffer', 'Kompakt und leicht, passt in jede Tasche'], ['akku', 'Akku mit 5.000 mAh, laden über USB-C'], ['uhr', 'Bis zu 72 Stunden pro Ladung'], ['strom', 'Eine Taste, keine Einrichtung, keine Wartung']],
+    daten: [['Lieferumfang', '2 Geräte, 2 USB-C-Ladekabel'], ['Akku', '5.000 mAh Lithium, wiederaufladbar'], ['Laufzeit', 'bis zu 72 Stunden'], ['Reichweite', 'je Gerät etwa 3 m Durchmesser'], ['Bedienung', 'eine Taste'], ['Farbe', 'mattschwarz'], ['Garantie', '2 Jahre']],
+    fragen: [['Wo stelle ich die Geräte hin?', 'Dort, wo du viel Zeit verbringst: am Arbeitsplatz, im Wohnzimmer oder neben dem Bett. Beide zusammen in einem Raum oder getrennt in zwei Räumen.'], ['Wie wird es bezahlt?', 'Preis und Bezahlung klären wir persönlich mit dir, bevor etwas an Enagic geht.']],
+    hinweis: 'Nach Angaben von Enagic ist emGuarde nicht dazu bestimmt, Krankheiten zu diagnostizieren, zu behandeln, zu heilen oder zu verhindern.' },
+  { id: 'anespa', name: 'ANESPA DX', marke: 'Mineral-Ionen-Wasserbad', bild: '',
+    kurz: 'Filtersystem für Dusche und Badewanne, mit Massage-Duschkopf.',
+    preis: { DE: ['2.800 €', 'zzgl. MwSt., laut Enagic-Shop'] },
+    text: 'ANESPA DX wird an deine Dusche oder Badewanne angeschlossen. Aktivkohle und eine Keramikkartusche filtern das Leitungswasser, laut Enagic entfernt es nahezu das gesamte Restchlor. In der Kartusche stecken Tuffstein aus der heißen Quelle Futamata in Hokkaido und Maifan-Stein.',
+    highlights: [['dusche', 'Massage-Duschkopf mit verstellbaren Einstellungen'], ['schild', 'Zweistufige Filterung: Aktivkohle und Keramik'], ['stein', 'Mineralsteine aus Japan in der Kartusche'], ['kreis', 'Einfacher Kartuschenwechsel dank neuer Basis']],
+    daten: [['Erzeugt', 'Mineral-Ionen-Wasser'], ['pH-Wert', 'wie Leitungswasser'], ['Durchfluss', '2,6 l/min'], ['Gewicht', '4,2 kg'], ['Maße (B × Durchmesser)', '130 × 346 mm'], ['Keramikkartusche', 'etwa alle 3 Jahre, 200 € zzgl. MwSt.'], ['Externer Chlorfilter', '65 € zzgl. MwSt.'], ['Garantie', '3 Jahre']],
+    fragen: [['Passt das an meine Dusche?', 'ANESPA DX wird zwischen Armatur und Duschschlauch gesetzt. Ob es bei dir passt, schauen wir gemeinsam an.'], ['Kann ich in Raten zahlen?', 'Laut Enagic ja, in 3, 6, 10 oder 16 Raten. Preis und Bezahlung klären wir persönlich mit dir.']] }
 ];
-function preisVon(p) { return p.preis[form.land_kurz.value] || (form.land_kurz.value ? 'Preis nennen wir dir persönlich' : 'Preis je nach Land'); }
+const SKALA = [['2,5', 'Reinigen', '#C8463A'], ['6', 'Pflege', '#D9A73B'], ['7', 'Neutral, Babynahrung', '#7DB15A'], ['8,5 bis 9,5', 'Trinken, Kochen', '#3E9A8C'], ['11,5', 'Obst, Fett, Flecken', '#5B5FA8']];
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const bildVon = (p) => p.bild ? `<img class="pk-bild" src="${p.bild}" alt="${esc(p.name)}">` : `<div class="pk-bild" aria-hidden="true">${esc(p.name)}</div>`;
+function preisVon(p) {
+  const l = form.land_kurz.value, x = p.preis[l];
+  if (x) return `${esc(x[0])}<small>${esc(x[1])}</small>`;
+  return l ? 'Preis persönlich<small>nennen wir dir vor der Bestellung</small>' : 'Preis je nach Land<small>wähl unten dein Land</small>';
+}
+const rahmen = (p) => `<div class="pk-rahmen">${p.bild ? `<img src="${p.bild}" alt="${esc(p.name)}" loading="lazy">` : `<div class="ohne">${esc(p.name)}</div>`}<span class="pk-marke">${esc(p.marke)}</span></div>`;
+const icon = (n) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[n] || ''}</svg>`;
 function produkteZeigen() {
   const gewaehlt = (id) => form.elements['zusatz_' + id] && form.elements['zusatz_' + id].checked;
   $('#produkte').innerHTML = PRODUKTE.map((p) => `<article class="pk${p.fest ? ' haupt' : ''}">
-    <button type="button" class="pk-info" data-produkt="${p.id}">${bildVon(p)}<span class="pk-name">${esc(p.name)}</span><span class="pk-kurz">${esc(p.kurz)}</span><span class="pk-preis">${esc(preisVon(p))}</span><span class="pk-mehr">Mehr erfahren</span></button>
+    <button type="button" class="pk-info" data-produkt="${p.id}">${rahmen(p)}<span class="pk-name">${esc(p.name)}</span><span class="pk-kurz">${esc(p.kurz)}</span><span class="pk-preis">${preisVon(p)}</span><span class="pk-mehr">Mehr erfahren</span></button>
     ${p.fest ? '<div class="pk-fuss fest">In deiner Bestellung</div>' : `<label class="pk-fuss"><input type="checkbox" name="zusatz_${p.id}"${gewaehlt(p.id) ? ' checked' : ''}> Mitbestellen</label>`}
   </article>`).join('');
   document.querySelectorAll('[data-produkt]').forEach((b) => { b.onclick = () => produktZeigen(b.dataset.produkt); });
 }
 function produktZeigen(id) {
   const p = PRODUKTE.find((x) => x.id === id), dlg = $('#pk-dlg'), feld = form.elements['zusatz_' + id];
-  $('#pk-dlg-innen').innerHTML = `<button type="button" class="pk-zu" aria-label="Schließen">×</button>${bildVon(p)}<h3>${esc(p.name)}</h3><p><b>${esc(preisVon(p))}</b></p><p>${esc(p.text)}</p><ul>${p.punkte.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-    <button type="button" class="knopf" id="pk-aktion">${p.fest ? 'Weiter zur Bestellung' : (feld.checked ? 'Wieder entfernen' : 'Mitbestellen')}</button>
-    ${p.fest ? '' : '<p class="hilfe" style="margin:10px 0 0">Preis und Bezahlung für Ergänzungen klären wir persönlich mit dir, bevor etwas an Enagic geht.</p>'}`;
+  $('#pk-dlg-innen').innerHTML = `<button type="button" class="pk-zu" aria-label="Schließen">×</button>
+    <div class="pk-dlg-kopf">${rahmen(p)}<div class="pk-dlg-titel"><div class="pk-eyebrow">${esc(p.marke)}</div><h3>${esc(p.name)}</h3><div class="pk-preis">${preisVon(p)}</div><p>${esc(p.text)}</p></div></div>
+    <div class="pk-dlg-inhalt">
+      <div class="pk-abschnitt"><h4>Das Wichtigste</h4><div class="pk-highlights">${p.highlights.map(([i, t]) => `<div class="pk-hl">${icon(i)}<span>${esc(t)}</span></div>`).join('')}</div></div>
+      ${p.skala ? `<div class="pk-abschnitt"><h4>Fünf Wasserarten</h4><div class="pk-skala">${SKALA.map(([w, t, f]) => `<div style="--f:${f}"><b>pH ${w}</b>${esc(t)}</div>`).join('')}</div></div>` : ''}
+      <div class="pk-abschnitt"><h4>Technische Daten</h4><table class="pk-daten">${p.daten.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</table></div>
+      <div class="pk-abschnitt pk-fragen"><h4>Häufige Fragen</h4>${p.fragen.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>
+      ${p.hinweis ? `<p class="pk-hinweis">${esc(p.hinweis)}</p>` : ''}
+    </div>
+    <div class="pk-aktion">${p.fest ? '<small>Der K8 ist fest in deiner Bestellung.</small><button type="button" class="knopf" id="pk-aktion">Weiter zur Bestellung</button>'
+      : `<small>Preis und Bezahlung für Ergänzungen klären wir persönlich mit dir, bevor etwas an Enagic geht.</small><button type="button" class="knopf" id="pk-aktion">${feld.checked ? 'Wieder entfernen' : 'Mitbestellen'}</button>`}</div>`;
   $('.pk-zu').onclick = () => dlg.close();
   $('#pk-aktion').onclick = () => { if (!p.fest) { feld.checked = !feld.checked; anpassen(); } dlg.close(); };
   dlg.showModal();
+  dlg.scrollTop = 0;
 }
 produkteZeigen();
 
@@ -84,7 +127,7 @@ function anpassen() {
   if (!ratenMoeglich && w.zahlung === 'raten') form.zahlung.value = 'ueberweisung';
   $('#ausweis-block').hidden = !(w.als === 'Distributor' || w.zahlung === 'raten');
   preiseZeigen(w);
-  document.querySelectorAll('.pk-preis').forEach((el, i) => { el.textContent = preisVon(PRODUKTE[i]); });
+  document.querySelectorAll('#produkte .pk-preis').forEach((el, i) => { el.innerHTML = preisVon(PRODUKTE[i]); });
   const zusatz = PRODUKTE.filter((p) => w['zusatz_' + p.id]).map((p) => p.name);
   if (zusatz.length) $('#preis-info').insertAdjacentHTML('beforeend', `<span class="warn">Dazu gewünscht: ${zusatz.join(', ')}. Preis und Bezahlung dafür klären wir persönlich mit dir, bevor etwas an Enagic geht.</span>`);
 }
