@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ursprungskraft · Dashboard</title>
+<link rel="icon" type="image/png" href="logo-oliv.png?v=2">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
+<meta name="theme-color" content="#3F4230">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20261021c">
+</head>
+<body>
+<section id="anmeldung" class="anmeldung" hidden></section>
+<aside class="kopf" hidden>
+  <div class="marke"><img class="zeichen" src="logo-hell.png?v=2" alt=""><span>URSPRUNGSKRAFT<small>Dashboard</small></span></div>
+  <div id="umschalter" class="umschalter" hidden>
+    <button data-ansicht="daniel">Daniel</button><button data-ansicht="meine">Meine Zahlen</button>
+  </div>
+  <nav id="reiter">
+    <button data-reiter="aufgaben" class="aktiv">Aufgaben</button>
+    <button data-reiter="kalender">Kalender</button>
+    <button data-reiter="bestellungen">Bestellungen</button>
+    <button data-reiter="kunden">Kunden</button>
+    <button data-reiter="partner">Partner</button>
+    <button data-reiter="maschinen">Testmaschinen</button>
+    <button data-reiter="auswertung">Auswertung</button>
+    <button data-reiter="unterlagen">Unterlagen</button>
+    <button data-reiter="wohnung">Wohnung</button>
+  </nav>
+  <div class="wer"><span id="wer-name"></span><button id="abmelden">Abmelden</button></div>
+</aside>
+<div class="rechts" hidden>
+  <div id="hinweis-demo" class="demo" hidden>Vorschau mit Beispieldaten. Änderungen bleiben nur in diesem Browser.</div>
+  <div class="obenleiste">
+    <button id="glocke" class="glocke" hidden aria-label="Was ist neu"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.6L4.3 16a.7.7 0 0 0 .6 1h14.2a.7.7 0 0 0 .6-1L18 12.6V9a6 6 0 0 0-6-6Zm-2.2 15.5a2.3 2.3 0 0 0 4.4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="glocke-zahl"></span></button>
+    <div id="glocke-liste" class="glocke-liste" hidden></div>
+  </div>
+  <main id="inhalt"></main>
+</div>
+<dialog id="dialog"><form method="dialog" id="dialog-form"></form></dialog>
+<script src="../vendor/supabase.js?v=20261021c"></script>
+<script src="daten.js?v=20261021c"></script>
+<script src="../fragebogen/fragen.js?v=20261021c"></script>
+<script src="app.js?v=20261021c"></script>
+</body>
+</html>
