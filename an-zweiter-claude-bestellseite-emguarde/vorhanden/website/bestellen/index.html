@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Deine Bestellung</title>
+<link rel="icon" type="image/png" href="../dashboard/logo-oliv.png?v=2">
+<link href="../schriften/schriften.css" rel="stylesheet">
+<style>
+/* Versteckte Bestellseite (19.10.2026, neu gestaltet 23.10.2026). Nur per Link, nicht bei Google.
+   Ursprungskraft-CI: Leinen, sattes Oliv, Khaki als Akzent. Haarlinien statt Schatten, ruhige Typografie. */
+:root{--ground:#F5F1E8;--surface:#FBF9F4;--weiss:#FFFFFF;--sand:#EAE3D3;--line:#D9CFBA;--line-zart:#E7E0D0;--khaki-light:#CFC4A0;--khaki:#A8996A;--olive:#4F5A35;--olive-hover:#414A2C;--olive-deep:#2F3524;--ink:#2A2C22;--muted:#5F6152;--rot:#9A3B2E;--hell-oliv:#EEF0E6}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Jost,system-ui,sans-serif;font-weight:500;margin:0;letter-spacing:-.01em}
+a{color:var(--olive);text-underline-offset:3px}
+
+/* Kopf: hell, Text auf derselben Kante wie der Text in den Blöcken darunter */
+.kopf{background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line);padding:32px 16px 36px}
+.kopf .innen{max-width:800px;margin:0 auto;padding:0 29px}
+.marke{display:flex;align-items:center;gap:12px;font:500 12px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--olive);margin-bottom:28px}
+.marke img{width:40px;height:40px}
+.kopf h1{font-size:clamp(34px,6vw,48px);line-height:1.05;color:var(--olive-deep)}
+.kopf p{color:var(--muted);margin:12px 0 0;max-width:560px;font-size:17px}
+.vertrauen{display:flex;flex-wrap:wrap;gap:8px 0;margin-top:22px;font-size:13px;color:var(--olive)}
+.vertrauen span{padding:0 16px;border-left:1px solid var(--line)}
+.vertrauen span:first-child{padding-left:0;border-left:0}
+
+/* Inhalt und Blöcke */
+.inhalt{max-width:832px;margin:0 auto;padding:32px 16px 96px}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:28px 28px 12px;margin-bottom:20px}
+.block h2{font-size:24px;line-height:1.2;margin-bottom:6px}
+.block .hilfe{color:var(--muted);font-size:14px;margin:0 0 18px}
+.raster{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.raster .breit{grid-column:1/-1}
+label.feld{display:block;font-size:14px;font-weight:500;margin-bottom:16px;color:var(--ink)}
+label.feld span.pflicht{color:var(--rot)}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],select{display:block;width:100%;margin-top:6px;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--weiss);font:inherit;color:var(--ink);transition:border-color .15s}
+input:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0 3px var(--hell-oliv)}
+.wahl{display:grid;gap:10px;margin-bottom:18px}
+.wahl label{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border:1px solid var(--line);border-radius:6px;background:transparent;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.wahl label:hover{border-color:var(--khaki);background:var(--weiss)}
+.wahl label:has(input:checked){border-color:var(--olive);box-shadow:inset 0 0 0 1px var(--olive);background:var(--hell-oliv)}
+/* Eigene Kreise und Kästchen: leer sieht leer aus, gewählt ist eindeutig */
+.wahl input,.haken input,label.pk-fuss input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:1px 0 0;border:1.5px solid var(--khaki);background:var(--weiss);cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s}
+.wahl input[type=radio]{border-radius:50%}
+.wahl input[type=radio]:checked{border-color:var(--olive);background:var(--olive);box-shadow:inset 0 0 0 5px var(--weiss)}
+.haken input,label.pk-fuss input{border-radius:5px}
+.haken input:checked,label.pk-fuss input:checked{border-color:var(--olive);background:var(--olive) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/16px no-repeat}
+.wahl input:focus-visible,.haken input:focus-visible,label.pk-fuss input:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
+.wahl b{display:block;font-weight:600;line-height:1.5}
+.wahl small{color:var(--muted);font-size:14px;line-height:1.5}
+.nebeneinander{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.ausweis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.ausweis label{border:1px dashed var(--khaki);border-radius:4px;padding:16px;text-align:center;font-size:14px;cursor:pointer;background:var(--weiss)}
+.ausweis label.da{border-style:solid;border-color:var(--olive);background:var(--hell-oliv)}
+.ausweis input{display:none}
+.unterschrift{position:relative;border:1px solid var(--line);border-radius:4px;background:var(--weiss);height:180px;touch-action:none;margin-bottom:8px}
+.unterschrift canvas{width:100%;height:100%;display:block;border-radius:4px}
+.unterschrift .linie{position:absolute;left:18px;right:18px;bottom:38px;border-bottom:1px solid var(--line);pointer-events:none}
+.unterschrift .platz{position:absolute;left:18px;bottom:12px;font-size:12px;color:var(--muted);pointer-events:none}
+.knopfzeile{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.knopf{display:inline-block;border:0;border-radius:4px;background:var(--olive);color:var(--surface);font:600 16px Inter,sans-serif;padding:16px 32px;cursor:pointer;transition:background .15s}
+.knopf:hover{background:var(--olive-hover)}
+.knopf:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
+.knopf:disabled{opacity:.6;cursor:wait}
+.knopf.leise{background:none;color:var(--olive);border:1px solid var(--line);padding:8px 16px;font-size:14px}
+.knopf.leise:hover{border-color:var(--olive)}
+#senden{width:100%;margin-bottom:16px}
+.haken{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-bottom:12px}
+.fehler{color:var(--rot);font-weight:500;min-height:24px;margin:8px 0}
+.danke{text-align:left}
+.danke h2{font-size:30px;margin-bottom:10px}
+.schritte{counter-reset:s;list-style:none;padding:0;margin:18px 0}
+.schritte li{counter-increment:s;position:relative;padding:0 0 16px 44px}
+.schritte li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--olive-deep);color:var(--khaki-light);display:grid;place-items:center;font:500 14px Jost,sans-serif}
+.empfohlen{font-size:14px;color:var(--khaki-light);margin-top:14px}
+.preis-info{background:var(--sand);border-radius:4px;padding:16px 18px;margin:6px 0 16px;font-size:15px}
+.preis-info b{font-family:Jost,sans-serif;font-weight:500;font-size:22px;color:var(--olive-deep)}
+.preis-info .warn{display:block;margin-top:8px;font-size:14px;color:var(--ink)}
+
+/* Land zuerst: der Rest der Seite erscheint, sobald ein Land gewählt ist */
+#bestellung:not(.land-ok) > section:not(#land-block){display:none}
+.laender{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.land-knopf{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 10px 16px;border:1px solid var(--line);border-radius:6px;background:transparent;font:600 15px Inter,sans-serif;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.land-knopf:hover{border-color:var(--khaki);background:var(--weiss)}
+.land-knopf[aria-pressed=true]{border-color:var(--olive);box-shadow:inset 0 0 0 1px var(--olive);background:var(--hell-oliv);color:var(--olive-deep)}
+.land-knopf:focus-visible{outline:2px solid var(--khaki);outline-offset:2px}
+.land-knopf svg{width:44px;height:30px;border-radius:3px;box-shadow:0 0 0 1px rgba(42,44,34,.12)}
+#land-sonst-feld{max-width:360px}
+
+/* Produkte: Kacheln */
+.block-produkte{background:var(--weiss)}
+.produkte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:14px 0 20px;align-items:stretch}
+.pk{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden;transition:border-color .2s}
+.pk:hover{border-color:var(--khaki)}
+.pk:has(input:checked){border-color:var(--olive);box-shadow:inset 0 0 0 1px var(--olive)}
+/* Hervorgehobene Kachel (emGuarde): Band oben, Khaki-Rahmen, leicht angehoben */
+.pk.pk-top{border-color:var(--khaki);box-shadow:0 0 0 1px var(--khaki),0 14px 30px -18px rgba(47,53,36,.45)}
+.pk.pk-top:has(input:checked){border-color:var(--olive);box-shadow:0 0 0 2px var(--olive),0 14px 30px -18px rgba(47,53,36,.45)}
+.pk-band{background:var(--olive-deep);color:var(--surface);font:600 11px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;text-align:center;padding:9px 8px}
+.pk-band::before{content:"★ ";color:var(--khaki-light)}
+.pk-info{display:flex;flex-direction:column;gap:4px;flex:1;text-align:left;background:none;border:0;padding:0 0 14px;font:inherit;color:inherit;cursor:pointer}
+.pk-info:focus-visible{outline:2px solid var(--khaki);outline-offset:-2px}
+.pk-rahmen{position:relative;aspect-ratio:1/1;background:var(--ground);border-bottom:1px solid var(--line-zart);margin-bottom:12px;overflow:hidden}
+.pk-rahmen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.pk:hover .pk-rahmen img{transform:scale(1.03)}
+.pk-rahmen .ohne{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 20px Jost,sans-serif;color:var(--khaki)}
+.pk-marke{position:absolute;left:12px;top:12px;font:600 10px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:5px 7px}
+.pk-name{font:500 20px/1.25 Jost,sans-serif;padding:0 14px}
+.pk-kurz{font-size:13px;line-height:1.5;color:var(--muted);padding:0 14px}
+.pk-preis{font:500 17px/1.3 Jost,sans-serif;color:var(--olive-deep);padding:8px 14px 0}
+.pk-preis small{display:block;font:400 12px/1.4 Inter,sans-serif;color:var(--muted)}
+.pk-mehr{font-size:13px;font-weight:600;color:var(--olive);padding:10px 14px 0;margin-top:auto}
+.pk-mehr::after{content:" →"}
+label.pk-fuss{display:flex;gap:10px;align-items:center;border-top:1px solid var(--line-zart);padding:14px;font-size:15px;font-weight:600;color:var(--ink);background:var(--weiss);cursor:pointer;transition:background .15s,color .15s}
+label.pk-fuss input{margin:0}
+label.pk-fuss .an{display:none}
+label.pk-fuss:has(input:checked){background:var(--hell-oliv);color:var(--olive-deep)}
+label.pk-fuss:has(input:checked) .an{display:inline}
+label.pk-fuss:has(input:checked) .aus{display:none}
+
+/* Produkte: Detailfenster */
+dialog.pk-dlg{border:0;border-radius:8px;padding:0;width:min(760px,calc(100vw - 24px));max-height:92vh;background:var(--surface);color:var(--ink);overflow:auto}
+dialog.pk-dlg::backdrop{background:rgba(29,33,22,.6)}
+.pk-dlg-kopf{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--line)}
+.pk-dlg-kopf .pk-rahmen{aspect-ratio:auto;min-height:280px;margin:0;border:0;border-right:1px solid var(--line-zart)}
+.pk-dlg-titel{padding:32px 28px 24px;display:flex;flex-direction:column;justify-content:center}
+.pk-eyebrow{font:600 11px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin-bottom:10px}
+.pk-dlg-titel h3{font-size:32px;line-height:1.1;margin-bottom:8px}
+.pk-dlg-titel .pk-preis{padding:0;font-size:20px;margin:6px 0 0}
+.pk-dlg-titel p{margin:10px 0 0;color:var(--muted);font-size:15px}
+.pk-dlg-inhalt{padding:24px 28px 28px}
+.pk-abschnitt{margin-bottom:24px}
+.pk-abschnitt h4{font:600 11px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin:0 0 12px}
+.pk-highlights{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pk-hl{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line-zart);border-radius:4px;background:var(--weiss);font-size:14px;line-height:1.45}
+.pk-hl svg{flex:none;width:22px;height:22px;stroke:var(--olive);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.pk-daten{width:100%;border-collapse:collapse;font-size:14px}
+.pk-daten th{text-align:left;font-weight:400;color:var(--muted);padding:9px 12px 9px 0;border-bottom:1px solid var(--line-zart);width:45%;vertical-align:top}
+.pk-daten td{padding:9px 0;border-bottom:1px solid var(--line-zart);font-weight:500}
+.pk-skala{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:4px}
+.pk-skala div{border-top:5px solid var(--f);padding-top:6px;font-size:12px;line-height:1.35;color:var(--muted)}
+.pk-skala b{display:block;font:500 15px Jost,sans-serif;color:var(--ink)}
+.pk-fragen details{border-bottom:1px solid var(--line-zart)}
+.pk-fragen summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;padding:12px 0;font:500 16px/1.35 Jost,sans-serif}
+.pk-fragen summary::-webkit-details-marker{display:none}
+.pk-fragen summary::after{content:"+";color:var(--olive);font-size:20px;line-height:1}
+.pk-fragen details[open] summary::after{content:"−"}
+.pk-fragen p{margin:0 0 12px;color:var(--muted);font-size:14px}
+.pk-zu{position:absolute;top:10px;right:12px;z-index:2;width:36px;height:36px;border-radius:50%;background:var(--surface);border:1px solid var(--line);font-size:22px;line-height:1;cursor:pointer;color:var(--ink)}
+.pk-dlg-innen{position:relative}
+.pk-aktion{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:14px 28px;display:flex;gap:12px;align-items:center}
+.pk-aktion .knopf{flex:1}
+.pk-aktion small{color:var(--muted);font-size:12px;line-height:1.4;flex:1.2}
+.pk-hinweis{font-size:12px;line-height:1.5;color:var(--muted);margin:0}
+.fuss{display:flex;justify-content:center;gap:24px;padding:0 16px 40px;font-size:13px;margin-top:-64px}
+.fuss a{color:var(--muted)}
+.klein{font-size:13px;line-height:1.5;color:var(--muted);margin:0 0 16px}
+.kanal{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:8px 0 22px;padding:24px;border:1px solid var(--line);border-radius:8px;background:var(--weiss)}
+.kanal svg{width:40px;height:40px;fill:none;stroke:#1F8F4E;stroke-width:1.6;stroke-linejoin:round}
+.kanal-eyebrow{display:block;font:600 11px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#1F8F4E;margin-bottom:8px}
+.kanal > div > b{display:block;font:500 24px/1.2 Jost,sans-serif;color:var(--olive-deep);margin-bottom:6px}
+.kanal > div > span{display:block;font-size:15px;line-height:1.5;color:var(--muted)}
+.kanal-liste{grid-column:1/-1;list-style:none;padding:0;margin:14px 0 4px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kanal-liste li{position:relative;padding:12px 12px 12px 40px;border:1px solid var(--line-zart);border-radius:6px;background:var(--surface);font-size:14px;line-height:1.5;color:var(--muted)}
+.kanal-liste li::before{content:"";position:absolute;left:12px;top:14px;width:18px;height:18px;border-radius:50%;background:#1F8F4E url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4L18 8'/%3E%3C/svg%3E") center/12px no-repeat}
+.kanal-liste b{display:block;font-weight:600;color:var(--ink)}
+.kanal-fuss{grid-column:1/-1;display:flex;gap:16px;align-items:center;margin-top:10px}
+.kanal-fuss small{font-size:13px;line-height:1.45;color:var(--muted)}
+.kanal .knopf{background:#1F8F4E;padding:15px 26px;white-space:nowrap;text-decoration:none;flex:none}
+.kanal .knopf:hover{background:#18763F}
+@media (max-width:620px){.kanal{padding:18px}.kanal-liste{grid-template-columns:1fr}.kanal-fuss{flex-direction:column;align-items:stretch;text-align:center}}
+[hidden]{display:none!important}
+@media (max-width:720px){
+  .produkte{grid-template-columns:1fr}
+  .pk-rahmen{aspect-ratio:4/3}
+  .pk-dlg-kopf{grid-template-columns:1fr}
+  .pk-dlg-kopf .pk-rahmen{min-height:220px;border-right:0;border-bottom:1px solid var(--line-zart)}
+  .pk-dlg-titel{padding:20px 18px 16px}
+  .pk-dlg-titel h3{font-size:28px}
+  .pk-dlg-inhalt{padding:18px}
+  .pk-highlights{grid-template-columns:1fr}
+  .pk-aktion{padding:12px 18px;flex-direction:column;align-items:stretch}
+}
+@media (max-width:620px){.laender{grid-template-columns:1fr 1fr}.raster,.ausweis{grid-template-columns:1fr}.block{padding:20px 18px 6px}.kopf .innen{padding:0 19px}.vertrauen span{padding:0 10px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="kopf"><div class="innen">
+  <div class="marke"><img src="../dashboard/logo-oliv.png?v=2" alt="">Ursprungskraft</div>
+  <h1>Deine Bestellung</h1>
+  <p>Trag hier einmal deine Angaben ein. Wir füllen damit die Bestellunterlagen für Enagic für dich aus, du musst nichts ausdrucken oder einscannen.</p>
+  <div class="vertrauen"><span>Ratenzahlung möglich</span><span>Persönliche Betreuung</span></div>
+</div></header>
+
+<main class="inhalt">
+<form id="bestellung" novalidate>
+
+  <section class="block" id="land-block">
+    <h2>Wo wohnst du?</h2>
+    <p class="hilfe">Bitte wähl zuerst dein Land.</p>
+    <div class="laender" id="laender"></div>
+    <label class="feld" id="land-sonst-feld" hidden>Welches Land?<select id="land-sonst"></select></label>
+  </section>
+
+  <section class="block block-produkte">
+    <h2>Was möchtest du bestellen?</h2>
+    <p class="hilfe">Wähl ein oder mehrere Produkte aus. Tippe auf ein Bild für mehr Infos.</p>
+    <div class="produkte" id="produkte"></div>
+    <dialog class="pk-dlg" id="pk-dlg"><div class="pk-dlg-innen" id="pk-dlg-innen"></div></dialog>
+  </section>
+
+  <section class="block">
+    <h2>Wie möchtest du kaufen?</h2>
+    <p class="hilfe">Wenn du zusätzlich am Business interessiert bist, kannst du dich beim Kauf gleich als Vertriebspartner registrieren. Enagic nennt das „Distributor“. Am Kaufpreis ändert sich nichts.</p>
+    <div class="wahl">
+      <label><input type="radio" name="als" value="Verbraucher" required><span><b>Als Kunde kaufen</b></span></label>
+      <label><input type="radio" name="als" value="Distributor"><span><b>Kaufen und Vertriebspartner werden</b><small>Für dich, wenn du dich für das Business interessierst. Du bekommst eine eigene Enagic-ID. Empfiehlst du später ein Gerät weiter, vergütet Enagic das nach seinem Vergütungsplan. Eine Pflicht zum Verkaufen gibt es nicht. Dafür unterschreibst du zusätzlich die Distributorenvereinbarung, und Enagic braucht eine Kopie deines Ausweises.</small></span></label>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Deine Angaben</h2>
+    <p class="hilfe">Felder mit <span style="color:var(--rot)">*</span> braucht Enagic zwingend.</p>
+    <div class="raster">
+      <label class="feld">Anrede<select name="anrede"><option value="">bitte wählen</option><option>Frau</option><option>Herr</option></select></label>
+      <label class="feld">Geburtsdatum <span class="pflicht">*</span><input type="date" name="geburtsdatum" required></label>
+      <label class="feld">Vorname <span class="pflicht">*</span><input type="text" name="vorname" autocomplete="given-name" required></label>
+      <label class="feld">Nachname <span class="pflicht">*</span><input type="text" name="nachname" autocomplete="family-name" required></label>
+      <label class="feld breit">Firma (nur falls du über eine Firma bestellst)<input type="text" name="firma" autocomplete="organization"></label>
+      <label class="feld breit">Straße und Hausnummer <span class="pflicht">*</span><input type="text" name="strasse" autocomplete="street-address" required></label>
+      <label class="feld">PLZ <span class="pflicht">*</span><input type="text" name="plz" autocomplete="postal-code" required></label>
+      <label class="feld">Ort <span class="pflicht">*</span><input type="text" name="ort" autocomplete="address-level2" required></label>
+      <label class="feld">Land <span class="pflicht">*</span><select name="land_kurz" required>
+        <option value="">bitte wählen</option><option value="CH">Schweiz</option><option value="DE">Deutschland</option><option value="AT">Österreich</option><option value="LI">Liechtenstein</option><option value="IT">Italien</option><option value="FR">Frankreich</option><option value="NL">Niederlande</option><option value="BE">Belgien</option><option value="LU">Luxemburg</option><option value="ES">Spanien</option><option value="NO">Norwegen</option><option value="GB">Vereinigtes Königreich</option><option value="XX">anderes Land</option></select></label>
+      <label class="feld" id="land-anders" hidden>Welches Land?<input type="text" name="land_anders"></label>
+      <label class="feld" id="ustid" hidden>USt-IdNr. der Firma<input type="text" name="ustid"></label>
+      <label class="feld">Handy <span class="pflicht">*</span><input type="tel" name="handy" autocomplete="tel" required></label>
+      <label class="feld">Telefon (falls anders)<input type="tel" name="telefon"></label>
+      <label class="feld breit">E-Mail <span class="pflicht">*</span><input type="email" name="email" autocomplete="email" required></label>
+      <label class="haken breit"><input type="checkbox" name="liefer_anders" id="liefer-anders"> Die Bestellung soll an eine andere Adresse geliefert werden</label>
+      <label class="feld breit" data-liefer hidden>Name an der Lieferadresse<input type="text" name="liefer_name"></label>
+      <label class="feld breit" data-liefer hidden>Lieferadresse (Straße, PLZ, Ort)<input type="text" name="liefer_adresse"></label>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Bezahlung</h2>
+    <div class="preis-info" id="preis-info"></div>
+    <div class="wahl">
+      <label><input type="radio" name="zahlung" value="ueberweisung" required><span><b>Überweisung</b><small>Du überweist den Betrag an Enagic. Die Bankverbindung bekommst du mit der Bestätigung.</small></span></label>
+      <label id="raten-wahl"><input type="radio" name="zahlung" value="raten"><span><b>Ratenzahlung über Enagic</b><small>Monatlich per Lastschrift vom Bankkonto. Dafür braucht Enagic eine Ausweiskopie.</small></span></label>
+    </div>
+    <div id="raten" hidden>
+      <div class="raster">
+        <label class="feld breit">Laufzeit<select name="raten_anzahl" id="raten-anzahl"><option value="3">3 Monate</option><option value="6">6 Monate</option><option value="10">10 Monate</option><option value="16">16 Monate</option><option value="24">24 Monate</option></select></label>
+        <label class="feld">Abbuchung jeweils am<select name="zahltag"><option value="1">1. des Monats</option><option value="15">15. des Monats</option></select></label>
+        <label class="feld">Finanzierst du bereits ein Gerät mit Enagic?<select name="schon_finanziert"><option value="Nein">Nein</option><option value="Ja">Ja</option></select></label>
+        <label class="feld breit">IBAN <span class="pflicht">*</span><input type="text" name="iban" autocomplete="off"></label>
+        <label class="feld">BIC<input type="text" name="bic" autocomplete="off"></label>
+        <label class="feld">Beruf<input type="text" name="beruf"></label>
+        <label class="feld">Arbeitgeber<input type="text" name="arbeitgeber"></label>
+        <label class="feld">Beschäftigt seit<input type="text" name="beschaeftigt_seit" placeholder="z. B. 03/2018"></label>
+        <label class="feld breit">Adresse des Arbeitgebers<input type="text" name="arbeitgeber_adresse"></label>
+        <label class="feld">Telefon des Arbeitgebers<input type="tel" name="arbeitgeber_tel"></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="ausweis-block" hidden>
+    <h2>Ausweis</h2>
+    <p class="hilfe">Ein Foto von Vorder- und Rückseite deines Ausweises genügt. Er geht nur an Enagic.</p>
+    <div class="ausweis">
+      <label id="ausweis-vorne-feld">Vorderseite hochladen<input type="file" name="ausweis_vorne" accept="image/*,application/pdf"></label>
+      <label id="ausweis-hinten-feld">Rückseite hochladen<input type="file" name="ausweis_hinten" accept="image/*,application/pdf"></label>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Unterschrift</h2>
+    <p class="hilfe">Unterschreib einfach mit dem Finger oder der Maus. Sie wird auf die Bestellunterlagen gesetzt.</p>
+    <div class="unterschrift"><canvas id="pad"></canvas><div class="linie"></div><div class="platz">Unterschrift</div></div>
+    <div class="knopfzeile"><span class="hilfe" style="margin:0" id="ort-datum"></span><button type="button" class="knopf leise" id="pad-leeren">Neu unterschreiben</button></div>
+    <label class="haken"><input type="checkbox" name="agb" required> <span>Ich habe die <a href="../agb-enagic.pdf" target="_blank" rel="noopener">AGB von Enagic</a> gelesen und bestelle mit meiner Unterschrift verbindlich.</span></label>
+    <label class="haken"><input type="checkbox" name="newsletter"> <span>Schick mir Tipps und Neuigkeiten per E-Mail.</span></label>
+    <div class="fehler" id="fehler" role="alert"></div>
+    <button class="knopf" type="submit" id="senden">Verbindlich bestellen</button>
+    <p class="klein">Damit Enagic deine Bestellung ausführen kann, geben wir deine Angaben an die Enagic Europe GmbH weiter. Mehr dazu im <a href="../datenschutz/" target="_blank" rel="noopener">Datenschutz</a>.</p>
+  </section>
+</form>
+
+<section class="block danke" id="danke" hidden>
+  <h2>Danke, <span id="danke-name"></span></h2>
+  <p>Deine Bestellung ist bei uns angekommen. So geht es jetzt weiter:</p>
+  <ol class="schritte">
+    <li>Wir prüfen deine Angaben und schicken die Unterlagen an Enagic.</li>
+    <li>Du bekommst von Enagic die Bestätigung und, bei Überweisung, die Bankverbindung.</li>
+    <li>Enagic schickt dir die Bestellung direkt nach Hause. Beim Einrichten helfen wir dir gern.</li>
+  </ol>
+  <div class="kanal">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M8.5 8.5c0 4 3 7 7 7l1-1.6-2-1-1 .8a5 5 0 0 1-2.7-2.7l.8-1-1-2z"/></svg>
+    <div><small class="kanal-eyebrow">Kostenlos für dich</small><b>Dein Begleiter für ein gesünderes Leben</b><span>In unserem WhatsApp-Kanal bekommst du regelmäßig, was dir im Alltag wirklich weiterhilft:</span></div>
+    <ul class="kanal-liste">
+      <li><b>Tipps für ein gesünderes Leben</b>Trinken, Ernährung, Bewegung, Schlaf: kleine Schritte, die du sofort umsetzen kannst.</li>
+      <li><b>Mehr aus deinem Gerät</b>Welche Wasserart wofür, Pflege und Filterwechsel, Kniffe, die kaum jemand kennt.</li>
+      <li><b>Rezepte und Ideen</b>Für Küche und Haushalt, einfach und alltagstauglich.</li>
+      <li><b>Neuigkeiten zuerst</b>Neue Produkte, Aktionen und Termine erfährst du dort als Erstes.</li>
+    </ul>
+    <div class="kanal-fuss"><a class="knopf" id="kanal-link" href="#" target="_blank" rel="noopener">Jetzt kostenlos folgen</a></div>
+  </div>
+  <p class="hilfe">Fragen? Melde dich jederzeit bei uns.</p>
+</section>
+</main>
+<footer class="fuss"><a href="../impressum/" target="_blank" rel="noopener">Impressum</a><a href="../datenschutz/" target="_blank" rel="noopener">Datenschutz</a></footer>
+
+<script src="../vendor/supabase.js"></script>
+<script src="bestellen.js?v=20261023g"></script>
+</body>
+</html>
