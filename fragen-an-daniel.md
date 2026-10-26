@@ -1,5 +1,7 @@
 <!--
-  FRAGENKATALOG AN DANIEL, Stand 23.10.2026
+  FRAGENKATALOG AN DANIEL, Stand 27.10.2026 (zuerst 23.10.2026)
+  Abhak-Formular zum Durchgehen mit Daniel: https://claude.ai/artifact/Bq9cU2VZ7wFuiv3edn3LXA
+  Die Antworten aus dem Formular trägt Claude hier ein.
   FERTIG: alle offenen Fragen, die Daniel beantworten muss, gesammelt aus Partner-Setup und Bestellseite.
   FEHLT:  die Antworten. Daniel trägt sie unter jeder Frage ein. Neue Fragen unten anhängen, Nummern nicht ändern.
 -->
@@ -15,19 +17,19 @@ Die Fragen sind nach Thema sortiert, die wichtigsten für den Start sind mit **(
 
 **D1. Schweizer Preis emGuarde Go (Start)**
 Der Enagic-Shop zeigt nur 2.420 € ohne MwSt. Was zahlt ein Kunde in der Schweiz?
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): Preise netto überall gleich (Auftrag 26.10.2026). Daniel bestätigt im Formular.
 
 **D2. Schweizer Preis ANESPA DX (Start)**
 Der Enagic-Shop zeigt nur 2.800 € ohne MwSt. Was zahlt ein Kunde in der Schweiz?
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): wie D1.
 
 **D3. Preise in Deutschland mit MwSt.**
 Sollen auf der Bestellseite für emGuarde und ANESPA DX Preise mit MwSt. stehen (gerechnet 2.879,80 € und 3.332,00 €) oder wie jetzt „zzgl. MwSt.“? Kommen Versandkosten dazu?
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): netto zzgl. MwSt., MwSt nach Lieferland (DE 19 %, AT 20 %), Versand je Gerät nach Enagic-Fußnote.
 
 **D4. emGuarde: Raten oder nur Vorauszahlung?**
 Der Shop zeigt „10 Zahlungen“, schreibt aber, es gibt das Gerät nur bei vollständiger Vorauszahlung. Was stimmt?
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): emGuarde-Raten: 10 Monate, Gebühr 100 €.
 
 **D5. ANESPA DX: Lieferumfang**
 Was ist im Karton? (Weder Produktseite noch Shop sagen es.)
@@ -35,7 +37,7 @@ Was ist im Karton? (Weder Produktseite noch Shop sagen es.)
 
 **D6. Wie werden emGuarde und ANESPA DX bestellt?**
 Gibt es dafür ein eigenes Enagic-Formular, oder läuft das über das K8-Bestellformular oder den Enagic-Shop?
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): emGuarde eigenes Enagic-Formular und eigener Ratenantrag, ANESPA aufs K8-Formular.
 
 **D7. Produktbilder K8, ANESPA DX, emGuarde**
 Laut Enagic-Richtlinie (3.3, 3.4) brauchen wir für Enagic-Bilder eine schriftliche Genehmigung. Haben wir die, oder holst du sie? Die Bestellseite nutzt jetzt KI-Bilder der drei Geräte, darauf ist aber das Enagic-Logo zu sehen. Reicht das, oder brauchen wir auch dafür die Genehmigung?
@@ -43,7 +45,7 @@ Laut Enagic-Richtlinie (3.3, 3.4) brauchen wir für Enagic-Bilder eine schriftli
 
 **D8. Lieferadresse in einem anderen Land**
 Darf die Lieferadresse in einem anderen Land liegen als die Adresse des Kunden (zum Beispiel Kunde in der Schweiz, Lieferung nach Deutschland)?
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): ja, Lieferland frei wählbar.
 
 **D9. Wer schickt bei Partner-Kunden die Mail an Enagic?**
 Bei dir und Jasmin macht das heute das Dashboard, du schickst sie selbst. Bei Kunden von Partnern:
@@ -118,11 +120,11 @@ Die Bestellseite fragt jetzt als Erstes nach dem Land (ohne Hinweis, dass Preise
 
 **D22. Woher kommen die korrekten Preise? (Start)**
 Gibt es bei Enagic eine offizielle Preisliste je Land (K8, ANESPA DX, emGuarde Go, mit Raten)? Wo finden wir sie, und wie erfahren wir, wenn sich Preise ändern?
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): Preise netto überall gleich, siehe D1.
 
 **D23. Preise Österreich (Start)**
 Was zahlt ein Kunde in Österreich für K8, ANESPA DX und emGuarde Go, bei Überweisung und bei Raten? Bis zur Antwort steht dort „Preis nennen wir dir persönlich“.
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): siehe D1.
 
 **D24. Kunden aus anderen Ländern**
 Wie gehen wir mit Kunden außerhalb von Deutschland, Schweiz und Österreich um: Darf man über uns bestellen, welche Preise gelten, welches Enagic-Büro ist zuständig? Bis dahin steht dort „Preis nennen wir dir persönlich“.
@@ -154,7 +156,7 @@ Für die Datenschutzerklärung brauchen wir: Region des Supabase-Projekts, was d
 
 **D30. Link zum WhatsApp-Kanal**
 Wie lautet der Link zum WhatsApp-Kanal? Er steht auf der Danke-Seite nach der Bestellung (in `bestellen.js` bei `KANAL`).
-- [ ] Antwort:
+- [x] Antwort (entschieden, Daniel bestätigt nur): WhatsApp-Gruppe https://chat.whatsapp.com/IM5uWM744VDI6kizTbMZOd (Jasmin, 23.10.2026).
 
 ---
 
@@ -170,6 +172,30 @@ In der Schweizer Tabelle fehlen die 57 € Versand in der Anzahlung (3 Raten: 4.
 
 **D33. Raten für ANESPA und emGuarde (Start)**
 Gibt es für ANESPA DX und emGuarde Go eine Ratenzahlungsübersicht wie für den K8 (feste Summe der Monatsraten, Anzahlung)? Der emGuarde-Ratenantrag verweist auf eine „Ratenzahlungsübersicht“. Bitte schicken, dann rechnen Seite und Bot die Beträge.
+- [ ] Antwort:
+
+---
+
+## Nachtrag 27.10.2026: aus Lieferland und emGuarde
+
+**N1. Start- und Enddatum der Raten**
+Sollen Start- und Enddatum im Ratenantrag ausgefüllt werden (K8 und emGuarde)? Nach welcher Regel? Im Formular steht: Raten starten einen Monat nach Registrierung.
+- [ ] Antwort:
+
+**N2. Höchstens 5 emGuarde**
+Sind 5 Sets gemeint oder 5 Geräte? Ein Set hat 2 Geräte.
+- [ ] Antwort:
+
+**N3. Nicht-EU-Zusatz bei Lieferung in die Schweiz**
+Braucht es den Nicht-EU-Zusatz auch, wenn jemand aus der EU in die Schweiz liefern lässt?
+- [ ] Antwort:
+
+**N4. Versand in andere Länder**
+Was kostet der Versand außerhalb von DE, EU, Schweiz, Norwegen und UK?
+- [ ] Antwort:
+
+**N5. Jasmins Enagic-ID**
+Wann bekommt Jasmin ihre Enagic-ID? Bis dahin macht der Bot für Bestellungen über ihren Link keinen Vertrag.
 - [ ] Antwort:
 
 ---
