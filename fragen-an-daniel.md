@@ -158,5 +158,21 @@ Wie lautet der Link zum WhatsApp-Kanal? Er steht auf der Danke-Seite nach der Be
 
 ---
 
+## Nachtrag 27.10.2026: Raten
+
+**D31. Rechenregel K8-Raten bestätigen**
+In deiner Tabelle ergeben die Monatsraten beim K8 immer zusammen 3.984 € (3 × 1.328, 6 × 664, 10 × 398,40, 16 × 249, 24 × 166). Die Anzahlung in Deutschland ist genau Gesamtpreis + Ratengebühr − 3.984 € (z. B. 3 Raten: 5.486 + 30 − 3.984 = 1.532). Stimmt das so? Dann können Seite und Bot die Anzahlung für jedes Lieferland selbst rechnen, zum Beispiel für Österreich.
+- [ ] Antwort:
+
+**D32. Schweiz: Versand in der Anzahlung?**
+In der Schweizer Tabelle fehlen die 57 € Versand in der Anzahlung (3 Raten: 4.600 + 30 − 3.984 = 646, mit Versand wären es 703). Wird der Versand in der Schweiz extra bezahlt, oder fehlt er in der Tabelle?
+- [ ] Antwort:
+
+**D33. Raten für ANESPA und emGuarde (Start)**
+Gibt es für ANESPA DX und emGuarde Go eine Ratenzahlungsübersicht wie für den K8 (feste Summe der Monatsraten, Anzahlung)? Der emGuarde-Ratenantrag verweist auf eine „Ratenzahlungsübersicht“. Bitte schicken, dann rechnen Seite und Bot die Beträge.
+- [ ] Antwort:
+
+---
+
 *Weitere offene Punkte für Jasmin und den Anwalt stehen in `partner-setup-entwurf/g-entscheidungen.md`
 (Abschnitt „Noch offen“) und in `partner-setup-entwurf/c-nutzungsbedingungen.md` (Fragen an den Anwalt).*
