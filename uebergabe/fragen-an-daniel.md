@@ -146,7 +146,7 @@ Auf der Bestellseite gibt es jetzt einen freiwilligen Haken für den Newsletter.
 
 **D28. AGB von Enagic (Start)**
 Der Haken „Ich habe die AGB von Enagic gelesen“ braucht einen Link, der wirklich auf die AGB führt, nicht auf die Startseite. Gibt es eine Adresse bei Enagic, oder schickst du uns die AGB als PDF (stehen sie auf der Rückseite des Bestellformulars)? Die Seite verlinkt vorerst auf `agb-enagic.pdf`.
-- [ ] Antwort:
+- [x] Antwort: Erledigt (26.10.2026). Die AGB stehen auf Seite 2 des Enagic-Bestellformulars, diese Seite liegt jetzt als `agb-enagic.pdf` bei der Bestellseite. Neue Fassung von Enagic = Datei austauschen.
 
 **D29. Datenschutz: Lücken**
 Für die Datenschutzerklärung brauchen wir: Region des Supabase-Projekts, was die Telegram-Meldung enthält, welcher Mail-Anbieter die Bestätigungen schickt, wo die Seite gehostet ist, und nach wie vielen Tagen Ausweisfotos gelöscht werden.

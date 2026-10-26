@@ -42,7 +42,7 @@ Die Ordner `bilder/`, `dashboard/`, `vendor/` in `fertig/website/` sind nur zum 
   2. Erst nach dem Klick in die Newsletter-Liste aufnehmen. Zeitpunkt von Anmeldung und Bestätigung speichern.
   3. Ohne Haken keine Werbemails, nur die Bestellmails.
   Newsletter-Programm ist noch offen (Frage D27).
-- **Haken unten neu:** nur noch ein Pflicht-Haken (AGB, Link auf `website/agb-enagic.pdf`, Datei fehlt noch, Frage D28)
+- **Haken unten neu:** nur noch ein Pflicht-Haken (AGB, Link auf `website/agb-enagic.pdf`, das ist Seite 2 des Enagic-Bestellformulars, mit hochladen)
   und der Newsletter-Haken (nicht vorausgewählt, so verlangt es das Recht). Den Haken „Weitergabe an Enagic“ gibt es nicht mehr,
   die Weitergabe steht als Hinweis unter dem Bestellknopf. Sie ist für den Vertrag nötig und braucht keine eigene Einwilligung (Anwalt bestätigt das mit D25/D27).
 - **WhatsApp-Kanal:** Kasten „Dein Begleiter für ein gesünderes Leben“ mit vier Vorteilen und Knopf „Jetzt kostenlos folgen“ auf der Danke-Seite. In `bestellen.js` bei `KANAL` den echten Link

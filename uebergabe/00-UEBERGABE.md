@@ -19,7 +19,7 @@ dieser Sitzung entstanden ist. Nichts davon ist schon live. Bitte in dieser Reih
 4. **Preise netto** mit „zzgl. MwSt.“ (K8 DE 4.612 €). Gesamtbetrag nur klein im Block Bezahlung. Rechtlich offen (D25).
 5. **Kaufart:** „Als Kunde kaufen“ oder „Kaufen und Vertriebspartner werden“ (Werte weiter `Verbraucher` / `Distributor`).
 6. **Optik:** heller Kopf, alle Texte auf einer Kante, eigene Auswahlkreise und Haken (leer = weiß, gewählt = Oliv).
-7. **Haken unten:** ein Pflicht-Haken AGB (Link auf `agb-enagic.pdf`, Datei fehlt, D28), freiwilliger Newsletter-Haken `newsletter` → **Double-Opt-in-Mail bauen**. Weitergabe an Enagic steht als Satz unter dem Knopf.
+7. **Haken unten:** ein Pflicht-Haken AGB (Link auf `agb-enagic.pdf`, liegt bei, Seite 2 des Enagic-Bestellformulars), freiwilliger Newsletter-Haken `newsletter` → **Double-Opt-in-Mail bauen**. Weitergabe an Enagic steht als Satz unter dem Knopf.
 8. **Danke-Seite:** großer Kasten WhatsApp-Kanal „Dein Begleiter für ein gesünderes Leben“ mit Knopf. Vorschau: `bestellen/#danke`.
 9. **Impressum und Datenschutz** als Entwürfe mit gelben Lücken (D26, D29). Fußzeile verlinkt darauf.
 10. **Schriften selbst gehostet** (`schriften/`), nichts mehr von Google. Am besten auch für Fragebogen und Dashboard.
