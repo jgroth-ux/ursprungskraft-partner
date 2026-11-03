@@ -198,3 +198,18 @@ table.arten td{font-size:10.5pt;padding:4mm 3mm 4mm 0}
 
 .schluss .foto{height:142mm}
 .liste.eng .zeile{padding:3.4mm 0}
+
+/* Link in der Fußzeile */
+.fuss a{color:var(--akzent);text-decoration:none;letter-spacing:.04em;text-transform:none;font-size:8pt}
+.fuss a b{color:var(--knopf)}
+
+/* Pitch */
+.wahl{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:7mm}
+.wahl .kasten{padding:7mm}
+.wahl h3{font-size:15pt;margin:2mm 0 3mm}
+.wahl ul{list-style:none}
+.wahl li{font-size:10.4pt;padding:1.9mm 0;border-top:1px solid var(--linie)}
+.wahl .dunkel li{border-top-color:rgba(201,230,246,.35)}
+.ehrlich{display:grid;grid-template-columns:1fr auto;gap:8mm;align-items:center;margin-top:7mm;padding-top:5mm;border-top:1.5px solid var(--text)}
+.ehrlich p{font-size:10.5pt}
+.knopf.mittel{font-size:13pt;padding:5mm 8mm;white-space:nowrap}

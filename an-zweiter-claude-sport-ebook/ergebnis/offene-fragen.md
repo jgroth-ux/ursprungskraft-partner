@@ -59,6 +59,9 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
 17. **Messi und Haaland:** Recherche am 03.11.2026 ohne Treffer. Es gibt keine Quelle, dass einer von beiden
     Kangenwasser oder ein Enagic-Gerät nutzt. Haaland hat in der Doku „Haaland: The Big Decision“ (Viaplay, 2022)
     nur gesagt, dass er sein Wasser filtert. Gibt es eine Quelle (Foto, Video, Interview)?
-18. **Weitere Fotos:** Im Paket waren nur die zwei Sportlerfotos. Darum arbeiten die Kapitel mit Schrift,
+18. **Pitch-Seite (Seite 13):** Dort steht „Auch in Raten: über das Ratenzahlungssystem von Enagic“ (Wissensbasis).
+    Gilt das auch für Kunden der Sportler? Der alte Guide bot außerdem an, „auf Wunsch ein Gerät für eine Weile zum
+    Testen hinzustellen“. Das wäre ein starker Pitch, steht aber nicht auf der Sportseite. Soll es rein?
+19. **Weitere Fotos:** Im Paket waren nur die zwei Sportlerfotos. Darum arbeiten die Kapitel mit Schrift,
     Zahlen und einfachen Grafiken. Hast du Fotos vom K8, aus Küche oder Gym im blauen Look (ohne Oliv),
     dann baue ich sie ein.
