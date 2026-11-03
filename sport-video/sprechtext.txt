@@ -1,0 +1,14 @@
+# Sportvideo "Wie profitieren Sportler davon" - Sprechtext Helmut (bestätigt von Jasmin, 03.11.2026)
+# Nr | Sekunde im Originalvideo, an der der Satz beginnt | Text
+01 | 1.2 | Wie profitieren Sportler von diesem speziellen Wasser?
+02 | 6.4 | Es beugt einer Verkrampfung und vorzeitigen Erschöpfung sowie Entzündungen in den Muskeln vor, was zu mehr Ausdauer und Leistungsverbesserungen führt.
+03 | 18.6 | Die Regenerationszeit nach dem Sport verringert sich nahezu um die Hälfte.
+04 | 25.6 | Eine ausreichende Hydration vor den Trainingseinheiten senkt die Milchsäurewerte im Blut und damit die Muskelermüdung deutlich.
+05 | 38.7 | Dieses Wasser hier wird hergestellt mit diesem medizinischen Gerät, was du hier im Hintergrund siehst.
+06 | 45.5 | Diese Maschine ist in der Lage, fünf verschiedene Typen von Wasser herzustellen.
+07 | 49.8 | Eins davon ist das Trinkwasser, das Kangen-Wasser, welches drei starke Eigenschaften hat.
+08 | 55.7 | Eine siehst du jetzt ganz deutlich: Das Wasser ist stark antioxidativ in Form von molekularem Wasserstoff.
+09 | 63.0 | Molekularer Wasserstoff ist die höchste Form des Antioxidants. Somit können wir freie Radikale, oxidativen Stress im Körper neutralisieren.
+10 | 72.0 | Der zweite Punkt: Dieses Wasser ist alkalisiert, mit einem pH zwischen 8,5 und 9,5. Und somit können wir unseren Säure-Basen-Haushalt im Körper in einem Gleichgewicht halten.
+11 | 84.2 | Und der dritte Punkt: Dieses Trinkwasser ist mikrogeclustert, hat eine Clusterung zwischen 4 und 6 Wassermolekülen, ist somit zellverfügbar, hat einen Überschuss an Elektronen.
+12 | 97.4 | So können wir auf Zellebene hydrieren, entgiften, und Nährstoffe können in die Zelle transportiert werden.
