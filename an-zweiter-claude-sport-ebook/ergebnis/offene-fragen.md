@@ -1,0 +1,63 @@
+# Offene Fragen zum E-Book „Das unterschätzte Supplement“
+
+Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
+
+## Freigaben der Sportler
+
+1. **Vorwort Kevin und Johny:** Beide Vorworte bauen auf dem Hero-Text der Sportseite auf
+   („drei, vier Liter am Tag aus der Plastikflasche“). Das ist die Vorlage für alle Sportler, nicht
+   Kevins oder Johnys eigene Geschichte. Sollen beide ihr Vorwort freigeben oder eigene Sätze liefern?
+2. **Johnys Vorwort** spricht vom „Fight-Camp“. Passt das für ihn, oder hat er ein anderes Wort dafür?
+3. **Nutzen beide das Gerät selbst?** Das Vorwort sagt: „Heute kommt mein Wasser frisch aus dem Hahn.“
+   Die Sportseite sagt das auch. Bitte bei beiden bestätigen.
+4. **Kevins Reichweite:** „über 800.000 Fans“ steht so im Auftrag. Bleibt die Zahl aktuell, oder
+   lieber ohne Zahl? Für Johny steht nur „@johny_yusupov“, keine Follower-Zahl.
+5. **Fotos:** Sind die Bildrechte für Titel, Vorwort und Schlussseite geklärt (Fotograf, Freigabe der Sportler)?
+
+## Zahlen, für die eine Quelle fehlt
+
+6. **Schweiß:** Keine Quelle nennt, wie viel man beim Training ausschwitzt. Im E-Book steht deshalb nur
+   „an Trainingstagen kommt das dazu, was du ausschwitzt“. Hast du eine Zahl mit Quelle
+   (zum Beispiel „0,5 bis 1 Liter pro Stunde“) oder den Tipp „vor und nach dem Training wiegen“?
+7. **Preis pro Liter Mineralwasser in DE, AT, CH:** fehlt. Darum ist die Rechnung in Kapitel 8 zum
+   Selbst-Ausfüllen gebaut. Mit einem Preis könnte dort eine fertige Beispielrechnung stehen.
+8. **Gerätepreis:** Im E-Book steht nur „im vierstelligen Bereich“ (wie auf der Sportseite). Der K8 kostet
+   laut Wissensbasis 4.200 € netto. Soll der Preis rein, und wenn ja, mit oder ohne MwSt.?
+9. **Filterkosten:** Im E-Book steht „je nach Verbrauch etwa einmal im Jahr ein neuer Filter“. Was kostet
+   ein Filter (HG-N)? Mit dieser Zahl wäre die Rechnung gegen Flaschenwasser vollständig.
+10. **Plastik im Flaschenwasser:** Der Auftrag nennt „Plastik“. Zu Mikroplastik oder Stoffen aus der Flasche
+    steht in den Quellen nichts. Kapitel 2 spricht deshalb nur über Flaschen, Müll und Schleppen.
+    Gibt es eine Quelle, die du nutzen willst?
+
+## Abgeleitete Zahlen (aus Quellen berechnet, bitte kurz gegenlesen)
+
+- Tabelle 70 bis 110 kg: 40 ml je kg (Broschüre)
+- 1.310 Liter und 146 Sechserträger bei 90 kg: Sportseite
+- rund 870 Flaschen mit 1,5 Litern: 1.310 Liter geteilt durch 1,5
+- rund 1,3 Tonnen: 1.310 Liter Wasser, 1 Liter wiegt rund 1 kg
+- Eddie: 12 Liter am Tag, rund 80 Liter in der Woche, 80 Pfund in der Woche: so sagt er es selbst im Video
+  (eigentlich wären 12 mal 7 genau 84 Liter, er rundet)
+
+## Inhalt und Aussagen
+
+11. **Wirkungsaussagen:** Kapitel 4 übernimmt die Aussagen der Sportseite wörtlich
+    („Laktat wird schneller abgebaut“, „Hydration bis in die Zelle“, „besser schlafen“, „weil es die Wirkung
+    unterstützt“). So steht es im Auftrag. Nur zur Info: Die Wissensbasis (Abschnitt 7) stuft solche
+    Aussagen als heikel ein. Eddies Aussagen wie „entzündungshemmend“ habe ich nicht übernommen, die
+    Sportseite nennt sie auch nicht. Willst du sie im E-Book haben?
+12. **Eddie Hall und Ronaldo:** Dürfen Name und Zitate von Eddie Hall und der Hinweis auf Ronaldos Familie
+    so in einem Lead-Magneten stehen? Die Zitate stammen aus der deutschen Untertitel-Datei.
+13. **Ronaldo:** Die Quelle sagt nur, dass in der Doku ein Kangen-Gerät in der Küche steht. Gibt es Staffel
+    oder Folge, damit Leser es finden?
+14. **Hafer:** Die Sportseite nennt „Reis, Hafer, Hülsenfrüchte“, die Broschüre „Reis, Bohnen,
+    Hülsenfrüchte“. Ich bin der Sportseite gefolgt.
+15. **Markenhinweis:** Der alte Guide hatte „Kangen® ist eingetragene Marke der Enagic Europe GmbH“.
+    Das habe ich weggelassen, weil du keine rechtlichen Hinweise willst. Ist das bei der Marke in Ordnung,
+    oder soll eine Zeile ganz klein auf die letzte Seite?
+16. **Impressum:** Das PDF hat kein Impressum und keinen Absender. Soll eins rein?
+
+## Gestaltung
+
+17. **Weitere Fotos:** Im Paket waren nur die zwei Sportlerfotos. Darum arbeiten die Kapitel mit Schrift,
+    Zahlen und einfachen Grafiken. Hast du Fotos vom K8, aus Küche oder Gym im blauen Look (ohne Oliv),
+    dann baue ich sie ein.
