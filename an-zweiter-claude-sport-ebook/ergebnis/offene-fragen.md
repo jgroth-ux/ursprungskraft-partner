@@ -38,6 +38,9 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
 - Eddie: 12 Liter am Tag, rund 80 Liter in der Woche, 80 Pfund in der Woche: so sagt er es selbst im Video
   (eigentlich wären 12 mal 7 genau 84 Liter, er rundet)
 
+- Eddies 80 Pfund in der Woche: als „über 90 €“ umgerechnet (Kurs Herbst 2026 rund 1,15 bis 1,20 € je Pfund),
+  aufs Jahr „fast 5.000 €“ (52 Wochen mal 92 bis 96 €)
+
 ## Inhalt und Aussagen
 
 11. **Wirkungsaussagen:** Kapitel 4 übernimmt die Aussagen der Sportseite wörtlich. Kapitel 7 zitiert
@@ -59,10 +62,10 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
 17. **Messi und Haaland:** Recherche am 03.11.2026 ohne Treffer. Es gibt keine Quelle, dass einer von beiden
     Kangenwasser oder ein Enagic-Gerät nutzt. Haaland hat in der Doku „Haaland: The Big Decision“ (Viaplay, 2022)
     nur gesagt, dass er sein Wasser filtert. Gibt es eine Quelle (Foto, Video, Interview)?
-18. **Vorschaubilder Kapitel 7:** Für die Video-Kacheln von Ronaldo und Eddie Hall fehlen die Bilder. Sie liegen auf dem
-    Server unter `bilder/partner/eddie-hall.jpg` und `bilder/partner/ronaldo-georgina.jpg` (die Poster der Sportseite).
-    Einfach in `quellen-html/bilder/` legen und `python3 bauen.py` laufen lassen, dann erscheinen sie automatisch.
-    Die Kacheln und „Video ansehen“ verlinken auf `…/partner/<name>/#video`.
+18. **Screenshots Kapitel 7:** Für Ronaldo und Eddie Hall fehlt je ein Screenshot aus dem Video. Ohne Bild steht dort
+    nur Text. Die Bilder als `ronaldo-georgina.jpg` und `eddie-hall.jpg` in `quellen-html/bilder/` legen und
+    `python3 bauen.py` laufen lassen, dann erscheinen sie automatisch, verlinkt auf `…/partner/<name>/#video`.
+    Das Gerätefoto auf der Schlussseite ist raus. Gibt es ein gutes Produktfoto vom K8?
 19. **Pitch-Seite (Seite 13):** Dort steht „Auch in Raten: über das Ratenzahlungssystem von Enagic“ (Wissensbasis).
     Gilt das auch für Kunden der Sportler? Der alte Guide bot außerdem an, „auf Wunsch ein Gerät für eine Weile zum
     Testen hinzustellen“. Das wäre ein starker Pitch, steht aber nicht auf der Sportseite. Soll es rein?

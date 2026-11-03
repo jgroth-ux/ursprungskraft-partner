@@ -37,27 +37,27 @@ SPORTLER = {
 }
 
 def ph_pos(ph):  # Position auf der Skala 0 bis 14 in Prozent
-    return f'{ph / 14 * 100:.2f}'
+    return f'{(ph + 0.5) / 15 * 100:.2f}'
 
-# Klassische pH-Indikatorfarben von 0 (rot) über 7 (grün) bis 14 (violett)
+# Klassische pH-Indikatorfarben von 0 (rot) über 7 (grün) bis 14 (violett), 15 Felder
 PH_FARBEN = ['#E2231A', '#EE3B24', '#F26C21', '#F7941D', '#FDB813', '#FFE200', '#D5E021',
-             '#8DC63F', '#39B54A', '#00A99D', '#0089CF', '#2E5BA8', '#5B3D96', '#6B2C91']
+             '#8DC63F', '#39B54A', '#00A99D', '#0089CF', '#2E5BA8', '#5B3D96', '#6B2C91', '#4B1E6E']
 
 def ph_farbe(ph):
-    return PH_FARBEN[min(13, int(ph))]
+    return PH_FARBEN[min(14, int(ph))]
 
 def schrift_auf(ph):  # dunkle Schrift auf hellen Farben
     return '#16303F' if 3 <= int(ph) <= 8 else '#FFFFFF'
 
 def skala():
-    return ''.join(f'<span style="background:{PH_FARBEN[i]};color:{schrift_auf(i)}">{i}</span>' for i in range(14))
+    return ''.join(f'<span style="background:{PH_FARBEN[i]};color:{schrift_auf(i)}">{i}</span>' for i in range(15))
 
 def video(datei, titel):
-    """Vorschaubild mit Play-Knopf, verlinkt auf das Video auf der Sportlerseite.
-    Liegt bilder/<datei> vor, wird das Foto gezeigt, sonst eine blaue Fläche."""
-    bild = f'<img src="bilder/{datei}" alt="">' if (HIER / 'bilder' / datei).exists() else ''
-    return (f'<a class="video" href="{{{{link}}}}#video">{bild}<span class="play"></span>'
-            f'<span class="titelzeile">{titel}</span></a>')
+    """Screenshot aus dem Video, verlinkt auf die Sportlerseite (Bereich Video).
+    Fehlt bilder/<datei>, bleibt der Platz leer und der Text nimmt die ganze Breite."""
+    if not (HIER / 'bilder' / datei).exists():
+        return ''
+    return (f'<a class="video" href="{{{{link}}}}#video"><img src="bilder/{datei}" alt="{titel}"></a>')
 
 def bauen():
     vorlage = (HIER / 'vorlage.html').read_text(encoding='utf-8')

@@ -255,3 +255,63 @@ a.video .titelzeile{position:absolute;left:4mm;bottom:3.5mm;right:4mm;color:#fff
 table.arten td.ph{width:40mm}
 table.arten .dot{display:inline-block;width:4mm;height:4mm;border-radius:50%;margin-right:2.5mm;vertical-align:.3mm}
 .skala-marken b{color:#16303F}
+
+/* ===== Überarbeitung 03.11. abends ===== */
+/* Blocksatz überall außer in Kästen */
+.rand p,.kopf p,.folgekopf p,.liste p,.karte p,.star p,.vorwort p,.zitatblock blockquote,.schluss p,.schritte-liste span,.ehrlich p,.schweiss p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.kasten p,.kachel p,.weg p,.band p,.wahl li{text-align:left}
+.kopf p{max-width:none}
+.folgekopf p.lead{max-width:none}
+
+/* Seite 3 */
+.faustregel{display:grid;grid-template-columns:58mm 1fr;gap:8mm;align-items:center;border:1.5px solid var(--text);padding:5mm 7mm;margin-top:8mm}
+.faustregel .gross{font-family:'Jost',sans-serif;font-weight:600;font-size:40pt;line-height:1;color:var(--knopf);margin-top:1mm}
+.faustregel .je{font-family:'Jost',sans-serif;font-weight:500;font-size:12.5pt;margin-top:1mm}
+.faustregel p{font-size:11pt;line-height:1.5}
+.paar{display:grid;grid-template-columns:1fr 1fr;column-gap:10mm;row-gap:3mm;margin-top:8mm;align-items:stretch}
+.paar > h3{margin:0}
+table.menge{margin-top:0;border-top:1.5px solid var(--text);border-bottom:1px solid var(--linie)}
+table.menge tr:first-child td{border-top:0}
+table.menge td{padding:2.3mm 0}
+table.menge td.l small{font-family:'Inter',sans-serif;font-weight:400;font-size:9pt}
+.schweiss{border-top:1.5px solid var(--text);border-bottom:1px solid var(--linie);padding-top:2.3mm}
+.schweiss p{font-size:10.5pt;margin-bottom:3mm}
+.band{margin-top:8mm}
+.schlusssatz{margin-top:7mm;font-family:'Jost',sans-serif;font-weight:500;font-size:12.6pt;line-height:1.5;text-align:justify;text-align-last:justify}
+
+/* Fotobänder unter dem Kapitelkopf */
+.foto-band{height:62mm;overflow:hidden}
+.foto-band img{width:100%;height:100%;object-fit:cover;display:block}
+.paar .liste{border-top:1.5px solid var(--text)}
+.liste.kurz .zeile{grid-template-columns:15mm 1fr;gap:3mm;padding:3.4mm 0}
+.liste.kurz .zeile .ph{font-size:13pt}
+.liste.kurz .zeile h3{font-size:11.5pt}
+.liste.kurz .zeile p{font-size:9.8pt}
+
+/* Seite 6: Skala mit Luft */
+.skala{grid-template-columns:repeat(15,1fr);height:10mm;margin-top:9mm}
+.skala span{font-size:7.5pt}
+.skala-marken{margin-top:4mm;height:10mm}
+.skala-marken b{font-size:9.5pt;padding:1mm 2.4mm}
+.skala-legende{margin-top:2mm}
+table.arten{margin-top:11mm}
+table.arten td{padding:5.4mm 3mm 5.4mm 0}
+
+/* Kapitel 7: Screenshot oder nur Text */
+.star:not(:has(a.video)){grid-template-columns:1fr}
+a.video{aspect-ratio:16/10}
+
+/* Eddies Rechnung */
+.rechnung b{font-size:34pt}
+
+/* Schluss ohne Gerätefoto */
+.schluss-raster{grid-template-columns:1fr}
+.schluss .foto{height:120mm}
+.schlusssatz{white-space:nowrap;text-align:left;text-align-last:auto;font-size:19.15pt;line-height:1.2;margin-top:9mm;letter-spacing:0}
+.rechnung b{font-size:30pt;white-space:nowrap}
+table.arten td{padding:6.2mm 3mm 6.2mm 0}
+.faustregel{grid-template-columns:48mm 1fr;margin-top:7mm;padding:5mm 6mm}
+.faustregel p{font-size:10.5pt}
+.paar{margin-top:7mm}
+.band{margin-top:7mm}
+.schlusssatz{margin-top:7mm}
