@@ -1,6 +1,7 @@
 """Baut ebook-kevin.html und ebook-johny.html aus vorlage.html.
 Aufruf im Ordner quellen-html:  python3 bauen.py"""
 import pathlib
+import re
 HIER = pathlib.Path(__file__).parent
 
 GEMEINSAM_VORWORT_ENDE = (
@@ -20,7 +21,7 @@ SPORTLER = {
             'Wasser habe ich nie hingeschaut. Drei, vier Liter am Tag aus der Plastikflasche. Das habe ich geändert.</p>\n'
             '    <p>Heute kommt mein Wasser frisch aus dem Hahn, so viel ich will. Keine Kisten mehr, kein Schleppen, kein Plastik.</p>\n    '
             + GEMEINSAM_VORWORT_ENDE),
-        schluss_text='Trag dich auf meiner Seite ein, wenn du ernsthaft überlegst, dir ein eigenes Kangen-Gerät zu holen. Mein Team zeigt dir den K8 und alles, was er kann.',
+        schluss_text='Trag dich auf meiner Seite ein, wenn du ernsthaft überlegst, dir ein eigenes Kangen-Gerät zu holen.',
     ),
     'johny': dict(
         name='Johny Yusupov', rolle='MMA-Fighter', rolle_lang='MMA-Fighter · @johny_yusupov',
@@ -32,7 +33,7 @@ SPORTLER = {
             'Wasser habe ich nie hingeschaut. Drei, vier Liter am Tag aus der Plastikflasche. Das habe ich geändert.</p>\n'
             '    <p>Heute kommt mein Wasser frisch aus dem Hahn, so viel ich will. Keine Kisten mehr, kein Schleppen, kein Plastik.</p>\n    '
             + GEMEINSAM_VORWORT_ENDE),
-        schluss_text='Trag dich auf meiner Seite ein, wenn du ernsthaft überlegst, dir ein eigenes Kangen-Gerät zu holen. Mein Team zeigt dir den K8 und alles, was er kann.',
+        schluss_text='Trag dich auf meiner Seite ein, wenn du ernsthaft überlegst, dir ein eigenes Kangen-Gerät zu holen.',
     ),
 }
 
@@ -59,6 +60,48 @@ def video(datei, titel):
         return ''
     return (f'<a class="video" href="{{{{link}}}}#video"><img src="bilder/{datei}" alt="{titel}"></a>')
 
+
+# ---------------------------------------------------------------------------
+# Feinsatz: Trennregeln und feste Abstände
+# Automatische Silbentrennung ist im CSS aus. Getrennt wird nur an den Wortfugen
+# dieser langen Wörter (weiches Trennzeichen). Kurze Wörter werden nie getrennt.
+TRENNFUGEN = [
+    'Elektrolyse|verstärker', 'Gesichts|wasser', 'Glas|flasche', 'Kangen|wasser', 'Körper|gewicht',
+    'Leitungs|wasser', 'Mineral|wasser', 'Minus|bereich', 'Monats|raten', 'Multi|spannung',
+    'Muskel|kater', 'Osmose|anlage', 'Plastik|flasche', 'Plastik|müll', 'Ratenzahlungs|system',
+    'Schneide|brettern', 'Schönheits|wasser', 'Sechser|träger', 'Sport|tasche', 'Sport|wäsche',
+    'Sprüh|flasche', 'Trainings|plan', 'Trainings|tagen', 'Trink|wasser', 'Wasch|mittel',
+    'Wasser|arten', 'Wasserstoff|reich', 'Wasser|stoff', 'Weich|spüler', 'Zusatz|flüssigkeit',
+    'Baby|nahrung', 'Kontakt|daten', 'entzündungs|hemmend', 'Hülsen|früchte',
+    'Mikro|meter', 'Grund|menge', 'Schmutz|wasser',
+]
+# Nach diesen kurzen Wörtern kommt kein Zeilenumbruch, sie wandern mit dem nächsten Wort.
+KLEBEWOERTER = 'und oder pH'.split()
+
+def feinsatz(html):
+    teile = re.split(r'(<[^>]+>)', html)
+    im_stil = False
+    for i, t in enumerate(teile):
+        if t.startswith('<'):
+            if t.startswith('<style') or t.startswith('<script') or t.startswith('<title'):
+                im_stil = True
+            elif t.startswith('</style') or t.startswith('</script') or t.startswith('</title'):
+                im_stil = False
+            continue
+        if im_stil or not t.strip():
+            continue
+        for fuge in TRENNFUGEN:
+            vorne, hinten = fuge.split('|')
+            t = re.sub(vorne + '(?=' + hinten + ')', vorne + '\u00ad', t)
+        # Bindestriche nicht als Umbruchstelle (Kangen-Gerät, pH-Wert, 1,5-Liter-Flaschen)
+        t = re.sub(r'(?<=\w)-(?=\w)', '\u2011', t)
+        # Zahl bleibt beim folgenden Wort: 146 Sechserträger, 5 Mikrometer, 90 kg
+        t = re.sub(r'(\d)[ ](?=[^\s\d])', '\\1\u00a0', t)
+        # kurze Wörter nicht am Zeilenende
+        t = re.sub(r'(?<![\w\u00ad])(' + '|'.join(KLEBEWOERTER) + r')[ ]', '\\1\u00a0', t, flags=re.I)
+        teile[i] = t
+    return ''.join(teile)
+
 def bauen():
     vorlage = (HIER / 'vorlage.html').read_text(encoding='utf-8')
     for kurz, daten in SPORTLER.items():
@@ -74,6 +117,7 @@ def bauen():
         for k in ('link', 'link_kurz'):
             html = html.replace('{{' + k + '}}', daten[k])
         assert '{{' not in html, kurz
+        html = feinsatz(html)
         (HIER / f'ebook-{kurz}.html').write_text(html, encoding='utf-8')
         print('gebaut:', f'ebook-{kurz}.html')
 

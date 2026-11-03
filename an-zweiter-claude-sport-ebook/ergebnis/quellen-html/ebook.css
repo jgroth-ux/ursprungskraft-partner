@@ -315,3 +315,14 @@ table.arten td{padding:6.2mm 3mm 6.2mm 0}
 .paar{margin-top:7mm}
 .band{margin-top:7mm}
 .schlusssatz{margin-top:7mm}
+
+/* Trennregeln: keine automatische Trennung, nur an festgelegten Wortfugen (bauen.py) */
+*{hyphens:manual !important;-webkit-hyphens:manual !important}
+/* Aufzählungen ohne Blocksatz */
+.liste p,.liste h3{text-align:left}
+h1,h2,h3,.eyebrow{hyphens:none !important;-webkit-hyphens:none !important}
+.karte p,.zitatblock blockquote{text-align:left}
+.ehrlich{grid-template-columns:1fr;gap:5mm}
+.ehrlich .knopf{justify-self:start}
+.ehrlich{margin-top:6mm;padding-top:4mm;gap:4mm}
+.wahl li{padding:1.6mm 0}
