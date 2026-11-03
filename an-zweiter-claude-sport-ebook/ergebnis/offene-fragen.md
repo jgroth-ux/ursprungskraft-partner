@@ -19,7 +19,7 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
 6. **Schweiß:** Keine Quelle nennt, wie viel man beim Training ausschwitzt. Im E-Book steht deshalb nur
    „an Trainingstagen kommt das dazu, was du ausschwitzt“. Hast du eine Zahl mit Quelle
    (zum Beispiel „0,5 bis 1 Liter pro Stunde“) oder den Tipp „vor und nach dem Training wiegen“?
-7. **Preis pro Liter Mineralwasser in DE, AT, CH:** fehlt. Darum ist die Rechnung in Kapitel 8 zum
+7. **Preis pro Liter Mineralwasser in DE, AT, CH:** fehlt. Darum ist die Rechnung in Kapitel 7 („Eddies Rechnung“) zum
    Selbst-Ausfüllen gebaut. Mit einem Preis könnte dort eine fertige Beispielrechnung stehen.
 8. **Gerätepreis:** Im E-Book steht nur „im vierstelligen Bereich“ (wie auf der Sportseite). Der K8 kostet
    laut Wissensbasis 4.200 € netto. Soll der Preis rein, und wenn ja, mit oder ohne MwSt.?
@@ -67,8 +67,12 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
     `python3 bauen.py` laufen lassen, dann erscheinen sie automatisch, verlinkt auf `…/partner/<name>/#video`.
     Das Gerätefoto auf der Schlussseite ist raus. Gibt es ein gutes Produktfoto vom K8?
 19. **Pitch-Seite (Seite 13):** Dort steht „Auch in Raten: über das Ratenzahlungssystem von Enagic“ (Wissensbasis).
-    Gilt das auch für Kunden der Sportler? Der alte Guide bot außerdem an, „auf Wunsch ein Gerät für eine Weile zum
-    Testen hinzustellen“. Das wäre ein starker Pitch, steht aber nicht auf der Sportseite. Soll es rein?
-20. **Weitere Fotos:** Im Paket waren nur die zwei Sportlerfotos. Darum arbeiten die Kapitel mit Schrift,
-    Zahlen und einfachen Grafiken. Hast du Fotos vom K8, aus Küche oder Gym im blauen Look (ohne Oliv),
-    dann baue ich sie ein.
+    Gilt das auch für Kunden der Sportler? Auf der Schlussseite steht jetzt als Schritt 3: „Ihr besprecht, was zu dir
+    passt. Zum Beispiel, ob du das Gerät erst einmal testen kannst.“ Bevor Testgeräte an Fremde gehen: Leihvertrag
+    aufsetzen (Seriennummer, Zustand, Frist, Kaution, Haftung bei Verlust oder Schaden, Rückgabe) und rechtlich prüfen.
+20. **Weitere Fotos:** Titel (`wasser.jpg`, aus `video-1.png`), Meal Prep (`mealprep.jpg`) und Wäsche (`waesche.jpg`)
+    stammen aus Jasmins Bildern (Broschüre). Sportlichere Fotos (Gym, Shake, Sporttasche) wären besser.
+21. **Gerätename:** Auf Pitch- und Schlussseite wird der K8 auf Jasmins Wunsch nicht mehr genannt. In Kapitel 3 steht
+    er noch als Info („K8, Topmodell von Enagic“). Soll er dort auch raus?
+22. **Ronaldo und Georgina:** Im Text steht „die Partnerin von Cristiano Ronaldo“. Falls die beiden verheiratet sind,
+    auf „die Frau von“ ändern.
