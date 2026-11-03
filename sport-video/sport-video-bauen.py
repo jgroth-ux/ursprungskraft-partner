@@ -20,6 +20,7 @@ beschleunigt, höchstens bis MAX_TEMPO. Reicht auch das nicht, rutscht der näch
 Aufruf: python3 sport-video-bauen.py [pfad/zum/original.mp4]
 """
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -32,6 +33,7 @@ AUFNAHMEN = ORDNER / "aufnahmen"
 ARBEIT = ORDNER / "_bau"
 ERGEBNIS = ORDNER / "ergebnis"
 NAME = "sportler-kangen-wasser-helmut"
+STIMME = "OwYx4Jd2f6DQax9m8SVa"  # "Helmut - Natural & Engaging", Link von Jasmin 03.11.2026
 
 GRUND_TEMPO = 1.3225   # wie Shop-Video, Jasmin 02.11.2026: "sonst viel zu lahm"
 MAX_TEMPO = 1.55       # schneller klingt gehetzt
@@ -66,6 +68,23 @@ def aufnahme_finden(nr):
             if p.exists():
                 return p
     return None
+
+
+def aufnahmen_erzeugen(abschnitte):
+    """Fehlende Aufnahmen direkt bei ElevenLabs erzeugen (Schlüssel nur aus der Umgebung, nie in Dateien)."""
+    import urllib.request
+
+    AUFNAHMEN.mkdir(exist_ok=True)
+    for a in abschnitte:
+        if aufnahme_finden(a["nr"]):
+            continue
+        anfrage = urllib.request.Request(
+            f"https://api.elevenlabs.io/v1/text-to-speech/{STIMME}?output_format=mp3_44100_128",
+            data=json.dumps({"text": a["text"], "model_id": "eleven_multilingual_v2"}).encode(),
+            headers={"xi-api-key": os.environ["ELEVENLABS_API_KEY"], "Content-Type": "application/json"})
+        with urllib.request.urlopen(anfrage, timeout=120) as antwort:
+            (AUFNAHMEN / f"{a['nr']}.mp3").write_bytes(antwort.read())
+        print(f"Aufnahme {a['nr']} erzeugt")
 
 
 def wort(w):
@@ -161,6 +180,9 @@ def main():
     ARBEIT.mkdir()
 
     einzeln = [aufnahme_finden(a["nr"]) for a in abschnitte]
+    if not all(einzeln) and os.environ.get("ELEVENLABS_API_KEY"):
+        aufnahmen_erzeugen(abschnitte)
+        einzeln = [aufnahme_finden(a["nr"]) for a in abschnitte]
     if all(einzeln):
         roh = einzeln
     else:
