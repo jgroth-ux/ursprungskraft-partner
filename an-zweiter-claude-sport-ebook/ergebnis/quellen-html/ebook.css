@@ -213,3 +213,45 @@ table.arten td{font-size:10.5pt;padding:4mm 3mm 4mm 0}
 .ehrlich{display:grid;grid-template-columns:1fr auto;gap:8mm;align-items:center;margin-top:7mm;padding-top:5mm;border-top:1.5px solid var(--text)}
 .ehrlich p{font-size:10.5pt}
 .knopf.mittel{font-size:13pt;padding:5mm 8mm;white-space:nowrap}
+
+/* Blocksatz in freien Textflächen, nicht in Kästen */
+.rand p,.liste p,.profi p,.karte p,.star p,.vorwort p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.kasten p,.kachel p,.weg p,.ehrlich p,.schluss p,.band p,.traeger-text,.zitatblock{text-align:left;hyphens:manual}
+
+/* Seite 3: breites Band */
+.band{display:grid;grid-template-columns:62mm 1fr;gap:8mm;align-items:center;background:var(--knopf);color:#fff;padding:7mm;margin-top:8mm}
+.band .eyebrow{color:var(--himmel)}
+.band .zahl{font-family:'Jost',sans-serif;font-weight:600;font-size:32pt;line-height:1;margin:2mm 0 2mm}
+.band p{font-size:9.5pt}
+.band .traeger{grid-template-columns:repeat(20,1fr);gap:1mm;margin-top:0}
+.band .traeger i{background:var(--himmel)}
+.band .traeger-text{color:var(--himmel)}
+.band .traeger-text b{color:#fff}
+
+/* Kapitel 7: Stars mit Video */
+.star{display:grid;grid-template-columns:74mm 1fr;gap:7mm;padding:6mm 0;border-top:1.5px solid var(--text);align-items:start}
+.star h3{font-size:18pt;margin:1.5mm 0 2mm}
+.star p{font-size:10.2pt}
+.star .mehr{display:inline-block;margin-top:3mm;font-family:'Jost',sans-serif;font-weight:600;font-size:11pt;color:var(--akzent);text-decoration:none;border-bottom:1.5px solid var(--akzent)}
+a.video{display:block;position:relative;aspect-ratio:16/10;background:var(--knopf);overflow:hidden;text-decoration:none}
+a.video img{width:100%;height:100%;object-fit:cover;display:block}
+a.video .play{position:absolute;left:50%;top:50%;width:15mm;height:15mm;margin:-7.5mm 0 0 -7.5mm;border-radius:50%;background:#fff}
+a.video .play:after{content:"";position:absolute;left:5.8mm;top:4.3mm;border-style:solid;border-width:3.2mm 0 3.2mm 5mm;border-color:transparent transparent transparent var(--knopf)}
+a.video .titelzeile{position:absolute;left:4mm;bottom:3.5mm;right:4mm;color:#fff;font-family:'Jost',sans-serif;font-weight:600;font-size:10pt}
+
+/* Schlussseite */
+.schluss .foto{height:98mm}
+.schluss-raster{display:grid;grid-template-columns:1fr 50mm;gap:9mm;align-items:start}
+.schluss h2{font-size:30pt}
+.schritte-liste{margin:5mm 0 0}
+.schritte-liste div{display:grid;grid-template-columns:9mm 1fr;gap:3mm;padding:2.6mm 0;border-top:1px solid rgba(201,230,246,.35);font-size:10pt}
+.schritte-liste b{font-family:'Jost',sans-serif;font-size:15pt;color:var(--himmel);line-height:1.1}
+.schritte-liste strong{color:#fff}
+.schritte-liste span{color:var(--flaeche)}
+.geraet{margin:0}
+.geraet img{width:50mm;height:84mm;object-fit:cover;object-position:50% 45%;display:block}
+.geraet figcaption{font-size:8pt;color:var(--himmel);margin-top:2mm;letter-spacing:.06em;text-transform:uppercase}
+.schluss .knopf.hell{margin-top:8mm}
+table.arten td.ph{width:40mm}
+table.arten .dot{display:inline-block;width:4mm;height:4mm;border-radius:50%;margin-right:2.5mm;vertical-align:.3mm}
+.skala-marken b{color:#16303F}

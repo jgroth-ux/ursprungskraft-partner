@@ -10,8 +10,8 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
 2. **Johnys Vorwort** spricht vom „Fight-Camp“. Passt das für ihn, oder hat er ein anderes Wort dafür?
 3. **Nutzen beide das Gerät selbst?** Das Vorwort sagt: „Heute kommt mein Wasser frisch aus dem Hahn.“
    Die Sportseite sagt das auch. Bitte bei beiden bestätigen.
-4. **Kevins Reichweite:** „über 800.000 Fans“ steht so im Auftrag. Bleibt die Zahl aktuell, oder
-   lieber ohne Zahl? Für Johny steht nur „@johny_yusupov“, keine Follower-Zahl.
+4. **Reichweite:** Kevin steht jetzt mit „800.000 Follower auf Instagram · 617.000 Abonnenten auf YouTube“ drin
+   (Stand 03.11.2026, laut Jasmin). Für Johny fehlen die Zahlen. Wie viele Follower hat @johny_yusupov?
 5. **Fotos:** Sind die Bildrechte für Titel, Vorwort und Schlussseite geklärt (Fotograf, Freigabe der Sportler)?
 
 ## Zahlen, für die eine Quelle fehlt
@@ -59,9 +59,13 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
 17. **Messi und Haaland:** Recherche am 03.11.2026 ohne Treffer. Es gibt keine Quelle, dass einer von beiden
     Kangenwasser oder ein Enagic-Gerät nutzt. Haaland hat in der Doku „Haaland: The Big Decision“ (Viaplay, 2022)
     nur gesagt, dass er sein Wasser filtert. Gibt es eine Quelle (Foto, Video, Interview)?
-18. **Pitch-Seite (Seite 13):** Dort steht „Auch in Raten: über das Ratenzahlungssystem von Enagic“ (Wissensbasis).
+18. **Vorschaubilder Kapitel 7:** Für die Video-Kacheln von Ronaldo und Eddie Hall fehlen die Bilder. Sie liegen auf dem
+    Server unter `bilder/partner/eddie-hall.jpg` und `bilder/partner/ronaldo-georgina.jpg` (die Poster der Sportseite).
+    Einfach in `quellen-html/bilder/` legen und `python3 bauen.py` laufen lassen, dann erscheinen sie automatisch.
+    Die Kacheln und „Video ansehen“ verlinken auf `…/partner/<name>/#video`.
+19. **Pitch-Seite (Seite 13):** Dort steht „Auch in Raten: über das Ratenzahlungssystem von Enagic“ (Wissensbasis).
     Gilt das auch für Kunden der Sportler? Der alte Guide bot außerdem an, „auf Wunsch ein Gerät für eine Weile zum
     Testen hinzustellen“. Das wäre ein starker Pitch, steht aber nicht auf der Sportseite. Soll es rein?
-19. **Weitere Fotos:** Im Paket waren nur die zwei Sportlerfotos. Darum arbeiten die Kapitel mit Schrift,
+20. **Weitere Fotos:** Im Paket waren nur die zwei Sportlerfotos. Darum arbeiten die Kapitel mit Schrift,
     Zahlen und einfachen Grafiken. Hast du Fotos vom K8, aus Küche oder Gym im blauen Look (ohne Oliv),
     dann baue ich sie ein.
