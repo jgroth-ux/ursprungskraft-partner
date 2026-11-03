@@ -40,11 +40,9 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
 
 ## Inhalt und Aussagen
 
-11. **Wirkungsaussagen:** Kapitel 4 übernimmt die Aussagen der Sportseite wörtlich
-    („Laktat wird schneller abgebaut“, „Hydration bis in die Zelle“, „besser schlafen“, „weil es die Wirkung
-    unterstützt“). So steht es im Auftrag. Nur zur Info: Die Wissensbasis (Abschnitt 7) stuft solche
-    Aussagen als heikel ein. Eddies Aussagen wie „entzündungshemmend“ habe ich nicht übernommen, die
-    Sportseite nennt sie auch nicht. Willst du sie im E-Book haben?
+11. **Wirkungsaussagen:** Kapitel 4 übernimmt die Aussagen der Sportseite wörtlich. Kapitel 7 zitiert
+    Eddie Hall wörtlich aus dem Video („entzündungshemmend, gegen Übersäuerung, mehr Sauerstoff im Blut,
+    Hydration der Zellen“), so von Jasmin entschieden am 03.11.2026.
 12. **Eddie Hall und Ronaldo:** Dürfen Name und Zitate von Eddie Hall und der Hinweis auf Ronaldos Familie
     so in einem Lead-Magneten stehen? Die Zitate stammen aus der deutschen Untertitel-Datei.
 13. **Ronaldo:** Die Quelle sagt nur, dass in der Doku ein Kangen-Gerät in der Küche steht. Gibt es Staffel
@@ -58,6 +56,9 @@ Stand: 03.11.2026. Alles, was hier steht, habe ich bewusst nicht geraten.
 
 ## Gestaltung
 
-17. **Weitere Fotos:** Im Paket waren nur die zwei Sportlerfotos. Darum arbeiten die Kapitel mit Schrift,
+17. **Messi und Haaland:** Recherche am 03.11.2026 ohne Treffer. Es gibt keine Quelle, dass einer von beiden
+    Kangenwasser oder ein Enagic-Gerät nutzt. Haaland hat in der Doku „Haaland: The Big Decision“ (Viaplay, 2022)
+    nur gesagt, dass er sein Wasser filtert. Gibt es eine Quelle (Foto, Video, Interview)?
+18. **Weitere Fotos:** Im Paket waren nur die zwei Sportlerfotos. Darum arbeiten die Kapitel mit Schrift,
     Zahlen und einfachen Grafiken. Hast du Fotos vom K8, aus Küche oder Gym im blauen Look (ohne Oliv),
     dann baue ich sie ein.
