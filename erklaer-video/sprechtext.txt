@@ -1,7 +1,7 @@
-# Erklärvideo Kangen-Wassermaschine (5:54) - Sprechtext Helmut, ENTWURF 03.11.2026, noch nicht bestätigt
+# Erklärvideo Kangen-Wassermaschine (5:54) - Sprechtext Helmut, bestätigt von Jasmin 04.11.2026
 # Nr | Sekunde im Originalton, an der der Satz beginnt | Text
 01 | 0.2 | Die Kangen-Wassermaschine ist ein sehr exklusives Gerät, wird hergestellt von einer 50-jährigen Manufaktur, Weltmarktführer in diesem Bereich, mit einer OEM-Produktionsstätte, steht für Original Equipment Manufacturer, und zertifiziert mit der ISO-Norm 13485 für Medizinprodukte.
-02 | 25.3 | Bei der Kangen-Wassermaschine handelt es sich um ein Doppelsystem. Bedeutet: Auf der linken Seite gibt es einen Drei-Phasen-Filter, Calciumsulfit, Aktivkohle, Sedimentfilter. Hier wird das Wasser gereinigt.
+02 | 25.3 | Bei der Kangen-Wassermaschine handelt es sich um ein Duo-System. Bedeutet: Auf der linken Seite gibt es einen Drei-Phasen-Filter, Calciumsulfit, Aktivkohle, Sedimentfilter. Hier wird das Wasser gereinigt.
 03 | 42.7 | Wenn man spezielle Belastungen im Wasser hat, wie zum Beispiel Viren, Hormone, dann empfehle ich noch zusätzlich einen Submikronfilter. Das ist dieser hier, so sieht die Kartusche aus in diesem Submikronfilter.
 04 | 59.5 | Und dieser wird davor geschaltet, also vor der Kangen-Wassermaschine. Bedeutet: Das Wasser geht erst mal in den Submikronfilter, dann in die Filtrierung in der Maschine, und dann geht das Wasser auf die gegenüberliegende Seite.
 05 | 74.4 | Hier befinden sich acht platinbeschichtete Titanplatten, medizinisches Titan, und hier wird das Wasser gespalten.
@@ -9,9 +9,9 @@
 07 | 94.6 | Die Kangen-Wassermaschine ist als Handgepäck deklariert, das heißt, sie kann bei Reisen überall mitgenommen werden.
 08 | 101.6 | Und sie produziert fünf verschiedene Typen von Wasser.
 09 | 106.4 | Alles, was rechts ist, ist das Trinkwasser, das Kangen-Wasser, unterteilt in drei verschiedene pH-Stufen.
-10 | 114.1 | Dann haben wir 2,5: Desinfektionswasser, kann überall eingesetzt werden.
+10 | 114.1 | Dann haben wir pH 2,5: Desinfektionswasser, kann überall eingesetzt werden.
 11 | 120.4 | Gleichzeitig produziert diese Funktion hier 11,5-pH-Wasser, stark alkalisch, dient zur Reinigung, speziell bei Obst und Gemüse, zur Entfernung von Pestiziden, Herbiziden und Spritzmitteln.
-12 | 135.8 | Dann haben wir 6,0: Facial Toner, Beauty-Wasser für Haut und Haare.
+12 | 135.8 | Dann haben wir pH 6,0: Facial Toner, Beauty-Wasser für Haut und Haare.
 13 | 140.9 | Und zum Schluss 7,0 pH, das ist sauberes Wasser, welches für Babynahrung dient oder wenn man Medikamente zu sich nimmt.
 14 | 161.3 | Hier rechts siehst du jetzt eine Eigenschaft: Das Wasser ist stark antioxidativ in Form von molekularem Wasserstoff.
 15 | 170.9 | Molekularer Wasserstoff ist die höchste Form des Antioxidants. Dieses Wasser hat einen Überschuss an Elektronen und nicht den Überschuss an Protonen.
@@ -22,10 +22,10 @@
 20 | 226.8 | Somit können wir unseren Säure-Basen-Haushalt im Körper in einem Gleichgewicht halten, weil das Wasser ist alkalisiert.
 21 | 235.7 | Dann der nächste Punkt: Das Wasser ist zellverfügbar. Hexagonal, hat einen Überschuss an Elektronen, und somit erreichen wir eine Zellverfügbarkeit.
 22 | 247.7 | Wir hydrieren auf Zellebene, entgiften, und Nährstoffe können in die Zelle transportiert werden.
-23 | 254.9 | Dieses Wasser hat eine Clustering-Struktur von 4 bis 6 Wassermolekülen pro Clustering.
+23 | 254.9 | Dieses Wasser hat eine Cluster-Struktur von 4 bis 6 Wassermolekülen pro Cluster.
 24 | 263.1 | Hier wird es symbolisch dargestellt mit diesem Teebeutel.
 25 | 267.1 | Normalerweise kannst du mit kaltem Wasser keinen Tee machen. Aber sieh genau hin:
-26 | 273.2 | Dadurch, dass dieses Wasser speziell strukturiert ist, 4 bis 6 Wassermoleküle pro Clustering, hexagonal, Überschuss an Elektronen, bist du in der Lage, auch mit kaltem Wasser Tee zu machen.
+26 | 273.2 | Dadurch, dass dieses Wasser speziell strukturiert ist, 4 bis 6 Wassermoleküle pro Cluster, hexagonal, Überschuss an Elektronen, bist du in der Lage, auch mit kaltem Wasser Tee zu machen.
 27 | 288.5 | Und symbolisch dargestellt mit dem Teebeutel: deine Zellen. Siehst du, du entgiftest auf Zellebene, hydrierst, Nährstoffe können in die Zelle transportiert werden.
 28 | 302.8 | Hier zum Schluss noch mal ein Test, um dir zu zeigen, wie stark antioxidativ dieses Wasser ist.
 29 | 310.2 | Wir benutzen Betaisodona. Betaisodona ist ein Desinfektionsmittel, stark oxidativ.

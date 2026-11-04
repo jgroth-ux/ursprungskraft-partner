@@ -11,11 +11,11 @@ Hier geht es am 04.11. weiter. Jasmin hat Feierabend gemacht, bevor sie den Text
   Keine fremden Logos, Webadressen oder fremden Abspann gefunden, nichts wird entfernt.
 
 ## Nächste Schritte
-1. **Jasmin bestätigt den Text**, vor allem die unsicheren Stellen in `text-pruefen.md`
+1. ERLEDIGT 04.11.: **Jasmin hat den Text bestätigt** (Duo-System, pH 2,5 / pH 6,0, Cluster-Struktur)., vor allem die unsicheren Stellen in `text-pruefen.md`
    (OEM, Calciumsulfit/Sedimentfilter, Doppelsystem, Hormone, Basizität, ORP, zellverfügbar,
    Clustering oder Cluster, „Siehst du“, Betaisodona, „wir geben ein paar Tropfen rein“).
    Korrekturen in `sprechtext.txt` eintragen und die Zeile „ENTWURF“ entfernen.
-2. **Prompt für den ElevenLabs-Claude** schreiben, nach dem Muster vom Sportvideo: Helmut, Voice-ID OwYx4Jd2f6DQax9m8SVa,
+2. ERLEDIGT 04.11.: Prompt steht in `prompt-elevenlabs.txt`. Jetzt warten auf die Aufnahmen (aufnahmen-helmut-erklaervideo.zip). Ursprünglich: Prompt, nach dem Muster vom Sportvideo: Helmut, Voice-ID OwYx4Jd2f6DQax9m8SVa,
    eleven_multilingual_v2, Tempo nicht ändern, Dateien 01.mp3 … 33.mp3, Abgabe als ZIP auf GitHub.
 3. **Bauen**, wenn die Aufnahmen da sind: `sport-video/sport-video-bauen.py` als Vorlage nehmen
    (Grundtempo 1,3225, jeder Satz startet an seiner Originalstelle, Lautheit -16 LUFS). Dabei anpassen:
