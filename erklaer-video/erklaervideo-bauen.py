@@ -31,7 +31,9 @@ AUFNAHMEN = ORDNER / "aufnahmen"
 ARBEIT = ORDNER / "_bau"
 ERGEBNIS = ORDNER / "ergebnis"
 
-GRUND_TEMPO = 1.3225   # wie Shop- und Sportvideo
+GRUND_TEMPO = 1.3225   # höchstes normales Tempo (wie Shop- und Sportvideo)
+MIN_TEMPO = 0.95       # langsamer klingt gezogen
+ORIGINAL_WOERTER = __import__("json").loads((ORDNER / "original-woerter.json").read_text(encoding="utf-8"))
 MAX_TEMPO = 1.55
 LUECKE = 0.25
 RATE = 44100
@@ -123,7 +125,8 @@ def satzteile_anlegen(abschnitte):
     for i, a in enumerate(abschnitte):
         bis = abschnitte[i + 1]["ab"] if i + 1 < len(abschnitte) else 1e9
         ow = [w for w in original if a["ab"] - 0.3 <= w[0] < bis - 0.3]
-        hw = helmut[a["nr"]]
+        # Wortzeiten sind an den unbeschleunigten Aufnahmen gemessen, aufs Tempo umrechnen
+        hw = [[w[0] / a["tempo"], w[1] / a["tempo"], w[2]] for w in helmut[a["nr"]]]
         clip_len = a["ende"] - a["start"]
         # Helmut-Wortindex -> Original-Wortindex (gleiche Wörter, sonst anteilig)
         zuordnung = {}
@@ -171,7 +174,13 @@ def main():
         a["start"] = max(a["ab"], frei_ab)
         naechster = abschnitte[i + 1]["ab"] if i + 1 < len(abschnitte) else video_dauer - 5.5
         platz = naechster - a["start"] - LUECKE
-        a["tempo"] = min(max(GRUND_TEMPO, dauer(roh) / platz if platz > 0 else MAX_TEMPO), MAX_TEMPO)
+        # Tempo pro Abschnitt: Helmut soll ungefähr so lange sprechen wie der Original-Sprecher an dieser Stelle
+        # (Jasmin 05.11.: die langen Pausen mit dem Tempo 1,3225 wirkten "creepy"). Grenzen MIN_TEMPO … GRUND_TEMPO.
+        ow = [w for w in ORIGINAL_WOERTER if a["ab"] - 0.3 <= w[0] < naechster - 0.3]
+        sprechzeit = (ow[-1][1] - ow[0][0]) if ow else platz
+        a["tempo"] = min(max(MIN_TEMPO, dauer(roh) / sprechzeit), GRUND_TEMPO)
+        if platz > 0 and dauer(roh) / a["tempo"] > platz:  # passt nicht bis zum nächsten Abschnitt
+            a["tempo"] = min(dauer(roh) / platz, MAX_TEMPO)
         a["datei"] = ARBEIT / f"fertig-{a['nr']}.wav"
         ff("-i", roh, "-af", f"atempo={a['tempo']:.4f}", a["datei"])
         a["ende"] = a["start"] + dauer(a["datei"])

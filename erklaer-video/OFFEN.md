@@ -5,7 +5,7 @@
 - 33 Helmut-Aufnahmen (ElevenLabs, OwYx4Jd2f6DQax9m8SVa): `aufnahmen/`, per Whisper gegen den Text geprüft
 - 29.mp3 am 05.11. ersetzt: Variante g ("Beta Isodóna" geschrieben), damit Betaisodona richtig betont wird (be-ta-i-so-DO-na)
 - `ergebnis.zip` mit:
-  - `tonspur-helmut.m4a`: neue Tonspur (5:55, AAC, -16 LUFS). Helmut auf Tempo 1,3225, in 96 Satzteilen dort angelegt,
+  - `tonspur-helmut.m4a`: neue Tonspur (5:55, AAC, -16 LUFS). Helmut mit Tempo pro Abschnitt (0,95–1,12, damit er so lange spricht wie das Original; 1,3225 ließ ~2 min Stille, Jasmin 05.11.: "creepy"), in Satzteilen dort angelegt,
     wo der Original-Sprecher dieselben Wörter sagt. Bei 2:33–2:41 das originale Wassergeräusch, die letzten ~7 s still.
   - `erklaervideo-vorschau-helmut.mp4`: kleine Vorschau mit neuem Ton, nur zum Anschauen
   - `sprechtext.txt`, `untertitel.vtt`

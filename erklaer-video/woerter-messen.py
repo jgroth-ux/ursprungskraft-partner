@@ -2,7 +2,8 @@
 """Wortzeiten der Helmut-Aufnahmen messen (Whisper), damit erklaervideo-bauen.py die Satzteile
 an die Stellen legen kann, an denen der Original-Sprecher sie sagt.
 
-Läuft NACH einem ersten Bau (braucht _bau/fertig-NN.wav, also die schon beschleunigten Aufnahmen).
+Läuft NACH einem ersten Bau (braucht _bau/roh-NN.wav: Aufnahmen ohne Ruhe am Rand, noch NICHT beschleunigt).
+Die Zeiten gelten also für Tempo 1 und werden beim Bau aufs jeweilige Tempo umgerechnet.
 Ergebnis: helmut-woerter.json  {"01": [[start, ende, "wort"], ...], ...}
 Die Wortzeiten des Originals stehen in original-woerter.json (einmal aus ton.m4a gemessen, 03.11.2026).
 
@@ -20,7 +21,7 @@ from faster_whisper import WhisperModel
 ORDNER = Path(__file__).resolve().parent
 modell = WhisperModel(sys.argv[1] if len(sys.argv) > 1 else "small", device="cpu", compute_type="int8")
 ergebnis = {}
-for datei in sorted((ORDNER / "_bau").glob("fertig-*.wav")):
+for datei in sorted((ORDNER / "_bau").glob("roh-*.wav")):
     nr = datei.stem.split("-")[1]
     tmp = ORDNER / "_bau" / f"16k-{nr}.wav"
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(datei), "-ac", "1", "-ar", "16000", str(tmp)], check=True)
