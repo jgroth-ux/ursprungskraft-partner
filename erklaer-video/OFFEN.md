@@ -13,7 +13,7 @@
 
 ## Offen
 - 06.11.: Video schneller abspielen. Zwei Vorschauen an Jasmin: 1,10x (5:22) und 1,15x (5:09). ergebnis.zip im Repo ist die 1,15x-Fassung.
-  Jasmin wählt. Bauen mit: `python3 erklaervideo-bauen.py ton.m4a vorschau.mp4 1.15` (drittes Argument = Faktor).
+  ENTSCHIEDEN 06.11.: Jasmin nimmt 1,15x. Offen ist nur noch das Einsetzen auf dem Mac (ton-einsetzen.txt). Bauen mit: `python3 erklaervideo-bauen.py ton.m4a vorschau.mp4 1.15` (drittes Argument = Faktor).
 - Jasmin schaut die Vorschau an. Danach setzt ihr Mac-Claude die Tonspur ins Original (`ton-einsetzen.txt`).
 
 ## Neu bauen
