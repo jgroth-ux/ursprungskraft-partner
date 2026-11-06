@@ -27,13 +27,17 @@ from pathlib import Path
 ORDNER = Path(__file__).resolve().parent
 ORIGINALTON = Path(sys.argv[1])
 VORSCHAU = Path(sys.argv[2])
+# Video schneller abspielen (Jasmin 06.11.: weniger Pausen). 1.0 = Original. Alle Zeiten werden durch FAKTOR geteilt,
+# das große Original muss dann beim Einsetzen neu umgewandelt werden (Befehl in ton-einsetzen.txt).
+FAKTOR = float(sys.argv[3]) if len(sys.argv) > 3 else 1.0
 AUFNAHMEN = ORDNER / "aufnahmen"
 ARBEIT = ORDNER / "_bau"
 ERGEBNIS = ORDNER / "ergebnis"
 
 GRUND_TEMPO = 1.3225   # höchstes normales Tempo (wie Shop- und Sportvideo)
 MIN_TEMPO = 0.95       # langsamer klingt gezogen
-ORIGINAL_WOERTER = __import__("json").loads((ORDNER / "original-woerter.json").read_text(encoding="utf-8"))
+ORIGINAL_WOERTER = [[w[0] / FAKTOR, w[1] / FAKTOR, w[2]] for w in
+                    __import__("json").loads((ORDNER / "original-woerter.json").read_text(encoding="utf-8"))]
 MAX_TEMPO = 1.55
 LUECKE = 0.25
 RATE = 44100
@@ -55,7 +59,7 @@ def sprechtext():
     for zeile in (ORDNER / "sprechtext.txt").read_text(encoding="utf-8").splitlines():
         if zeile.strip() and not zeile.startswith("#"):
             nr, ab, text = (t.strip() for t in zeile.split("|", 2))
-            out.append({"nr": nr, "ab": float(ab), "text": text})
+            out.append({"nr": nr, "ab": float(ab) / FAKTOR, "text": text})
     return out
 
 
@@ -120,7 +124,7 @@ def satzteile_anlegen(abschnitte):
     import json
 
     helmut = json.loads(hw_datei.read_text(encoding="utf-8"))
-    original = json.loads((ORDNER / "original-woerter.json").read_text(encoding="utf-8"))
+    original = ORIGINAL_WOERTER
     teile, frei_ab = [], 0.0
     for i, a in enumerate(abschnitte):
         bis = abschnitte[i + 1]["ab"] if i + 1 < len(abschnitte) else 1e9
@@ -163,7 +167,7 @@ def main():
     if ARBEIT.exists():
         shutil.rmtree(ARBEIT)
     ARBEIT.mkdir()
-    video_dauer = dauer(VORSCHAU)
+    video_dauer = dauer(VORSCHAU) / FAKTOR
     weg = "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.03"
 
     frei_ab, bericht = 0.0, []
@@ -190,10 +194,10 @@ def main():
                        + (f", {spaeter:.1f} s später als im Original" if spaeter > 0.05 else ""))
 
     # Wassergeräusch aus dem Originalton mit kurzen Blenden
-    von, bis = WASSER
+    von, bis = WASSER[0] / FAKTOR, WASSER[1] / FAKTOR
     wasser = ARBEIT / "wasser.wav"
-    ff("-ss", von, "-to", bis, "-i", ORIGINALTON, "-af",
-       f"afade=t=in:d={BLENDE},afade=t=out:st={bis - von - BLENDE}:d={BLENDE}", "-ac", 1, "-ar", RATE, wasser)
+    ff("-ss", WASSER[0], "-to", WASSER[1], "-i", ORIGINALTON, "-af",
+       f"atempo={FAKTOR},afade=t=in:d={BLENDE},afade=t=out:st={bis - von - BLENDE}:d={BLENDE}", "-ac", 1, "-ar", RATE, wasser)
 
     teile = satzteile_anlegen(abschnitte) + [(wasser, von)]
     eingaben, filter_teile = [], []
@@ -210,18 +214,26 @@ def main():
     tonspur = ERGEBNIS / "tonspur-helmut.m4a"
     ff(*eingaben, "-filter_complex", ";".join(filter_teile), "-map", "[out]", "-ac", 2, "-ar", RATE,
        "-c:a", "aac", "-b:a", "160k", "-t", f"{video_dauer:.3f}", "-movflags", "+faststart", tonspur)
-    ff("-i", VORSCHAU, "-i", tonspur, "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "copy",
+    bild = ["-c:v", "copy"] if FAKTOR == 1 else ["-filter:v", f"setpts=PTS/{FAKTOR}", "-c:v", "libx264", "-crf", "28",
+                                                  "-preset", "fast", "-pix_fmt", "yuv420p"]
+    ff("-i", VORSCHAU, "-i", tonspur, "-map", "0:v:0", "-map", "1:a:0", *bild, "-c:a", "copy", "-shortest",
        "-movflags", "+faststart", ERGEBNIS / "erklaervideo-vorschau-helmut.mp4")
 
     (ERGEBNIS / "sprechtext.txt").write_text("\n\n".join(a["text"] for a in abschnitte) + "\n", encoding="utf-8")
     (ERGEBNIS / "untertitel.vtt").write_text(untertitel(abschnitte) + "\n", encoding="utf-8")
-    (ERGEBNIS / "ton-einsetzen.txt").write_text(
-        "Neue Tonspur ins Original-Erklärvideo (5:54) setzen. Das Bild wird nur kopiert, nicht neu umgewandelt.\n"
-        "Im Ordner mit dem Originalvideo und tonspur-helmut.m4a ausführen (ORIGINAL.mp4 durch den echten Namen ersetzen):\n\n"
-        "ffmpeg -i ORIGINAL.mp4 -i tonspur-helmut.m4a -map 0:v:0 -map 1:a:0 -c:v copy -c:a copy "
-        "-shortest -movflags +faststart erklaervideo-kangen-helmut.mp4\n\n"
-        "Ist das Original kein H.264 (z. B. HEVC vom iPhone), statt '-c:v copy' das hier nehmen:\n"
-        "-c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p\n", encoding="utf-8")
+    if FAKTOR == 1:
+        einsetzen = ("Neue Tonspur ins Original-Erklärvideo (5:54) setzen. Das Bild wird nur kopiert, nicht neu umgewandelt.\n"
+                     "Im Ordner mit dem Originalvideo und tonspur-helmut.m4a ausführen (ORIGINAL.mp4 durch den echten Namen ersetzen):\n\n"
+                     "ffmpeg -i ORIGINAL.mp4 -i tonspur-helmut.m4a -map 0:v:0 -map 1:a:0 -c:v copy -c:a copy "
+                     "-shortest -movflags +faststart erklaervideo-kangen-helmut.mp4\n")
+    else:
+        einsetzen = (f"Neue Tonspur ins Original-Erklärvideo (5:54) setzen und das Bild dabei {FAKTOR:g}-mal so schnell abspielen\n"
+                     f"(neue Länge {video_dauer // 60:.0f}:{video_dauer % 60:02.0f}). Das Bild wird dafür neu umgewandelt, in hoher Qualität.\n"
+                     "Im Ordner mit dem Originalvideo und tonspur-helmut.m4a ausführen (ORIGINAL.mp4 durch den echten Namen ersetzen):\n\n"
+                     f'ffmpeg -i ORIGINAL.mp4 -i tonspur-helmut.m4a -map 0:v:0 -map 1:a:0 -filter:v "setpts=PTS/{FAKTOR}" '
+                     "-c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -c:a copy -shortest -movflags +faststart "
+                     "erklaervideo-kangen-helmut.mp4\n")
+    (ERGEBNIS / "ton-einsetzen.txt").write_text(einsetzen, encoding="utf-8")
 
     zip_datei = ORDNER / "ergebnis.zip"
     zip_datei.unlink(missing_ok=True)
