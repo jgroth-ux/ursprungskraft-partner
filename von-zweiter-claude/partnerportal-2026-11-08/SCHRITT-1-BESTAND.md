@@ -147,10 +147,15 @@ Diese Liste ist die Prüfliste für "Fertig heißt": Jede Zeile mit Nummer muss 
     (`kangen-termine.ics`). Bereiche des Portals heißen nie so. Die PDF-Namen lasse ich, der Kalender-Dateiname
     ist nur technisch und bleibt (Edge Function wird sonst ohne Grund geändert).
 
-## Offene Fragen an Jasmin vor Schritt 2
+## Geklärt (keine offenen Fragen mehr)
 
-1. Bestellstand: wo steht er in `uk_bestellungen` (Spalte und Werte)?
-2. Unterlagen: Reinigung und Zinzino mit ins Portal oder nicht?
-3. Status der Kundendatenbank: Sollen "Testet" und "Kein Interesse" bleiben, zusätzlich zu neu, kontaktiert,
-   Termin, gekauft, in Betreuung? Mein Vorschlag: Stand = neu, kontaktiert, Termin, testet, gekauft,
-   in Betreuung, kein Interesse.
+1. **Bestellstand:** steht in älteren Dateien hier im Repo. `uk_bestellungen.status` hat die Werte Neu,
+   Vertrag fertig, An Enagic geschickt, Storniert (`umbau-2026-10-19g-bestellungen.sql`). "Gerät da" steht am
+   Kunden: Status Geliefert mit `geliefert_am` (Dashboard). Für den Partner: bestellt (Neu, Vertrag fertig),
+   an den Hersteller raus (An Enagic geschickt), Gerät da (Geliefert). Storniert wird nicht gezeigt.
+2. **Unterlagen:** Guide, Detox, Wegweiser wie im Auftrag, dazu die Reinigungsanleitung (gehört zu den Geräten).
+   Zinzino lasse ich weg, weil es kein Enagic-Produkt ist. Steht so in der Rückgabe und lässt sich mit einer
+   Zeile ändern.
+3. **Stand eines Kontakts:** genau Jasmins Liste aus dem Auftrag: neu, kontaktiert, Termin, gekauft,
+   in Betreuung, dazu Stufe heiß, warm, kalt. "Kein Interesse" bleibt nur im Hintergrund erhalten, weil der
+   Telegram-Assistent und der Kalender darauf filtern.
