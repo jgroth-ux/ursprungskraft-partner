@@ -15,13 +15,44 @@
   const SPEICHER = 'uk-partnerportal';
   const V = window.Vorschau;
   const sb = V ? null : supabase.createClient(SUPABASE, 'sb_publishable_XXX',
-    { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
+    { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'uk-partner-sb' } });
+  // Backoffice: eigene Supabase-Anmeldung über daten.js, erst geladen, wenn ein Team-Konto wechselt
+  const BO_SKRIPTE = ['../dashboard/daten.js?v=20261021d', '../fragebogen/fragen.js?v=20261021c', 'backoffice.js?v=20261108b'];
+  const BO_LINK = /(^|[#&])(access_token|error_code)=/.test(location.hash);
   const wurzel = document.getElementById('wurzel');
 
   // Aus dem Telegram-Assistenten (/flyer) geöffnet: #tg=<kurze Sitzung>. Dann direkt "Flyer erstellen",
   // fertige Flyer gehen per Knopf in den eigenen Chat (Download klappt in Telegram nicht).
   const TG = (location.hash.match(/^#tg=([0-9a-f]{48})$/) || [])[1] || null;
   if (TG) { try { localStorage.setItem(SPEICHER, TG); } catch {} history.replaceState(null, '', location.pathname + location.search + '#flyer'); }
+
+  // ---------- Bewegung: kurz, mit Sinn, und nie bei prefers-reduced-motion ----------
+  const ruhig = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.Bewegung = {
+    // Bereiche bauen sich auf: die obersten Blöcke kommen nacheinander von unten
+    auftritt(box) {
+      if (!box || ruhig()) return;
+      const teile = [...box.children].flatMap((x) => (x.matches('.start, .kunden-aufbau, .termine-aufbau, .flyer-aufbau, .bo-start') ? [...x.children] : [x])).slice(0, 10);
+      teile.forEach((x, i) => { x.classList.remove('rein'); x.style.setProperty('--i', i); void x.offsetWidth; x.classList.add('rein'); });
+      this.zahlen(box); this.woerter(box);
+    },
+    // Zahlen zählen hoch
+    zahlen(box) {
+      box.querySelectorAll('[data-zahl]').forEach((el) => {
+        const ziel = Number(el.dataset.zahl); if (!Number.isFinite(ziel) || ziel < 2 || ruhig()) return;
+        const t0 = performance.now(), dauer = 700;
+        const schritt = (t) => { const k = Math.min(1, (t - t0) / dauer), e = 1 - Math.pow(1 - k, 3); el.textContent = String(Math.round(ziel * e)); if (k < 1) requestAnimationFrame(schritt); };
+        requestAnimationFrame(schritt);
+      });
+    },
+    // Begrüßung: Wort für Wort aus einer Kante heraus
+    woerter(box) {
+      box.querySelectorAll('h1.woerter:not(.fertig)').forEach((h) => {
+        h.classList.add('fertig');
+        h.innerHTML = h.textContent.split(' ').map((w, i) => `<span class="wort"><span style="--i:${i}">${esc(w)}</span></span>`).join(' ');
+      });
+    },
+  };
 
   // ---------- Hilfen ----------
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -78,6 +109,13 @@
     plus: '<path d="M12 5v14M5 12h14"/>', kopie: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>',
     zu: '<path d="M6 6l12 12M18 6L6 18"/>', laden: '<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>', schloss: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
     pfeil: '<path d="M5 12h14M13 6l6 6-6 6"/>', auge: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/>',
+    haken: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/>',
+    paket: '<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>',
+    partner: '<circle cx="8" cy="9" r="2.6"/><circle cx="16" cy="9" r="2.6"/><path d="M3.5 18.5c.5-2.8 2.3-4.3 4.5-4.3s4 1.5 4.5 4.3M11.5 18.5c.5-2.8 2.3-4.3 4.5-4.3s4 1.5 4.5 4.3"/>',
+    geraet: '<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 7h4M12 15.5v.5"/>',
+    ordner: '<path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/>',
+    zahlen: '<path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/>',
+    glocke: '<path d="M12 3a6 6 0 0 0-6 6v3.6L4.3 16a.7.7 0 0 0 .6 1h14.2a.7.7 0 0 0 .6-1L18 12.6V9a6 6 0 0 0-6-6Zm-2.2 15.5a2.3 2.3 0 0 0 4.4 0"/>',
     teilen: '<circle cx="6" cy="12" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="18" cy="18" r="2.3"/><path d="M8 11l8-4M8 13l8 4"/>',
   };
   const ico = (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
@@ -241,34 +279,74 @@
   ];
   const LEISTE = [['start', 'Start'], ['kunden', 'Kunden'], ['termine', 'Termine'], ['werkzeuge', 'Werkzeuge'], ['menue', 'Mehr']];
   const ZU_MEHR = ['flyer', 'wissen', 'neuigkeiten', 'mehr', 'app', 'konto', 'menue'];
+  const BO_ICO = { uebersicht: 'start', aufgaben: 'haken', kalender: 'termine', bestellungen: 'paket', kunden: 'kunden', partner: 'partner', maschinen: 'geraet', unterlagen: 'ordner', auswertung: 'zahlen', meine: 'zahlen', wohnung: 'start', menue: 'punkte' };
+  const BO_LEISTE = [['uebersicht', 'Übersicht'], ['aufgaben', 'Aufgaben'], ['kalender', 'Kalender'], ['bestellungen', 'Bestellungen'], ['menue', 'Mehr']];
+  let modus = 'partner';
+  // Schalter Partner | Backoffice, nur für Team-Konten (uk_partner.team). Öffnet selbst keine Daten.
+  const schalter = () => (S.p?.team ? `<div class="schalter" role="group" aria-label="Ansicht"><a href="#start" data-modus="partner" aria-pressed="${modus === 'partner'}">Partner</a><a href="#bo" data-modus="bo" aria-pressed="${modus === 'bo'}">Backoffice</a><i aria-hidden="true"></i></div>` : '');
   function rahmen() {
+    if (modus === 'bo') return rahmenBo();
     const t = testTage();
     wurzel.innerHTML = `${V ? `<p class="vorschau-band">Vorschau mit Probedaten (${esc(V.modus)}). Es wird nichts gespeichert.</p>` : ''}
       <div class="app">
         <aside class="menue" aria-label="Menü">
           <a class="marke" href="#start"><img src="symbol/symbol-288.webp" alt=""><span><b>Ursprungskraft</b><small>Partner</small></span></a>
+          ${schalter()}
           ${t !== null ? `<p class="test-band"><b>Testzeit</b>Noch ${t === 0 ? 'heute' : t === 1 ? '1 Tag' : t + ' Tage'} alles kostenlos.</p>` : ''}
-          <nav>${MENUE.map((m) => (m ? `<a href="#${m[0]}" data-ziel="${m[0]}">${ico(m[0])}<span>${m[1]}</span>${m[0] === 'neuigkeiten' ? '<span class="zahl" data-zahl></span>' : ''}</a>` : '<div class="trenner"></div>')).join('')}</nav>
+          <nav>${MENUE.map((m) => (m ? `<a href="#${m[0]}" data-ziel="${m[0]}">${ico(m[0])}<span>${m[1]}</span>${m[0] === 'neuigkeiten' ? '<span class="zahl" data-ungelesen></span>' : ''}</a>` : '<div class="trenner"></div>')).join('')}</nav>
           <div class="unten"><b>${esc(nameVon(S.p))}</b>Enagic-ID ${esc(S.p.enagic_id || '')}<br><button type="button" data-abmelden>Abmelden</button></div>
         </aside>
-        <header class="kopfleiste"><img src="symbol/symbol-288.webp" alt=""><b>Partner</b></header>
-        <main class="flaeche" id="inhalt"></main>
+        <header class="kopfleiste"><img src="symbol/symbol-288.webp" alt=""><b>Partner</b>${schalter()}</header>
+        <main class="flaeche"><div id="inhalt"></div></main>
         <nav class="leiste" aria-label="Hauptbereiche">${LEISTE.map(([z, n]) => `<a href="#${z}" data-ziel="${z}">${ico(z === 'menue' ? 'punkte' : z)}<span>${n}</span>${z === 'menue' ? '<i class="punkt" data-punkt hidden></i>' : ''}</a>`).join('')}</nav>
       </div>`;
     wurzel.querySelector('[data-abmelden]').onclick = abmelden;
   }
+  function rahmenBo() {
+    const B = window.Backoffice, R = B.REITER.filter(B.sichtbar);
+    const gruppen = [...new Set(R.map((x) => x[2]))];
+    wurzel.innerHTML = `${V ? `<p class="vorschau-band">Vorschau mit Beispieldaten des Dashboards (${B.ich.rolle === 'admin' ? 'als Jasmin' : 'als Daniel'}). Änderungen bleiben nur in diesem Browser.</p>` : ''}
+      <div class="app ist-bo">
+        <aside class="menue" aria-label="Menü Backoffice">
+          <a class="marke" href="#bo"><img src="symbol/symbol-288.webp" alt=""><span><b>Ursprungskraft</b><small>Backoffice</small></span></a>
+          ${schalter()}
+          <nav>${gruppen.map((g, i) => `${i ? `<p class="gruppe">${esc(g)}</p>` : ''}${R.filter((x) => x[2] === g).map(([z, n]) => `<a href="#bo/${z}" data-ziel="bo/${z}">${ico(BO_ICO[z] || 'start')}<span>${n}</span>${z === 'aufgaben' ? '<span class="zahl" data-zahl-bo></span>' : ''}</a>`).join('')}`).join('')}</nav>
+          <div class="unten"><b>${esc(B.ich.name || nameVon(S.p))}</b>${B.ich.rolle === 'admin' ? 'Admin' : 'Team'}<br><button type="button" data-bo-ab>Backoffice abmelden</button></div>
+        </aside>
+        <header class="kopfleiste"><img src="symbol/symbol-288.webp" alt=""><b>Backoffice</b>${schalter()}</header>
+        <main class="flaeche">
+          <div class="bo-kopf"><div class="symbole"><button id="glocke" class="symbol glocke" type="button" hidden aria-label="Was ist neu">${ico('glocke')}<span id="glocke-zahl"></span></button><div id="glocke-liste" class="glocke-liste" hidden></div></div></div>
+          <div id="inhalt"></div></main>
+        <nav class="leiste" aria-label="Hauptbereiche Backoffice">${BO_LEISTE.map(([z, n]) => `<a href="#bo/${z}" data-ziel="bo/${z}">${ico(BO_ICO[z])}<span>${n}</span></a>`).join('')}</nav>
+      </div>`;
+    wurzel.querySelector('[data-bo-ab]').onclick = boAbmelden;
+  }
+  // Zwischen den Ansichten wechseln: weich überblenden (View Transitions, wo vorhanden)
+  function modusSetzen(neu) {
+    if (neu === modus && wurzel.querySelector('.app')) return Promise.resolve(false);
+    try { localStorage.setItem('uk-ansicht', neu); } catch {}
+    const tun = () => { modus = neu; rahmen(); };
+    if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches && wurzel.querySelector('.app')) return document.startViewTransition(tun).updateCallbackDone.then(() => true);
+    tun(); return Promise.resolve(true);
+  }
   function markieren(ziel) {
     wurzel.querySelectorAll('[data-ziel]').forEach((a) => {
       const z = a.dataset.ziel, inLeiste = !!a.closest('.leiste');
-      const an = z === ziel || (inLeiste && z === 'menue' && ZU_MEHR.includes(ziel));
+      const boMehr = ziel.startsWith('bo/') && !BO_LEISTE.some(([b]) => 'bo/' + b === ziel);
+      const an = z === ziel || (inLeiste && z === 'menue' && ZU_MEHR.includes(ziel)) || (inLeiste && z === 'bo/menue' && boMehr);
       an ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current');
     });
     const n = ungelesen();
-    wurzel.querySelectorAll('[data-zahl]').forEach((x) => (x.textContent = n ? String(n) : ''));
+    wurzel.querySelectorAll('[data-ungelesen]').forEach((x) => (x.textContent = n ? String(n) : ''));
+    const nb = window.Backoffice?.neuZahl?.() || 0;
+    wurzel.querySelectorAll('[data-zahl-bo]').forEach((x) => (x.textContent = nb ? String(nb) : ''));
     wurzel.querySelectorAll('[data-punkt]').forEach((x) => (x.hidden = !n));
   }
   async function abmelden() {
     await mitSitzung('uk_partner_abmelden');
+    // Mit dem Partnerzugang endet auch das Backoffice auf diesem Gerät
+    if (window.Daten) { try { await Daten.anmeldung.abmelden(); } catch {} }
+    modus = 'partner';
     sitzung.setzen(null); Object.assign(S, { p: null, kunden: null, best: null, termine: null, news: null });
     history.replaceState(null, '', location.pathname + location.search); zugang();
   }
@@ -280,6 +358,8 @@
   async function zeigen() {
     if (!S.p) return;
     const [ziel, ...rest] = (location.hash.slice(1) || 'start').split('/');
+    if (ziel === 'bo') return backoffice(rest[0]);
+    if (modus !== 'partner') await modusSetzen('partner');
     const seite = SEITEN[ziel] ? ziel : 'start';
     const nr = ++lauf;
     markieren(seite);
@@ -289,7 +369,97 @@
     try { await SEITEN[seite](box, rest, () => nr === lauf); }
     catch (e) { console.warn(e); if (nr === lauf) box.innerHTML = '<p class="meldung">Das hat nicht geklappt. Bitte lade die Seite neu.</p>'; }
     markieren(seite);
+    if (window.Bewegung && nr === lauf) Bewegung.auftritt(box);
     if (!rest.length) window.scrollTo(0, 0);
+  }
+
+  // ================= BACKOFFICE =================
+  // Zwei Anmeldungen bleiben getrennt: die Partner-Sitzung öffnet nur den Schalter, die Daten kommen ausschließlich
+  // über die Supabase-Anmeldung des Dashboards (daten.js, Row Level Security). Ein normales Partnerkonto kommt nicht hinein.
+  let boGeladen = null, boAngemeldet = false;
+  const skript = (src) => new Promise((ok, f) => { const x = document.createElement('script'); x.src = src; x.onload = ok; x.onerror = () => f(new Error('Laden fehlgeschlagen: ' + src)); document.head.append(x); });
+  function boLaden() {
+    if (!boGeladen) { if (V) window.UK_DEMO = true; boGeladen = BO_SKRIPTE.reduce((k, src) => k.then(() => skript(src).catch((e) => { if (!src.includes('fragen.js')) throw e; console.warn(e.message); })), Promise.resolve()); }
+    return boGeladen;
+  }
+  async function backoffice(reiter) {
+    if (!S.p.team) { history.replaceState(null, '', location.pathname + location.search + '#start'); return zeigen(); }
+    const nr = ++lauf;
+    try { await boLaden(); } catch (e) { console.warn(e); return boFehler('Das Backoffice konnte nicht geladen werden. Bitte lade die Seite neu.'); }
+    if (V) V.dashboard(Daten);
+    let s = null;
+    try { s = V && new URLSearchParams(location.search).has('bo-anmelden') && !boAngemeldet ? null : await Daten.anmeldung.sitzung(); } catch { s = null; }
+    if (nr !== lauf) return;
+    if (!s) return boAnmelden(reiter);
+    if (!boAngemeldet) { await Backoffice.rolleLaden(); boAngemeldet = true; if (modus === 'bo') rahmen(); }
+    if (modus !== 'bo') await modusSetzen('bo');
+    if (reiter === 'menue') return boMenue();
+    const r = reiter || Backoffice.zuletzt();
+    markieren('bo/' + r);
+    document.title = 'Backoffice · Ursprungskraft';
+    await Backoffice.zeigen(r);
+    markieren('bo/' + r);
+    window.scrollTo(0, 0);
+  }
+  async function boFehler(t) { await modusSetzen('partner'); document.getElementById('inhalt').innerHTML = `<p class="meldung">${esc(t)}</p>`; }
+  function boMenue() {
+    const R = Backoffice.REITER.filter(Backoffice.sichtbar).filter(([z]) => !BO_LEISTE.some(([b]) => b === z));
+    markieren('bo/menue');
+    document.getElementById('inhalt').innerHTML = `${kopf('Mehr im Backoffice', '')}
+      <nav class="mehr-liste">${R.map(([z, n, g]) => `<a href="#bo/${z}">${ico(BO_ICO[z] || 'start')}<span><b>${n}</b><small>${esc(g)}</small></span>${ico('rechts')}</a>`).join('')}
+      <a href="#start">${ico('start')}<span><b>Zur Partneransicht</b><small>Deine Termine, Kunden und Werkzeuge</small></span>${ico('rechts')}</a></nav>
+      <p style="margin-top:var(--a-4)"><button class="knopf zweit" type="button" data-bo-ab>Backoffice abmelden</button></p>`;
+    document.querySelector('#inhalt [data-bo-ab]').onclick = boAbmelden;
+    Bewegung.auftritt(document.getElementById('inhalt'));
+  }
+  // Einmal mit dem Dashboard-Zugang anmelden. Die Sitzung bleibt gespeichert, danach wechselt der Schalter direkt.
+  async function boAnmelden(reiter, meldung = '') {
+    await modusSetzen('partner'); markieren('');
+    const box = document.getElementById('inhalt');
+    box.innerHTML = `<section class="bo-anmelden">
+      <p class="kicker">Backoffice</p><h1>Einmal anmelden.</h1>
+      <p class="vorspann">Für das Backoffice brauchst du deinen Dashboard-Zugang. Danach merkt sich dieses Gerät die Anmeldung, und der Schalter wechselt ohne erneute Anmeldung.</p>
+      <form id="f-bo" class="felder" novalidate>
+        <label class="feld"><span class="titel">E-Mail</span><input type="email" name="email" autocomplete="username" value="${esc(S.p.email || '')}" required></label>
+        <label class="feld"><span class="titel">Passwort</span><input type="password" name="passwort" autocomplete="current-password" required></label>
+        <p class="meldung" id="bo-meldung">${esc(meldung)}</p>
+        <div class="knoepfe"><button class="knopf" type="submit">Anmelden</button><button class="knopf still" type="button" id="bo-vergessen">Passwort vergessen?</button><a class="knopf still" href="#start">Zurück zur Partneransicht</a></div>
+      </form></section>`;
+    const f = document.getElementById('f-bo'), m = document.getElementById('bo-meldung');
+    f.onsubmit = async (e) => {
+      e.preventDefault(); const k = f.querySelector('[type=submit]'); k.disabled = true; m.className = 'meldung'; m.textContent = '';
+      try { await Daten.anmeldung.anmelden(f.email.value.trim(), f.passwort.value); boAngemeldet = false; if (V) boAngemeldet = true, await Backoffice.rolleLaden(); backoffice(reiter); }
+      catch (err) { m.textContent = Backoffice.fehlerText(err); }
+      k.disabled = false;
+    };
+    document.getElementById('bo-vergessen').onclick = async () => {
+      const email = f.email.value.trim(); if (!email) { m.textContent = 'Trag oben deine E-Mail ein, dann schicken wir dir einen Link.'; return; }
+      try { await Daten.anmeldung.passwortVergessen(email); m.className = 'meldung gut'; m.textContent = 'Wenn die Adresse bekannt ist, kommt gleich eine Mail mit einem Link.'; } catch (err) { m.textContent = Backoffice.fehlerText(err); }
+    };
+    Bewegung.auftritt(box);
+  }
+  async function boAbmelden() {
+    try { await Daten.anmeldung.abmelden(); } catch {}
+    boAngemeldet = false; location.hash = 'start'; toast('Vom Backoffice abgemeldet.');
+  }
+  // Link aus einer Einladungs- oder Passwort-Mail des Dashboards: Passwort setzen, ohne Partneranmeldung
+  async function boLinkSeite() {
+    await boLaden();
+    zugang();
+    const teil = document.getElementById('teil'); document.querySelector('.reiter')?.remove();
+    document.querySelector('.zugang-form h1').textContent = 'Backoffice';
+    let s = null; try { s = await Daten.anmeldung.sitzung(); } catch {}
+    if (Daten.linkArt === 'fehler' || !s) { teil.innerHTML = '<p class="hinweis">Der Link aus der Mail ist abgelaufen oder wurde schon benutzt. Melde dich im Portal an und wechsle ins Backoffice, dort kannst du dir einen neuen Link schicken lassen.</p><p style="margin-top:var(--a-3)"><a class="knopf" href="./">Zum Portal</a></p>'; return; }
+    teil.innerHTML = `<form id="f" novalidate><p class="leise">Mindestens 10 Zeichen. Leg es danach gleich in deinen Passwort-Manager.</p>
+      <label class="feld"><span class="titel">Neues Passwort</span><input type="password" name="p1" autocomplete="new-password"></label>
+      <label class="feld"><span class="titel">Noch einmal</span><input type="password" name="p2" autocomplete="new-password"></label>
+      <p class="meldung" id="fehler"></p><div class="knoepfe"><button class="knopf" type="submit">Speichern</button></div></form>`;
+    document.getElementById('f').onsubmit = async (e) => {
+      e.preventDefault(); const f = e.target, m = document.getElementById('fehler');
+      if ((f.p1.value || '').length < 10) return (m.textContent = 'Bitte mindestens 10 Zeichen.');
+      if (f.p1.value !== f.p2.value) return (m.textContent = 'Die beiden Eingaben sind nicht gleich.');
+      try { await Daten.anmeldung.passwortSetzen(f.p1.value); history.replaceState(null, '', location.pathname); location.reload(); } catch (err) { m.textContent = Backoffice.fehlerText(err); }
+    };
   }
   window.addEventListener('hashchange', zeigen);
 
@@ -338,7 +508,7 @@
     const sichtbar = hatTermine();
     box.innerHTML = `<div class="start">
       <div>
-        <header class="gruss"><p class="kicker">${tagName(h)}</p><h1>${gruss()}, ${esc(S.p.vorname)}.</h1><p>${satz}</p></header>
+        <header class="gruss"><p class="kicker">${tagName(h)}</p><h1 class="woerter">${gruss()}, ${esc(S.p.vorname)}.</h1><p>${satz}</p></header>
         ${sichtbar ? woche() : ''}
         <div class="plan">
           <div class="abschnitt-kopf"><h2>Deine nächsten Termine</h2><a href="#termine">Alle Termine</a></div>
@@ -495,7 +665,7 @@
       box.innerHTML = `<p style="margin-bottom:var(--a-2)"><a class="knopf still" href="#kunden">${ico('links')} Alle Kunden</a></p><div id="karte"></div>`;
     } else {
       box.innerHTML = `${kopf('Kunden', 'Alle, die über deine Seite angefragt oder über deinen Link bestellt haben, kommen von selbst hierher. Dazu alle, die du selbst einträgst. Nur du siehst sie.')}
-        <div class="stufen" role="group" aria-label="Stand">${[['alle', 'Alle'], ...STAND].map(([w, t]) => `<button type="button" data-f="${w}" aria-pressed="${K.filter === w}"><b>${zaehl(w)}</b><span>${t}</span></button>`).join('')}</div>
+        <div class="stufen" role="group" aria-label="Stand">${[['alle', 'Alle'], ...STAND].map(([w, t]) => `<button type="button" data-f="${w}" aria-pressed="${K.filter === w}"><b data-zahl="${zaehl(w)}">${zaehl(w)}</b><span>${t}</span></button>`).join('')}</div>
         <div class="suchzeile"><input type="search" id="suche" placeholder="Name, Ort oder Telefon suchen" value="${esc(K.suche)}" aria-label="Kunden suchen">${neuKnopf}</div>
         <div class="chips" role="group" aria-label="Filter">
           <button type="button" data-f="faellig" aria-pressed="${K.filter === 'faellig'}">Heute melden ${l.filter(faellig).length}</button>
@@ -954,12 +1124,16 @@
 
   // ---------- Start ----------
   async function laden() {
+    if (BO_LINK) return boLinkSeite();
     const s = sitzung.lesen();
     if (!s) return zugang(location.hash === '#registrieren' ? 'registrieren' : 'anmelden');
     const { data, error } = await rpc('uk_partner_daten', { p_sitzung: s });
     if (error) return zugang('anmelden', 'Das hat nicht geklappt. Bitte lade die Seite neu.');
     if (!data) { sitzung.setzen(null); return zugang(); }
     S.p = data;
+    // Team-Konten landen dort, wo sie zuletzt waren (Daniel nutzt das Backoffice als App)
+    let zuletzt = 'partner'; try { zuletzt = localStorage.getItem('uk-ansicht') || 'partner'; } catch {}
+    if (data.team && zuletzt === 'bo' && !location.hash.slice(1) && !TG) history.replaceState(null, '', location.pathname + location.search + '#bo');
     rahmen();
     newsLaden().then(() => markieren((location.hash.slice(1) || 'start').split('/')[0]));
     zeigen();

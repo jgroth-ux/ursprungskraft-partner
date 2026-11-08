@@ -1,4 +1,4 @@
-# Partnerportal neu: Ergebnis (08.11.2026)
+# Partnerportal neu und Backoffice: Ergebnis (08.11.2026)
 
 Das Partnerportal ist komplett neu gestaltet und neu gebaut. Jasmin wollte ein fertiges Ergebnis zum Korrigieren
 statt erst eines Entwurfs der Startansicht. Deshalb ist Schritt 2 (Konzept vorlegen und anhalten) übersprungen und
@@ -15,6 +15,13 @@ und `partner/?vorschau` öffnen. Ohne `?vorschau` spricht das Portal mit der ech
 | `partner/?vorschau=leer` | angemeldet, ohne Termine und Kunden: der Kalender bleibt unsichtbar |
 | `partner/?vorschau=gesperrt` | Testzeit abgelaufen, nur Kunden und Termine frei: gesperrte Bereiche zeigen "Freischalten" |
 | `partner/?vorschau=anmelden` | Anmelden und Registrieren |
+| `partner/?vorschau=normal` | gewöhnliches Partnerkonto: kein Schalter, `#bo` führt zurück zum Start |
+| `partner/?vorschau#bo` | Backoffice als Jasmin (Beispieldaten aus `daten.js`, Demo-Modus) |
+| `partner/?vorschau&als=daniel#bo` | Backoffice als Daniel |
+| `partner/?vorschau&bo-anmelden#bo` | Backoffice mit der ersten Anmeldung |
+
+Für das Backoffice braucht die Vorschau den Ordner `../dashboard/` (daten.js, Formulare, Wohnungsbilder) und
+`../fragebogen/fragen.js` wie auf dem Server.
 
 Alle Namen in den Probedaten sind erfunden. Im Vorschau-Modus wird nichts gespeichert und nichts verschickt.
 
@@ -100,15 +107,20 @@ Nummern wie in `SCHRITT-1-BESTAND.md`. Alle 58 Funktionen (A bis G) sind da, die
 
 ## SQL und Edge Function: Reihenfolge zum Einspielen
 
+0. Bereits vorhanden und unverändert: alle älteren SQL-Dateien.
 1. `supabase/umbau-2026-11-08c-partnerportal-neu-zugang.sql` (Spalten `bereiche`, `test_bis`, neue `uk_partner_daten`)
 2. `supabase/umbau-2026-11-08c-partnerportal-neu-kunden.sql` (Spalten `partner_stand`, `partner_stufe` an `uk_kunden`,
    `uk_partner_bestellstand`, `uk_partner_kunden`, `uk_partner_kunde_speichern`)
-3. `supabase/umbau-2026-11-08c-partnerportal-neu-neuigkeiten.sql` (Tabelle `uk_neuigkeiten`,
+3. `supabase/umbau-2026-11-08c-partnerportal-neu-neuigkeiten.sql
+supabase/umbau-2026-11-08d-partnerportal-neu-team.sql` (Tabelle `uk_neuigkeiten`,
    `uk_partner_neuigkeiten`, `uk_neuigkeit_veroeffentlichen`)
-4. Edge Function `supabase/functions/partnerbot/index.ts` veröffentlichen (Verify JWT bleibt aus)
-5. Website `partner/` hochladen. Der Platzhalter `sb_publishable_XXX` in `partner.js` muss wieder ersetzt werden.
+4. `supabase/umbau-2026-11-08d-partnerportal-neu-team.sql` (Spalte `team`, setzt Partnerkonten mit Dashboard-Zugang
+   automatisch auf Team, neue `uk_partner_daten` mit allen Feldern plus `team`). Muss **nach** Nummer 1 laufen.
+5. Edge Function `supabase/functions/partnerbot/index.ts` veröffentlichen (Verify JWT bleibt aus)
+6. Website `partner/` hochladen. Der Platzhalter `sb_publishable_XXX` in `partner.js` muss wieder ersetzt werden.
+   `../dashboard/` bleibt unverändert online, das Backoffice nutzt daraus `daten.js`, `formulare/` und `wohnung/`.
 
-Alle drei SQL-Dateien dürfen mehrfach laufen und ändern keine alte Datei. Sie sind lokal gegen ein nachgebautes
+Alle vier SQL-Dateien dürfen mehrfach laufen und ändern keine alte Datei. Sie sind lokal gegen ein nachgebautes
 Grundschema (Postgres 16) geprüft: Partner sehen nur ihre eigenen Kunden, stornierte Bestellungen erscheinen nicht,
 Bankdaten aus `uk_bestellungen.daten` werden nicht herausgegeben, eine Neuigkeit lässt sich nur einmal
 veröffentlichen, die Funktion zum Veröffentlichen ist für `anon` gesperrt.
@@ -132,7 +144,7 @@ Freigabe trotzdem gültig. `partner-assistent`, `partner-kalender` und `partner-
 | App-Symbol in allen Größen, Handy-Demo eingebaut | ja |
 | Kein zentrierter Textblock | ja. Einzige Mittelachse: die Wochentage über den Spalten der Monatsansicht und die Zahlen darin (Raster, kein Textblock) |
 | Keine Gedankenstriche | Suche nach U+2013 und U+2014 in allen HTML, CSS, JS, SQL, TS und MD: 0 Treffer |
-| Bildschirmfotos 375, 768, 1440 px | `bildschirmfotos/` (21 Bilder, Start in allen drei Breiten, dazu alle Bereiche) |
+| Bildschirmfotos 375, 768, 1440 px | `bildschirmfotos/partner-*` (Start in 375, 768 und 1440, dazu alle Bereiche) |
 | Keine Fehler in der Konsole | 0 Fehler und 0 Warnungen in allen Bereichen und drei Breiten, kein waagrechter Überlauf |
 | Klicktests | 21 von 21 bestanden: Anmelden, Registrieren, Stand, Notiz, Stufe, Filter, Suche, neuer Kunde, Termin anlegen, Tag wählen, Flyer groß, Blättern, gesperrt, leer, gelesen, Abmelden |
 
@@ -163,7 +175,9 @@ website/partner/index.html             neu
 website/partner/portal.css             neu (Gestaltung, vorher im HTML)
 website/partner/partner.js             neu
 website/partner/wissen.js              neu (Unterlagen, Produktwissen, Einwände)
-website/partner/vorschau.js            neu (Probedaten, nur mit ?vorschau aktiv)
+website/partner/vorschau.js            neu (Probedaten, nur mit ?vorschau aktiv, auch Beispiel-Bestellungen fürs Backoffice)
+website/partner/backoffice.js          neu (Dashboard-Logik aus dashboard/app.js, Hülle und Übersicht neu)
+website/partner/backoffice.css         neu (Dashboard-Bausteine im Portal-Look)
 website/partner/manifest.webmanifest   geändert (eigene Symbole, maskierbar)
 website/partner/symbol/                neu (App-Symbole)
 website/partner/bilder/                neu (Produktbilder, Handy-Demo)
@@ -172,8 +186,101 @@ website/partner/flyer.js               unverändert, nicht enthalten
 supabase/umbau-2026-11-08c-partnerportal-neu-zugang.sql
 supabase/umbau-2026-11-08c-partnerportal-neu-kunden.sql
 supabase/umbau-2026-11-08c-partnerportal-neu-neuigkeiten.sql
+supabase/umbau-2026-11-08d-partnerportal-neu-team.sql
 supabase/functions/partnerbot/index.ts geändert
-bildschirmfotos/
+bildschirmfotos/                       partner-..., team-..., backoffice-... (44 Bilder)
 SCHRITT-1-BESTAND.md
 ERGEBNIS.md
 ```
+
+---
+
+# Nachtrag Backoffice (08.11.2026)
+
+Jasmin wollte das Ergebnis komplett sehen, deshalb ist auch das Backoffice gleich fertig gebaut, ohne Zwischenentwurf.
+Das alte Dashboard unter `/dashboard/` ist nicht angefasst.
+
+## Aufbau
+
+- **Schalter "Partner | Backoffice"** oben im Menü (Computer) und in der Kopfleiste (Handy), als goldene Schiene, die
+  zur gewählten Seite gleitet. Er erscheint nur, wenn `uk_partner_daten` `team = true` liefert.
+- **Zwei Anmeldungen bleiben getrennt.** Die Partner-Sitzung öffnet nur den Schalter. Beim ersten Wechsel meldet man
+  sich einmal mit dem Dashboard-Zugang an (Supabase wie in `daten.js`). Die Sitzung bleibt auf dem Gerät gespeichert,
+  danach wechselt der Schalter ohne Anmeldung. `daten.js` wird erst beim Wechsel geladen, ein normales Partnerkonto lädt
+  es nie. Wer als normaler Partner `#bo` eintippt, landet auf Start. Alle Daten kommen weiter nur über die
+  Supabase-Anmeldung und Row Level Security.
+- **Merken:** Das Portal öffnet dort, wo man zuletzt war (Partner oder Backoffice, im Backoffice der letzte Reiter).
+  Daniel hat damit in der Portal-App direkt sein Backoffice.
+- **Abmelden:** "Backoffice abmelden" beendet nur die Dashboard-Sitzung. Abmelden aus dem Portal beendet beide.
+- **Links aus Einladungs- und Passwort-Mails** (Supabase), die auf `/partner/` zeigen, öffnen eine eigene Seite zum
+  Passwort setzen, ohne Partneranmeldung.
+
+**Menü Backoffice (Computer), gruppiert:**
+Übersicht · Tagesgeschäft: Aufgaben, Kalender, Bestellungen · Menschen: Kunden, Partner ·
+Geräte und Ablage: Testmaschinen, Unterlagen · Zahlen: Auswertung, Meine Zahlen · Privat: Wohnung.
+**Leiste unten (Handy):** Übersicht, Aufgaben, Kalender, Bestellungen, Mehr (Rest, Zur Partneransicht, Abmelden).
+
+**Übersicht (neu):** Begrüßung, vier Kennzahlen mit Sprung in den Reiter (Bestellungen warten auf Zuordnung,
+Aufgaben für dich heute fällig, Termine heute, Testgeräte zurückholen), Termine heute mit "Route für den Tag",
+deine fälligen Aufgaben, Bestellungen zum Zuordnen, Neu von Daniel (nur Jasmin).
+
+**Wohnung:** sehen Daniel und Jasmin (Jasmins Antwort am 08.11.2026), also alle mit Backoffice-Zugang, sonst niemand.
+Im heutigen Dashboard war der Reiter ebenfalls für beide sichtbar. Ist das anders gewünscht, reicht in `backoffice.js`
+bei `wohnung` die Rolle auf `['admin']` zu setzen.
+
+## Dashboard-Funktionen alt und neu
+
+Grundlage: `dashboard/app.js` und `daten.js` ganz gelesen. Die Logik ist in `backoffice.js` fast wörtlich übernommen,
+damit nichts wegfällt. Geändert: Pfade zu `../dashboard/formulare/` und `../dashboard/wohnung/`, Beschriftungen für
+Tabellen am Handy, die Anmeldemaske (jetzt im Portal-Look), ein abgesicherter Summen-Rechner (im alten Dashboard warf er
+nach dem Schließen einer Bestellung einen Fehler in der Konsole) und " bis " statt eines Gedankenstrichs bei Uhrzeiten.
+
+| Bereich | Funktionen im Dashboard | Im Backoffice |
+|---|---|---|
+| Anmeldung | Anmelden, Passwort vergessen, Passwort setzen aus Einladungs- und Reset-Link, abgelaufener Link, Abmelden, Rolle admin/team aus `uk_nutzer`, Vorschau mit `?demo` und `&als=daniel` | alles da, Anmeldung im Portal-Look; Vorschau über `?vorschau` (setzt den Demo-Modus von daten.js) |
+| Glocke | Neu von Daniels Assistent, Zahl, Liste, einzeln oder alle als gesehen, nur Jasmin | da, oben rechts; zusätzlich Zahl am Menüpunkt Aufgaben und Block auf der Übersicht |
+| Aufgaben | Board mit Spalten Eingang, Heute, Morgen, Diese Woche, Nächste Woche, Dieser Monat, Dieses Quartal, Später, Ohne Datum, Erledigt; Filter Person und Priorität; "n neu von Daniel"; Karten ziehen; Haken erledigt; automatische Karten Testgerät abholen und Filterwechsel; Neue Aufgabe je Spalte; Dialog mit Art, Termin von bis, ganztägig, Kunde, Ort, Notiz, Löschen | alles da |
+| Kalender | Monat wie bei Apple mit Farben je Art, mehrtägige Termine, Handy mit Punkten und Tagesliste, Liste 7, 14, 31 Tage, Route für den Tag, Hinfahren, Termin per Klick auf einen Tag | alles da |
+| Kunden | Suche, Status, Filter Produkt, Land, Partner, Zeitraum, Vermerk, Filterwechsel fällig, zurücksetzen; Tabelle; Dialog mit allen Feldern, Produkte, Vermerke, Gesundheit nur mit Einwilligung, Testmaschinen, Fragebogen-Link und Antworten, offene Aufgaben, Route, Löschen | alles da; am Handy Karten statt Tabelle |
+| Testmaschinen | zwei Listen, Kacheln, Ziehen zwischen Listen, Gerät anlegen, Ausgeben an Namen mit Kundenanlage, eigene Nutzung, Zurück bis, Kaufinteresse, Filterwechsel-Liste, Verlauf, Löschen | alles da |
+| Bestellungen | Liste, Link zur Bestellseite, Dialog mit Daten und Dateien, Zahlungsbeleg hochladen, Zuordnung und Linie, Beträge mit Summe, Unterschrift des Sponsors, **Vertrag erstellen** (Distributorenvertrag, Nicht-EU, Bestellformular, Ratenzahlungsantrag mit pdf-lib), Mail an Enagic mit Text, Kopieren, Öffnen, als geschickt markieren | alles da; in der Vorschau getestet: Vertrag mit Bestellformular und Ratenzahlungsantrag erstellt |
+| Partner | Zahlen, Filter Art, Tabelle mit Link kopieren, Dialog mit Zahlen, verkauften Geräten, Kunden, Linkvorschlag | alles da; am Handy Karten |
+| Auswertung | Kennzahlen, Käufe je Monat, Gerät, Empfehlung, Fragebogen-Durchschnitte und Veränderung, Nutzung, Link für neue Tester | alles da |
+| Unterlagen | Fragebogen-Link (öffnen, WhatsApp, kopieren), Bereiche, Zugänge mit verdecktem Passwort und Auge, Links, Dateien hochladen und hineinziehen, Vorschaubilder, Öffnen, Teil-Link kopieren, Herunterladen, Bearbeiten, Löschen | alles da |
+| Wohnung | Räume mit Bildern, Einkaufslisten, Haken gekauft, Dazu-Feld, Summen je Währung, gespart, offen von Daniel, Schnäppchen, Dialog mit Preisen und Quittung | alles da |
+| Meine Zahlen | Daniel alle Verkäufe, Jasmin über ihren Link | alles da |
+
+## Bewegung (für Portal und Backoffice)
+
+Kurz, edel, mit Sinn, keine Leuchtflecken, kein Mausschein, keine Wellen. Bei `prefers-reduced-motion` ist alles aus.
+- Bereiche bauen sich auf: die obersten Blöcke kommen nacheinander leicht von unten (55 ms Abstand).
+- Begrüßung: Wort für Wort aus einer unsichtbaren Kante, darunter wächst eine goldene Linie.
+- Zahlen zählen hoch (Kundenstand, Kennzahlen im Backoffice).
+- Lebendiger Kalender: Tage erscheinen als Welle, Punkte springen auf, "heute" atmet einmal.
+- Bestellstand: die Linie füllt sich bis zum aktuellen Schritt.
+- Bildkacheln: Foto rückt beim Zeigen leicht heran, Kachel hebt sich.
+- Schalter Partner | Backoffice: die goldene Schiene gleitet, die Ansicht blendet weich über (View Transitions).
+- Glocke schwingt einmal, wenn es Neues gibt. Dialoge und Fenster gleiten herein.
+
+## Geprüft (Backoffice)
+
+| Punkt | Ergebnis |
+|---|---|
+| Jede Dashboard-Funktion da, auch Vertrag erstellen | ja, Tabelle oben; "Vertrag erstellen" in der Vorschau mit Bestellformular und Ratenzahlungsantrag durchgelaufen |
+| Schalter nur bei Team-Konten, normales Konto kommt nicht über die Adresse hinein | ja: `?vorschau=normal` ohne Schalter, `#bo` landet auf Start, daten.js wird gar nicht geladen; SQL `team` lokal geprüft |
+| Team sieht nichts, was nur admin sieht | Glocke und "Neu von Daniel" nur für Jasmin; Wohnung für beide wie gewünscht |
+| Als Jasmin und als Daniel, Handy und Computer | `bildschirmfotos/backoffice-jasmin-*`, `backoffice-daniel-*` |
+| Klicktests | 25 von 25 im Backoffice, 21 von 21 im Partnerportal, keine Fehler oder Warnungen in der Konsole |
+| Gedankenstriche | 0 Treffer (U+2013, U+2014) in allen neuen und geänderten Dateien |
+| Kontrast | alle neuen Marken und Etiketten mindestens 5 : 1 |
+
+## Offen beim Backoffice
+
+1. `../fragebogen/fragen.js` lag mir nicht vor. Das Backoffice lädt sie wie das Dashboard vom Server. Getestet habe ich
+   Auswertung und Fragebogen-Antworten mit einer Ersatzdatei, die nicht mitgeliefert wird.
+2. pdf-lib (für Vertrag erstellen) und pdf.js (Vorschaubilder) kommen wie im Dashboard von cdnjs. In meiner Testumgebung
+   war cdnjs gesperrt, getestet habe ich mit derselben pdf-lib 1.17.1 aus dem npm-Paket.
+3. Die Beispieldaten von `daten.js` haben keine Bestellungen. Damit "Vertrag erstellen" in der Vorschau vorführbar ist,
+   ergänzt `vorschau.js` zwei erfundene Bestellungen und einen Dateispeicher im Browser, nur mit `?vorschau`.
+4. Passwort-Mails aus dem Backoffice führen zurück auf `/partner/`, aus dem alten Dashboard weiter auf `/dashboard/`.
+5. Sobald Jasmin das Backoffice abgenommen hat, kann das alte Dashboard abgeschaltet werden (nicht von mir gemacht).

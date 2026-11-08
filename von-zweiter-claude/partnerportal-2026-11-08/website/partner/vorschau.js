@@ -3,6 +3,9 @@
 // ?vorschau=leer       angemeldet, aber noch keine Termine und Kunden (Kalender bleibt unsichtbar)
 // ?vorschau=gesperrt   Testzeit abgelaufen, nur einige Bereiche frei
 // ?vorschau=anmelden   Anmeldeseite
+// ?vorschau=normal     Partnerkonto ohne Team-Markierung: kein Schalter, kein Backoffice
+// Backoffice mit Beispieldaten des Dashboards (daten.js im Demo-Modus): #bo, als Daniel zusätzlich &als=daniel,
+// erste Anmeldung zeigen mit &bo-anmelden
 // Alle Namen sind erfunden. Es wird nichts gespeichert und nichts verschickt.
 window.Vorschau = (function () {
   const q = new URLSearchParams(location.search);
@@ -18,6 +21,7 @@ window.Vorschau = (function () {
     abwicklung: 'daniel', kalender: '0123456789abcdef0123456789abcdef0123', bestellungen: 3,
     seite: { text: 'Ich zeige dir gern, was in deinem Wasser steckt. Melde dich einfach.', whatsapp: '+49 170 1234567' },
     tg_code: 'a1b2c3d4e5f60718', tg_verbunden: modus !== 'leer', assistent_bot: 'ursprungskraft_assistent_bot',
+    team: modus !== 'normal',  // ?vorschau=normal: ein gewöhnliches Partnerkonto ohne Backoffice
     zugang: modus === 'gesperrt' ? { bereiche: ['kunden', 'termine'], test_bis: tag(-2) } : { bereiche: null, test_bis: tag(9) },
   };
 
@@ -59,9 +63,33 @@ window.Vorschau = (function () {
   ];
 
   let angemeldet = modus !== 'anmelden';
+  // Backoffice-Vorschau: daten.js hat im Demo-Modus keine Bestellungen und keinen Bestellspeicher. Damit "Vertrag erstellen"
+  // mit allen Formularen vorführbar ist, kommen hier zwei erfundene Bestellungen und ein Dateispeicher im Browser dazu.
+  // daten.js selbst bleibt unverändert, ergänzt wird nur das Objekt im Browser.
+  function dashboard(D) {
+    if (D.__vorschau) return; D.__vorschau = true;
+    const dateien = new Map();
+    const unterschrift = () => new Promise((ok) => { const c = document.createElement('canvas'); c.width = 400; c.height = 120; const x = c.getContext('2d');
+      x.strokeStyle = '#1F2A44'; x.lineWidth = 3; x.beginPath(); x.moveTo(20, 80); x.bezierCurveTo(80, 10, 120, 110, 170, 60); x.bezierCurveTo(210, 20, 260, 100, 380, 50); x.stroke(); c.toBlob(ok, 'image/png'); });
+    let best = [
+      { id: 'vb1', nummer: 1101, erstellt: vor(1), status: 'Neu', von: 'anna-beispiel', sponsor: null, linie: null, angaben: {}, pdfs: [], dateien: { unterschrift: 'vb1/unterschrift.png' },
+        daten: { vorname: 'Beispiel Paul', nachname: 'Meier', anrede: 'Herr', geburtsdatum: '1980-05-17', strasse: 'Musterweg 4', plz: '79098', ort: 'Freiburg', land: 'Deutschland', land_kurz: 'DE',
+          handy: '+49 170 0000000', email: 'paul@beispiel.de', als: 'Verbraucher', k8: 'ja', zahlung: 'raten', raten_anzahl: '10', zahltag: '15', iban: 'DE00 0000 0000 0000 0000 00', bic: 'BEISPIEL' } },
+      { id: 'vb2', nummer: 1088, erstellt: vor(9), status: 'An Enagic geschickt', von: 'jasmin', sponsor: 'jasmin', linie: '2', angaben: { preis: 4600, mwst: 874, versand: 12 }, pdfs: [], dateien: { unterschrift: 'vb2/unterschrift.png' },
+        daten: { vorname: 'Beispiel Eva', nachname: 'Sommer', strasse: 'Lindenstraße 9', plz: '20095', ort: 'Hamburg', land: 'Deutschland', land_kurz: 'DE', email: 'eva@beispiel.de', als: 'Verbraucher', k8: 'ja', zahlung: 'ueberweisung' } },
+    ];
+    const altAlle = D.alle, altSpeichern = D.speichern;
+    D.alle = (t) => (t === 'uk_bestellungen' ? Promise.resolve(best.map((b) => ({ ...b }))) : altAlle(t));
+    D.speichern = (t, z) => { if (t !== 'uk_bestellungen') return altSpeichern(t, z); const i = best.findIndex((b) => b.id === z.id); best[i] = { ...best[i], ...z }; return Promise.resolve({ ...best[i] }); };
+    D.bestellHochladen = async (pfad, blob) => { dateien.set(pfad, blob); return pfad; };
+    D.bestellDatei = async (pfad) => { if (dateien.has(pfad)) return dateien.get(pfad); if (/unterschrift/.test(pfad)) return unterschrift(); throw new Error('Datei fehlt'); };
+    D.bestellLink = async (pfad) => URL.createObjectURL(await D.bestellDatei(pfad));
+    D.sponsoren = async () => ({ jasmin: { name: 'Jasmin Groth', id: '21000000000', email: 'jasmin@beispiel.de' }, daniel: { name: 'Daniel Zürcher', id: '', email: '' } });
+  }
+
   const warte = (x) => new Promise((ok) => setTimeout(() => ok({ data: x, error: null }), 120));
   return {
-    modus,
+    modus, dashboard,
     rpc(name, a = {}) {
       switch (name) {
         case 'uk_partner_daten': return warte(angemeldet ? partner : null);
