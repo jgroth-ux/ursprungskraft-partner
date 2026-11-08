@@ -91,6 +91,8 @@ window.Vorschau = (function () {
   return {
     modus, dashboard,
     rpc(name, a = {}) {
+      // Für Klicktests: wie oft jede Funktion abgerufen wurde (window.__abrufe)
+      (window.__abrufe = window.__abrufe || {})[name] = (window.__abrufe[name] || 0) + 1;
       switch (name) {
         case 'uk_partner_daten': return warte(angemeldet ? partner : null);
         case 'uk_partner_kunden': return warte(JSON.parse(JSON.stringify(kunden)));

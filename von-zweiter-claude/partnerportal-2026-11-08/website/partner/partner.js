@@ -1,6 +1,7 @@
 // Partnerportal Ursprungskraft, neu gebaut am 08.11.2026 (Jasmin: "wie eine App", Oliv und Gold).
-// Bereiche: Start (nächste Termine), Kunden (Kundendatenbank), Termine (Monatsansicht und Kalender-Abo), Werkzeuge
-// (Wasser-Check-Seite, Flyer, Bestell-Link, Assistent), Flyer, Wissen, Neuigkeiten, Mehr für dein Geschäft, App, Konto.
+// Bereiche: Start (nächste Termine), Kunden (Kundendatenbank), Termine (Liste und Monat, Kalender-Abo), Tools
+// (Landingpage, Flyer, Bestell-Link, Assistent), Flyer, Wissen, Neuigkeiten, Mehr für dein Geschäft, App, Konto.
+// Korrektur 1 (Jasmin, 08.11.2026): eine Spalte, kleiner, heller Look, Kunden ohne Neuladen, echte Ansichten statt Fotos.
 // Datenbank nur über Funktionen uk_partner_* mit Sitzungsschlüssel, nie direkt über Tabellen.
 // Neue Funktionen: supabase/umbau-2026-11-08c-partnerportal-neu-*.sql. Fehlen sie noch, läuft das Portal mit den alten weiter.
 // Vorschau mit Probedaten: ?vorschau (siehe vorschau.js).
@@ -93,7 +94,7 @@
     start: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/>',
     kunden: '<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c.6-3.3 2.8-5 5.5-5s4.9 1.7 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.8 14.6c2.3.2 4 1.7 4.6 4.9"/>',
     termine: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h2M14 14h2M8 17h2"/>',
-    werkzeuge: '<path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5"/><path d="M4 4l5 5M4 4v3h3"/>',
+    tools: '<path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5"/><path d="M4 4l5 5M4 4v3h3"/>',
     flyer: '<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="9.5" cy="9" r="2"/><path d="M4 17l5-4 4 3 3-2 4 3"/>',
     wissen: '<path d="M4 5.5C6.5 4 9.5 4 12 5.5v14C9.5 18 6.5 18 4 19.5z"/><path d="M20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/>',
     neuigkeiten: '<path d="M4 10v4h3l7 4V6L7 10z"/><path d="M17.5 9a4 4 0 0 1 0 6"/>',
@@ -134,7 +135,7 @@
   const BEREICHE = {
     kunden: { name: 'Kundendatenbank', bild: '../bilder/flyer/freunde.jpg', nutzen: ['Alle Interessenten deiner Seite automatisch an einem Ort', 'Käufer mit Bestellstand: bestellt, beim Hersteller, Gerät da', 'Notizen, Stufe heiß, warm, kalt und wann du dich wieder meldest'] },
     termine: { name: 'Termine und Kalender', bild: '../bilder/flyer/zwei-glaeser.jpg', nutzen: ['Monatsansicht mit allen Terminen und Rückrufen', 'Verbunden mit dem Kalender auf deinem Handy', 'Erinnerung 30 Minuten vorher'] },
-    seite: { name: 'Deine Wasser-Check-Seite', bild: '../bilder/flyer/frau-kueche.jpg', nutzen: ['Eine fertige Seite rund ums Wasser mit deinem Namen', 'Wer darüber anfragt, landet bei deinen Kunden', 'Knöpfe für WhatsApp, Anruf und Termin'] },
+    seite: { name: 'Deine Landingpage', bild: '', nutzen: ['Eine fertige Seite rund ums Wasser mit deinem Namen', 'Wer darüber anfragt, landet bei deinen Kunden', 'Knöpfe für WhatsApp, Anruf und Termin'] },
     flyer: { name: 'Flyer erstellen', bild: '../bilder/flyer/karaffe.jpg', nutzen: ['Einladungen in vier Formaten, fertig in zwei Minuten', '17 Motive und vier Farbwelten', 'Für WhatsApp, Instagram, Facebook und zum Ausdrucken'] },
     assistent: { name: 'Telegram-Assistent', bild: '../bilder/flyer/wasserhahn.jpg', nutzen: ['Meldet dir jede neue Anfrage sofort aufs Handy', 'Nimmt Termine per Chat an', 'Schickt dir morgens, was heute ansteht'] },
     wissen: { name: 'Wissen und Schulung', bild: '../bilder/flyer/glas-tropfen.jpg', nutzen: ['Unterlagen zum Weitergeben', 'Produktwissen zu jedem Gerät', 'Antworten auf die häufigsten Einwände'] },
@@ -153,13 +154,10 @@
   function gesperrt(b) {
     const x = BEREICHE[b];
     const mail = `mailto:${KONTAKT}?subject=${encodeURIComponent('Freischalten: ' + x.name)}&body=${encodeURIComponent(`Hallo Daniel und Jasmin,\n\nich möchte gern "${x.name}" im Partnerportal freischalten.\n\n${nameVon(S.p)}`)}`;
-    return `<section class="gesperrt">
-      <figure style="background-image:url('${x.bild}')"></figure>
-      <div class="text"><p class="kicker">Noch nicht freigeschaltet</p><h2>${esc(x.name)}</h2>
-        <p>Das bekommst du, sobald der Bereich frei ist:</p>
+    return `<section class="gesperrt"><p class="kicker">${ico('schloss')} Noch nicht freigeschaltet</p><h2>${esc(x.name)}</h2>
         <ul>${x.nutzen.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
         <p class="preis">Preis: [Preis folgt]</p>
-        <a class="knopf" href="${mail}">${ico('schloss')} Freischalten</a></div></section>`;
+        <a class="knopf" href="${mail}">Freischalten</a></section>`;
   }
 
   // ---------- Daten laden ----------
@@ -218,7 +216,7 @@
         <main class="zugang-form" id="inhalt">
           <p class="kicker">Partnerportal</p>
           <h1>Dein Arbeitsplatz als Partner.</h1>
-          <p class="vorspann">Termine, Kunden und alle Werkzeuge für dein Geschäft an einem Ort. Auf dem Handy und am Computer.</p>
+          <p class="vorspann">Termine, Kunden und alle Tools für dein Geschäft an einem Ort. Auf dem Handy und am Computer.</p>
           <div class="reiter" role="tablist">
             <button type="button" role="tab" data-r="anmelden" aria-selected="${reiter === 'anmelden'}">Anmelden</button>
             <button type="button" role="tab" data-r="registrieren" aria-selected="${reiter === 'registrieren'}">Neu registrieren</button>
@@ -274,10 +272,10 @@
 
   // ---------- App-Rahmen ----------
   const MENUE = [
-    ['start', 'Start'], ['kunden', 'Kunden'], ['termine', 'Termine'], ['werkzeuge', 'Werkzeuge'], ['flyer', 'Flyer'], ['wissen', 'Wissen'], ['neuigkeiten', 'Neuigkeiten'],
+    ['start', 'Start'], ['kunden', 'Kunden'], ['termine', 'Termine'], ['tools', 'Tools'], ['flyer', 'Flyer'], ['wissen', 'Wissen'], ['neuigkeiten', 'Neuigkeiten'],
     null, ['mehr', 'Mehr für dein Geschäft'], ['app', 'App aufs Handy'], ['konto', 'Konto'],
   ];
-  const LEISTE = [['start', 'Start'], ['kunden', 'Kunden'], ['termine', 'Termine'], ['werkzeuge', 'Werkzeuge'], ['menue', 'Mehr']];
+  const LEISTE = [['start', 'Start'], ['kunden', 'Kunden'], ['termine', 'Termine'], ['tools', 'Tools'], ['menue', 'Mehr']];
   const ZU_MEHR = ['flyer', 'wissen', 'neuigkeiten', 'mehr', 'app', 'konto', 'menue'];
   const BO_ICO = { uebersicht: 'start', aufgaben: 'haken', kalender: 'termine', bestellungen: 'paket', kunden: 'kunden', partner: 'partner', maschinen: 'geraet', unterlagen: 'ordner', auswertung: 'zahlen', meine: 'zahlen', wohnung: 'start', menue: 'punkte' };
   const BO_LEISTE = [['uebersicht', 'Übersicht'], ['aufgaben', 'Aufgaben'], ['kalender', 'Kalender'], ['bestellungen', 'Bestellungen'], ['menue', 'Mehr']];
@@ -352,14 +350,17 @@
   }
 
   // ---------- Router ----------
-  const SEITEN = { start, kunden, termine, werkzeuge, flyer, wissen, neuigkeiten, mehr, app, konto, menue };
-  const TITEL = { start: 'Start', kunden: 'Kunden', termine: 'Termine', werkzeuge: 'Werkzeuge', flyer: 'Flyer erstellen', wissen: 'Wissen', neuigkeiten: 'Neuigkeiten', mehr: 'Mehr für dein Geschäft', app: 'App aufs Handy', konto: 'Konto', menue: 'Mehr' };
+  const SEITEN = { start, kunden, termine, tools, flyer, wissen, neuigkeiten, mehr, app, konto, menue };
+  const TITEL = { start: 'Start', kunden: 'Kunden', termine: 'Termine', tools: 'Tools', flyer: 'Flyer erstellen', wissen: 'Wissen', neuigkeiten: 'Neuigkeiten', mehr: 'Mehr für dein Geschäft', app: 'App aufs Handy', konto: 'Konto', menue: 'Mehr' };
   let lauf = 0;
   async function zeigen() {
     if (!S.p) return;
-    const [ziel, ...rest] = (location.hash.slice(1) || 'start').split('/');
+    let [ziel, ...rest] = (location.hash.slice(1) || 'start').split('/');
     if (ziel === 'bo') return backoffice(rest[0]);
+    if (ziel === 'werkzeuge') { history.replaceState(null, '', location.pathname + location.search + '#tools' + (rest.length ? '/' + rest.join('/') : '')); ziel = 'tools'; }
     if (modus !== 'partner') await modusSetzen('partner');
+    // Kunden: Liste und Karte wechseln ohne neues Laden (Korrektur 1)
+    if (ziel === 'kunden' && frei('kunden') && kundenWeich(rest)) { lauf++; markieren('kunden'); document.title = 'Kunden · Partnerportal'; return; }
     const seite = SEITEN[ziel] ? ziel : 'start';
     const nr = ++lauf;
     markieren(seite);
@@ -407,7 +408,7 @@
     markieren('bo/menue');
     document.getElementById('inhalt').innerHTML = `${kopf('Mehr im Backoffice', '')}
       <nav class="mehr-liste">${R.map(([z, n, g]) => `<a href="#bo/${z}">${ico(BO_ICO[z] || 'start')}<span><b>${n}</b><small>${esc(g)}</small></span>${ico('rechts')}</a>`).join('')}
-      <a href="#start">${ico('start')}<span><b>Zur Partneransicht</b><small>Deine Termine, Kunden und Werkzeuge</small></span>${ico('rechts')}</a></nav>
+      <a href="#start">${ico('start')}<span><b>Zur Partneransicht</b><small>Deine Termine, Kunden und Tools</small></span>${ico('rechts')}</a></nav>
       <p style="margin-top:var(--a-4)"><button class="knopf zweit" type="button" data-bo-ab>Backoffice abmelden</button></p>`;
     document.querySelector('#inhalt [data-bo-ab]').onclick = boAbmelden;
     Bewegung.auftritt(document.getElementById('inhalt'));
@@ -464,37 +465,47 @@
   window.addEventListener('hashchange', zeigen);
 
   // ================= START =================
+  // Korrektur 1: eine Spalte. Wo bin ich, was ist heute, was als Nächstes. Keine Monatsansicht daneben.
   function gruss() {
     const h = Number(new Date().toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit' }));
     return h < 11 ? 'Guten Morgen' : h < 18 ? 'Hallo' : 'Guten Abend';
   }
-  function terminZeile(e, mitTag) {
+  // Eine Zeile im Terminplan. Alle Knöpfe leise, der Hauptknopf der Seite steht oben.
+  function terminZeile(e, opt = {}) {
     if (e.typ === 'melden') {
       const k = e.k;
-      return `<article class="termin melden"><div class="zeit">${mitTag ? '' : 'Melden'}</div><div>
-        <p class="art">Wieder melden</p><h3><a href="#kunden/${esc(k.id)}">${esc(nameVon(k))}</a></h3>
+      return `<article class="termin melden"><div class="zeit">Melden</div><div class="was">
+        <h3><a href="#kunden/${esc(k.id)}">${esc(nameVon(k))}</a></h3>
         ${k.verblieben ? `<p class="ort">${esc(k.verblieben)}</p>` : ''}
-        <div class="knoepfe">${k.telefon ? `<a class="knopf zweit" href="tel:${esc(tel(k.telefon))}">${ico('telefon')} Anrufen</a>` : ''}<a class="knopf still" href="#kunden/${esc(k.id)}">Kundenkarte</a></div></div></article>`;
+        ${k.telefon ? `<div class="knoepfe"><a class="knopf zweit" href="tel:${esc(tel(k.telefon))}">${ico('telefon')} Anrufen</a></div>` : ''}</div></article>`;
     }
     const t = e.t, ende = new Date(new Date(t.beginn).getTime() + (t.minuten || 60) * 60000);
     const k = (S.kunden || []).find((x) => x.id === t.kunde_id);
-    return `<article class="termin${e.tag === heute() ? ' heute' : ''}"><div class="zeit">${uhr(t.beginn)}<small>bis ${uhr(ende.toISOString())}</small></div><div>
-      <p class="art">${esc(t.art)}</p><h3>${t.name ? (t.kunde_id ? `<a href="#kunden/${esc(t.kunde_id)}">${esc(t.name)}</a>` : esc(t.name)) : esc(t.notiz || t.art)}</h3>
-      ${t.ort ? `<p class="ort">${istLink(t.ort) ? `<a href="${esc(t.ort)}" target="_blank" rel="noopener">Link zum Treffen</a>` : esc(t.ort)}</p>` : ''}
+    const knoepfe = [
+      istAdresse(t.ort) && `<a class="knopf zweit" href="${route(t.ort)}" target="_blank" rel="noopener">${ico('route')} Route</a>`,
+      istLink(t.ort) && `<a class="knopf zweit" href="${esc(t.ort)}" target="_blank" rel="noopener">Teilnehmen</a>`,
+      k?.telefon && `<a class="knopf zweit" href="tel:${esc(tel(k.telefon))}">${ico('telefon')} Anrufen</a>`,
+      opt.loeschen && `<button class="knopf still" type="button" data-weg="${esc(t.id)}">Löschen</button>`,
+    ].filter(Boolean).join('');
+    return `<article class="termin"><div class="zeit">${uhr(t.beginn)}<small>bis ${uhr(ende.toISOString())}</small></div><div class="was">
+      <h3>${t.name ? (t.kunde_id ? `<a href="#kunden/${esc(t.kunde_id)}">${esc(t.name)}</a>` : esc(t.name)) : esc(t.notiz || t.art)}</h3>
+      <p class="art">${esc(t.art)}</p>
+      ${t.ort && !istLink(t.ort) ? `<p class="ort">${esc(t.ort)}</p>` : ''}
       ${t.name && t.notiz ? `<p class="ort">${esc(t.notiz)}</p>` : ''}
-      <div class="knoepfe">${istAdresse(t.ort) ? `<a class="knopf" href="${route(t.ort)}" target="_blank" rel="noopener">${ico('route')} Route</a>` : ''}
-        ${istLink(t.ort) ? `<a class="knopf" href="${esc(t.ort)}" target="_blank" rel="noopener">Teilnehmen</a>` : ''}
-        ${k?.telefon ? `<a class="knopf zweit" href="tel:${esc(tel(k.telefon))}">${ico('telefon')} Anrufen</a>` : ''}</div></div></article>`;
+      ${knoepfe ? `<div class="knoepfe">${knoepfe}</div>` : ''}</div></article>`;
   }
-  function plan(alle, tage = 14, max = 8) {
-    const h = heute(), bis = plusTage(h, tage);
-    const liste = alle.filter((e) => e.tag >= h && e.tag <= bis && !(e.typ === 'termin' && new Date(e.t.beginn).getTime() + (e.t.minuten || 60) * 60000 < Date.now())).slice(0, max);
-    // Überfälliges "Wieder melden" gehört zu heute
-    const alt = alle.filter((e) => e.typ === 'melden' && e.tag < h).map((e) => ({ ...e, tag: h }));
+  // Einträge ab heute, nach Tagen gruppiert, in einer weißen Liste. Überfälliges "Wieder melden" steht bei heute.
+  function plan(alle, opt = {}) {
+    const h = heute(), von = opt.von || h, bis = plusTage(h, opt.tage ?? 14);
+    const vorbei = (e) => e.typ === 'termin' && new Date(e.t.beginn).getTime() + (e.t.minuten || 60) * 60000 < Date.now();
+    let liste = alle.filter((e) => e.tag >= von && e.tag <= bis && !vorbei(e));
+    if (von <= h) liste = [...alle.filter((e) => e.typ === 'melden' && e.tag < h).map((e) => ({ ...e, tag: h })), ...liste];
+    liste = liste.slice(0, opt.max ?? 99);
+    if (!liste.length) return '';
     const gruppen = {};
-    for (const e of [...alt, ...liste]) (gruppen[e.tag] = gruppen[e.tag] || []).push(e);
-    return Object.keys(gruppen).sort().map((t) => `<section class="plan-tag"><h2>${relativ(t) || TAGE[new Date(t + 'T12:00').getDay()]}<small>${tagName(t).split(', ')[1]}</small></h2>
-      <div>${gruppen[t].sort((a, b) => (a.typ === 'melden') - (b.typ === 'melden')).map((e) => terminZeile(e, false)).join('')}</div></section>`).join('');
+    for (const e of liste) (gruppen[e.tag] = gruppen[e.tag] || []).push(e);
+    return `<div class="liste-weiss">${Object.keys(gruppen).sort().map((t) => `${opt.ohneKopf ? '' : `<p class="tag-kopf">${relativ(t) ? relativ(t) + ', ' : ''}${tagName(t)}</p>`}
+      ${gruppen[t].sort((a, b) => (a.typ === 'melden') - (b.typ === 'melden')).map((e) => terminZeile(e, opt)).join('')}`).join('')}</div>`;
   }
   async function start(box, rest, aktuell) {
     const [, , news] = await Promise.all([termineLaden().catch(() => (S.termine = [])), kundenLaden().catch(() => (S.kunden = [])), newsLaden()]);
@@ -504,47 +515,71 @@
     const melden = (S.kunden || []).filter((k) => !k.abgelegt && k.naechster_kontakt && k.naechster_kontakt <= h).length;
     const satz = heuteZahl ? `Heute ${heuteZahl === 1 ? 'steht ein Termin' : `stehen ${heuteZahl} Termine`} an${melden ? `, und ${melden === 1 ? 'eine Person wartet' : `${melden} Personen warten`} auf deinen Anruf` : ''}.`
       : melden ? `Heute ${melden === 1 ? 'wartet eine Person' : `warten ${melden} Personen`} auf deinen Anruf.` : 'Heute ist nichts eingetragen.';
-    const planHtml = plan(alle, 14, 6);
-    const sichtbar = hatTermine();
-    box.innerHTML = `<div class="start">
-      <div>
-        <header class="gruss"><p class="kicker">${tagName(h)}</p><h1 class="woerter">${gruss()}, ${esc(S.p.vorname)}.</h1><p>${satz}</p></header>
-        ${sichtbar ? woche() : ''}
-        <div class="plan">
-          <div class="abschnitt-kopf"><h2>Deine nächsten Termine</h2><a href="#termine">Alle Termine</a></div>
-          ${planHtml || `<div class="heute-leer"><h2>Die nächsten Tage sind frei.</h2><p>Trag deinen nächsten Termin ein. Er landet automatisch im Kalender auf deinem Handy.</p>
-            <div class="knoepfe"><a class="knopf" href="#termine/neu">${ico('plus')} Termin eintragen</a></div></div>`}
-        </div>
-        <section class="abschnitt">
-          <div class="abschnitt-kopf"><h2>Deine Werkzeuge</h2><a href="#werkzeuge">Alle Werkzeuge</a></div>
-          <div class="kacheln drei">
-            ${kachel('#werkzeuge/seite', '../bilder/flyer/klein/frau-kueche.jpg', '1 Ins Gespräch kommen', 'Deine Wasser-Check-Seite', 'Schick sie Interessenten. Wer anfragt, landet bei deinen Kunden.', 'Seite ansehen')}
-            ${kachel('#flyer', '../bilder/flyer/klein/karaffe.jpg', '2 Einladen', 'Flyer erstellen', 'Einladung für deinen Infoabend in zwei Minuten.', 'Flyer erstellen')}
-            ${kachel('#werkzeuge/bestellen', '../bilder/flyer/klein/flasche.jpg', '3 Abschließen', 'Dein Bestell-Link', 'Wer darüber bestellt, wird dir zugeordnet.', 'Link holen')}
-          </div>
-        </section>
-      </div>
-      <aside class="seite-spalte" aria-label="Kalender und Neuigkeiten">
-        ${sichtbar ? `<div class="monat" id="monat"></div>` : ''}
-        <section class="kasten-dunkel"><p class="kicker">Neuigkeiten von Daniel und Jasmin</p>
-          ${news.length ? news.slice(0, 3).map(neuigkeit).join('') : '<p class="neuigkeit">Noch keine Neuigkeiten.</p>'}
-          ${news.length > 3 ? '<p style="margin-top:var(--a-2)"><a href="#neuigkeiten">Alle Neuigkeiten</a></p>' : ''}</section>
-        ${istApp() ? '' : `<a class="kachel" href="#app"><div class="text"><p class="nr">Tipp</p><h3>Das Portal als App aufs Handy</h3><p>Ein Tipp auf dem Startbildschirm, ganz ohne App Store.</p><span class="weiter">So geht's</span></div></a>`}
-      </aside></div>`;
-    if (sichtbar) monat(document.getElementById('monat'), { klick: (t) => (location.hash = 'termine/' + t) });
+    const heuteHtml = plan(alle, { tage: 0, ohneKopf: true });
+    const spaeterHtml = plan(alle, { von: plusTage(h, 1), tage: 7, max: 5 });
+    box.innerHTML = `
+      <header class="gruss"><p class="kicker">${tagName(h)}</p><h1 class="woerter">${gruss()}, ${esc(S.p.vorname)}.</h1><p>${satz}</p></header>
+      <section class="abschnitt" style="margin-top:0"><div class="abschnitt-kopf"><h2>Heute</h2><a href="#termine/neu">Termin eintragen</a></div>
+        ${heuteHtml || `<div class="leer-karte"><h2>Heute ist alles frei.</h2><p>Zeit für einen Anruf bei jemandem, der lange nichts von dir gehört hat.</p></div>`}</section>
+      <section class="abschnitt"><div class="abschnitt-kopf"><h2>Die nächsten Tage</h2><a href="#termine">Alle Termine</a></div>
+        ${spaeterHtml || '<p class="leer">In den nächsten sieben Tagen steht noch nichts an.</p>'}</section>
+      ${news.length ? `<section class="abschnitt"><div class="abschnitt-kopf"><h2>Neu von Daniel und Jasmin</h2><a href="#neuigkeiten">Alle Neuigkeiten</a></div>
+        <div class="liste-weiss">${news.slice(0, 2).map(neuigkeit).join('')}</div></section>` : ''}
+      <section class="abschnitt"><div class="abschnitt-kopf"><h2>Deine Tools</h2><a href="#tools">Alle Tools</a></div>
+        <div class="kacheln">
+          ${kachel('#tools/seite', mock('landing'), 'Deine Landingpage', 'Interessenten lesen in Ruhe nach und melden sich bei dir.')}
+          ${kachel('#flyer', mock('flyer'), 'Flyer erstellen', 'Deine Einladung zum Infoabend, fertig in zwei Minuten.')}
+          ${kachel('#tools/bestellen', mock('qr'), 'Dein Bestell-Link', 'Wer darüber bestellt, wird dir zugeordnet.')}
+        </div></section>
+      ${istApp() ? '' : `<a class="app-tipp" href="#app"><img src="symbol/apple-touch-icon.png" alt=""><span>Das Portal mit einem Tipp auf dem Startbildschirm, ganz ohne App Store. <b>So geht's</b></span></a>`}`;
+    mocksFertig(box);
   }
-  // Wochenleiste für Handy und Tablet: die nächsten 7 Tage mit Punkten, oben auf der Startseite
-  function woche() {
-    const alle = eintraege(), h = heute();
-    return `<nav class="woche" aria-label="Die nächsten 7 Tage">${[0, 1, 2, 3, 4, 5, 6].map((i) => {
-      const t = plusTage(h, i), d = new Date(t + 'T12:00'), auf = alle.filter((e) => e.tag === t || (i === 0 && e.typ === 'melden' && e.tag < h));
-      return `<a href="#termine/${t}"${i === 0 ? ' aria-current="date"' : ''}><small>${['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][d.getDay()]}</small><b>${d.getDate()}</b><i>${auf.slice(0, 3).map((e) => `<span class="${e.typ === 'melden' ? 'm' : ''}"></span>`).join('')}</i></a>`;
-    }).join('')}</nav>`;
-  }
-  const kachel = (href, bild, nr, titel, text, weiter) => `<a class="kachel" href="${href}"><figure style="background-image:url('${bild}')"></figure>
-    <div class="text"><p class="nr">${esc(nr)}</p><h3>${esc(titel)}</h3><p>${esc(text)}</p><span class="weiter">${esc(weiter)}</span></div></a>`;
+  const kachel = (href, bild, titel, text) => `<a class="kachel" href="${href}"><div class="bild">${bild}</div>
+    <div class="text"><h3>${esc(titel)}</h3><p>${esc(text)}</p></div></a>`;
   const neuigkeit = (n) => `<article class="neuigkeit${n.erstellt > neuAb() ? ' neu' : ''}"><small>${esc(n.von || 'Ursprungskraft')}, ${relativ(tagVon(n.erstellt)) || tagKurz(n.erstellt)}</small><p>${esc(n.text)}</p></article>`;
   const istApp = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
+  // ---------- Echte Ansichten statt Deko-Fotos (Korrektur 1, Punkt 6) ----------
+  // Jedes Bild zeigt, worum es geht. Alles selbst gebaut aus HTML und CSS, der Flyer kommt aus flyer.js.
+  function mock(art, opt = {}) {
+    const p = S.p || {}, ini = `${(p.vorname || '?')[0]}${(p.nachname || '')[0] || ''}`;
+    const sp = p.seite || {};
+    if (art === 'landing') {
+      // Am Server die echte Seite im Handy (gleiche Adresse, gleiche Domain). In der Vorschau der Nachbau.
+      if (opt.echt && !V) return `<div class="mock-handy"><div class="schirm"><iframe src="${esc(SEITE + encodeURIComponent(p.kurz))}" title="Deine Landingpage" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div></div>`;
+      return `<div class="mock-handy"><div class="schirm mock-landing"><div class="hero"></div><div class="inhalt">
+        <b>Was steckt in deinem Wasser?</b>Erfahr, was wirklich aus deinem Hahn kommt.
+        <div class="person"><i>${esc(ini)}</i><span>${esc(sp.text || `${p.vorname || ''} beantwortet deine Fragen.`)}</span></div>
+        <span class="k">WhatsApp schreiben</span><span class="k zweit">Anrufen</span></div></div></div>`;
+    }
+    if (art === 'eigene-landing') {
+      return `<div class="mock-handy"><div class="schirm mock-landing"><div class="hero" style="background-image:url('../bilder/flyer/klein/frau-kueche.jpg')"></div><div class="inhalt">
+        <div class="person"><i>${esc(ini)}</i><span><b style="font-size:10px;margin:0">${esc(nameVon(p) || 'Dein Name')}</b>Deine Beraterin vor Ort</span></div>
+        Ich zeige dir, was in deinem Wasser steckt.<span class="k">Termin ausmachen</span></div></div></div>`;
+    }
+    if (art === 'flyer') return `<div class="mock-flyer" data-mock-flyer></div>`;
+    if (art === 'qr') return `<div class="mock-qr"><div class="qr">${qr(BESTELLSEITE + encodeURIComponent(p.kurz || ''))}</div><small>Dein Bestell-Link</small></div>`;
+    if (art === 'chat') {
+      return `<div class="mock-handy"><div class="schirm mock-chat"><div class="titel"><img src="symbol/favicon-48.png" alt="">Dein Assistent</div><div class="verlauf">
+        <div class="blase"><b>Neue Anfrage über deine Seite</b>\nBeispiel Sabine K., Freiburg\nAm besten erreichbar: abends</div>
+        <div class="tasten"><span>Angerufen</span><span>In 2 Tagen</span></div>
+        <div class="blase">Guten Morgen, ${esc(p.vorname || 'Anna')}!\nHeute 18:30 Termin vor Ort\nHeute melden: Markus F.</div></div></div></div>`;
+    }
+    if (art === 'ebook') return `<div class="mock-buch"><div class="foto"></div><div class="text"><small>Kostenloses E-Book</small><b>Dein Wasser kann mehr</b><em>von ${esc(nameVon(p) || 'dir')}</em></div></div>`;
+    if (art === 'hefte') return `<div class="mock-hefte"><img src="unterlagen/wasser-guide.jpg" alt=""><img src="unterlagen/reinigung-anleitung.jpg" alt=""></div>`;
+    if (art === 'liste') return `<div class="mock-liste"><p><i style="background:var(--heiss)"></i>Beispiel Sabine K.<span class="marke-klein" style="margin-left:auto">Termin</span></p><p><i style="background:var(--warm)"></i>Beispiel Markus F.<span class="marke-klein" style="margin-left:auto">Kontaktiert</span></p><p><i style="background:var(--kalt)"></i>Beispiel Jonas W.<span class="marke-klein" style="margin-left:auto">Neu</span></p></div>`;
+    return '';
+  }
+  // Flyer-Ansichten mit flyer.js zeichnen, sobald Schriften und Foto da sind
+  async function mocksFertig(box) {
+    const ziele = [...box.querySelectorAll('[data-mock-flyer]')]; if (!ziele.length || !window.Flyer) return;
+    let d; try { d = JSON.parse(localStorage.getItem('uk-partner-flyer') || 'null'); } catch { d = null; }
+    const U = Flyer.UEBERSCHRIFTEN;
+    d = Object.assign({ art: 'Einladung', titel: U[0][0], text: U[0][1], zeit: '19:00', name: nameVon(S.p), farbe: 'blau', foto: 'frau-kueche' }, d || {});
+    if (!Flyer.FOTOS[d.foto]) d.foto = 'frau-kueche';
+    try { await Promise.all([Flyer.vorbereiten(), Flyer.fotoLaden(d.foto)]); } catch { return; }
+    for (const z of ziele) { const c = document.createElement('canvas'); Flyer.zeichnen(c, 'story', d.farbe, d.foto, d, 0.12); z.replaceChildren(c); }
+  }
 
   // ---------- Monatsansicht ----------
   function monat(el, opt = {}) {
@@ -562,45 +597,45 @@
       }
       el.innerHTML = `<div class="monat-kopf"><button type="button" data-schritt="-1" aria-label="Voriger Monat">${ico('links')}</button><h2>${MONATE[mo - 1]} ${j}</h2><button type="button" data-schritt="1" aria-label="Nächster Monat">${ico('rechts')}</button></div>
         <div class="tage">${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((x) => `<span class="wt">${x}</span>`).join('')}${zellen.join('')}</div>
-        <p class="legende"><span>Termin</span><span class="m">Wieder melden</span></p>${opt.fuss || ''}`;
+        <p class="legende"><span>Termin</span><span class="m">Wieder melden</span></p>`;
       el.querySelectorAll('[data-schritt]').forEach((b) => (b.onclick = () => { const d = new Date(j, mo - 1 + Number(b.dataset.schritt), 1); m = d.toLocaleDateString('sv-SE').slice(0, 7); malen(); }));
       el.querySelectorAll('[data-tag]').forEach((b) => (b.onclick = () => opt.klick && opt.klick(b.dataset.tag)));
-      opt.danach && opt.danach(el);
     };
     malen();
   }
 
   // ================= TERMINE =================
+  // Eine Spalte: oben Heute, darunter die nächsten Termine. Monat nur über den Umschalter. Kalender-Abo zugeklappt am Ende.
+  const T = { ansicht: 'liste' };
+  try { T.ansicht = localStorage.getItem('uk-termine-ansicht') === 'monat' ? 'monat' : 'liste'; } catch {}
   async function termine(box, rest, aktuell) {
-    if (!frei('termine')) { box.innerHTML = kopf('Termine', 'Alle Termine und Rückrufe an einem Ort.') + gesperrt('termine'); return; }
+    const neuKnopf = `<button class="knopf" type="button" data-neu>${ico('plus')} Termin eintragen</button>`;
+    if (!frei('termine')) { box.innerHTML = kopf('Termine') + gesperrt('termine'); return; }
     await Promise.all([termineLaden(), kundenLaden().catch(() => (S.kunden = []))]);
     if (!aktuell()) return;
     const tag = /^\d{4}-\d{2}-\d{2}$/.test(rest[0] || '') ? rest[0] : null;
     if (!hatTermine()) {
-      box.innerHTML = `${kopf('Termine', 'Trag hier deine Termine ein. Sobald es Termine gibt, erscheint hier dein Kalender mit Monatsansicht.')}
-        <div class="heute-leer"><h2>Noch keine Termine.</h2><p>Rückrufe, Termine vor Ort, Anrufe und Zoom. Jeder Termin landet auch im Kalender auf deinem Handy.</p>
-        <div class="knoepfe"><button class="knopf" type="button" data-neu>${ico('plus')} Ersten Termin eintragen</button></div></div>`;
+      box.innerHTML = `${kopf('Termine', '', neuKnopf)}
+        <div class="leer-karte"><h2>Noch keine Termine.</h2><p>Rückrufe, Termine vor Ort, Anrufe und Zoom. Jeder Termin erscheint auch im Kalender auf deinem Handy, mit Erinnerung 30 Minuten vorher.</p></div>`;
     } else {
       const alle = eintraege(), h = heute();
-      const liste = tag ? alle.filter((e) => e.tag === tag) : null;
-      box.innerHTML = `${kopf('Termine', '')}
-        <div class="termine-aufbau">
-          <div class="monat-spalte"><div class="monat" id="monat"></div></div>
-          <div>
-            <div class="abschnitt-kopf"><h2>${tag ? `${relativ(tag) ? relativ(tag) + ', ' : ''}${tagName(tag)}` : 'Die nächsten Wochen'}</h2>${tag ? '<a href="#termine">Alle kommenden</a>' : ''}</div>
-            <div class="knoepfe" style="margin-bottom:var(--a-3)"><button class="knopf" type="button" data-neu>${ico('plus')} Termin eintragen</button></div>
-            <div class="plan">${tag ? (liste.length ? `<section class="plan-tag" style="grid-template-columns:1fr"><div>${liste.map((e) => terminZeile(e) + (e.typ === 'termin' ? `<p style="margin:-8px 0 var(--a-2) 0"><button class="knopf still" type="button" data-weg="${esc(e.t.id)}">Termin löschen</button></p>` : '')).join('')}</div></section>` : '<p class="leer">An diesem Tag ist nichts eingetragen.</p>')
-              : (plan(alle, 60, 40) || '<p class="leer">In den nächsten Wochen ist nichts eingetragen.</p>')}</div>
-            ${tag ? '' : `<details class="aufklappen"><summary>Vergangene Termine der letzten 30 Tage</summary>${alle.filter((e) => e.typ === 'termin' && e.tag < h).reverse().map((e) => `<p class="leise">${tagKurz(e.tag)}, ${uhr(e.t.beginn)} Uhr: ${esc(e.t.art)}${e.t.name ? ', ' + esc(e.t.name) : ''}</p>`).join('') || '<p class="leer">Keine.</p>'}</details>`}
-          </div></div>`;
-      monat(document.getElementById('monat'), {
-        gewaehlt: tag, klick: (t) => (location.hash = 'termine/' + t),
-        fuss: `<div class="abo"><b>Mit deinem Handykalender verbinden</b><p>Einmal verbinden, dann erscheint jeder Termin von selbst im Kalender auf deinem Handy. Gib den Link nicht weiter, sonst sieht jemand anders deine Termine.</p>
-          <div class="knoepfe"><a class="knopf zweit" href="${esc(KALENDER.replace('https://', 'webcal://') + S.p.kalender)}">iPhone</a>
-          <a class="knopf zweit" href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(KALENDER.replace('https://', 'webcal://') + S.p.kalender)}" target="_blank" rel="noopener">Google Kalender</a>
-          <button class="knopf still" type="button" data-abo>${ico('kopie')} Link kopieren</button></div></div>`,
-        danach: (el) => { el.querySelector('[data-abo]').onclick = () => kopieren(KALENDER + S.p.kalender, 'Kalender-Link kopiert.'); },
-      });
+      const umschalter = `<div class="umschalter" role="group" aria-label="Ansicht"><button type="button" data-ansicht="liste" aria-pressed="${T.ansicht === 'liste'}">Liste</button><button type="button" data-ansicht="monat" aria-pressed="${T.ansicht === 'monat'}">Monat</button></div>`;
+      const tagListe = (t) => { const l = alle.filter((e) => e.tag === t); return l.length ? `<div class="liste-weiss">${l.map((e) => terminZeile(e, { loeschen: true })).join('')}</div>` : '<p class="leer">An diesem Tag ist nichts eingetragen.</p>'; };
+      const liste = T.ansicht === 'monat'
+        ? `<div class="monat" id="monat"></div>${tag ? `<section class="abschnitt"><div class="abschnitt-kopf"><h2>${relativ(tag) ? relativ(tag) + ', ' : ''}${tagName(tag)}</h2></div>${tagListe(tag)}</section>` : ''}`
+        : tag ? `<section><div class="abschnitt-kopf"><h2>${relativ(tag) ? relativ(tag) + ', ' : ''}${tagName(tag)}</h2><a href="#termine">Alle Termine</a></div>${tagListe(tag)}</section>`
+        : `<section><div class="abschnitt-kopf"><h2>Heute</h2></div>${plan(alle, { tage: 0, ohneKopf: true, loeschen: true }) || '<p class="leer">Heute steht nichts an.</p>'}</section>
+           <section class="abschnitt"><div class="abschnitt-kopf"><h2>Die nächsten Termine</h2></div>${plan(alle, { von: plusTage(h, 1), tage: 60, loeschen: true }) || '<p class="leer">In den nächsten Wochen ist nichts eingetragen.</p>'}</section>`;
+      box.innerHTML = `${kopf('Termine', '', neuKnopf)}${umschalter}${liste}
+        <details class="aufklappen abo"><summary>Termine im Kalender auf deinem Handy</summary>
+          <p>Einmal verbinden, dann erscheint jeder Termin von selbst in deinem Handykalender. Den Link nur für dich behalten, sonst sieht jemand anders deine Termine.</p>
+          <div class="knoepfe"><a class="knopf zweit" href="${esc(KALENDER.replace('https://', 'webcal://') + S.p.kalender)}">Mit iPhone verbinden</a>
+          <a class="knopf zweit" href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(KALENDER.replace('https://', 'webcal://') + S.p.kalender)}" target="_blank" rel="noopener">Mit Google Kalender verbinden</a>
+          <button class="knopf still" type="button" data-abo>${ico('kopie')} Link kopieren</button></div></details>
+        <details class="aufklappen"><summary>Vergangene Termine der letzten 30 Tage</summary>${alle.filter((e) => e.typ === 'termin' && e.tag < h).reverse().map((e) => `<p class="leise klein">${tagKurz(e.tag)}, ${uhr(e.t.beginn)} Uhr: ${esc(e.t.art)}${e.t.name ? ', ' + esc(e.t.name) : ''}</p>`).join('') || '<p class="leer klein">Keine.</p>'}</details>`;
+      if (T.ansicht === 'monat') monat(document.getElementById('monat'), { gewaehlt: tag, klick: (t) => (location.hash = 'termine/' + t) });
+      box.querySelectorAll('[data-ansicht]').forEach((b) => (b.onclick = () => { T.ansicht = b.dataset.ansicht; try { localStorage.setItem('uk-termine-ansicht', T.ansicht); } catch {} zeigen(); }));
+      box.querySelector('[data-abo]').onclick = () => kopieren(KALENDER + S.p.kalender, 'Kalender-Link kopiert.');
       box.querySelectorAll('[data-weg]').forEach((b) => (b.onclick = async () => {
         if (!confirm('Diesen Termin wirklich löschen?')) return;
         const r = await mitSitzung('uk_partner_termin_loeschen', { p_id: b.dataset.weg });
@@ -611,14 +646,15 @@
     box.querySelectorAll('[data-neu]').forEach((b) => (b.onclick = () => terminBlatt({ datum: tag || '' })));
     if (rest[0] === 'neu') terminBlatt({});
   }
-  const kopf = (titel, vorspann, kicker = '') => `<header class="seitenkopf">${kicker ? `<p class="kicker">${esc(kicker)}</p>` : ''}<h1>${esc(titel)}</h1>${vorspann ? `<p class="vorspann">${esc(vorspann)}</p>` : ''}</header>`;
+  // Seitenkopf: Titel links, höchstens ein Hauptknopf rechts
+  const kopf = (titel, vorspann = '', knopf = '') => `<header class="seitenkopf"><h1>${esc(titel)}</h1>${knopf}${vorspann ? `<p class="vorspann">${esc(vorspann)}</p>` : ''}</header>`;
 
   function terminBlatt(vor = {}) {
     const d = document.createElement('dialog'); d.className = 'blatt';
     const kunden = (S.kunden || []).filter((k) => !k.abgelegt && !String(k.id).startsWith('best-') && k.art !== 'lead');
     d.innerHTML = `<form method="dialog" novalidate>
-      <div class="karte-kopf"><h2>Termin eintragen</h2><button class="knopf still" value="zu" aria-label="Schließen">${ico('zu')}</button></div>
-      <p class="leise klein">Der Termin landet automatisch im Kalender auf deinem Handy, mit Erinnerung 30 Minuten vorher.</p>
+      <div class="blatt-kopf"><h2>Termin eintragen</h2><button class="knopf still" value="zu" aria-label="Schließen">${ico('zu')}</button></div>
+      <p class="leise klein">Erscheint auch im Kalender auf deinem Handy, mit Erinnerung 30 Minuten vorher.</p>
       <div class="felder zwei">
         <label class="feld"><span class="titel">Was für ein Termin?</span><select name="art">${ARTEN.map((a) => `<option${a === vor.art ? ' selected' : ''}>${a}</option>`).join('')}</select></label>
         <label class="feld"><span class="titel">Mit wem?</span><select name="kunde_id"><option value="">Niemand bestimmtes</option>${kunden.map((k) => `<option value="${esc(k.id)}"${k.id === vor.kunde_id ? ' selected' : ''}>${esc(nameVon(k))}</option>`).join('')}</select></label>
@@ -646,99 +682,126 @@
   }
 
   // ================= KUNDEN =================
-  const K = { filter: 'alle', stufe: '', suche: '' };
+  // Korrektur 1: Liste über die volle Breite. Klick öffnet die Karteikarte als eigene Ansicht im selben Bereich.
+  // Liste und Karte bleiben im Speicher: Wechsel ohne neues Laden, Filter und Scrollposition der Liste bleiben erhalten.
+  const K = { filter: 'alle', extra: '', suche: '', scroll: 0, daten: null };
+  const faelligK = (k) => !k.abgelegt && k.naechster_kontakt && k.naechster_kontakt <= heute();
+  // Weicher Wechsel zwischen Liste und Karte, ohne neu zu laden und ohne neu zu zeichnen
+  function kundenWeich(rest) {
+    const box = document.getElementById('inhalt'), ansicht = box?.querySelector('.kunden-ansicht');
+    if (!ansicht || K.daten !== S.kunden || !S.kunden) return false;
+    kundenAnzeigen(rest[0] ? decodeURIComponent(rest[0]) : null);
+    return true;
+  }
+  function kundenAnzeigen(id) {
+    const listeEl = document.getElementById('k-liste'), karteEl = document.getElementById('k-karte');
+    if (!id) {
+      karteEl.hidden = true; karteEl.innerHTML = ''; listeEl.hidden = false;
+      requestAnimationFrame(() => window.scrollTo(0, K.scroll));
+      return;
+    }
+    if (!listeEl.hidden) K.scroll = window.scrollY;
+    if (id === 'neu') { kundeBlatt(); history.replaceState(null, '', location.pathname + location.search + '#kunden'); return; }
+    const k = S.kunden.find((x) => x.id === id);
+    listeEl.hidden = true; karteEl.hidden = false;
+    if (k) karte(karteEl, k); else karteEl.innerHTML = `<a class="zurueck" href="#kunden">${ico('links')} Zurück zu allen Kunden</a><p class="leer">Diesen Kunden gibt es nicht mehr.</p>`;
+    window.scrollTo(0, 0);
+    if (window.Bewegung) Bewegung.auftritt(karteEl);
+  }
   async function kunden(box, rest, aktuell) {
-    if (!frei('kunden')) { box.innerHTML = kopf('Kunden', 'Alle deine Interessenten und Kunden an einem Ort.') + gesperrt('kunden'); return; }
+    if (!frei('kunden')) { box.innerHTML = kopf('Kunden') + gesperrt('kunden'); return; }
     await Promise.all([kundenLaden(), termineLaden().catch(() => (S.termine = []))]);
     if (!aktuell()) return;
-    const offen = rest[0] ? decodeURIComponent(rest[0]) : null;
-    const schmal = !matchMedia('(min-width: 1024px)').matches;
-    const l = S.kunden, h = heute();
-    const faellig = (k) => !k.abgelegt && k.naechster_kontakt && k.naechster_kontakt <= h;
+    K.daten = S.kunden;
+    box.innerHTML = `<div class="kunden-ansicht"><div id="k-liste"></div><div id="k-karte" hidden></div></div>`;
+    listeZeichnen();
+    kundenAnzeigen(rest[0] ? decodeURIComponent(rest[0]) : null);
+  }
+  function listeZeichnen() {
+    const el = document.getElementById('k-liste'), l = S.kunden;
     const zaehl = (f) => l.filter((k) => !k.abgelegt && (f === 'alle' || k.stand === f)).length;
-    const passt = (k) => (K.filter === 'abgelegt' ? k.abgelegt : !k.abgelegt && (K.filter === 'alle' || (K.filter === 'faellig' ? faellig(k) : k.stand === K.filter)))
-      && (!K.stufe || k.stufe === K.stufe)
-      && (!K.suche || [k.vorname, k.nachname, k.ort, k.telefon, k.email].join(' ').toLowerCase().includes(K.suche.toLowerCase()));
-    const zeigenL = l.filter(passt).sort((a, b) => (faellig(b) - faellig(a)) || String(b.erstellt).localeCompare(String(a.erstellt)));
-    const neuKnopf = `<button class="knopf" type="button" data-neu>${ico('plus')} Kunde eintragen</button>`;
-    if (offen && schmal) {
-      box.innerHTML = `<p style="margin-bottom:var(--a-2)"><a class="knopf still" href="#kunden">${ico('links')} Alle Kunden</a></p><div id="karte"></div>`;
-    } else {
-      box.innerHTML = `${kopf('Kunden', 'Alle, die über deine Seite angefragt oder über deinen Link bestellt haben, kommen von selbst hierher. Dazu alle, die du selbst einträgst. Nur du siehst sie.')}
-        <div class="stufen" role="group" aria-label="Stand">${[['alle', 'Alle'], ...STAND].map(([w, t]) => `<button type="button" data-f="${w}" aria-pressed="${K.filter === w}"><b data-zahl="${zaehl(w)}">${zaehl(w)}</b><span>${t}</span></button>`).join('')}</div>
-        <div class="suchzeile"><input type="search" id="suche" placeholder="Name, Ort oder Telefon suchen" value="${esc(K.suche)}" aria-label="Kunden suchen">${neuKnopf}</div>
-        <div class="chips" role="group" aria-label="Filter">
-          <button type="button" data-f="faellig" aria-pressed="${K.filter === 'faellig'}">Heute melden ${l.filter(faellig).length}</button>
-          ${STUFE.map(([w, t]) => `<button type="button" data-s="${w}" aria-pressed="${K.stufe === w}"><i class="${w}"></i>${t}</button>`).join('')}
-          <button type="button" data-f="abgelegt" aria-pressed="${K.filter === 'abgelegt'}">Kein Interesse ${l.filter((k) => k.abgelegt).length}</button>
-        </div>
-        <div class="kunden-aufbau">
-          <div class="liste" id="liste">${zeigenL.length ? zeigenL.map((k) => zeile(k, offen, faellig(k))).join('') : `<p class="leer" style="padding:var(--a-3) 0">${l.length ? 'Zu diesem Filter gibt es niemanden.' : 'Noch keine Kunden. Sobald jemand über deine Seite anfragt oder über deinen Link bestellt, steht er hier. Du kannst auch selbst jemanden eintragen.'}</p>`}</div>
-          ${schmal ? '' : '<div class="karte-spalte" id="karte"></div>'}
-        </div>`;
-      box.querySelectorAll('[data-f]').forEach((b) => (b.onclick = () => { K.filter = K.filter === b.dataset.f && b.dataset.f !== 'alle' ? 'alle' : b.dataset.f; zeigen(); }));
-      box.querySelectorAll('[data-s]').forEach((b) => (b.onclick = () => { K.stufe = K.stufe === b.dataset.s ? '' : b.dataset.s; zeigen(); }));
-      const s = document.getElementById('suche');
-      s.oninput = () => {
-        K.suche = s.value;
-        document.getElementById('liste').innerHTML = l.filter(passt).map((k) => zeile(k, offen, faellig(k))).join('') || '<p class="leer" style="padding:var(--a-3) 0">Niemand gefunden.</p>';
-      };
-      box.querySelector('[data-neu]').onclick = () => kundeBlatt();
-    }
-    const karteEl = document.getElementById('karte');
-    if (karteEl) {
-      const k = l.find((x) => x.id === offen) || (!schmal && zeigenL[0]);
-      if (k) karte(karteEl, k); else if (offen) karteEl.innerHTML = '<p class="leer">Diesen Kunden gibt es nicht mehr.</p>';
-      else karteEl.innerHTML = `<div class="karte"><p class="leer">Wähl links jemanden aus.</p></div>`;
-    }
-    if (rest[0] === 'neu') kundeBlatt();
+    const extra = [['', 'Alle Stufen'], ['faellig', `Heute melden (${l.filter(faelligK).length})`], ...STUFE.map(([w, t]) => [w, t]), ['abgelegt', `Kein Interesse (${l.filter((k) => k.abgelegt).length})`]];
+    el.innerHTML = `${kopf('Kunden', '', `<button class="knopf" type="button" data-neu>${ico('plus')} Kunde eintragen</button>`)}
+      <div class="stufen" role="group" aria-label="Stand">${[['alle', 'Alle'], ...STAND].map(([w, t]) => `<button type="button" data-f="${w}" aria-pressed="${K.filter === w}">${t} <b data-zahl="${zaehl(w)}">${zaehl(w)}</b></button>`).join('')}</div>
+      <div class="suchzeile"><input type="search" id="suche" placeholder="Name, Ort oder Telefon suchen" value="${esc(K.suche)}" aria-label="Kunden suchen">
+        <select id="extra" aria-label="Weitere Filter">${extra.map(([w, t]) => `<option value="${w}"${K.extra === w ? ' selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
+      <div class="liste-weiss" id="liste"></div>`;
+    const zeilen = () => {
+      const s = K.suche.toLowerCase();
+      const passt = (k) => (K.extra === 'abgelegt' ? k.abgelegt : !k.abgelegt)
+        && (K.filter === 'alle' || k.stand === K.filter)
+        && (K.extra !== 'faellig' || faelligK(k))
+        && (!['heiss', 'warm', 'kalt'].includes(K.extra) || k.stufe === K.extra)
+        && (!s || [k.vorname, k.nachname, k.ort, k.telefon, k.email].join(' ').toLowerCase().includes(s));
+      const z = l.filter(passt).sort((a, b) => (faelligK(b) - faelligK(a)) || String(a.naechster_kontakt || '9').localeCompare(String(b.naechster_kontakt || '9')) || String(b.erstellt).localeCompare(String(a.erstellt)));
+      document.getElementById('liste').innerHTML = z.length ? z.map(zeile).join('')
+        : `<p class="leer" style="padding:var(--a-4)">${l.length ? 'Zu dieser Auswahl gibt es niemanden.' : 'Noch keine Kunden. Sobald jemand über deine Landingpage anfragt oder über deinen Link bestellt, steht er hier.'}</p>`;
+    };
+    zeilen();
+    el.querySelectorAll('[data-f]').forEach((b) => (b.onclick = () => { K.filter = b.dataset.f; el.querySelectorAll('[data-f]').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); zeilen(); }));
+    el.querySelector('#extra').onchange = (e) => { K.extra = e.target.value; zeilen(); };
+    el.querySelector('#suche').oninput = (e) => { K.suche = e.target.value; zeilen(); };
+    el.querySelector('[data-neu]').onclick = () => kundeBlatt();
   }
-  function zeile(k, offen, fall) {
+  function zeile(k) {
     const b = (S.best || []).filter((x) => x.kunde_id === k.id).pop();
-    const unter = [k.abgelegt ? 'Kein Interesse' : STAND_NAME[k.stand], k.quelle, k.ort].filter(Boolean).join(' · ');
-    const rechts = fall ? `<span class="faellig">Heute melden</span>` : b ? esc(BESTELL[b.stand] || '') : k.naechster_kontakt ? 'Melden ' + tagKurz(k.naechster_kontakt).slice(0, 6) : '';
-    return `<a class="zeile-kunde" href="#kunden/${encodeURIComponent(k.id)}"${k.id === offen ? ' aria-current="true"' : ''}>
-      <span class="stufe-punkt ${esc(k.stufe || '')}" title="${esc(k.stufe ? 'Stufe ' + k.stufe : '')}"></span>
-      <span><b>${esc(nameVon(k))}</b><small>${esc(unter)}</small></span><span class="rechts">${rechts}</span></a>`;
+    const fall = faelligK(k);
+    const stand = k.abgelegt ? 'Kein Interesse' : STAND_NAME[k.stand];
+    const schritt = b ? BESTELL[b.stand] : k.verblieben || (k.quelle ? `Kam über: ${k.quelle}` : '');
+    const datum = fall ? 'Heute melden' : k.naechster_kontakt ? tagKurz(k.naechster_kontakt).slice(0, 6) : '';
+    return `<a class="zeile-kunde" href="#kunden/${encodeURIComponent(k.id)}">
+      <span class="stufe-punkt ${esc(k.stufe || '')}" title="${esc(k.stufe ? 'Stufe ' + (STUFE.find((s) => s[0] === k.stufe) || [, ''])[1] : '')}"></span>
+      <span class="name"><b>${esc(nameVon(k))}</b><span class="marke-klein${k.stand === 'gekauft' ? ' gekauft' : ''}">${esc(stand)}</span></span>
+      <span class="datum${fall ? ' faellig' : ''}">${esc(datum)}</span>
+      ${schritt ? `<span class="schritt-text">${esc(schritt)}</span>` : ''}</a>`;
   }
+  // Karteikarte von oben nach unten: Name mit Stand und Stufe, Schnellknöpfe, Nächster Schritt, Bestellstand, Verlauf, Angaben
   function karte(el, k) {
     const nurLesen = k.art === 'bestellung';
     const best = (S.best || []).filter((x) => x.kunde_id === k.id);
-    const ter = (S.termine || []).filter((t) => t.kunde_id === k.id).sort((a, b) => a.beginn.localeCompare(b.beginn));
+    const ter = (S.termine || []).filter((t) => t.kunde_id === k.id && new Date(t.beginn) > new Date()).sort((a, b) => a.beginn.localeCompare(b.beginn));
     const dd = (t, w) => (w ? `<div><dt>${t}</dt><dd>${w}</dd></div>` : '');
-    const a = k.antworten || {};
-    el.innerHTML = `<article class="karte">
-      <div class="karte-kopf"><div><h2>${esc(nameVon(k))}</h2><p class="herkunft">${esc(k.quelle || '')}${k.erstellt ? ', seit ' + tagKurz(k.erstellt) : ''}${k.abgelegt ? ' · Kein Interesse' : ''}</p></div></div>
+    const a = k.antworten || {}, fall = faelligK(k);
+    el.innerHTML = `<article class="karte-ansicht">
+      <a class="zurueck" href="#kunden">${ico('links')} Zurück zu allen Kunden</a>
+      <header class="karte-kopf"><h1>${esc(nameVon(k))}</h1><p class="herkunft">${esc(k.quelle || '')}${k.erstellt ? ', seit ' + tagKurz(k.erstellt) : ''}</p>
+        ${nurLesen ? '' : `<div class="pillen">
+          <label class="pille">Stand <select data-stand aria-label="Stand">${STAND.map(([w, t]) => `<option value="${w}"${k.stand === w ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+          <label class="pille"><i class="stufe-punkt ${esc(k.stufe || '')}"></i>Stufe <select data-stufe aria-label="Stufe"><option value=""${!k.stufe ? ' selected' : ''}>offen</option>${STUFE.map(([w, t]) => `<option value="${w}"${k.stufe === w ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+          ${k.abgelegt ? '<span class="marke-klein warn">Kein Interesse</span>' : ''}</div>`}</header>
       <div class="schnell">
         <a href="${k.telefon ? 'tel:' + esc(tel(k.telefon)) : '#'}" aria-disabled="${!k.telefon}">${ico('telefon')}Anrufen</a>
         <a href="${k.telefon ? wa(k.telefon) : '#'}" target="_blank" rel="noopener" aria-disabled="${!k.telefon}">${ico('whatsapp')}WhatsApp</a>
-        <a href="${k.email ? 'mailto:' + esc(k.email) : '#'}" aria-disabled="${!k.email}">${ico('mail')}E-Mail</a>
         <button type="button" data-termin aria-disabled="${nurLesen || k.art === 'lead'}">${ico('termine')}Termin</button>
       </div>
-      ${nurLesen ? '<p class="hinweis klein" style="margin-bottom:var(--a-3)">Diese Bestellung ist noch keinem Kunden zugeordnet. Daniel ordnet sie im Dashboard zu, dann kannst du hier Notizen machen.</p>' : `
-      <section><h3>Stand</h3><div class="wahl-stand">${STAND.map(([w, t]) => `<button type="button" data-stand="${w}" aria-pressed="${k.stand === w}">${t}</button>`).join('')}</div></section>
-      <section><h3>Stufe</h3><div class="wahl-stand">${STUFE.map(([w, t]) => `<button type="button" data-stufe="${w}" aria-pressed="${k.stufe === w}"><i class="stufe-punkt ${w}"></i>${t}</button>`).join('')}</div></section>`}
-      ${best.length ? `<section><h3>Bestellung</h3>${best.map((b) => {
+      ${nurLesen ? '<p class="hinweis klein karte-teil">Diese Bestellung ist noch keinem Kunden zugeordnet. Sobald Daniel sie zuordnet, kannst du hier Notizen machen.</p>' : `
+      <section class="karte-teil naechster"><p class="kicker">Nächster Schritt</p>
+        <p class="jetzt">${esc(k.verblieben || 'Noch kein nächster Schritt festgelegt.')}</p>
+        <p class="wann${fall ? ' faellig' : ''}">${k.naechster_kontakt ? (fall ? 'Heute melden' : 'Melden am ' + tagName(String(k.naechster_kontakt).slice(0, 10))) : 'Ohne Datum'}</p>
+        <form id="f-weiter" class="felder zwei" novalidate>
+          <label class="feld"><span class="titel">Was als Nächstes?</span><input name="verblieben" value="${esc(k.verblieben || '')}" placeholder="z. B. ruft Freitag zurück"></label>
+          <label class="feld"><span class="titel">Wann melden?</span><input type="date" name="naechster_kontakt" value="${esc(k.naechster_kontakt || '')}"></label>
+          <div class="ganz knoepfe"><button class="knopf" type="submit">Nächsten Schritt speichern</button></div></form>
+        ${ter.length ? `<div class="termine-mit">${ter.map((t) => `<p><b>${tagKurz(t.beginn)}, ${uhr(t.beginn)} Uhr</b> · ${esc(t.art)}${t.ort ? ' · ' + esc(t.ort) : ''}</p>`).join('')}</div>` : ''}
+      </section>`}
+      ${best.length ? `<section class="karte-teil"><h2>Bestellung</h2><div class="karte-weiss">${best.map((b) => {
         const i = ['bestellt', 'verschickt', 'da'].indexOf(b.stand);
         return `<div class="bestellung"><h4>${esc(b.geraete || 'Gerät')}<small>Nr. ${esc(b.nummer)}, bestellt am ${tagKurz(b.erstellt)}</small></h4>
           <ol class="schritte">${['bestellt', 'verschickt', 'da'].map((s, n) => `<li class="${n <= i ? 'erledigt' : ''}${n === i && n < 2 ? ' jetzt' : ''}"><b>${BESTELL[s]}</b>${n === 0 ? tagKurz(b.erstellt) : n === 2 && b.da_am ? tagKurz(b.da_am) : ''}</li>`).join('')}</ol></div>`;
-      }).join('')}</section>` : k.geraet ? `<section><h3>Gerät</h3><p>${esc(k.geraet)}${k.kaufdatum ? ', gekauft am ' + tagKurz(k.kaufdatum) : ''}</p></section>` : ''}
-      ${nurLesen ? '' : `<section><h3>Nächster Schritt</h3><form id="f-weiter" class="felder zwei" novalidate>
-        <label class="feld"><span class="titel">Wieder melden am</span><input type="date" name="naechster_kontakt" value="${esc(k.naechster_kontakt || '')}"></label>
-        <label class="feld"><span class="titel">So seid ihr verblieben</span><input name="verblieben" value="${esc(k.verblieben || '')}" placeholder="z. B. ruft Freitag zurück"></label>
-        <label class="feld ganz"><span class="titel">Neue Notiz zum Gespräch</span><textarea name="notiz" rows="3" placeholder="Was wurde besprochen? Wird mit Datum gespeichert."></textarea></label>
-        <div class="ganz knoepfe"><button class="knopf" type="submit">Speichern</button><span class="meldung"></span></div></form></section>`}
-      ${ter.length ? `<section><h3>Termine</h3>${ter.map((t) => `<p>${tagKurz(t.beginn)}, ${uhr(t.beginn)} Uhr · ${esc(t.art)}${t.ort ? ' · ' + esc(t.ort) : ''}</p>`).join('')}</section>` : ''}
-      ${k.notizen?.length ? `<section><h3>Notizen</h3><ul class="notizen">${k.notizen.map((n) => `<li><small>${tagKurz(n.erstellt)}</small><p>${esc(n.text)}</p></li>`).join('')}</ul></section>` : ''}
-      <section><h3>Angaben</h3><dl class="angaben">
+      }).join('')}</div></section>` : k.geraet ? `<section class="karte-teil"><h2>Gerät</h2><p>${esc(k.geraet)}${k.kaufdatum ? ', gekauft am ' + tagKurz(k.kaufdatum) : ''}</p></section>` : ''}
+      ${nurLesen ? '' : `<section class="karte-teil"><h2>Verlauf</h2>
+        <form id="f-notiz" class="notiz-neu" novalidate><textarea name="notiz" rows="3" placeholder="Was wurde besprochen? Wird mit Datum gespeichert." aria-label="Neue Notiz"></textarea>
+          <div class="knoepfe"><button class="knopf zweit" type="submit">Notiz speichern</button></div></form>
+        ${k.notizen?.length ? `<ul class="notizen">${k.notizen.map((n) => `<li><small>${tagKurz(n.erstellt)}</small><p>${esc(n.text)}</p></li>`).join('')}</ul>` : '<p class="leer klein">Noch keine Notizen.</p>'}</section>`}
+      <details class="aufklappen karte-weiss"><summary>Angaben</summary><dl class="angaben">
         ${dd('Telefon', k.telefon ? `<a href="tel:${esc(tel(k.telefon))}">${esc(k.telefon)}</a>` : '')}
         ${dd('E-Mail', k.email ? `<a href="mailto:${esc(k.email)}">${esc(k.email)}</a>` : '')}
         ${dd('Ort', esc(k.ort || ''))}${dd('Am besten erreichbar', esc(k.erreichbar || ''))}
         ${dd('Erster Kontakt', tagKurz(k.erstellt))}${dd('Zuletzt gesprochen', tagKurz(k.letzter_kontakt))}
         ${dd('Interesse', esc(a.interesse || ''))}${dd('Trinkt heute', esc(a.geraet || ''))}${dd('Gerät', esc(a.budget_text || ''))}
       </dl>
-      ${nurLesen ? '' : `<div class="knoepfe" style="margin-top:var(--a-3)"><button class="knopf still" type="button" data-aendern>Angaben ändern</button>
-        <button class="knopf still" type="button" data-ablegen>${k.abgelegt ? 'Wieder aufnehmen' : 'Kein Interesse, ablegen'}</button></div>`}</section>
+      ${nurLesen ? '' : `<div class="knoepfe" style="margin-top:var(--a-4)"><button class="knopf still" type="button" data-aendern>Angaben ändern</button>
+        <button class="knopf still" type="button" data-ablegen>${k.abgelegt ? 'Wieder aufnehmen' : 'Kein Interesse, ablegen'}</button></div>`}</details>
     </article>`;
     if (nurLesen) return;
     const speichern = async (p, text) => {
@@ -749,32 +812,37 @@
       if (r.data !== k.id) location.hash = 'kunden/' + r.data; else zeigen();
       return true;
     };
-    el.querySelectorAll('[data-stand]').forEach((b) => (b.onclick = () => speichern({ stand: b.dataset.stand }, `Stand: ${STAND_NAME[b.dataset.stand]}.`)));
-    el.querySelectorAll('[data-stufe]').forEach((b) => (b.onclick = () => speichern({ stufe: k.stufe === b.dataset.stufe ? '' : b.dataset.stufe }, 'Stufe gespeichert.')));
+    el.querySelector('[data-stand]').onchange = (e) => speichern({ stand: e.target.value }, `Stand: ${STAND_NAME[e.target.value]}.`);
+    el.querySelector('[data-stufe]').onchange = (e) => speichern({ stufe: e.target.value }, 'Stufe gespeichert.');
     el.querySelector('[data-ablegen]').onclick = () => speichern({ abgelegt: !k.abgelegt }, k.abgelegt ? 'Wieder aufgenommen.' : 'Abgelegt unter "Kein Interesse".');
     el.querySelector('[data-aendern]').onclick = () => kundeBlatt(k, speichern);
     const t = el.querySelector('[data-termin]'); if (t) t.onclick = () => terminBlatt({ kunde_id: k.id });
-    const f = el.querySelector('#f-weiter');
-    f.onsubmit = async (e) => {
-      e.preventDefault();
-      const w = Object.fromEntries(new FormData(f).entries());
-      for (const x of Object.keys(w)) w[x] = String(w[x]).trim();
-      f.querySelector('button').disabled = true;
-      if (!(await speichern(w, 'Gespeichert.'))) f.querySelector('button').disabled = false;
+    const formular = (id, felder, text) => {
+      const f = el.querySelector(id);
+      f.onsubmit = async (e) => {
+        e.preventDefault();
+        const w = Object.fromEntries(new FormData(f).entries());
+        for (const x of Object.keys(w)) w[x] = String(w[x]).trim();
+        if (felder === 'notiz' && !w.notiz) return;
+        f.querySelector('button').disabled = true;
+        if (!(await speichern(w, text))) f.querySelector('button').disabled = false;
+      };
     };
+    formular('#f-weiter', 'schritt', 'Nächster Schritt gespeichert.');
+    formular('#f-notiz', 'notiz', 'Notiz gespeichert.');
   }
   function kundeBlatt(k = null, speichern = null) {
     const d = document.createElement('dialog'); d.className = 'blatt';
     const feld = (n, t, typ = 'text', extra = '') => `<label class="feld"><span class="titel">${t}</span><input type="${typ}" name="${n}" value="${esc(k?.[n] || '')}" ${extra}></label>`;
     d.innerHTML = `<form method="dialog" novalidate>
-      <div class="karte-kopf"><h2>${k ? 'Angaben ändern' : 'Kunde eintragen'}</h2><button class="knopf still" value="zu" aria-label="Schließen">${ico('zu')}</button></div>
+      <div class="blatt-kopf"><h2>${k ? 'Angaben ändern' : 'Kunde eintragen'}</h2><button class="knopf still" value="zu" aria-label="Schließen">${ico('zu')}</button></div>
       <div class="felder zwei">
         ${feld('vorname', 'Vorname <span class="pflicht">*</span>', 'text', 'required autocomplete="off"')}${feld('nachname', 'Nachname')}
         ${feld('telefon', 'Telefon', 'tel')}${feld('email', 'E-Mail-Adresse', 'email')}
         ${feld('ort', 'Ort')}${feld('erreichbar', 'Am besten erreichbar', 'text', 'placeholder="z. B. abends ab 18 Uhr"')}
         ${k ? '' : `<label class="feld"><span class="titel">Stand</span><select name="stand">${STAND.map(([w, t]) => `<option value="${w}">${t}</option>`).join('')}</select></label>
           <label class="feld"><span class="titel">Stufe</span><select name="stufe"><option value="">Noch offen</option>${STUFE.map(([w, t]) => `<option value="${w}">${t}</option>`).join('')}</select></label>
-          ${feld('naechster_kontakt', 'Wieder melden am', 'date')}${feld('verblieben', 'So seid ihr verblieben')}
+          ${feld('naechster_kontakt', 'Wann melden?', 'date')}${feld('verblieben', 'Was als Nächstes?')}
           <label class="feld ganz"><span class="titel">Erste Notiz</span><textarea name="notiz" rows="3"></textarea></label>`}
       </div><p class="meldung"></p>
       <div class="knoepfe"><button class="knopf" type="submit" value="ok">${k ? 'Speichern' : 'Kunde eintragen'}</button></div></form>`;
@@ -793,65 +861,60 @@
     };
   }
 
-  // ================= WERKZEUGE =================
-  // Reihenfolge nach Jasmin: erst womit man ins Gespräch kommt, dann Flyer, dann der Bestell-Link
-  async function werkzeuge(box, rest) {
+  // ================= TOOLS =================
+  // Reihenfolge nach Jasmin: erst ins Gespräch kommen (Landingpage), dann Flyer, dann der Bestell-Link. Dazu der Assistent.
+  async function tools(box, rest) {
     const p = S.p, link = BESTELLSEITE + encodeURIComponent(p.kurz), seite = SEITE + encodeURIComponent(p.kurz);
     const sp = p.seite || {};
-    box.innerHTML = `${kopf('Werkzeuge', 'In der Reihenfolge, in der du sie brauchst: erst ins Gespräch kommen, dann einladen, dann abschließen.')}
-      <section class="werkzeug" id="seite">
-        <figure style="background-image:url('../bilder/flyer/frau-kueche.jpg')"></figure>
-        <div><p class="nr">1</p><h2>Deine Wasser-Check-Seite</h2>
-          <p class="wozu">Eine fertige Seite rund ums Wasser, mit deinem Namen. Schick sie Interessenten per WhatsApp oder E-Mail.</p>
-          <p>Wer darüber anfragt, landet automatisch bei deinen Kunden, und du bekommst Bescheid.</p>
-          ${frei('seite') ? `<div class="linkfeld"><code>${esc(seite)}</code><button class="knopf still" type="button" data-kopie="${esc(seite)}">${ico('kopie')} Kopieren</button></div>
-          <div class="knoepfe"><a class="knopf" href="${esc(seite)}" target="_blank" rel="noopener">${ico('auge')} Seite ansehen</a>
-            <a class="knopf zweit" href="https://wa.me/?text=${encodeURIComponent('Schau mal, hier kannst du dein Wasser checken: ' + seite)}" target="_blank" rel="noopener">${ico('whatsapp')} Per WhatsApp teilen</a></div>
-          <details class="aufklappen"${rest[0] === 'seite' ? ' open' : ''}><summary>So erreichen dich Interessenten: Seite einrichten</summary>
-            <p class="leise" style="margin-bottom:var(--a-3)">Füll nur aus, was du möchtest. Für jede Angabe erscheint auf der Seite ein Knopf, zum Beispiel "WhatsApp schreiben". Leere Felder tauchen nicht auf.</p>
-            <form id="f-seite" class="felder zwei" novalidate>
-              <label class="feld ganz"><span class="titel">Ein Satz von dir</span><input name="text" maxlength="300" value="${esc(sp.text || '')}" placeholder="z. B. Ich zeige dir gern, was in deinem Wasser steckt."></label>
-              <label class="feld"><span class="titel">WhatsApp-Nummer</span><input type="tel" name="whatsapp" value="${esc(sp.whatsapp || '')}" placeholder="+49 170 1234567"></label>
-              <label class="feld"><span class="titel">Telefon zum Anrufen</span><input type="tel" name="telefon" value="${esc(sp.telefon || '')}"></label>
-              <label class="feld"><span class="titel">E-Mail-Adresse</span><input type="email" name="email" value="${esc(sp.email || '')}"></label>
-              <label class="feld"><span class="titel">Link zum Termin buchen</span><input type="url" name="termin" value="${esc(sp.termin || '')}" placeholder="https://calendly.com/dein-name"><small class="regel">Wenn du Calendly oder ein anderes Buchungsprogramm nutzt. Beginnt mit https://</small></label>
-              <div class="ganz knoepfe"><button class="knopf" type="submit">Speichern</button><span class="meldung" id="seite-meldung"></span></div>
-            </form></details>` : sperrHinweis('seite')}
-        </div></section>
+    box.innerHTML = `${kopf('Tools')}
+      <div class="tools">
+      <section class="tool" id="seite"><div class="bild">${mock('landing', { echt: true })}</div><div class="text">
+        <p class="nr">Ins Gespräch kommen</p><h2>Deine Landingpage</h2>
+        <p class="wozu">Du musst nicht jedem alles von vorn erklären. Interessenten lesen in Ruhe nach und melden sich bei dir. Jede Anfrage landet sofort in deinen Kunden.</p>
+        ${frei('seite') ? `<div class="linkfeld"><code>${esc(seite)}</code><button class="knopf still" type="button" data-kopie="${esc(seite)}">${ico('kopie')} Kopieren</button></div>
+        <div class="knoepfe"><a class="knopf" href="https://wa.me/?text=${encodeURIComponent('Schau mal, hier kannst du dein Wasser checken: ' + seite)}" target="_blank" rel="noopener">${ico('whatsapp')} Per WhatsApp teilen</a>
+          <a class="knopf zweit" href="${esc(seite)}" target="_blank" rel="noopener">${ico('auge')} Ansehen</a></div>
+        <details class="aufklappen"${rest[0] === 'seite' && rest[1] === 'einrichten' ? ' open' : ''}><summary>Deine Kontaktknöpfe auf der Landingpage</summary>
+          <form id="f-seite" class="felder zwei" novalidate>
+            <label class="feld ganz"><span class="titel">Ein Satz von dir</span><input name="text" maxlength="300" value="${esc(sp.text || '')}" placeholder="z. B. Ich zeige dir gern, was in deinem Wasser steckt."></label>
+            <label class="feld"><span class="titel">WhatsApp-Nummer</span><input type="tel" name="whatsapp" value="${esc(sp.whatsapp || '')}" placeholder="+49 170 1234567"></label>
+            <label class="feld"><span class="titel">Telefon zum Anrufen</span><input type="tel" name="telefon" value="${esc(sp.telefon || '')}"></label>
+            <label class="feld"><span class="titel">E-Mail-Adresse</span><input type="email" name="email" value="${esc(sp.email || '')}"></label>
+            <label class="feld"><span class="titel">Link zum Termin buchen</span><input type="url" name="termin" value="${esc(sp.termin || '')}" placeholder="https://calendly.com/dein-name"><small class="regel">Zum Beispiel Calendly. Beginnt mit https://</small></label>
+            <p class="ganz leise klein">Für jede Angabe erscheint ein Knopf auf deiner Landingpage. Leere Felder tauchen nicht auf.</p>
+            <div class="ganz knoepfe"><button class="knopf zweit" type="submit">Speichern</button><span class="meldung" id="seite-meldung"></span></div>
+          </form></details>` : sperrHinweis('seite')}
+      </div></section>
 
-      <section class="werkzeug" id="flyer">
-        <figure style="background-image:url('../bilder/flyer/karaffe.jpg')"></figure>
-        <div><p class="nr">2</p><h2>Flyer für deine Einladung</h2>
-          <p class="wozu">Lad zu deinem Infoabend oder zur Vorführung ein. Motiv aussuchen, Datum und Ort eintragen, fertig.</p>
-          <p>Für WhatsApp-Status, Instagram, Facebook und zum Ausdrucken.</p>
-          <div class="knoepfe">${frei('flyer') ? `<a class="knopf" href="#flyer">${ico('flyer')} Flyer erstellen</a>` : sperrHinweis('flyer')}</div></div></section>
+      <section class="tool" id="flyer"><div class="bild">${mock('flyer')}</div><div class="text">
+        <p class="nr">Einladen</p><h2>Flyer für deine Einladung</h2>
+        <p class="wozu">Deine Einladung zum Infoabend sieht aus wie vom Profi, in zwei Minuten fertig. Für WhatsApp, Instagram, Facebook und zum Ausdrucken.</p>
+        <div class="knoepfe">${frei('flyer') ? `<a class="knopf zweit" href="#flyer">${ico('flyer')} Flyer erstellen</a>` : sperrHinweis('flyer')}</div></div></section>
 
-      <section class="werkzeug" id="bestellen">
-        <figure style="background-image:url('../bilder/flyer/flasche.jpg')"></figure>
-        <div><p class="nr">3</p><h2>Dein persönlicher Bestell-Link</h2>
-          <p class="wozu">Schick diesen Link deinen Kunden. Wer darüber bestellt, wird dir zugeordnet.</p>
-          <p>Der Kauf läuft dann automatisch über deine Enagic-ID ${esc(p.enagic_id || '')}. Bisher kamen ${Number(p.bestellungen) || 0} Bestellungen über deinen Link.</p>
-          <div class="linkfeld"><code>${esc(link)}</code><button class="knopf still" type="button" data-kopie="${esc(link)}">${ico('kopie')} Kopieren</button></div>
-          <div class="qr-block"><div class="qr" id="qr">${qr(link)}</div>
-            <div><p class="leise">Der QR-Code führt zum selben Link. Gut für Ausdrucke und Visitenkarten.</p>
-            <div class="knoepfe" style="margin-top:var(--a-2)"><button class="knopf zweit" type="button" id="qr-laden">${ico('laden')} QR-Code speichern</button>
-            <a class="knopf still" href="${esc(link)}" target="_blank" rel="noopener">Bestellseite ansehen</a></div></div></div>
-          <h3 style="margin:var(--a-5) 0 var(--a-1)">Wer kümmert sich um die Bestellung?</h3>
-          <p class="leise" style="margin-bottom:var(--a-2)">Der Vertrag läuft in jedem Fall über deine Enagic-ID. Du entscheidest nur, wer die Unterlagen an Enagic schickt.</p>
+      <section class="tool" id="bestellen"><div class="bild">${mock('qr')}</div><div class="text">
+        <p class="nr">Abschließen</p><h2>Dein persönlicher Bestell-Link</h2>
+        <p class="wozu">Schick diesen Link deinen Kunden. Wer darüber bestellt, wird dir zugeordnet.</p>
+        <p class="leise klein" style="margin-top:var(--a-2)">Der Kauf läuft über deine Enagic-ID ${esc(p.enagic_id || '')}. Bisher ${Number(p.bestellungen) === 1 ? 'kam 1 Bestellung' : `kamen ${Number(p.bestellungen) || 0} Bestellungen`} über deinen Link.</p>
+        <div class="linkfeld"><code>${esc(link)}</code><button class="knopf still" type="button" data-kopie="${esc(link)}">${ico('kopie')} Kopieren</button></div>
+        <div class="knoepfe"><button class="knopf zweit" type="button" id="qr-laden">${ico('laden')} QR-Code speichern</button>
+          <a class="knopf still" href="${esc(link)}" target="_blank" rel="noopener">Bestellseite ansehen</a></div>
+        <div id="qr" hidden>${qr(link)}</div>
+        <details class="aufklappen"><summary>Wer kümmert sich um die Bestellung?</summary>
+          <p class="leise klein" style="margin-bottom:var(--a-3)">Der Vertrag läuft in jedem Fall über deine Enagic-ID. Du entscheidest nur, wer die Unterlagen an Enagic schickt.</p>
           <div class="wahl">
             <label><input type="radio" name="abwicklung" value="daniel" ${p.abwicklung !== 'selbst' ? 'checked' : ''}><span><b>Daniel organisiert alles</b><small>Die fertigen Unterlagen gehen an Daniel, er prüft sie und schickt sie an Enagic.</small></span></label>
             <label><input type="radio" name="abwicklung" value="selbst" ${p.abwicklung === 'selbst' ? 'checked' : ''}><span><b>Ich wickle selbst ab</b><small>Die fertigen Unterlagen kommen an ${esc(p.email)}, du schickst sie selbst an Enagic.</small></span></label>
-          </div></div></section>
+          </div></details></div></section>
 
-      ${p.tg_code ? `<section class="werkzeug" id="assistent">
-        <figure style="background-image:url('../bilder/flyer/wasserhahn.jpg')"></figure>
-        <div><p class="nr">4</p><h2>Dein Assistent in Telegram</h2>
-          <p class="wozu">Damit du dranbleibst: Er meldet dir jede neue Anfrage sofort aufs Handy, mit Knöpfen wie "Angerufen" oder "In 2 Tagen melden".</p>
-          <p>Er nimmt Termine per Chat an, die dann in deinem Kalender stehen, und schickt dir morgens, was heute ansteht.</p>
-          ${!frei('assistent') ? `<div class="knoepfe">${sperrHinweis('assistent')}</div>` : `${p.tg_verbunden ? '<p class="verbunden" style="margin-top:var(--a-3)">Dein Assistent ist verbunden.</p>' : ''}
-          ${p.assistent_bot ? `<div class="knoepfe"><a class="knopf" href="https://t.me/${esc(p.assistent_bot)}?start=${esc(p.tg_code)}" target="_blank" rel="noopener">${p.tg_verbunden ? 'Assistent öffnen' : 'Assistent verbinden'}</a></div>
-          ${p.tg_verbunden ? '' : '<p class="leise klein" style="margin-top:var(--a-2)">Tippe auf den Knopf. Telegram öffnet sich, dann tippst du dort auf "Starten". Fertig.</p>'}` : '<p class="leer" style="margin-top:var(--a-3)">Der Assistent wird gerade eingerichtet. Der Knopf zum Verbinden erscheint hier in Kürze.</p>'}`}
-        </div></section>` : ''}`;
+      ${p.tg_code ? `<section class="tool" id="assistent"><div class="bild">${mock('chat')}</div><div class="text">
+        <p class="nr">Dranbleiben</p><h2>Dein Assistent in Telegram</h2>
+        <p class="wozu">Du erfährst von jeder neuen Anfrage in dem Moment, in dem sie reinkommt, und morgens weißt du, wen du heute anrufen wolltest.</p>
+        ${!frei('assistent') ? `<div class="knoepfe">${sperrHinweis('assistent')}</div>` : `${p.tg_verbunden ? '<p class="verbunden" style="margin-top:var(--a-3)">Dein Assistent ist verbunden.</p>' : ''}
+        ${p.assistent_bot ? `<div class="knoepfe"><a class="knopf zweit" href="https://t.me/${esc(p.assistent_bot)}?start=${esc(p.tg_code)}" target="_blank" rel="noopener">${p.tg_verbunden ? 'Assistent öffnen' : 'Assistent verbinden'}</a></div>
+        ${p.tg_verbunden ? '' : '<p class="leise klein" style="margin-top:var(--a-2)">Telegram öffnet sich, dort tippst du auf "Starten". Fertig.</p>'}` : '<p class="leer klein" style="margin-top:var(--a-3)">Der Assistent wird gerade eingerichtet. Der Knopf zum Verbinden erscheint hier in Kürze.</p>'}`}
+      </div></section>` : ''}
+      </div>`;
+    mocksFertig(box);
     box.querySelectorAll('[data-kopie]').forEach((b) => (b.onclick = () => kopieren(b.dataset.kopie, 'Link kopiert.')));
     document.getElementById('qr-laden').onclick = () => {
       const a = document.createElement('a');
@@ -872,11 +935,11 @@
       if (w.termin && !/^https:\/\//.test(w.termin)) return (m.textContent = 'Der Link zum Termin buchen muss mit https:// beginnen.');
       const r = await mitSitzung('uk_partner_seite_setzen', { p: w });
       if (r.error || !r.data) return (m.textContent = 'Das hat nicht geklappt. Bitte versuch es noch einmal.');
-      p.seite = w; m.className = 'meldung gut'; m.textContent = 'Gespeichert. Schau dir deine Seite gleich an.';
+      p.seite = w; m.className = 'meldung gut'; m.textContent = 'Gespeichert.';
     };
     if (rest[0]) document.getElementById(rest[0])?.scrollIntoView({ block: 'start' });
   }
-  const sperrHinweis = (b) => `<a class="knopf zweit" href="mailto:${KONTAKT}?subject=${encodeURIComponent('Freischalten: ' + BEREICHE[b].name)}" style="margin-top:var(--a-3)">${ico('schloss')} Freischalten</a>`;
+  const sperrHinweis = (b) => `<div class="knoepfe" style="margin-top:var(--a-4)"><a class="knopf zweit" href="mailto:${KONTAKT}?subject=${encodeURIComponent('Freischalten: ' + BEREICHE[b].name)}">${ico('schloss')} Freischalten</a></div>`;
 
   // ================= FLYER =================
   // Logik und Platzierung bleiben in flyer.js. Neu: Motive als große Bildkacheln, jede Vorschau öffnet per Klick groß.
@@ -895,13 +958,15 @@
     if (!Flyer.FARBEN[d.farbe]) d.farbe = 'blau';
     const vorlage = () => U.findIndex(([t, x]) => t === d.titel && x === d.text);
     const feld = (n, t, art = 'text', extra = '') => `<label class="feld"><span class="titel">${t}</span><input type="${art}" name="${n}" value="${esc(d[n] || '')}" ${extra}></label>`;
-    box.innerHTML = `${kopf('Flyer erstellen', 'In vier Schritten zu deiner Einladung. Du siehst sofort, wie sie aussieht.')}
+    box.innerHTML = `${kopf('Flyer erstellen')}
       <div class="flyer-aufbau">
         <form id="f-flyer" novalidate>
-          <section class="schritt"><h2><span>1</span>Motiv aussuchen</h2><p>Tipp das Bild an, das zu deiner Einladung passt.</p>
+          <section class="schritt"><h2><span>1</span>Motiv und Farben</h2><p>Die Vorschau ändert sich sofort mit.</p>
             <div class="motive">${Object.entries(fotos).map(([k, f]) => `<button type="button" data-foto="${k}" aria-pressed="${d.foto === k}"><img src="${esc(f.klein)}" alt="" loading="lazy"><span>${esc(f.name)}</span></button>`).join('')}
-              <label class="eigen"><input type="file" accept="image/*" id="eigen-foto" hidden><b>+</b><span>Eigenes Foto</span></label></div></section>
-          <section class="schritt"><h2><span>2</span>Was steht drauf?</h2><p>Such dir eine Überschrift aus oder schreib eine eigene.</p>
+              <label class="eigen"><input type="file" accept="image/*" id="eigen-foto" hidden><b>+</b><span>Eigenes Foto</span></label></div>
+            <p class="unterpunkt">Farben</p>
+            <div class="farben">${Object.entries(Flyer.FARBEN).map(([k, f]) => `<button type="button" data-farbe="${k}" aria-pressed="${d.farbe === k}"><i style="background:${f.grund}"><i style="background:${f.akzent}"></i></i>${esc(f.name)}</button>`).join('')}</div></section>
+          <section class="schritt"><h2><span>2</span>Was steht drauf?</h2><p>Anlass, Datum und Ort. Die Überschrift kannst du aussuchen oder selbst schreiben.</p>
             <div class="felder zwei">
               <label class="feld ganz"><span class="titel">Überschrift aussuchen</span><select id="vorlage">${U.map(([t], i) => `<option value="${i}"${vorlage() === i ? ' selected' : ''}>${esc(t)}</option>`).join('')}<option value="eigen"${vorlage() < 0 ? ' selected' : ''}>Eigene Überschrift schreiben</option></select></label>
               <div class="ganz">${feld('art', 'Kleine Zeile über der Überschrift', 'text', 'placeholder="z. B. Einladung"')}</div>
@@ -912,16 +977,13 @@
               ${feld('name', 'Dein Name')}${feld('telefon', 'Telefon oder WhatsApp', 'tel')}
               <div class="ganz">${feld('email', 'E-Mail-Adresse (freiwillig)', 'email')}</div>
             </div></section>
-          <section class="schritt"><h2><span>3</span>Formate und Farben</h2><p>Wähl, wo du den Flyer zeigen willst. Mehrere gehen auch.</p>
+          <section class="schritt"><h2><span>3</span>Formate und speichern</h2><p>Wo willst du die Einladung zeigen? Mehrere gehen auch.</p>
             <div class="formate">${Object.entries(Flyer.FORMATE).map(([k, f]) => `<button type="button" data-format="${k}" aria-pressed="${d.formate.includes(k)}"><i class="f-${k}"></i><span><b>${esc(f.name)}</b><small>${esc(f.zusatz)}</small></span></button>`).join('')}</div>
-            <p class="feld" style="margin:var(--a-4) 0 var(--a-2)">Farben</p>
-            <div class="farben">${Object.entries(Flyer.FARBEN).map(([k, f]) => `<button type="button" data-farbe="${k}" aria-pressed="${d.farbe === k}"><i style="background:${f.grund}"><i style="background:${f.akzent}"></i></i>${esc(f.name)}</button>`).join('')}</div></section>
+            <div class="knoepfe" style="margin-top:var(--a-4)"><button class="knopf" type="button" id="flyer-laden"></button></div>
+            <p class="leise klein" style="margin-top:var(--a-2)">${TG ? 'Die Bilder kommen als Datei in deinen Chat mit dem Assistenten.' : 'Die Bilder landen in deinem Download-Ordner, auf dem Handy in deinen Fotos oder Dateien.'}</p></section>
         </form>
-        <aside class="flyer-vorschau schritt" aria-label="Vorschau"><h2><span style="color:var(--gold-tief);margin-right:var(--a-1)">4</span>Ansehen und speichern</h2>
-          <p>Tipp eine Vorschau an, um sie groß zu sehen.</p>
+        <aside class="flyer-vorschau" aria-label="Vorschau"><h2>Vorschau</h2><p>Tipp an, um sie groß zu sehen.</p>
           <div class="vorschauen" id="vorschauen"></div>
-          <button class="knopf breit" type="button" id="flyer-laden" style="margin-top:var(--a-3)"></button>
-          <p class="leise klein" style="margin-top:var(--a-1)">${TG ? 'Die Bilder kommen als Datei in deinen Chat mit dem Assistenten.' : 'Die Bilder landen in deinem Download-Ordner, auf dem Handy in deinen Fotos oder Dateien.'}</p>
         </aside>
       </div>`;
     await Promise.all([Flyer.vorbereiten(), Flyer.fotoLaden(d.foto)]);
@@ -932,7 +994,7 @@
       for (const [k, v] of new FormData(form).entries()) if (typeof v === 'string') d[k] = v.trim();
       merken();
       const vb = document.getElementById('vorschauen'); if (!vb) return;
-      vb.innerHTML = d.formate.length ? '' : '<p class="leer">Wähl in Schritt 3 mindestens ein Format.</p>';
+      vb.innerHTML = d.formate.length ? '' : '<p class="leer klein">Wähl in Schritt 3 mindestens ein Format.</p>';
       for (const f of d.formate) {
         const b = document.createElement('button'); b.type = 'button'; if (f === 'banner') b.className = 'quer';
         const c = document.createElement('canvas'); Flyer.zeichnen(c, f, d.farbe, d.foto, d, 0.3);
@@ -1049,51 +1111,69 @@
   // ================= NEUIGKEITEN =================
   async function neuigkeiten(box, rest, aktuell) {
     const n = await newsLaden(); if (!aktuell()) return;
-    box.innerHTML = `${kopf('Neuigkeiten', 'Was Daniel und Jasmin dir mitteilen. Wenn dein Telegram-Assistent verbunden ist, kommt jede Neuigkeit auch dorthin.')}
-      <div style="max-width:var(--b-610)">${n.length ? n.map((x) => `<article class="neuigkeit${x.erstellt > neuAb() ? ' neu' : ''}" style="border-color:var(--sand)"><small style="color:var(--grau)">${esc(x.von || 'Ursprungskraft')}, ${tagName(tagVon(x.erstellt))}</small><p style="font-size:var(--t-2);line-height:var(--zh-klein)">${esc(x.text)}</p></article>`).join('') : '<p class="leer">Noch keine Neuigkeiten.</p>'}</div>`;
+    box.innerHTML = `${kopf('Neuigkeiten')}
+      ${n.length ? `<div class="liste-weiss">${n.map((x) => `<article class="neuigkeit${x.erstellt > neuAb() ? ' neu' : ''}"><small>${esc(x.von || 'Ursprungskraft')}, ${tagName(tagVon(x.erstellt))}</small><p>${esc(x.text)}</p></article>`).join('')}</div>` : '<p class="leer">Noch keine Neuigkeiten.</p>'}`;
     gelesen();
   }
 
   // ================= MEHR FÜR DEIN GESCHÄFT =================
+  // Texte von AJ, wörtlich übernommen (Korrektur 1, Punkt 10). Bilder zeigen, worum es geht.
   const ANGEBOTE = [
-    { titel: 'Deine eigene Landingpage', bild: '../bilder/flyer/frau-kueche.jpg', kicker: 'Mehr Anfragen',
-      nutzen: 'Eine Seite nur für dich, mit deinem Foto und deiner Geschichte. Interessenten landen direkt bei dir.',
-      punkte: ['Dein Foto, deine Worte, deine Kontaktknöpfe', 'Jede Anfrage kommt automatisch in deine Kunden', 'Wir richten sie ein und halten sie aktuell'] },
-    { titel: 'Broschüren für deine Kunden', bild: '../bilder/flyer/karaffe.jpg', kicker: 'Etwas in der Hand',
-      nutzen: 'Die gedruckte Broschüre zum Dalassen nach dem Gespräch. Auf Wunsch mit deinem persönlichen QR-Code.',
-      punkte: ['Gedruckt, neutral oder mit deinem QR-Code', 'Dazu die digitale Fassung zum Verschicken', 'Wer den Code scannt, landet bei dir'] },
-    { titel: 'E-Books zum Verschenken', bild: '../bilder/flyer/glas-tropfen.jpg', kicker: 'Ins Gespräch kommen',
-      nutzen: 'Ein kleines E-Book als Geschenk für Interessenten. Wer es holt, steht danach bei deinen Kunden.',
-      punkte: ['Fertig gestaltet, mit deinem Namen', 'Abholen über deine Seite', 'Du siehst, wer es geholt hat'] },
-    { titel: 'Dein Telegram-Assistent', bild: '../bilder/flyer/wasserhahn.jpg', kicker: 'Nichts mehr vergessen',
-      nutzen: 'Er meldet dir jede Anfrage sofort aufs Handy und erinnert dich morgens an alles, was heute ansteht.',
-      punkte: ['Neue Anfragen sofort, mit Knöpfen zum Abhaken', 'Termine per Chat eintragen', 'Flyer direkt im Chat erstellen'] },
+    { kicker: 'Mehr Anfragen', titel: 'Deine eigene Landingpage, die für dich wirbt', bild: () => mock('eigene-landing'),
+      nutzen: 'Du erklärst nicht mehr jedem einzeln alles von vorn. Du schickst einen Link, deine Interessenten lesen in Ruhe und melden sich bei dir, wenn sie bereit sind. Auch abends, auch wenn du gerade im Termin sitzt.',
+      punkte: ['Mit deinem Gesicht, damit sie wissen, wem sie schreiben', 'Jede Anfrage landet sofort in deinen Kunden', 'Wir bauen sie, du teilst nur noch den Link'] },
+    { kicker: 'Bleibt im Kopf', titel: 'Broschüren, die nach dem Gespräch weiterreden', bild: () => mock('hefte'),
+      nutzen: 'Das Nachdenken fängt erst an, wenn du weg bist. Genau dann liegt die Broschüre auf dem Küchentisch, beantwortet die Fragen, die erst abends kommen, und führt per QR-Code direkt zu dir zurück.',
+      punkte: ['Hochwertig gedruckt, mit deinem QR-Code', 'Dazu die digitale Fassung für WhatsApp', 'Wer scannt, landet bei dir'] },
+    { kicker: 'Neue Kontakte', titel: 'Dein E-Book, das Interessenten zu dir bringt', bild: () => mock('ebook'),
+      nutzen: 'Fremde ansprechen kostet Überwindung. Mit einem kostenlosen E-Book kommen die Leute von selbst: Sie tragen sich ein, um es zu bekommen, und stehen danach mit Namen und Kontakt in deinen Kunden.',
+      punkte: ['Fertig geschrieben und gestaltet, mit deinem Namen', 'Jede Anmeldung landet sofort in deinen Kunden', 'Mit dem Telegram-Assistenten sogar direkt aufs Handy'] },
+    { kicker: 'Nichts mehr vergessen', titel: 'Dein Assistent auf dem Handy', bild: () => mock('chat'),
+      nutzen: 'Wer zu spät zurückruft, hat den Kunden oft schon verloren. Dein Assistent meldet dir jede Anfrage in dem Moment, in dem sie reinkommt, und erinnert dich morgens, wen du heute anrufen wolltest.',
+      punkte: ['Neue Anfragen sofort aufs Handy', 'Termine und Notizen per Sprachnachricht eintragen', 'Flyer direkt im Chat erstellen'] },
   ];
   function mehr(box) {
-    box.innerHTML = `${kopf('Mehr für dein Geschäft', 'Pakete, mit denen du mehr Interessenten erreichst und weniger Zeit brauchst.')}
-      <div class="angebote">${ANGEBOTE.map((a) => `<article class="angebot"><figure style="background-image:url('${a.bild}')"><span class="kicker">${esc(a.kicker)}</span></figure>
-        <div class="text"><h2>${esc(a.titel)}</h2><p class="nutzen">${esc(a.nutzen)}</p><ul>${a.punkte.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
+    box.innerHTML = `${kopf('Mehr für dein Geschäft', 'Weniger hinterherlaufen, mehr Abschlüsse. Such dir aus, was dir gerade am meisten Zeit spart.')}
+      <div class="angebote">${ANGEBOTE.map((a) => `<article class="angebot"><div class="bild">${a.bild()}</div>
+        <div class="text"><p class="kicker">${esc(a.kicker)}</p><h2>${esc(a.titel)}</h2><p>${esc(a.nutzen)}</p><ul>${a.punkte.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
         <div class="preis"><div><small>Was kostet es?</small><b>[Preis folgt]</b></div>
-        <a class="knopf" href="mailto:${KONTAKT}?subject=${encodeURIComponent('Interesse: ' + a.titel)}&body=${encodeURIComponent(`Hallo Daniel und Jasmin,\n\nich interessiere mich für "${a.titel}".\n\n${nameVon(S.p)}`)}">Interesse melden</a></div></div></article>`).join('')}</div>`;
+        <a class="knopf zweit" href="mailto:${KONTAKT}?subject=${encodeURIComponent('Interesse: ' + a.titel)}&body=${encodeURIComponent(`Hallo Daniel und Jasmin,\n\nich interessiere mich für "${a.titel}".\n\n${nameVon(S.p)}`)}">Interesse melden</a></div></div></article>`).join('')}</div>`;
   }
 
   // ================= APP AUFS HANDY =================
+  // Korrektur 1, Punkt 9: je System drei Schritte als Bild mit Markierung an der Tippstelle. Das Portal erkennt das Gerät.
+  const SAFARI = {
+    teilen: '<path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/>', zurueck: '<path d="M15 5l-7 7 7 7"/>', vor: '<path d="M9 5l7 7-7 7"/>',
+    buch: '<path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/>', tabs: '<rect x="4" y="4" width="12" height="12" rx="2"/><path d="M8 20h12V8"/>',
+  };
+  const sv = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  const seiteMini = '<div class="g-seite"><i class="k"></i><i></i><i style="width:80%"></i><i style="width:90%"></i><i class="o"></i></div>';
+  function anleitungIphone() {
+    const leiste = (hier) => `<div class="safari-adresse">mein.ursprungskraft.net</div><div class="safari-leiste"><span>${sv(SAFARI.zurueck)}</span><span>${sv(SAFARI.vor)}</span><span class="${hier ? 'tipp-hier' : ''}">${sv(SAFARI.teilen)}</span><span>${sv(SAFARI.buch)}</span><span>${sv(SAFARI.tabs)}</span></div>`;
+    return [
+      ['Schritt 1', 'Unten in der Leiste auf das Teilen-Symbol tippen.', `${seiteMini}${leiste(true)}`],
+      ['Schritt 2', 'Nach unten wischen und "Zum Home-Bildschirm" antippen.', `${seiteMini}${leiste(false)}<div class="g-blatt"><p>Kopieren</p><p>Zur Leseliste hinzufügen</p><p class="tipp-hier">Zum Home-Bildschirm <span>+</span></p><p>Lesezeichen hinzufügen</p></div>`],
+      ['Schritt 3', 'Oben rechts auf "Hinzufügen" tippen. Fertig.', `<div class="g-kopf"><span class="blau">Abbrechen</span><span>Zum Home-Bildschirm</span><span class="blau fett tipp-hier">Hinzufügen</span></div><div class="g-icon"><img src="symbol/apple-touch-icon.png" alt=""><span><b>Partner</b><br>mein.ursprungskraft.net</span></div>`],
+    ];
+  }
+  function anleitungAndroid() {
+    const leiste = (hier) => `<div class="chrome-leiste"><span class="adresse">mein.ursprungskraft.net</span><span class="drei${hier ? ' tipp-hier' : ''}"><i></i><i></i><i></i></span></div>`;
+    const seite = '<div class="g-seite" style="top:46px;bottom:0"><i class="k"></i><i></i><i style="width:80%"></i><i style="width:90%"></i><i class="o"></i></div>';
+    return [
+      ['Schritt 1', 'Oben rechts auf die drei Punkte tippen.', `${leiste(true)}${seite}`],
+      ['Schritt 2', '"App installieren" antippen. Bei manchen Geräten heißt es "Zum Startbildschirm hinzufügen".', `${leiste(false)}${seite}<div class="g-menue"><p>Neuer Tab</p><p>Verlauf</p><p>Lesezeichen</p><p class="tipp-hier">App installieren</p><p>Einstellungen</p></div>`],
+      ['Schritt 3', 'Auf "Installieren" tippen. Fertig.', `${leiste(false)}${seite}<div class="g-dialog"><b>App installieren?</b><div style="display:flex;align-items:center;gap:6px"><img src="symbol/icon-192.png" alt="" style="width:24px;height:24px;border-radius:6px">Partner<br>mein.ursprungskraft.net</div><div class="wahl-g"><span>Abbrechen</span><span class="tipp-hier">Installieren</span></div></div>`],
+    ];
+  }
+  const A = { system: /android/i.test(navigator.userAgent) ? 'android' : 'iphone' };
   function app(box) {
-    box.innerHTML = `${kopf('Das Portal als App', 'Mit einem Tipp auf dem Startbildschirm, ganz ohne App Store. Es sieht dann aus und fühlt sich an wie jede andere App.')}
-      <div class="app-demo">
-        <div class="handys" aria-label="So sieht das Portal auf dem Handy aus">
-          <figure class="handy iphone"><div class="schirm" style="background-image:url('bilder/portal-handy-start.jpg')"></div><figcaption>iPhone</figcaption></figure>
-          <figure class="handy android"><div class="schirm" style="background-image:url('bilder/portal-handy-kunden.jpg')"></div><figcaption>Android</figcaption></figure>
-        </div>
-        <div class="anleitung">
-          ${istApp() ? '<p class="verbunden">Du nutzt das Portal schon als App.</p>' : ''}
-          <div class="app-symbol"><img src="symbol/apple-touch-icon.png" alt="App-Symbol Partner"><span><b>Partner</b><br><span class="leise klein">So heißt die App auf deinem Startbildschirm.</span></span></div>
-          <h3>iPhone</h3>
-          <ol><li>Öffne diese Seite in Safari.</li><li>Tipp unten auf Teilen, das Kästchen mit dem Pfeil nach oben.</li><li>Tipp auf "Zum Home-Bildschirm" und dann auf "Hinzufügen".</li></ol>
-          <h3>Android</h3>
-          <ol><li>Öffne diese Seite in Chrome.</li><li>Tipp oben rechts auf die drei Punkte.</li><li>Tipp auf "App installieren" oder "Zum Startbildschirm hinzufügen".</li></ol>
-        </div>
-      </div>`;
+    const schritte = (A.system === 'android' ? anleitungAndroid() : anleitungIphone());
+    box.innerHTML = `${kopf('Das Portal als App', 'Ein Tipp auf dem Startbildschirm, ganz ohne App Store.')}
+      ${istApp() ? '<p class="verbunden" style="margin-bottom:var(--a-4)">Du nutzt das Portal schon als App.</p>' : ''}
+      <div class="app-symbol"><img src="symbol/apple-touch-icon.png" alt="App-Symbol Partner"><span><b>Partner</b><br><span class="leise klein">So heißt die App auf deinem Startbildschirm.</span></span></div>
+      <div class="umschalter" role="group" aria-label="Handy"><button type="button" data-system="iphone" aria-pressed="${A.system === 'iphone'}">iPhone (Safari)</button><button type="button" data-system="android" aria-pressed="${A.system === 'android'}">Android (Chrome)</button></div>
+      <div class="anleitung-schritte">${schritte.map(([n, t, inhalt]) => `<figure class="schritt-bild"><div class="geraet ${A.system}"><div class="schirm">${inhalt}</div></div><figcaption><b>${n}</b>${esc(t)}</figcaption></figure>`).join('')}</div>`;
+    box.querySelectorAll('[data-system]').forEach((b) => (b.onclick = () => { A.system = b.dataset.system; app(box); }));
   }
 
   // ================= KONTO =================

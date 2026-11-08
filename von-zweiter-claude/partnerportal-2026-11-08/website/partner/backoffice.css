@@ -6,6 +6,9 @@
 .a-vorstellen { --art: #5F6E36; } .a-beratung { --art: #3F4B25; } .a-testgeraet { --art: #7A6130; } .a-filter { --art: #4F6C70; }
 .a-lieferung { --art: #8A5F2E; } .a-geschaeft { --art: #3F5868; } .a-event { --art: #7E4A44; } .a-privat { --art: #5E5884; }
 
+/* Backoffice braucht die volle Breite (Board, Kalender, Tabellen) */
+.ist-bo #inhalt { max-width: none; }
+
 /* ---------- Grundbausteine ---------- */
 .bo h1 { margin: var(--a-1) 0 var(--a-1); }
 .bo h2 { font-size: var(--t-2); line-height: var(--zh-mittel); margin-bottom: var(--a-2); }
@@ -60,7 +63,8 @@
 .bo-zahl.warn b { color: var(--rot); }
 .bo-zahl:hover { background: var(--weiss); }
 .bo-start { display: grid; gap: var(--a-5); grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 1280px) { .bo-start { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+/* Korrektur 1: auch die Übersicht in einer Spalte, in der Breite des Portals */
+#inhalt:has(.bo-start) { max-width: 760px; }
 
 /* ---------- Aufgaben-Board ---------- */
 .bo .board { display: flex; gap: var(--a-2); overflow-x: auto; padding-bottom: var(--a-2); align-items: flex-start; scroll-snap-type: x proximity; margin-right: calc(-1 * var(--rand)); padding-right: var(--rand); }

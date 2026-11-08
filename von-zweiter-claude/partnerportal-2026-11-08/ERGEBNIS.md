@@ -4,6 +4,32 @@ Das Partnerportal ist komplett neu gestaltet und neu gebaut. Jasmin wollte ein f
 statt erst eines Entwurfs der Startansicht. Deshalb ist Schritt 2 (Konzept vorlegen und anhalten) übersprungen und
 alles fertig gebaut. Getestet ist alles lokal im Vorschau-Modus mit Probedaten. Nichts ist veröffentlicht.
 
+## Korrektur 1 (Jasmin, 08.11.2026): Ergebnis je Punkt
+
+Alles in einem Rutsch umgesetzt. Keine Funktion ist weggefallen, Backoffice-Funktionen, SQL-Dateien und partnerbot
+sind unverändert, keine neue SQL nötig. Bildschirmfotos in `bildschirmfotos/` (375 und 1440 px).
+Klicktests: 62 von 62 bestanden (31 je Breite), Backoffice 25 von 25, keine Fehler oder Warnungen in der Konsole.
+
+| Punkt | Ergebnis | Beleg |
+|---|---|---|
+| 1 Größen eine Stufe kleiner | bestanden | gemessen im Browser: Seitentitel 33 px (Handy 26), Abschnitte 20 px, Fließtext 15 px am Computer und 16 px am Handy, kleinste Tippfläche am Handy 44 px, Knöpfe am Computer 34 bis 38 px; Abstände 5, 8, 13, 21, 34, 55, 89 |
+| 2 Ruhe und Blickführung | bestanden | jede Seite eine Spalte mit Titel oben und höchstens einem Hauptknopf (Termin eintragen, Kunde eintragen, Per WhatsApp teilen, Flyer herunterladen); weitere Inhalte zugeklappt; Klicktest prüft alle Bereiche auf zwei verschiedene Inhaltsspalten nebeneinander: keine, außer Flyer am Computer |
+| 3 Kunden | bestanden | Liste volle Breite, Karte als eigene Ansicht mit "Zurück zu allen Kunden"; Klicktest: Wechsel Thomas Brunner zu Miriam Hofmann, Datenabrufe `uk_partner_kunden` 1 vor und 1 nach dem Wechsel (kein Neuladen); Scrollposition 300 px bleibt beim Zurück; Filter bleibt; Reihenfolge der Karte geprüft; `375-kunden-liste`, `375-kunden-karte`, `1440-kunden-karte` |
+| 4 Termine | bestanden | oben Heute, darunter die nächsten Termine, Umschalter Liste / Monat, Abo zugeklappt; Start ohne Monatsansicht; `1440-termine-liste`, `375-termine-monat` |
+| 5 "Tools" und "Deine Landingpage" | bestanden | sichtbarer Text aller 22 Seiten und Zustände ausgelesen (auch zugeklappte Bereiche, Platzhalter, Bildtexte): "Werkzeug" 0 Treffer, "Wasser-Check-Seite" 0 Treffer, "Wasser-Check" 0 Treffer; Erklärsätze über die Seiten selbst entfernt; alte Adresse `#werkzeuge` leitet auf `#tools` um |
+| 6 Echte Ansichten statt Deko-Fotos | bestanden | Landingpage im Handy (am Server die echte Seite, in der Vorschau ein Nachbau), Flyer aus `flyer.js` gezeichnet, Bestell-Link als echter QR-Code, Assistent als Handy mit Chatverlauf, E-Book als Cover, Broschüren mit den echten Titelbildern; Wasserfotos nur noch bei Flyer-Motiven, Wissen und Anmeldung; `1440-tools`, `1440-mehr-fuer-dein-geschaeft` |
+| 7 Flyer neue Reihenfolge | bestanden | 1 Motiv und Farben, 2 Was steht drauf?, 3 Formate und speichern (Klicktest); Vorschau am Computer daneben, am Handy beim Scrollen oben fest (gemessen 52 px vom oberen Rand), Großansicht per Tipp; `375-flyer`, `1440-flyer`, `*-flyer-grossansicht` |
+| 8 Heller Look | bestanden | Creme #F4F1EA, Karten Weiß, Oliv #5E6343, Menü und Leiste hell, aktiver Punkt Oliv, Schalter Partner / Backoffice hell; Gold nur als feine Linie und im App-Symbol; alle Kontraste AA (Tabelle Farbtokens) |
+| 9 App aufs Handy | bestanden | je System drei Schritte mit roter Markierung an der Tippstelle; iPhone mit Safari-Leiste unten, Android mit Chrome-Leiste oben; Gerät wird erkannt (Bildschirmfoto mit iPhone- und Android-Kennung), Umschalter für das andere; `375-app-iphone`, `375-app-android`, `1440-app-iphone`, `1440-app-android` |
+| 10 Texte "Mehr für dein Geschäft" | bestanden | 28 von 28 Textstellen wörtlich im sichtbaren Text gefunden (Titel, Untertitel, Kicker, Titel, Nutzen, Punkte, Preis, Knopf); "Network", "Downline", "passives Einkommen" 0 Treffer; Gedankenstriche 0 Treffer |
+
+**Was sich sonst noch geändert hat**
+- Die Backoffice-Übersicht steht jetzt ebenfalls in einer Spalte. Board, Kalender und Tabellen im Backoffice behalten
+  die volle Breite, ihre Funktionen sind unverändert.
+- Entfernt, weil nicht mehr benutzt: `bilder/portal-handy-*.jpg`, `bilder/haushalt.jpg`, `bilder/kisten.jpg`.
+- Die Landingpage-Ansicht bei Tools lädt am Server die echte Seite verkleinert in einem Handy-Rahmen. Wenn ihr lieber ein
+  festes Bildschirmfoto wollt: `bilder/landingpage.jpg` ablegen, dann tausche ich das ein.
+
 ## So siehst du es dir an
 
 Ordner `website/` neben den Bestand legen (die Pfade `../schriften/`, `../vendor/`, `../bilder/` bleiben wie bisher)
@@ -25,58 +51,56 @@ Für das Backoffice braucht die Vorschau den Ordner `../dashboard/` (daten.js, F
 
 Alle Namen in den Probedaten sind erfunden. Im Vorschau-Modus wird nichts gespeichert und nichts verschickt.
 
-## Was gebaut ist
+## Was gebaut ist (Stand nach Korrektur 1)
 
-**Aufbau wie eine App.** Am Computer ein dunkles Menü links, am Handy eine Daumenleiste unten mit Start, Kunden,
-Termine, Werkzeuge und Mehr. Alle Tippflächen mindestens 55 px hoch, keine Tabelle scrollt quer.
+**Aufbau wie eine App.** Am Computer ein helles Menü links, am Handy eine helle Daumenleiste unten mit Start, Kunden,
+Termine, Tools und Mehr. Jede Seite hat eine Spalte, oben Titel und höchstens einen Hauptknopf. Tippflächen am Handy
+mindestens 44 px, keine Tabelle scrollt quer.
 
-**Look Oliv und Gold** aus dem Partner-Symbol abgeleitet (Farbwerte unten). Gold nur als Linie, Marke und Schrift
-auf Dunkel, nie als Fläche hinter Text. Jost nur in Überschriften, Fließtext Inter, beide selbst gehostet.
-Größen gerechnet: Schriftleiter 16 × 1,272 (13, 16, 20, 26, 33, 42, 53, 68), Abstände Fibonacci
-(8, 13, 21, 34, 55, 89, 144), alles als CSS-Variablen in `portal.css`.
+**Heller Look** wie Kundenmail und emGuarde-Seite (Farbwerte unten). Jost nur in Überschriften, Fließtext Inter, beide
+selbst gehostet. Schriftleiter 16 × 1,272 (13, 16, 20, 26, 33, 42), Abstände Fibonacci (5, 8, 13, 21, 34, 55, 89),
+alles als CSS-Variablen in `portal.css`.
 
 **Bereiche**
 
 | Bereich | Inhalt |
 |---|---|
-| Start | Begrüßung mit Datum, ein Satz zum Tag, **nächste Termine** heute und die nächsten 14 Tage mit Uhrzeit, Adresse, Knopf **Route** (Google Maps) und **Anrufen**. Fällige Rückrufe stehen bei "Heute". Monatsansicht rechts (Computer) bzw. Wochenleiste oben (Handy, Tablet), beides nur, wenn es Termine gibt. Neuigkeiten von Daniel und Jasmin. Werkzeuge als drei Bildkacheln in der richtigen Reihenfolge. Keine Rangliste, keine Verkaufszahlen. |
-| Kunden | Kundendatenbank: Stand-Leiste mit Zahlen (Alle, Neu, Kontaktiert, Termin, Gekauft, In Betreuung) als Filter, Suche, Filter Heute melden, Heiß, Warm, Kalt, Kein Interesse. Liste links, Karteikarte rechts (am Handy eigene Seite). Karteikarte: Anrufen, WhatsApp, E-Mail, Termin mit einem Tipp, Stand und Stufe mit einem Tipp, **Bestellstand als Schrittleiste** (Bestellt, An den Hersteller raus, Gerät da), nächster Schritt mit Wieder melden am, Verblieben und neuer Notiz, Termine mit dieser Person, Notizen als Verlauf, Angaben, Angaben ändern, ablegen bei kein Interesse. Interessenten der Seite (auch E-Book und nur umschauen) und Käufer über den Link kommen automatisch. |
-| Termine | Monatsansicht (Punkte für Termine und Rückrufe), Tag antippen zeigt den Tag, Liste der nächsten Wochen, Termin eintragen im Fenster, Termin löschen, vergangene 30 Tage aufklappbar. Kalender-Abo (iPhone, Google, Link kopieren) direkt unter der Monatsansicht. Ohne Termine: kein Kalender, nur "Ersten Termin eintragen". |
-| Werkzeuge | In Jasmins Reihenfolge: 1 Wasser-Check-Seite (Link, kopieren, ansehen, per WhatsApp teilen, Seite einrichten), 2 Flyer, 3 Bestell-Link mit Erklärung "Schick diesen Link deinen Kunden. Wer darüber bestellt, wird dir zugeordnet.", QR-Code, Zahl der Bestellungen, "Wer kümmert sich um die Bestellung?", 4 Telegram-Assistent. |
-| Flyer | Vier Schritte: 1 Motiv als **große Bildkacheln**, 2 Text, 3 Formate und Farben, 4 Vorschau. **Jede Vorschau öffnet per Tipp groß**, mit Blättern zwischen den Formaten und Speichern je Format. Logik in `flyer.js` unverändert. |
-| Wissen | Unterlagen mit Titelbild, Ansehen und Weitergeben. Produktwissen als Karten je Gerät. Einwände mit Antworten (Entwurf). |
+| Start | Begrüßung mit Datum und einem Satz zum Tag. **Heute** mit Uhrzeit, Ort, Route und Anrufen, fällige Rückrufe dabei. **Die nächsten Tage** (7 Tage). Neu von Daniel und Jasmin. Deine Tools als drei Kacheln mit echten Ansichten. Keine Monatsansicht, keine Rangliste, keine Verkaufszahlen. |
+| Kunden | Liste über die volle Breite: Name, Stand als Marke, nächster Schritt mit Datum. Oben Stand-Leiste als Filter, Suche und ein Auswahlfeld für Stufe, Heute melden, Kein Interesse. Klick öffnet die **Karteikarte als eigene Ansicht** mit "Zurück zu allen Kunden", ohne Neuladen. Karte: Name mit Stand und Stufe, Anrufen, WhatsApp, Termin, **Nächster Schritt**, Bestellstand als Schrittleiste, Verlauf mit neuer Notiz oben, Angaben (E-Mail, Ort, erreichbar, Ändern, Ablegen) zugeklappt. |
+| Termine | Oben Heute, darunter die nächsten Termine. Umschalter **Liste / Monat**. Termin eintragen als Hauptknopf, Löschen an jedem Termin. Kalender-Abo und vergangene Termine zugeklappt am Ende. Ohne Termine kein Kalender. |
+| Tools | In Jasmins Reihenfolge: Deine Landingpage (Link, Per WhatsApp teilen, Ansehen, Kontaktknöpfe zugeklappt), Flyer, Dein persönlicher Bestell-Link mit Erklärung "Schick diesen Link deinen Kunden. Wer darüber bestellt, wird dir zugeordnet.", QR-Code, Zahl der Bestellungen, "Wer kümmert sich um die Bestellung?" zugeklappt, Telegram-Assistent. |
+| Flyer | 1 Motiv und Farben, 2 Text, 3 Formate und speichern. Vorschau am Computer daneben, am Handy oben fest. **Jede Vorschau öffnet per Tipp groß**, mit Blättern und Speichern je Format. Logik in `flyer.js` unverändert. |
+| Wissen | Unterlagen mit Titelbild, Produktwissen je Gerät, Einwände mit Antworten (Entwurf). Inhalt unverändert. |
 | Neuigkeiten | Alle Meldungen von Daniel und Jasmin. Ungelesene als Zahl im Menü und Punkt an "Mehr". |
-| Mehr für dein Geschäft | Vier große Bildkacheln mit Nutzen, drei Punkten, "Was kostet es? [Preis folgt]" und "Interesse melden". |
-| App aufs Handy | Selbst gebaute Grafik: iPhone und Android mit echten Bildschirmfotos des Portals, daneben das App-Symbol und die Anleitung für beide. |
+| Mehr für dein Geschäft | Vier Kacheln mit den Texten von AJ, echten Ansichten, "Was kostet es? [Preis folgt]" und "Interesse melden". |
+| App aufs Handy | Je System drei Schritte als selbst gebautes Handybild mit Markierung an der Tippstelle, iPhone (Safari, Leiste unten) und Android (Chrome, Leiste oben). Das Portal zeigt das passende System zuerst. |
 | Konto | Name, E-Mail, Enagic-ID, Kürzel, Testzeit, Passwort (Mail), Abmelden. |
 
-**Freischalten und Sperren.** Jeder Bereich (Kunden, Termine, Wasser-Check-Seite, Flyer, Assistent, Wissen) lässt sich
+**Freischalten und Sperren.** Jeder Bereich (Kunden, Termine, Landingpage, Flyer, Assistent, Wissen) lässt sich
 je Partner freischalten. Die Anmeldung liefert `zugang = {bereiche, test_bis}`. In der Testzeit ist alles frei, die
-Tage stehen im Menü. Ein gesperrter Bereich zeigt Foto, Nutzen, "Preis: [Preis folgt]" und "Freischalten" (Mail an
+Tage stehen im Menü. Ein gesperrter Bereich zeigt Nutzen, "Preis: [Preis folgt]" und "Freischalten" (Mail an
 info@ursprungskraft.net), keine Fehlermeldung. Solange `bereiche` leer ist (noch nicht entschieden), ist alles frei.
 Start, Bestell-Link, Neuigkeiten, Konto und "Mehr für dein Geschäft" sind immer frei.
 
 **App-Symbol** aus dem Partner-Symbol in `partner/symbol/`: 192, 512, maskierbar 512 (Kreis in der sicheren Zone),
-Apple 180, Favicon 32 und 48, dazu das freigestellte Symbol für Menü und Kopfleiste. Das Portal nutzt nicht mehr die
-Symbole aus `../dashboard/`.
+Apple 180, Favicon 32 und 48, dazu das freigestellte Symbol für Menü und Kopfleiste.
 
-## Farbtokens (aus dem Partner-Symbol)
+## Farbtokens (heller Look, Korrektur 1)
 
 | Token | Wert | Wofür | Kontrast |
 |---|---|---|---|
-| `--nacht` | #1E2513 | Menü, Daumenleiste, Großansicht | Creme darauf 13,1 : 1 |
-| `--oliv-tief` | #2A3319 | dunkle Kästen (Neuigkeiten, gesperrt) | Creme darauf 11,0 : 1 |
-| `--oliv` | #3F4B25 | Knöpfe, Links | Weiß darauf 9,4 : 1 |
-| `--oliv-hell` | #9CA47B | Symbole und Nebentext auf Dunkel | 5,0 : 1 auf Oliv-tief |
-| `--gold` | #CDAE6B | Gold auf Dunkel (Ring des Symbols) | 7,4 : 1 auf Nacht |
-| `--gold-tief` | #7A6130 | Gold auf Hell: Kicker, Linien, Nummern | 5,1 : 1 auf Creme |
-| `--creme` | #F4EEDF | Seitengrund | |
-| `--creme-hell` | #FAF6EC | Karten | |
-| `--tinte` | #1F2414 | Fließtext | 13,7 : 1 auf Creme |
-| `--grau` | #5C5E4B | Nebentext | 5,8 : 1 auf Creme |
-| `--rot` | #9A3B2E | Fehler, [FEHLT], heiß | 6,0 : 1 auf Creme |
+| `--creme` | #F4F1EA | Seitengrund | |
+| `--weiss` | #FFFFFF | Karten, Menü, Daumenleiste | |
+| `--oliv` | #5E6343 | Knöpfe, aktive Punkte, Links, Kicker | Weiß darauf 6,3 : 1; auf Creme 5,6 : 1 |
+| `--oliv-zart` | #EEF0E6 | aktiver Menüpunkt | Oliv-tief darauf 9,0 : 1 |
+| `--oliv-tief` | #3F4230 | Zahlen, aktiver Text | |
+| `--tinte` | #2E3024 | Text | 11,9 : 1 auf Creme, 13,4 : 1 auf Weiß |
+| `--grau` | #5F604E | Nebentext | 5,7 : 1 auf Creme, 6,4 : 1 auf Weiß |
+| `--sand` | #E2DDCF | Haarlinien | |
+| `--gold-linie` | #C2AE78 | nur feine Linien (unter der Begrüßung, Hinweise) | |
+| `--rot` | #9A3B2E | Fehler, [FEHLT], heiß, Heute melden | 6,1 : 1 auf Creme |
 
-Alle Textpaare erfüllen WCAG AA (mindestens 4,5 : 1).
+Alle Textpaare erfüllen WCAG AA (mindestens 4,5 : 1), gemessen.
 
 ## Funktionen alt und neu
 
@@ -91,11 +115,11 @@ Nummern wie in `SCHRITT-1-BESTAND.md`. Alle 58 Funktionen (A bis G) sind da, die
 | A10 | "Hallo Vorname" | Start: "Guten Morgen", "Hallo" oder "Guten Abend" mit Vorname |
 | B1, B2 | Telegram-Fenster `#tg=`, Flyer in den Chat | unverändert, springt direkt in "Flyer" |
 | C1 | App-Hinweis | eigener Bereich "App aufs Handy" mit Handy-Grafik, Tipp-Kachel auf Start, verschwindet als App |
-| C2 bis C7 | Bestell-Link, kopieren, ansehen, QR speichern, Enagic-ID, Zahl der Bestellungen | Werkzeuge, Schritt 3, mit Erklärung |
-| C8, C9 | Wasser-Check-Seite und Baukasten | Werkzeuge, Schritt 1, dazu Per WhatsApp teilen |
-| C10 | Assistent verbinden | Werkzeuge, Schritt 4 |
+| C2 bis C7 | Bestell-Link, kopieren, ansehen, QR speichern, Enagic-ID, Zahl der Bestellungen | Tools, Dein persönlicher Bestell-Link, mit Erklärung |
+| C8, C9 | Landingpage und Baukasten | Tools, Deine Landingpage, dazu Per WhatsApp teilen |
+| C10 | Assistent verbinden | Tools, Dein Assistent in Telegram |
 | C11 | Kalender-Abo | unter der Monatsansicht in Termine, nur wenn es Termine gibt |
-| C12 | Wer kümmert sich um die Bestellung? | Werkzeuge, Schritt 3 |
+| C12 | Wer kümmert sich um die Bestellung? | Tools, beim Bestell-Link, zugeklappt |
 | C13 | Material (Platzhalter) | Bereich Wissen mit echten Unterlagen |
 | C14 | Mehr für dein Geschäft (drei Textkacheln) | eigener Bereich mit vier großen Bildkacheln |
 | D1 bis D14 | Meine Kontakte | Kunden: alle alten Funktionen, dazu Stand, Stufe, Bestellstand, Leads der Seite, Angaben ändern (auch Name), Schnellknöpfe |
