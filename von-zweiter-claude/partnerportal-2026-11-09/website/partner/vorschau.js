@@ -87,6 +87,7 @@ window.Vorschau = (function () {
     D.sponsoren = async () => ({ jasmin: { name: 'Jasmin Groth', id: '21000000000', email: 'jasmin@beispiel.de' }, daniel: { name: 'Daniel Zürcher', id: '', email: '' } });
   }
 
+  const einstieg = { gesehen: !q.has('einstieg'), fertig: !(q.has('einstieg') || q.has('einrichtung')) };
   const warte = (x) => new Promise((ok) => setTimeout(() => ok({ data: x, error: null }), 120));
   return {
     modus, dashboard,
@@ -100,6 +101,9 @@ window.Vorschau = (function () {
         case 'uk_partner_termine_liste': return warte(termine);
         case 'uk_partner_neuigkeiten': return warte(modus === 'leer' ? neuigkeiten.slice(1) : neuigkeiten);
         case 'uk_flyer_vorlagen_liste': return warte({ vorlagen: {}, aus: [] });
+        // Einführung: ?vorschau=normal&einstieg zeigt die erste Anmeldung, &einrichtung den Hinweis auf der Startseite
+        case 'uk_partner_einstieg': return warte({ ...einstieg });
+        case 'uk_partner_einstieg_setzen': einstieg.gesehen = true; if (a.p_was === 'fertig') einstieg.fertig = true; return warte(true);
         case 'uk_partner_anmelden': angemeldet = true; return warte({ sitzung: 'vorschau' });
         case 'uk_partner_abmelden': angemeldet = false; return warte(null);
         case 'uk_partner_registrieren': return warte('ok');

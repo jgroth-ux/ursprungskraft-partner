@@ -6,7 +6,7 @@ const { chromium } = require('playwright');
   const seiten = ['?vorschau=anmelden#start', '?vorschau=anmelden#registrieren', '?vorschau=normal#start', '?vorschau=normal#kunden', '?vorschau=normal#kunden/k2', '?vorschau=normal#kunden/k4', '?vorschau=normal#kunden/neu', '?vorschau=normal#termine', '?vorschau=normal#termine/neu',
     '?vorschau=normal#tools', '?vorschau=normal#tools/seite', '?vorschau=normal#flyer', '?vorschau=normal#wissen', '?vorschau=normal#wissen/produkte', '?vorschau=normal#wissen/einwaende', '?vorschau=normal#neuigkeiten', '?vorschau=normal#mehr',
     '?vorschau=normal#konto', '?vorschau=normal#menue', '?vorschau=normal&einstieg=0#start', '?vorschau=normal&einstieg=1#start', '?vorschau=normal&einstieg=2#start', '?vorschau=normal&einstieg=3#start',
-    '?vorschau=gesperrt#tools', '?vorschau=gesperrt#tools/seite', '?vorschau=gesperrt#flyer', '?vorschau=gesperrt#wissen', '?vorschau=leer#start', '?vorschau=leer#termine', '?vorschau=leer#kunden'];
+    '?vorschau=gesperrt#tools', '?vorschau=gesperrt#tools/seite', '?vorschau=gesperrt#flyer', '?vorschau=gesperrt#wissen', '?vorschau=leer#start', '?vorschau=leer#termine', '?vorschau=leer#kunden', '?vorschau=normal&einrichtung#start'];
   const lesen = () => p.evaluate(() => { document.querySelectorAll('details').forEach((d) => (d.open = true)); const d = document.querySelector('dialog[open]');
     return document.body.innerText + ' ' + (d ? d.innerText : '') + ' ' + [...document.querySelectorAll('[placeholder],[title],[aria-label],img[alt]')].map((e) => e.getAttribute('placeholder') || e.getAttribute('title') || e.getAttribute('aria-label') || e.getAttribute('alt')).join(' ') + ' ' + document.title; });
   let alles = '';

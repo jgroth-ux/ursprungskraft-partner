@@ -1,2 +1,16 @@
-Bewegung normal: 13 Ansichten, längste einmalige Bewegung 600 ms (normal#start: Übergang an .foto), laufende Animationen kurz nach dem Laden zusammen: 124, Dauerschleifen: plopp-einzeln, tippen
-Bewegung reduziert: 13 Ansichten, längste einmalige Bewegung 0 ms (keine), laufende Animationen kurz nach dem Laden zusammen: 0, Dauerschleifen: keine
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8766/partner/?vorschau=normal#start
+Call log:
+[2m  - navigating to "http://localhost:8766/partner/?vorschau=normal#start", waiting until "load"[22m
+
+    at /tmp/claude-0/-home-user-ursprungskraft-partner/eb531953-fa18-51a6-9d6b-fbc286b52e99/scratchpad/tools/bewegung.js:10:15 {
+  log: [
+    '  - navigating to "http://localhost:8766/partner/?vorschau=normal#start", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+Node.js v22.23.4

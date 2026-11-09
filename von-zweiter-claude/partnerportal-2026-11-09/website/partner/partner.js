@@ -395,7 +395,7 @@
     // Mit dem Partnerzugang endet auch das Backoffice auf diesem Gerät
     if (window.Daten) { try { await Daten.anmeldung.abmelden(); } catch {} }
     modus = 'partner';
-    sitzung.setzen(null); Object.assign(S, { p: null, kunden: null, best: null, termine: null, news: null });
+    sitzung.setzen(null); Object.assign(S, { p: null, kunden: null, best: null, termine: null, news: null, einstieg: null });
     history.replaceState(null, '', location.pathname + location.search); zugang();
   }
 
@@ -607,6 +607,10 @@
           <a href="#kunden" data-kf="faellig"><b data-zahl="${melden}">${melden}</b><span>${melden === 1 ? 'wartet auf deinen Anruf' : 'warten auf deinen Anruf'}</span></a>
           <a href="#kunden" data-kf="neu"><b data-zahl="${neue}">${neue}</b><span>${neue === 1 ? 'neue Anfrage' : 'neue Anfragen'}</span></a>
         </div></header>
+      ${S.einstieg && !S.einstieg.fertig ? `<section class="einrichtung" id="einrichtung"><div><p class="kicker">Deine Einrichtung</p><h2>Noch nicht ganz eingerichtet?</h2>
+        <p>Die Einführung zeigt dir in zwei Minuten, wo alles ist und wie das Portal als App auf dein Handy kommt.</p></div>
+        <div class="knoepfe"><button class="knopf zweit" type="button" data-einstieg="0">Einführung ansehen</button><button class="knopf still" type="button" data-einstieg="2">${ico('app')} App aufs Handy holen</button></div>
+        <label class="haken"><input type="checkbox" data-einrichtung-fertig><span><b>Einrichtung abgeschlossen</b><small>Dann verschwindet dieser Hinweis. Die Einführung findest du weiter unter Konto.</small></span></label></section>` : ''}
       ${buehne}
       ${heuteHtml ? `<section class="abschnitt"><div class="abschnitt-kopf"><h2>Heute</h2><a class="pfeil-link" href="#termine/neu">Termin eintragen ${ico('pfeil')}</a></div>${heuteHtml}</section>` : ''}
       <section class="abschnitt"><div class="abschnitt-kopf"><h2>Die nächsten Tage</h2><a class="pfeil-link" href="#termine">Zum Kalender ${ico('pfeil')}</a></div>
@@ -619,10 +623,13 @@
           ${kachel('#flyer', flyerFoto(), 'Flyer erstellen', 'Deine Einladung zum Infoabend, in zwei Minuten fertig.')}
           ${kachel('#tools/bestellen', foto('bestell-link'), 'Dein Bestell-Link', 'Jede Bestellung über diesen Link wird dir zugeordnet.')}
         </div></section>
-      ${istApp() ? '' : `<button type="button" class="app-tipp" data-einstieg="2"><img src="symbol/apple-touch-icon.png" alt=""><span><b>Das Portal als App auf deinem Handy</b>Ein Tipp auf dem Startbildschirm, ganz ohne App Store. So geht es.</span></button>`}
+      ${istApp() || (S.einstieg && !S.einstieg.fertig) ? '' : `<button type="button" class="app-tipp" data-einstieg="2"><img src="symbol/apple-touch-icon.png" alt=""><span><b>Das Portal als App auf deinem Handy</b>Ein Tipp auf dem Startbildschirm, ganz ohne App Store. So geht es.</span></button>`}
     </div>`;
     box.querySelectorAll('[data-kf]').forEach((a) => (a.onclick = () => { if (a.dataset.kf === 'faellig') { K.extra = 'faellig'; K.filter = 'alle'; } else { K.extra = ''; K.filter = 'neu'; } }));
     box.querySelectorAll('[data-einstieg]').forEach((b) => (b.onclick = () => einstieg(Number(b.dataset.einstieg))));
+    const hk = box.querySelector('[data-einrichtung-fertig]');
+    if (hk) hk.onchange = () => { if (!hk.checked) return; einstiegSetzen('fertig'); toast('Einrichtung abgeschlossen. Die Einführung findest du weiter unter Konto.');
+      const k = document.getElementById('einrichtung'); if (ruhig()) return k.remove(); k.classList.add('geht'); setTimeout(() => k.remove(), 460); };
     mocksFertig(box);
   }
   // Fotos aus einer Serie. Gleiche Dateinamen in bilder/: Kommt eine neue Serie, reicht es, die Dateien zu ersetzen.
@@ -1380,13 +1387,26 @@
   // Video zur Installation: Die Dateien liefert Jasmin nach. Sobald sie da sind, hier den Pfad eintragen,
   // zum Beispiel { iphone: 'video/app-iphone.mp4', android: 'video/app-android.mp4' }. Bis dahin steht ein Platzhalter da.
   const EINSTIEG_VIDEO = { iphone: '', android: '' };
-  const einstiegSchluessel = () => 'uk-partner-einstieg-' + (S.p?.kurz || '');
-  const einstiegFertig = () => { try { return !!localStorage.getItem(einstiegSchluessel()); } catch { return true; } };
+  // Zwei Merker je Konto: "gesehen" (die Einführung ging einmal von selbst auf) und "fertig" (Haken "Einrichtung abgeschlossen").
+  // Sie liegen im Konto (uk_partner_einstieg, neue SQL-Datei vom 09.11.2026), gelten also auf jedem Gerät.
+  // Fehlen die Funktionen noch, merkt sich das Portal beides ersatzweise auf diesem Gerät.
+  const einstiegSchluessel = (was) => `uk-partner-einstieg-${was}-${S.p?.kurz || ''}`;
+  const einstiegLokal = (was) => { try { return !!localStorage.getItem(einstiegSchluessel(was)); } catch { return false; } };
+  async function einstiegLaden() {
+    let r = null; try { r = await mitSitzung('uk_partner_einstieg'); } catch { r = null; }
+    S.einstieg = r && !r.error && r.data ? { gesehen: !!r.data.gesehen, fertig: !!r.data.fertig } : { gesehen: einstiegLokal('gesehen'), fertig: einstiegLokal('fertig') };
+  }
+  function einstiegSetzen(was) {
+    if (!S.einstieg || S.einstieg[was]) return;
+    S.einstieg[was] = true; if (was === 'fertig') S.einstieg.gesehen = true;
+    try { localStorage.setItem(einstiegSchluessel(was), new Date().toISOString()); } catch {}
+    Promise.resolve(mitSitzung('uk_partner_einstieg_setzen', { p_was: was })).catch(() => {});
+  }
   function einstieg(von = 0) {
     if (!S.p || document.querySelector('dialog.einstieg')) return;
     const d = document.createElement('dialog'); d.className = 'einstieg'; d.setAttribute('aria-label', 'Einführung ins Partnerportal');
     let i = Math.max(0, Math.min(3, von)), richtung = 1;
-    const merken = () => { try { localStorage.setItem(einstiegSchluessel(), new Date().toISOString()); } catch {} };
+    const merken = () => einstiegSetzen('gesehen');
     const amHandy = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
     const punkt = (kopf, titel, text, n) => `<li style="--i:${n}">${kopf}<div><h3>${titel}</h3><p>${text}</p></div></li>`;
     const SCHRITTE = [
@@ -1416,7 +1436,8 @@
         <div class="e-los">
           <a href="#tools/seite" style="--i:0"><span><b>Deinen Link teilen</b><small>Trag ein, wie man dich erreicht, und verschick deine Landingpage per WhatsApp.</small></span>${ico('pfeil')}</a>
           <a href="#kunden/neu" style="--i:1"><span><b>Ersten Kunden eintragen</b><small>Ein Vorname genügt. Alles Weitere ergänzt du später.</small></span>${ico('pfeil')}</a>
-          <a href="#termine/neu" style="--i:2"><span><b>Termin eintragen</b><small>Rückruf, Termin vor Ort oder Zoom. Er erscheint auch in deinem Handykalender.</small></span>${ico('pfeil')}</a></div>`,
+          <a href="#termine/neu" style="--i:2"><span><b>Termin eintragen</b><small>Rückruf, Termin vor Ort oder Zoom. Er erscheint auch in deinem Handykalender.</small></span>${ico('pfeil')}</a></div>
+        ${S.einstieg?.fertig ? '' : `<label class="haken e-haken"><input type="checkbox" data-einrichtung-fertig><span><b>Einrichtung abgeschlossen</b><small>Mit dem Haken verschwindet der Hinweis auf deiner Startseite. Ohne Haken erinnert er dich dort weiter an die Einrichtung.</small></span></label>`}`,
     ];
     d.innerHTML = `<div class="e-rahmen"><header class="e-kopf"><span class="wo" id="e-wo"></span><button class="knopf still" type="button" data-ueberspringen>Überspringen</button>
         <div class="e-balken" aria-hidden="true"><i></i><i></i><i></i><i></i></div></header>
@@ -1433,6 +1454,7 @@
       inhalt.querySelectorAll('[data-system]').forEach((b) => (b.onclick = () => { A.system = b.dataset.system; richtung = 0; malen(); richtung = 1; }));
       const pk = inhalt.querySelector('[data-portal-kopie]'); if (pk) pk.onclick = () => kopieren(PORTAL_ADRESSE, 'Adresse kopiert.');
       inhalt.querySelectorAll('.e-los a').forEach((a) => a.addEventListener('click', () => { merken(); d.close(); }));
+      const hk = inhalt.querySelector('[data-einrichtung-fertig]'); if (hk) hk.onchange = () => { if (hk.checked) { einstiegSetzen('fertig'); toast('Einrichtung abgeschlossen.'); } };
       if (richtung === 0) inhalt.firstElementChild.style.animation = 'none';
     };
     d.querySelectorAll('[data-e]').forEach((b) => (b.onclick = () => {
@@ -1442,7 +1464,7 @@
     }));
     d.querySelector('[data-ueberspringen]').onclick = () => { merken(); d.close(); };
     d.addEventListener('cancel', merken);
-    d.addEventListener('close', () => d.remove());
+    d.addEventListener('close', () => { d.remove(); if ((location.hash.slice(1) || 'start') === 'start') zeigen(); });
     d.tabIndex = -1; document.body.append(d); d.showModal(); d.focus(); malen();
   }
 
@@ -1489,10 +1511,11 @@
     if (data.team && zuletzt === 'bo' && !location.hash.slice(1) && !TG) history.replaceState(null, '', location.pathname + location.search + '#bo');
     rahmen();
     newsLaden().then(() => markieren((location.hash.slice(1) || 'start').split('/')[0]));
+    await einstiegLaden();
     zeigen();
-    // Erste Anmeldung: Einstieg in vier Schritten. In der Vorschau nur mit &einstieg in der Adresse.
-    const zeigEinstieg = V ? new URLSearchParams(location.search).has('einstieg') : !einstiegFertig();
-    if (zeigEinstieg && !TG) einstieg(Number(new URLSearchParams(location.search).get('einstieg')) || 0);
+    // Erste Anmeldung: Die Einführung geht ein einziges Mal von selbst auf, egal auf welchem Gerät.
+    // Danach erinnert auf der Startseite ein ruhiger Hinweis, bis der Haken "Einrichtung abgeschlossen" gesetzt ist.
+    if (!S.einstieg.gesehen && !TG) einstieg(V ? Number(new URLSearchParams(location.search).get('einstieg')) || 0 : 0);
   }
   laden();
 })();
