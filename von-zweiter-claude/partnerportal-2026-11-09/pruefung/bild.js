@@ -14,7 +14,11 @@ const { chromium } = require('playwright');
     for (let y = 0; y < h; y += 500) { await p.evaluate((y) => window.scrollTo(0, y), y); await p.waitForTimeout(120); }
     await p.evaluate(() => window.scrollTo(0, 0)); await p.waitForTimeout(700);
     const name = adr.replace(/[#/&=?]/g, '_') + (aktion ? '_a' : '');
-    await p.screenshot({ path: `${out}/${w}-${name}.png`, fullPage: !process.env.SICHT });
+    // Ganze Seite: Fenster auf Seitenhöhe ziehen statt "fullPage". So stehen feste Leisten richtig und keine Einblendung startet neu.
+    const vh = w < 700 ? 780 : 900;
+    if (!process.env.SICHT) { const hh = Math.max(vh, await p.evaluate(() => document.documentElement.scrollHeight)); await p.setViewportSize({ width: w, height: hh }); await p.waitForTimeout(1500); }
+    await p.screenshot({ path: `${out}/${w}-${name}.png` });
+    if (!process.env.SICHT) await p.setViewportSize({ width: w, height: vh });
   }
   console.log(fehler.length ? fehler.join('\n') : 'keine Konsolenfehler'); await b.close();
 })();
