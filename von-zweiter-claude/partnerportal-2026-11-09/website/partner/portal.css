@@ -395,7 +395,7 @@ article.termin .knopf { min-height: 36px; padding: 0 12px; font-size: 13px; }
 .kal-tag { position: relative; min-height: 112px; padding: 6px; border-top: var(--haar); border-left: var(--haar); background: var(--c-surface); display: flex; flex-direction: column; gap: 3px; transition: background var(--t-klein); }
 .kal-tag:nth-child(7n+1) { border-left: 0; }
 .kal-tag.anders { background: transparent; }
-.kal-tag.anders .nr { color: #6E7061; }
+.kal-tag.anders .nr { color: var(--c-muted); }
 .kal-tag .nr { align-self: flex-start; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 13px; display: inline-flex; align-items: center; justify-content: center; font: 500 14px/1 var(--f-kopf); color: var(--c-ink); font-variant-numeric: tabular-nums; position: relative; z-index: 1; pointer-events: none; }
 .kal-tag.heute .nr { background: var(--c-olive); color: var(--c-surface); }
 .kal-tag .kal-neu { appearance: none; position: absolute; inset: 0; border: 0; background: transparent; cursor: pointer; }
