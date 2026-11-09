@@ -1,0 +1,2 @@
+Bewegung normal: 13 Ansichten, längste einmalige Bewegung 600 ms (normal#start: Übergang an .foto), laufende Animationen kurz nach dem Laden zusammen: 124, Dauerschleifen: plopp-einzeln, tippen
+Bewegung reduziert: 13 Ansichten, längste einmalige Bewegung 0 ms (keine), laufende Animationen kurz nach dem Laden zusammen: 0, Dauerschleifen: keine
