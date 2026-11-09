@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ursprungskraft · Fragebogen</title>
+<style>
+/* Schriften liegen bei der Seite, nicht bei Google: bei Gesundheitsangaben verrät so niemand die Adresse der Leserin */
+@font-face{font-family:M;font-weight:300;src:url(../fonts/Montserrat-Light.ttf)}
+@font-face{font-family:M;font-weight:400;src:url(../fonts/Montserrat-Regular.ttf)}
+@font-face{font-family:M;font-weight:600;src:url(../fonts/Montserrat-SemiBold.ttf)}
+:root{--oliv:#5E6343;--oliv-dunkel:#3F4230;--khaki:#8A8460;--khaki-hell:#C2BCA3;--grund:#F4F1EA;--karte:#fff;--linie:#E2DDCF;--text:#2E3024;--leise:#6E6E5C}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--grund);color:var(--text);font:400 16px/1.55 M,system-ui,sans-serif}
+button,input,textarea{font:inherit;color:inherit}
+.huelle{max-width:620px;margin:0 auto;padding:28px 16px 48px;min-height:100vh;display:flex;flex-direction:column}
+.kopf{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.marke{letter-spacing:.24em;font-weight:600;font-size:13px;color:var(--oliv);display:flex;align-items:center;gap:9px}
+.marke img{height:30px;width:auto}
+.schritt{font-size:13px;color:var(--leise)}
+.balken{height:4px;background:var(--linie);border-radius:4px;overflow:hidden;margin-bottom:26px}
+.balken div{height:100%;background:var(--oliv);transition:width .3s}
+.karte{background:var(--karte);border-radius:14px;padding:28px 24px;box-shadow:0 1px 3px rgba(63,66,48,.06)}
+.bereich{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--khaki);font-weight:600;margin-bottom:10px}
+h1{font-weight:300;font-size:30px;line-height:1.2;margin:0 0 14px;color:var(--oliv-dunkel)}
+h2{font-weight:400;font-size:22px;line-height:1.3;margin:0 0 8px;color:var(--oliv-dunkel)}
+p{margin:0 0 12px}
+.hilfe{color:var(--leise);font-size:14.5px;margin-bottom:18px}
+.optionen{display:grid;gap:9px;margin-top:6px}
+.option{border:1.5px solid var(--linie);background:#fff;border-radius:10px;padding:13px 15px;text-align:left;cursor:pointer;transition:border-color .15s,background .15s}
+.option:hover{border-color:var(--khaki-hell)}
+.option[aria-pressed="true"]{border-color:var(--oliv);background:#EEF0E6;font-weight:600}
+.skala{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin:10px 0 6px}
+.stufe{aspect-ratio:1;border:0;border-radius:8px;cursor:pointer;font-weight:600;background:#E6E3D6;color:var(--oliv-dunkel)}
+.stufe:nth-child(n+4){background:#DCDCC8}.stufe:nth-child(n+7){background:#CDD1B7}
+.stufe[aria-pressed="true"]{background:var(--oliv)!important;color:#fff}
+.enden{display:flex;justify-content:space-between;font-size:13px;color:var(--leise)}
+.zahl{display:flex;align-items:center;gap:14px;margin:14px 0}
+.zahl button{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--khaki-hell);background:#fff;font-size:22px;cursor:pointer}
+.zahl output{font-size:34px;font-weight:300;min-width:70px;text-align:center}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;border:1.5px solid var(--linie);border-radius:10px;padding:12px 14px;background:#fff}
+textarea{min-height:130px;resize:vertical}
+label.feld{display:block;font-size:14px;color:var(--leise);margin-bottom:12px}
+label.feld input{margin-top:5px}
+.haken{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;margin:14px 0;cursor:pointer}
+.haken input{width:20px;height:20px;margin-top:2px;accent-color:var(--oliv);flex:none}
+.kal-knoepfe{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.kal-knoepfe .knopf{text-decoration:none}
+.leiste{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:24px;flex-wrap:wrap}
+.knopf{background:var(--oliv);color:#fff;border:0;border-radius:10px;padding:13px 22px;cursor:pointer;font-weight:600}
+.knopf:hover{background:var(--oliv-dunkel)}
+.knopf:disabled{background:#B9BBA9;cursor:not-allowed}
+.leise-knopf{background:none;border:0;color:var(--leise);cursor:pointer;padding:10px 4px;text-decoration:underline;text-underline-offset:3px}
+.beispiel{background:var(--grund);border-left:3px solid var(--khaki-hell);padding:12px 14px;font-size:14.5px;color:var(--leise);margin:10px 0 16px;border-radius:0 8px 8px 0}
+.vergleich{margin-top:8px}
+.vzeile{padding:12px 0;border-bottom:1px solid var(--linie)}
+.vzeile:last-child{border-bottom:0}
+.vkopf{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;margin-bottom:6px}
+.vkopf b{font-weight:600;white-space:nowrap}
+.spur{position:relative;height:10px;background:var(--grund);border-radius:6px}
+.spur .vor{position:absolute;top:0;height:10px;width:10px;border-radius:50%;border:2px solid var(--khaki);background:#fff;transform:translateX(-5px)}
+.spur .jetzt{position:absolute;top:0;height:10px;width:10px;border-radius:50%;background:var(--oliv);transform:translateX(-5px)}
+.brief-zu{background:var(--grund);border-radius:10px;padding:16px;font-style:italic;white-space:pre-wrap;margin:8px 0 18px}
+.fuss{margin-top:auto;padding-top:28px;text-align:center;font-size:12.5px;color:var(--leise)}
+.fuss a{color:var(--leise)}
+.fehler{color:#9A4E3E;font-size:14px;margin-top:8px}
+/* Einstieg nach dem Vorbild der Zinzino-Selbstreflexion */
+.vorspann{font-size:17px;line-height:1.6;margin:4px 0 22px}
+.zeitstrahl{margin:0 0 24px}
+.zs-bahn{position:relative;display:flex;justify-content:space-between;align-items:center;height:14px;margin:0 38px}
+.zs-bahn::before{content:'';position:absolute;left:0;right:0;top:6px;height:2px;background:var(--khaki-hell)}
+.zs-punkt{position:relative;width:14px;height:14px;border-radius:50%;border:2px solid var(--khaki);background:#fff}
+.zs-punkt.voll{background:var(--oliv);border-color:var(--oliv)}
+.zs-text{display:flex;justify-content:space-between;margin-top:8px;font-size:13px}
+.zs-text div{display:grid;text-align:center;width:90px}
+.zs-text b{color:var(--oliv-dunkel);font-weight:600}
+.zs-text span{color:var(--leise)}
+.bloecke{display:grid;gap:18px;border-top:1px solid var(--linie);padding-top:20px;margin-bottom:24px}
+.bloecke h3{font-size:16px;font-weight:600;color:var(--oliv-dunkel);margin:0 0 4px}
+.bloecke p{font-size:15px;color:var(--text);margin:0}
+.knopf.voll{width:100%;padding:16px 22px;font-size:16px}
+.frei{font-size:12px;font-weight:400;letter-spacing:.06em;color:var(--khaki);border:1px solid var(--khaki-hell);border-radius:20px;padding:1px 8px;vertical-align:middle;white-space:nowrap}
+@media (max-width:540px){
+  .skala{grid-template-columns:repeat(5,1fr)}
+  h1{font-size:26px}
+  .karte{padding:22px 18px}
+}
+</style>
+</head>
+<body>
+<div class="huelle">
+  <div class="kopf"><div class="marke"><img src="../bilder/logo-baum-oliv.png" alt=""><span id="markenzeile">URSPRUNGSKRAFT</span></div><div class="schritt" id="schritt"></div></div>
+  <div class="balken"><div id="fortschritt" style="width:0"></div></div>
+  <main id="inhalt" class="karte"></main>
+  <div class="fuss"><span id="fusszeile"></span> · <a href="#" id="datenschutz">Datenschutz</a></div>
+</div>
+<script src="../vendor/supabase.js"></script>
+<script src="../dashboard/daten.js?v=20261009b"></script>
+<script src="fragen.js?v=20261009b"></script>
+<script src="fragebogen.js?v=20261021a"></script>
+</body>
+</html>

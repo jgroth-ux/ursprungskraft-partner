@@ -1,0 +1,218 @@
+/* Aufwertung der neutralen Landingpage (10.10.2026): mehr Ruhe, mehr Tiefe, mehr Bewegung.
+   Liegt über den Grundstilen im Kopf von index.html. Farben bleiben die der CI. */
+
+.hochwertig{
+  --glas: rgba(251,249,244,.08);
+  --glas-rand: rgba(207,196,160,.22);
+  --schatten: 0 1px 2px rgba(42,44,34,.04), 0 12px 32px rgba(42,44,34,.08);
+  --schatten-hoch: 0 2px 4px rgba(42,44,34,.05), 0 24px 56px rgba(42,44,34,.14);
+  --weich: cubic-bezier(.2,.7,.2,1);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Typografie ---------- */
+.hochwertig .display{font-weight:400;font-size:clamp(46px,7.2vw,96px);line-height:.98;letter-spacing:-.025em}
+.hochwertig h2{font-weight:400;font-size:clamp(34px,4.4vw,56px);line-height:1.05;letter-spacing:-.02em;margin-bottom:24px;text-wrap:balance}
+.hochwertig h3{font-weight:500;letter-spacing:-.005em}
+.hochwertig .eyebrow{display:inline-flex;align-items:center;gap:10px;letter-spacing:.22em;margin-bottom:18px}
+.hochwertig .eyebrow::before{content:"";width:28px;height:1px;background:currentColor;opacity:.6}
+.hochwertig p{text-wrap:pretty}
+.hochwertig section{padding:clamp(80px,11vw,140px) 0}
+
+/* ---------- Kopfzeile aus Glas ---------- */
+.hochwertig header{background:rgba(245,241,232,.72);backdrop-filter:saturate(1.4) blur(18px);-webkit-backdrop-filter:saturate(1.4) blur(18px);border-bottom:1px solid transparent;transition:border-color .3s, box-shadow .3s}
+.hochwertig header.gescrollt{border-bottom-color:var(--line);box-shadow:0 8px 30px rgba(42,44,34,.06)}
+.hochwertig nav a:not(.knopf){position:relative}
+.hochwertig nav a:not(.knopf)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--olive);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--weich)}
+.hochwertig nav a:not(.knopf):hover::after{transform:scaleX(1)}
+
+/* ---------- Knöpfe ---------- */
+.hochwertig .knopf{position:relative;overflow:hidden;border-radius:999px;padding:15px 28px;font-weight:500;letter-spacing:.01em;transition:transform .3s var(--weich), box-shadow .3s var(--weich), background .3s}
+.hochwertig .knopf::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%);transition:transform .8s var(--weich)}
+.hochwertig .knopf:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(47,53,36,.25)}
+.hochwertig .knopf:hover::after{transform:translateX(120%)}
+.hochwertig .knopf.rahmen{border-color:rgba(207,196,160,.5);backdrop-filter:blur(6px)}
+.hochwertig .knopf.rahmen:hover{background:rgba(251,249,244,.08)}
+.hochwertig header .knopf{padding:11px 22px}
+
+/* ---------- Bühne oben ----------
+   Ruhig statt effektvoll (Jasmin, 10.10.2026: "darf nicht typisch nach KI aussehen"):
+   keine Leuchtflecken, kein Mausschein, keine Welle. Sattes Oliv, große Schrift,
+   das Foto ragt über die Kante in den hellen Bereich. */
+.hochwertig section.dunkel.hero{position:relative;overflow:visible;padding:120px 0 0;background:var(--olive-deep);z-index:2}
+/* Gleiche Breite wie Kopfzeile und Inhalt, damit alles auf einer linken Kante beginnt */
+.hochwertig section.dunkel.hero .innen{position:relative;z-index:2;width:100%;align-items:end;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:64px}
+.hochwertig .hero .innen > div:first-child{padding-bottom:112px}
+.hochwertig .korn{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.hochwertig .hero .display .wort{display:inline-block;opacity:0;transform:translateY(.35em);animation:wortRein 1.1s var(--weich) forwards;animation-delay:calc(var(--n) * 80ms + 120ms)}
+@keyframes wortRein{to{opacity:1;transform:none}}
+.hochwertig .hero p{font-size:19px;line-height:30px;max-width:44ch}
+.hochwertig .hero .foto-hero{position:relative;z-index:3;margin-bottom:-120px;border-radius:6px;box-shadow:0 30px 60px rgba(20,22,15,.35)}
+.hochwertig .vertrauen{gap:0;color:var(--khaki-light);font-size:13px;letter-spacing:.04em}
+.hochwertig .vertrauen span{padding:0 18px;border-left:1px solid rgba(207,196,160,.35)}
+.hochwertig .vertrauen span:first-child{padding-left:0;border-left:0}
+.hochwertig .vertrauen span::before{display:none}
+.hochwertig .hero + section{padding-top:20px}
+
+/* ---------- Bilder und Karten ---------- */
+.hochwertig .platzhalter{border-radius:24px;border-style:solid;border-color:var(--line);background:linear-gradient(160deg,var(--surface),var(--sand));box-shadow:var(--schatten)}
+.hochwertig .drei{gap:40px}
+.hochwertig .drei > div{transition:transform .5s var(--weich)}
+.hochwertig .drei > div:hover{transform:translateY(-6px)}
+.hochwertig .ueberleitung{border-top:0;background:var(--surface);border-radius:28px;padding:36px 40px;box-shadow:var(--schatten)}
+.hochwertig .ueberleitung p{font-size:26px;line-height:34px;font-weight:400}
+
+.hochwertig .nr{font-weight:300;font-size:80px;line-height:72px;background:linear-gradient(180deg,var(--khaki),rgba(168,153,106,.15));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* pH-Skala mit Lichtlauf */
+.hochwertig .skala{position:relative;height:14px;border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.15)}
+.hochwertig .skala::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-100%);animation:lichtlauf 4.5s ease-in-out infinite}
+@keyframes lichtlauf{60%,100%{transform:translateX(100%)}}
+
+/* Wasserarten-Karten */
+.hochwertig .karten{gap:18px}
+.hochwertig .karte{position:relative;border:1px solid var(--line);border-radius:22px;padding:28px 22px 24px;background:var(--surface);box-shadow:var(--schatten);transition:transform .45s var(--weich), box-shadow .45s var(--weich), border-color .3s;overflow:hidden}
+.hochwertig .karte::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--farbe,#7DB15A)}
+.hochwertig .karte::after{content:"";position:absolute;width:220px;height:220px;right:-90px;top:-90px;border-radius:50%;background:radial-gradient(circle,var(--farbe,#7DB15A),transparent 70%);opacity:.10;transition:opacity .45s, transform .45s var(--weich)}
+.hochwertig .karte:hover,.hochwertig .karte:focus-visible{transform:translateY(-8px);box-shadow:var(--schatten-hoch);border-color:transparent}
+.hochwertig .karte:hover::after{opacity:.22;transform:scale(1.2)}
+.hochwertig .karte:nth-child(1){--farbe:#C8463A}
+.hochwertig .karte:nth-child(2){--farbe:#D9A73B}
+.hochwertig .karte:nth-child(3){--farbe:#7DB15A}
+.hochwertig .karte:nth-child(4){--farbe:#3E9A8C}
+.hochwertig .karte:nth-child(5){--farbe:#5B5FA8}
+.hochwertig .karte .ph{font-size:36px;line-height:40px;font-weight:400;color:var(--olive-deep)}
+.hochwertig .karte .mehr{transition:letter-spacing .3s}
+.hochwertig .karte:hover .mehr{letter-spacing:.02em}
+.hochwertig .hinweis{border-radius:18px;border-left:4px solid var(--khaki)}
+.hochwertig dialog{border-radius:24px;box-shadow:0 40px 100px rgba(0,0,0,.3)}
+.hochwertig dialog[open]{animation:dialogRein .45s var(--weich)}
+@keyframes dialogRein{from{opacity:0;transform:translateY(20px) scale(.98)}}
+.hochwertig dialog::backdrop{background:rgba(30,34,22,.55);backdrop-filter:blur(4px)}
+
+/* Gerät */
+.hochwertig .geraet .platzhalter{border-radius:32px}
+.hochwertig .merkmale b{font-weight:400;font-size:30px;line-height:34px;min-width:70px}
+
+/* Dunkle Abschnitte mit Lichtschein */
+.hochwertig section.dunkel{position:relative;overflow:hidden;background:var(--olive-deep)}
+.hochwertig section.dunkel .innen{position:relative;z-index:1}
+.hochwertig .test > div{background:var(--glas);border:1px solid var(--glas-rand);border-radius:22px;padding:28px;backdrop-filter:blur(6px);transition:transform .45s var(--weich), background .3s}
+.hochwertig .test > div:hover{transform:translateY(-6px);background:rgba(251,249,244,.12)}
+
+/* Mediathek, Stimmen, Ablauf, Fragen */
+.hochwertig .reiter{border-bottom:0;background:var(--surface);display:inline-flex;padding:6px;border-radius:999px;box-shadow:var(--schatten)}
+.hochwertig .reiter button{margin:0;border:0;border-radius:999px;padding:10px 20px;transition:background .3s, color .3s}
+.hochwertig .reiter button[aria-selected="true"]{background:var(--olive);color:var(--surface)}
+.hochwertig .video .platzhalter{border-radius:20px;transition:transform .45s var(--weich), box-shadow .45s}
+.hochwertig .video:hover .platzhalter{transform:scale(1.015);box-shadow:var(--schatten-hoch)}
+.hochwertig .video .platzhalter::before{border-left-color:var(--olive);opacity:.9}
+.hochwertig .stimme{border-radius:22px;box-shadow:var(--schatten)}
+.hochwertig .ablauf{border-top:0;counter-reset:s}
+.hochwertig .ablauf li{border-bottom:1px solid var(--line);transition:padding-left .4s var(--weich)}
+.hochwertig .ablauf li:hover{padding-left:12px}
+.hochwertig details{transition:background .3s}
+.hochwertig details summary{font-weight:400;font-size:21px;line-height:30px}
+.hochwertig details summary::after{transition:transform .35s var(--weich)}
+.hochwertig details[open] summary::after{transform:rotate(180deg)}
+
+/* Formular */
+.hochwertig form{border-radius:28px;padding:40px;box-shadow:0 40px 90px rgba(0,0,0,.28)}
+.hochwertig .wahl label{border-radius:14px;padding:14px 16px;transition:border-color .25s, background .25s, transform .25s var(--weich)}
+.hochwertig .wahl label:hover{transform:translateY(-2px)}
+.hochwertig .feld input,.hochwertig .feld textarea{border-radius:12px;padding:13px 14px;transition:border-color .2s, box-shadow .2s}
+.hochwertig .feld input:focus,.hochwertig .feld textarea:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0 4px rgba(79,90,53,.12)}
+.hochwertig .interessen label{transition:border-color .2s, background .2s, transform .2s var(--weich)}
+.hochwertig .interessen label:hover{transform:translateY(-1px)}
+.hochwertig form .knopf{width:100%;padding:17px 28px;font-size:16px}
+
+/* ---------- Erscheinen beim Scrollen ---------- */
+.js-effekte .auftauchen{opacity:0;transform:translateY(28px);transition:opacity .9s var(--weich), transform .9s var(--weich);transition-delay:calc(var(--i,0) * 80ms)}
+.js-effekte .auftauchen.da{opacity:1;transform:none}
+
+@media (max-width:720px){
+  .hochwertig section.dunkel.hero{padding-top:40px}
+  .hochwertig .hero .innen > div:first-child{padding-bottom:0}
+  .hochwertig .hero .foto-hero{margin-bottom:0}
+  .hochwertig section.dunkel.hero .innen{grid-template-columns:1fr;gap:32px;padding-bottom:56px}
+  .hochwertig .hero + section{padding-top:clamp(80px,11vw,140px)}
+  .hochwertig .vertrauen{gap:8px 0}
+  .hochwertig .ueberleitung{padding:28px 24px}
+  .hochwertig form{padding:28px 18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .hochwertig *,.hochwertig *::before,.hochwertig *::after{animation:none!important;transition:none!important}
+  .hochwertig .hero .display .wort{opacity:1;transform:none;filter:none}
+  .js-effekte .auftauchen{opacity:1;transform:none}
+}
+
+/* Fotos im hochwertigen Stil */
+.hochwertig .foto{border-radius:24px;box-shadow:var(--schatten)}
+.hochwertig .drei > div:hover .foto{box-shadow:var(--schatten-hoch)}
+.hochwertig .foto-zwei{border-radius:28px}
+.hochwertig .foto-geraet{border-radius:32px;box-shadow:var(--schatten-hoch)}
+
+/* ---------- Neu am 10.10.2026, Runde 2 ---------- */
+/* Überschrift auf genau zwei Zeilen */
+.hochwertig .hero .display{font-size:clamp(44px,5vw,72px);line-height:1.02}
+.hochwertig .hero .display .zeile{display:block;white-space:nowrap}
+.hochwertig .hero p{max-width:40ch}
+
+/* Drei Versprechen in einer Zeile, links neben dem überstehenden Foto */
+/* Die drei Punkte stehen in der linken Spalte neben dem Fotostück, das in den hellen Bereich ragt */
+.hochwertig .versprechen{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:0;max-width:calc((100% - 64px) * 1.1 / 2);margin:0 0 clamp(96px,10vw,140px)}
+.hochwertig .versprechen > div{padding:0 20px;border-left:1px solid var(--line);display:grid;grid-row:span 2;grid-template-rows:subgrid;row-gap:6px;align-content:start}
+.hochwertig .versprechen > div:first-child{padding-left:0;border-left:0}
+.hochwertig .versprechen b{font:500 15px/20px Jost,sans-serif;color:var(--olive-deep)}
+.hochwertig .versprechen span{font-size:13px;line-height:18px;color:var(--muted)}
+
+/* Bildgruppe: ein großes Bild links, zwei kleinere rechts übereinander */
+/* Vier Zeilen: Bild, Text, Bild, Text. Das große Bild füllt die ersten drei und endet so genau
+   mit dem unteren rechten Bild, beide Texte stehen in der vierten Zeile auf gleicher Höhe. */
+.hochwertig .mosaik{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:auto auto auto auto;column-gap:40px;row-gap:0;margin-top:40px}
+.hochwertig .mosaik figure{margin:0;display:grid;grid-template-rows:subgrid}
+.hochwertig .mosaik figure figcaption{padding-top:16px}
+.hochwertig .mosaik .gross{grid-column:1;grid-row:1 / 5}
+.hochwertig .mosaik .gross .foto{grid-row:1 / 4;width:100%;height:auto;align-self:stretch;contain:size;aspect-ratio:auto}
+.hochwertig .mosaik .gross figcaption{grid-row:4}
+.hochwertig .mosaik figure:nth-child(2){grid-column:2;grid-row:1 / 3}
+.hochwertig .mosaik figure:nth-child(2) figcaption{padding-bottom:28px}
+.hochwertig .mosaik figure:nth-child(3){grid-column:2;grid-row:3 / 5}
+.hochwertig .mosaik figure:not(.gross) .foto{aspect-ratio:16/10}
+.hochwertig .mosaik .foto{border-radius:6px;transition:transform .7s var(--weich)}
+.hochwertig .mosaik figure{overflow:visible}
+.hochwertig .mosaik figure:hover .foto{transform:scale(1.015)}
+.hochwertig .mosaik h3{font-size:22px;line-height:28px;margin-bottom:6px}
+.hochwertig .mosaik p{margin:0}
+
+/* Ein Eckenmaß für die ganze Seite: Bilder 6px, Karten 14px, Knöpfe rund */
+.hochwertig .foto,.hochwertig .foto-zwei,.hochwertig .geraet .foto{border-radius:6px}
+.hochwertig .karte,.hochwertig .stimme,.hochwertig .hinweis,.hochwertig .ueberleitung,.hochwertig form,.hochwertig dialog{border-radius:14px}
+.hochwertig .video .platzhalter{border-radius:6px}
+
+/* Testschritte als Zeitleiste statt drei gleicher Kästen */
+.hochwertig .test{position:relative;gap:48px;margin:48px 0 56px}
+.hochwertig .test::before{content:"";position:absolute;left:0;right:0;top:20px;height:1px;background:rgba(207,196,160,.35)}
+.hochwertig .test > div{position:relative;background:none;border:0;border-radius:0;padding:56px 0 0;backdrop-filter:none}
+.hochwertig .test > div:hover{transform:none;background:none}
+.hochwertig .test .nr{position:absolute;top:0;left:0;width:40px;height:40px;border-radius:50%;background:var(--olive-deep);border:1px solid var(--khaki);display:grid;place-items:center;font:400 15px/1 Jost,sans-serif;color:var(--khaki-light);-webkit-text-fill-color:currentColor;margin:0}
+
+@media (max-width:900px){
+  .hochwertig .versprechen{max-width:none;margin:0 0 64px;grid-template-columns:1fr;gap:16px}
+  .hochwertig .versprechen{grid-template-rows:none}
+  .hochwertig .versprechen > div{padding:0 0 0 16px;border-left:2px solid var(--khaki);grid-row:auto;grid-template-rows:none;row-gap:4px}
+  .hochwertig .versprechen > div:first-child{padding-left:16px;border-left:2px solid var(--khaki)}
+}
+@media (max-width:720px){
+  .hochwertig .hero .display .zeile{white-space:normal}
+  .hochwertig .mosaik{grid-template-columns:1fr;grid-template-rows:none;gap:32px}
+  .hochwertig .mosaik figure,.hochwertig .mosaik .gross,.hochwertig .mosaik figure:nth-child(2),.hochwertig .mosaik figure:nth-child(3){grid-column:auto;grid-row:auto;grid-template-rows:none}
+  .hochwertig .mosaik figure figcaption,.hochwertig .mosaik .gross figcaption{grid-row:auto;padding-bottom:0}
+  .hochwertig .mosaik .gross .foto{grid-row:auto;contain:none;aspect-ratio:4/3;height:auto}
+  .hochwertig .mosaik figure:not(.gross) .foto{aspect-ratio:4/3}
+  .hochwertig .test{gap:32px}
+  .hochwertig .test::before{left:20px;right:auto;top:0;bottom:0;width:1px;height:auto}
+  .hochwertig .test > div{padding:0 0 0 64px}
+}
