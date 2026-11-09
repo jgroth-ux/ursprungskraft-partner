@@ -1,7 +1,8 @@
 # Ergebnis Korrektur 2: Partnerportal neu gestaltet
 
 Stand: 09.11.2026. Grundlage: KORREKTUR-2.md und die Master-Vorgabe (sie hat Vorrang).
-Nichts wurde veröffentlicht. Kein Netlify, kein Supabase, keine neue SQL, keine echten Daten berührt.
+Nichts wurde veröffentlicht. Kein Netlify, kein Supabase, keine echten Daten berührt.
+Es gibt eine neue SQL-Datei für die Einführung (auf deinen Wunsch, siehe unten). Sie liegt nur bei, ausgeführt habe ich sie in deiner Datenbank nicht.
 Alles wurde lokal mit den Probedaten der Vorschau geprüft.
 
 ## So schaust du es dir an
@@ -11,7 +12,8 @@ Den Ordner `website/` auf einen Webserver legen (lokal reicht) und diese Adresse
 | Was | Adresse |
 |---|---|
 | Partneransicht mit Probedaten | `partner/?vorschau=normal` |
-| Erste Anmeldung mit Einstieg | `partner/?vorschau=normal&einstieg` |
+| Erste Anmeldung mit Einführung | `partner/?vorschau=normal&einstieg` |
+| Hinweis "Deine Einrichtung" auf der Startseite | `partner/?vorschau=normal&einrichtung` |
 | Bereiche nicht freigeschaltet | `partner/?vorschau=gesperrt#tools/seite` |
 | Neues Konto ohne Daten | `partner/?vorschau=leer` |
 | Anmeldeseite | `partner/?vorschau=anmelden` |
@@ -22,7 +24,7 @@ Den Ordner `website/` auf einen Webserver legen (lokal reicht) und diese Adresse
 | Nr. | Punkt | Ergebnis | Nachweis |
 |---|---|---|---|
 | 1 | Kalender wie gewohnt: Monat, jeder Tag ein Feld, Einträge mit Uhrzeit und Name, farbig nach Art. Klick auf Eintrag öffnet ihn, Klick auf leeren Tag legt Termin an. Am Handy Wochenleiste und Tag. Kalender-Abo bleibt. | BESTANDEN | `bildschirmfotos/1440-normal_termine.jpg`, `1440-normal_termine_a.jpg` (geöffneter Termin), `375-normal_termine.jpg`, Video `bewegung/02-kalender-*.webm`, Prüfzeilen "Kalender" in `pruefung/ergebnis-funktionen.txt` |
-| 2 | "App aufs Handy" aus dem Menü. Einstieg beim ersten Anmelden in genau vier Schritten, überspringbar, nicht wiederholt, im Konto wieder aufrufbar, iPhone und Android getrennt mit markierten Tippstellen, Videobereich. | BESTANDEN, mit zwei Einschränkungen (siehe "Offen") | `bildschirmfotos/1440-normal_einstieg_0.jpg` bis `_3.jpg`, `1440-normal_einstieg_2_a.jpg` (Android), `375-normal_einstieg_2.jpg` (iPhone), `375-normal_einstieg_2_android.jpg`, Video `bewegung/03-einstieg-*.webm`, Prüfzeilen "Einstieg" |
+| 2 | "App aufs Handy" aus dem Menü. Einstieg beim ersten Anmelden in genau vier Schritten, überspringbar, nicht wiederholt, im Konto wieder aufrufbar, iPhone und Android getrennt mit markierten Tippstellen, Videobereich. | BESTANDEN, mit einer Einschränkung (Video fehlt, siehe "Offen") | `bildschirmfotos/1440-normal_einrichtung_start.jpg`, `375-normal_einrichtung_start.jpg`, `1440-normal_einstieg_0.jpg` bis `_3.jpg`, `1440-normal_einstieg_2_a.jpg` (Android), `375-normal_einstieg_2.jpg` (iPhone), `375-normal_einstieg_2_android.jpg`, Video `bewegung/03-einstieg-*.webm`, Prüfzeilen "Einstieg" |
 | 3 | Alle Texte neu. "in deiner Kundenübersicht" statt "in deinen Kunden". Keine schiefen Bilder. Die vier abgenommenen Überschriften wörtlich. | BESTANDEN | `pruefung/ergebnis-texte.txt` (32 Ansichten durchsucht, 0 Treffer), Prüfzeile "Mehr: vier Angebote mit abgenommenen Überschriften" |
 | 4 | Bilder aus einem Guss. Flyer-Foto: Handy hochkant mit echtem Flyer aus dem Editor, kein leerer Bildschirm. Neue Fotos brauchen nur neue Dateien. | BESTANDEN, mit einer Einschränkung (siehe "Offen") | `bildschirmfotos/1440-normal_tools.jpg`, `1440-normal_start.jpg`, Prüfzeile "Start: Flyer liegt auf dem Handy im Foto" |
 | 5 | Landingpage: klar, was der Besucher sieht und was ich eintrage, mit echter Vorschau. Eigene Verkaufsansicht ohne Freischaltung. | BESTANDEN | `bildschirmfotos/1440-normal_tools_seite.jpg`, `375-normal_tools_seite.jpg`, `1440-gesperrt_tools_seite.jpg`, `375-gesperrt_tools_seite.jpg`, Prüfzeilen "Landingpage" |
@@ -37,7 +39,7 @@ Den Ordner `website/` auf einen Webserver legen (lokal reicht) und diese Adresse
 
 **Kalender.** Am Computer der Monat, jeder Tag ein Feld. Am Handy eine Wochenleiste zum Wischen und der gewählte Tag als Liste. Fünf Farben nach Art. Der Umschalter zur Liste bleibt.
 
-**Einstieg.** Vier Schritte: Willkommen, das Wichtigste, Portal aufs Handy, fertig. Die Anleitung für iPhone und Android steckt in Schritt 3 und ist im Konto jederzeit wieder da. Die alte Adresse `#app` führt dorthin.
+**Einführung.** Vier Schritte: Willkommen, das Wichtigste, Portal aufs Handy, fertig. Sie geht ein einziges Mal von selbst auf, beim ersten Anmelden, egal auf welchem Gerät. Danach steht auf der Startseite der ruhige Hinweis "Deine Einrichtung" mit dem Haken "Einrichtung abgeschlossen". Solange der Haken fehlt, bleibt der Hinweis. Mit dem Haken verschwindet er für immer. Den Haken gibt es auch im letzten Schritt der Einführung. Im Konto ist die Einführung jederzeit wieder da. Die alte Adresse `#app` führt dorthin.
 
 **Landingpage.** Eigene Ansicht unter Tools. Links trägst du ein, wie man dich erreicht. Rechts siehst du im Handy, was dein Besucher sieht. Die Vorschau läuft beim Tippen mit. Mit "Ganze Seite" lädt die echte Landingpage ins Handy.
 
@@ -83,7 +85,8 @@ Alle Zeilen stehen einzeln in `pruefung/ergebnis-funktionen.txt`. Das Prüfskrip
 | Flyer: Motiv, Farbe, Text, Formate, Großansicht, Blättern, Speichern | BESTANDEN | Zeilen "Flyer" |
 | Wissen: Unterlagen, Produktwissen, Einwände | BESTANDEN | Zeilen "Wissen" |
 | Neuigkeiten mit Zähler, Mehr, Konto, Abmelden | BESTANDEN | Zeilen "Neuigkeiten", "Mehr", "Abmelden" |
-| Einstieg: vier Schritte, beide Systeme, überspringen, nicht wiederholen, wieder öffnen | BESTANDEN | Zeilen "Einstieg" |
+| Einführung: vier Schritte, beide Systeme, überspringen, geht nur einmal von selbst auf, wieder öffnen | BESTANDEN | Zeilen "Einstieg" |
+| Einrichtung: Hinweis bleibt bis zum Haken, verschwindet danach, bleibt nach neuem Anmelden weg | BESTANDEN | Zeilen "Einrichtung" und "Abgeschlossenes Konto" |
 | Alte Adressen `#werkzeuge` und `#app` | BESTANDEN | Zeilen "Alte Adresse" |
 | Kein Überlauf nach rechts auf 14 Ansichten | BESTANDEN | Zeile "Alle 14 Ansichten" |
 | Keine Fehler in der Browser-Konsole | BESTANDEN | letzte Zeilen der Datei |
@@ -140,10 +143,12 @@ Alle Zeilen stehen einzeln in `pruefung/ergebnis-funktionen.txt`. Das Prüfskrip
 | Prüfung | Ergebnis | Nachweis |
 |---|---|---|
 | Nichts veröffentlicht | BESTANDEN | Nur Dateien in diesem Ordner |
-| Keine neue SQL | BESTANDEN | Kein SQL in dieser Lieferung |
+| Neue SQL nur als neue Datei, alte Dateien unberührt | BESTANDEN | `supabase/umbau-2026-11-09-partnerportal-einstieg.sql`. Sie ändert keine bestehende Funktion, auch `uk_partner_daten` nicht |
+| Neue SQL-Datei läuft fehlerfrei, auch zweimal hintereinander | BESTANDEN | In einer lokalen Wegwerf-Datenbank (PostgreSQL 16) geprüft: beide Merker setzen, falscher Wert abgelehnt, fremde und abgelaufene Sitzung bekommen nichts, anderes Konto bleibt unberührt |
+| Neue SQL-Datei in der echten Datenbank | NICHT BESTANDEN (nicht geprüft) | Nicht ausgeführt. Das Einspielen ist dein Schritt |
 | Datenbank nur über `uk_partner_*` | BESTANDEN | partner.js, keine Tabellenzugriffe |
 | Öffentlicher Schlüssel bleibt Platzhalter | BESTANDEN | `sb_publishable_XXX` in partner.js |
-| Altes Dashboard, daten.js, flyer.js, backoffice.js unverändert | BESTANDEN | Dateien gleichen dem Paket |
+| Altes Dashboard, daten.js, flyer.js, backoffice.js, wissen.js unverändert | BESTANDEN | Dateien gleichen dem Paket |
 | Kein Framework, kein Build-Schritt | BESTANDEN | Reines HTML, CSS, JavaScript |
 | Mit echter Datenbank geprüft | NICHT BESTANDEN (nicht geprüft) | Alles lief mit den Probedaten der Vorschau |
 | Ladezeit gemessen (Lighthouse) | NICHT BESTANDEN (nicht geprüft) | Keine Messung. portal.css hat 84 KB, partner.js 139 KB, beides unkomprimiert |
@@ -151,7 +156,7 @@ Alle Zeilen stehen einzeln in `pruefung/ergebnis-funktionen.txt`. Das Prüfskrip
 
 ## Offen und ehrlich
 
-1. **Stand des Einstiegs je Gerät.** Ob jemand den Einstieg gesehen hat, merkt sich das Portal je Partner auf dem jeweiligen Gerät. Auf einem zweiten Gerät erscheint er also einmal neu. Für "einmal für alle Geräte" braucht es eine kleine neue SQL-Datei. Die habe ich wegen der Regel "keine neue SQL ohne zwingenden Grund" nicht gebaut. Sag Bescheid, wenn du sie möchtest.
+1. **Neue SQL-Datei einspielen.** Damit "nur ein einziges Mal" auf allen Geräten gilt, muss `supabase/umbau-2026-11-09-partnerportal-einstieg.sql` einmal im SQL-Editor laufen. Ohne die Datei läuft das Portal trotzdem, es merkt sich den Stand dann nur je Gerät. Wer schon lange dabei ist, sieht die neue Einführung nach dem Einspielen einmal. Soll das nicht sein, steht in der Datei oben eine Zeile, die alle bestehenden Konten als eingerichtet markiert.
 2. **Video zur Installation fehlt.** Der Bereich steht in Schritt 3 mit einem Platzhalter. Sobald die Dateien da sind: in `partner.js` bei `EINSTIEG_VIDEO` die Pfade eintragen, zum Beispiel `video/app-iphone.mp4` und `video/app-android.mp4`.
 3. **Zwei Fotos vorläufig.** Das Flyer-Foto ist jetzt das Handy hochkant (vorher das Foto des Assistenten). Für den Assistenten habe ich einen Ausschnitt des Anmelde-Fotos genommen, damit kein leerer Bildschirm zu sehen ist. Dasselbe Motiv steht damit an zwei Stellen. Mit der neuen Serie reicht es, die Dateien in `partner/bilder/` unter gleichem Namen zu ersetzen.
 4. **Neues Flyer-Foto.** Der Flyer wird per Code auf den Handybildschirm gelegt. Die Lage steht in `partner.js` bei `FLYER_SCHIRM` in Prozent. Zeigt das neue Foto das Handy an anderer Stelle, müssen diese vier Zahlen angepasst werden. Zeigt es kein Handy von vorn, `FLYER_SCHIRM = null` setzen.
@@ -165,8 +170,11 @@ Im Ordner `website/partner/`:
 
 - `portal.css` neu geschrieben
 - `partner.js` Ansichten neu, Logik übernommen
+- `vorschau.js` zwei Zeilen dazu für die Einführung (Probedaten)
 - `index.html` Versionsnummern und Farbe der Statusleiste
 - `manifest.webmanifest` Beschreibung ohne "Werkzeuge", helle Farbe
 - `bilder/portal-flyer.jpg` und `bilder/portal-assistent.jpg` neu zugeordnet
 
 Alles andere in `website/` ist unverändert aus dem Paket.
+
+Neu außerhalb von `website/`: `supabase/umbau-2026-11-09-partnerportal-einstieg.sql`.
