@@ -1,0 +1,300 @@
+/* Backoffice im Partnerportal (08.11.2026). Gestaltet die Bausteine des Dashboards (backoffice.js) im Look des Portals.
+   Alle Regeln hängen an .bo (Inhalt) oder #dialog, damit sie das Partnerportal nicht berühren.
+   Werte nur aus den Variablen in portal.css. Ausnahmen wie dort: Haarlinie, Fokus, Akzentbalken. */
+
+/* ---------- Farben je Termin-Art, in den Ton des Portals gezogen ---------- */
+.a-vorstellen { --art: #5F6E36; } .a-beratung { --art: #3F4B25; } .a-testgeraet { --art: #7A6130; } .a-filter { --art: #4F6C70; }
+.a-lieferung { --art: #8A5F2E; } .a-geschaeft { --art: #3F5868; } .a-event { --art: #7E4A44; } .a-privat { --art: #5E5884; }
+
+/* Backoffice braucht die volle Breite (Board, Kalender, Tabellen) */
+.ist-bo #inhalt { max-width: none; }
+
+/* ---------- Grundbausteine ---------- */
+.bo h1 { margin: var(--a-1) 0 var(--a-1); }
+.bo h2 { font-size: var(--t-2); line-height: var(--zh-mittel); margin-bottom: var(--a-2); }
+.bo .unter { color: var(--grau); font-size: var(--t-1); max-width: 44em; margin: 0 0 var(--a-4); }
+.bo .leer { color: var(--grau); font-size: var(--t-0); margin: var(--a-1) 0; }
+.bo .klein { color: var(--grau); font-size: var(--t-0); }
+.bo .leiste { display: flex; flex-wrap: wrap; gap: var(--a-1); align-items: center; margin-bottom: var(--a-3); }
+.bo .leiste input[type=search] { flex: 1 1 233px; width: auto; }
+.bo .leiste select { width: auto; min-height: 44px; padding: 0 var(--a-4) 0 var(--a-2); }
+@media (max-width: 600px) { .bo .leiste select, .bo .leiste .knopf { flex: 1 1 144px; } .bo .leiste > span[style*="flex:1"] { display: none; }
+  .bo .leiste #kal-zurueck, .bo .leiste #kal-vor { flex: 0 0 44px; padding: 0; } .bo .leiste .kal-monat { flex: 1 1 0; text-align: center; margin: 0; white-space: nowrap; } .bo .leiste #kal-heute { flex: 0 0 auto; } .bo .leiste .umschalter-klein { flex: 1 1 100%; } }
+.bo input:not([type=checkbox]):not([type=radio]):not([type=file]), .bo select, .bo textarea,
+#dialog input:not([type=checkbox]):not([type=radio]):not([type=file]), #dialog select, #dialog textarea { min-height: 44px; padding: var(--a-1) var(--a-2); font-size: var(--t-1); }
+.bo .knopf, #dialog .knopf { min-height: 44px; padding: 0 var(--a-3); font-size: var(--t-0); }
+.bo .knopf.leise, #dialog .knopf.leise { background: transparent; color: var(--oliv); box-shadow: inset 0 0 0 var(--linie) var(--sand); }
+.bo .knopf.leise:hover, #dialog .knopf.leise:hover { box-shadow: inset 0 0 0 var(--linie) var(--oliv); background: var(--creme-hell); }
+.bo .knopf.rot, #dialog .knopf.rot { background: transparent; color: var(--rot); box-shadow: inset 0 0 0 var(--linie) var(--rot); }
+.bo .klein-knopf, #dialog .klein-knopf { min-height: 36px; padding: 0 var(--a-2); font-size: var(--t-0); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; }
+.bo .marker, #dialog .marker { display: inline-block; font-size: 12px; font-weight: 600; line-height: 1.6; padding: 0 var(--a-1); border-radius: 3px; background: var(--sand); color: var(--oliv-tief); white-space: nowrap; }
+.bo .marker.warn, #dialog .marker.warn { background: rgba(207, 196, 160, .24); color: #E6D9AE; }
+.bo .marker.rot, #dialog .marker.rot { background: rgba(231, 154, 134, .22); color: var(--rot); }
+.bo .marker.gut, #dialog .marker.gut { background: rgba(169, 184, 138, .24); color: var(--oliv-tief); }
+.bo .label, #dialog .label { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; color: var(--weiss); background: var(--oliv); margin-bottom: 4px; }
+.bo .label.rot { background: var(--rot); }
+.bo .label.orange { background: var(--gold-tief); }
+.bo .label.neu { background: var(--nacht); }
+.bo .label.termin { background: var(--art, var(--oliv-tief)); }
+.bo .avatar { width: 22px; height: 22px; border-radius: 50%; color: var(--weiss); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.bo .avatar + .avatar { margin-left: -6px; box-shadow: 0 0 0 2px var(--weiss); }
+.bo .vermerke { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; align-items: center; }
+
+/* Kennzahlen als Kacheln, Zahl groß in Jost */
+.bo .zahlen, #dialog .zahlen { display: grid; grid-template-columns: repeat(auto-fit, minmax(144px, 1fr)); gap: 2px; margin-bottom: var(--a-4); background: var(--sand); border: var(--linie) solid var(--sand); border-radius: var(--ecke); overflow: hidden; }
+.bo .zahl, #dialog .zahl { background: var(--creme-hell); padding: var(--a-2) var(--a-3); }
+.bo .zahl b, #dialog .zahl b { display: block; font: 500 var(--t-3)/1.2 Jost, sans-serif; color: var(--oliv-tief); }
+.bo .zahl span, #dialog .zahl span { font-size: var(--t-0); color: var(--grau); }
+.bo .zahl.gespart b { color: var(--oliv); }
+.bo .raster { display: grid; gap: var(--a-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.bo section.feld { background: var(--creme-hell); border-radius: var(--ecke); padding: var(--a-3); font-size: var(--t-1); color: var(--tinte); font-weight: 400; letter-spacing: 0; }
+.bo .zeile { display: flex; align-items: center; gap: var(--a-2); padding: var(--a-2) 0; border-bottom: var(--linie) solid var(--sand); }
+.bo .zeile:last-child { border-bottom: 0; }
+.bo .zeile .haupt { flex: 1; min-width: 0; }
+.bo .zeile.klickbar { cursor: pointer; }
+.bo .zeile.klickbar:hover { background: var(--creme-hell); }
+
+/* ---------- Übersicht ---------- */
+.bo-zahlen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; margin: var(--a-4) 0 var(--a-5); background: var(--sand); border: var(--linie) solid var(--sand); border-radius: var(--ecke); overflow: hidden; }
+@media (min-width: 1024px) { .bo-zahlen { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.bo-zahl { display: flex; flex-direction: column; gap: 4px; padding: var(--a-3); background: var(--creme-hell); color: var(--tinte); text-decoration: none; min-height: 110px; }
+.bo-zahl b { font: 500 var(--t-5)/1 Jost, sans-serif; color: var(--oliv-tief); letter-spacing: var(--lw-eng); }
+.bo-zahl span { font-size: var(--t-0); color: var(--grau); }
+.bo-zahl.warn b { color: var(--rot); }
+.bo-zahl:hover { background: var(--weiss); }
+.bo-start { display: grid; gap: var(--a-5); grid-template-columns: minmax(0, 1fr); }
+/* Korrektur 1: auch die Übersicht in einer Spalte, in der Breite des Portals */
+#inhalt:has(.bo-start) { max-width: 760px; }
+
+/* ---------- Aufgaben-Board ---------- */
+.bo .board { display: flex; gap: var(--a-2); overflow-x: auto; padding-bottom: var(--a-2); align-items: flex-start; scroll-snap-type: x proximity; margin-right: calc(-1 * var(--rand)); padding-right: var(--rand); }
+.bo .board .spalte { flex: 0 0 272px; scroll-snap-align: start; max-height: calc(100vh - 233px); display: flex; flex-direction: column; background: #2A301F; border-radius: var(--ecke); padding: var(--a-2); }
+.bo .board .spalte.eingang { background: #333A26; }
+.bo .board .spalte h2 { display: flex; justify-content: space-between; font: 600 var(--t-0)/1.4 Inter, sans-serif; letter-spacing: var(--lw-weit); text-transform: uppercase; color: var(--oliv-tief); margin: 4px 4px var(--a-2); }
+.bo .board .spalte h2 span { color: var(--grau); font-weight: 400; letter-spacing: 0; }
+.bo .board .karten { overflow-y: auto; min-height: 40px; flex: 1; }
+.bo .board .spalte.ziel { outline: 2px dashed var(--gold-tief); outline-offset: -2px; }
+.bo .karte { background: var(--weiss); border-radius: var(--ecke-klein); padding: var(--a-1) var(--a-2); margin-bottom: var(--a-1); display: flex; gap: var(--a-1); align-items: flex-start; cursor: pointer;
+  border: var(--linie) solid transparent; border-left: var(--balken) solid transparent; box-shadow: 0 1px 2px rgba(30, 37, 19, .08); transition: transform .15s, box-shadow .15s; }
+.bo .karte:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(30, 37, 19, .12); }
+.bo .karte input[type=checkbox] { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--oliv); flex: none; }
+.bo .karte .haupt { flex: 1; min-width: 0; }
+.bo .karte .titel { line-height: 1.35; font-size: var(--t-0); font-weight: 500; }
+.bo .karte.fertig .titel { text-decoration: line-through; color: var(--grau); }
+.bo .karte.prio-rot { border-left-color: var(--rot); }
+.bo .karte.prio-orange { border-left-color: var(--gold-tief); }
+.bo .karte.termin { background: rgba(207, 196, 160, .14); border-color: rgba(207, 196, 160, .3); border-left-color: var(--oliv-tief); }
+.bo .karte.ist-neu { box-shadow: inset 3px 0 0 var(--nacht), 0 1px 2px rgba(30, 37, 19, .08); }
+.bo .karte.zieht { opacity: .4; }
+.bo .karte .klein { font-size: 12px; }
+.bo .fuss { display: flex; align-items: center; gap: var(--a-1); margin-top: 6px; color: var(--grau); font-size: 12px; }
+.bo .plus { background: none; border: 0; color: var(--grau); text-align: left; padding: var(--a-1); cursor: pointer; border-radius: var(--ecke-klein); font-size: var(--t-0); min-height: 36px; }
+.bo .plus:hover { background: var(--sand); color: var(--tinte); }
+.bo .neu-knopf { box-shadow: inset 0 0 0 var(--linie) var(--nacht); }
+
+/* ---------- Kalender ---------- */
+.bo .umschalter-klein { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--sand); border-radius: var(--ecke-klein); padding: 3px; gap: 3px; }
+.bo .umschalter-klein button { background: none; border: 0; padding: 0 var(--a-2); min-height: 38px; border-radius: 3px; cursor: pointer; font-size: var(--t-0); font-weight: 600; color: var(--grau); }
+.bo .umschalter-klein button.aktiv { background: var(--weiss); color: var(--oliv-tief); box-shadow: 0 1px 2px rgba(30, 37, 19, .12); }
+.bo .kal-monat { font-size: var(--t-2); margin: 0 var(--a-1); min-width: 160px; }
+.bo .kal-raster { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 1px; background: var(--sand); border: var(--linie) solid var(--sand); border-radius: var(--ecke); overflow: hidden; margin-top: var(--a-1); }
+.bo .kal-wt { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--grau); padding: var(--a-1); background: var(--creme); }
+.bo .kal-feld { min-height: 110px; background: var(--creme-hell); padding: 4px 0 6px; cursor: pointer; position: relative; }
+.bo .kal-feld:hover { background: var(--weiss); }
+.bo .kal-feld.fremd { background: var(--creme); }
+.bo .kal-feld.fremd .kal-nr { color: var(--grau); font-weight: 300; }
+.bo .kal-nr { font-size: var(--t-0); padding: 0 var(--a-1) 4px; color: var(--oliv-tief); font-variant-numeric: tabular-nums; }
+.bo .kal-feld.heute .kal-nr { color: var(--weiss); width: max-content; padding: 1px 7px; margin: 0 0 4px 4px; border-radius: 10px; background: var(--oliv-tief); }
+.bo .kal-chips { display: flex; flex-direction: column; gap: 2px; }
+.bo .kal-chip { font-size: 11.5px; line-height: 1.4; margin: 0 4px; padding: 2px 6px; border-radius: 3px; background: color-mix(in srgb, var(--art, #A9B88A) 38%, #1F2418); border-left: var(--balken) solid var(--art, #3F4B25); color: var(--tinte); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bo .kal-chip.mehrtag { background: var(--art, #3F4B25); color: var(--weiss); border-left: 0; }
+.bo .kal-chip.weiter { margin-left: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.bo .kal-chip.offen-rechts { margin-right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.bo .kal-chip.erledigt { opacity: .5; text-decoration: line-through; }
+.bo .kal-chip.a-privat:not(.mehrtag) { background: repeating-linear-gradient(135deg, rgba(160, 150, 210, .16) 0 6px, rgba(160, 150, 210, .28) 6px 12px); }
+.bo .kal-mehr { font-size: 11px; color: var(--grau); padding: 0 var(--a-1); }
+.bo .kal-punkte { display: none; }
+.bo #kal-tagliste { display: none; }
+.bo #kal-tagliste h3 { margin: var(--a-3) 0 var(--a-1); font-size: var(--t-2); }
+.bo .kal-tag { margin: var(--a-4) 0 var(--a-1); }
+.bo .kal-kopf { display: flex; align-items: center; justify-content: space-between; gap: var(--a-2); margin-bottom: var(--a-2); flex-wrap: wrap; }
+.bo .kal-kopf h2 { margin: 0; }
+.bo .kal-eintrag { display: flex; gap: var(--a-2); align-items: center; background: var(--creme-hell); border-left: var(--balken) solid var(--oliv-tief); border-radius: var(--ecke-klein); padding: var(--a-2); margin-bottom: var(--a-1); cursor: pointer; transition: background .15s; }
+.bo .kal-eintrag:hover { background: var(--weiss); }
+.bo .kal-eintrag .haupt { flex: 1; min-width: 0; }
+.bo .kal-eintrag .titel { font-weight: 500; }
+.bo .kal-zeit { font: 500 var(--t-2)/1 Jost, sans-serif; min-width: 55px; color: var(--oliv-tief); }
+@media (max-width: 720px) {
+  .bo .kal-feld { min-height: 52px; padding: 3px 0; }
+  .bo .kal-chips { display: none; }
+  .bo .kal-punkte { display: flex; justify-content: center; gap: 3px; padding-top: 2px; }
+  .bo .kal-punkte i { width: 6px; height: 6px; border-radius: 50%; background: var(--art, #3F4B25); }
+  .bo .kal-feld.gewaehlt { background: rgba(207, 196, 160, .14); }
+  .bo #kal-tagliste { display: block; }
+  .bo .kal-monat { min-width: 0; font-size: var(--t-1); }
+}
+
+/* ---------- Tabellen: am Computer Tabelle, am Handy Karten (nichts scrollt quer) ---------- */
+.bo .tabelle-huelle { border-radius: var(--ecke); overflow: hidden; border: var(--linie) solid var(--sand); }
+.bo table { width: 100%; border-collapse: collapse; background: var(--creme-hell); font-size: var(--t-0); }
+.bo th { text-align: left; font-weight: 600; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--grau); padding: var(--a-2); border-bottom: var(--linie) solid var(--sand); background: var(--creme); }
+.bo td { padding: var(--a-2); border-bottom: var(--linie) solid var(--sand); vertical-align: top; }
+.bo tr:last-child td { border-bottom: 0; }
+.bo tr.klickbar { cursor: pointer; }
+.bo tr.klickbar:hover td { background: var(--weiss); }
+.bo td .kopieren { min-height: 32px; font-weight: 500; max-width: 233px; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 760px) {
+  .bo .tabelle-huelle { border: 0; border-radius: 0; overflow: visible; }
+  .bo table, .bo tbody, .bo tr, .bo td { display: block; }
+  .bo table { background: none; }
+  .bo tr:first-child:has(th) { display: none; }
+  .bo tr { background: var(--creme-hell); border-radius: var(--ecke); padding: var(--a-2) var(--a-3); margin-bottom: var(--a-1); }
+  .bo tr { display: grid; grid-template-columns: 1fr 1fr; gap: var(--a-1) var(--a-3); }
+  .bo td { padding: 0; border: 0; min-width: 0; }
+  .bo td:first-child { grid-column: 1 / -1; font-size: var(--t-1); font-weight: 600; }
+  .bo td[data-l]::before { content: attr(data-l); display: block; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--grau); }
+  .bo td[data-l]:empty { display: none; }
+}
+
+/* ---------- Testmaschinen ---------- */
+.bo .maschinen { display: grid; grid-template-columns: repeat(var(--spalten, 5), minmax(0, 1fr)); gap: var(--a-2); }
+@media (max-width: 1100px) { .bo .maschinen { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .bo .maschinen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.bo .maschine { background: var(--creme-hell); border-radius: var(--ecke); border-top: var(--balken) solid var(--sand); padding: var(--a-2) var(--a-2) var(--a-3); cursor: pointer; font-size: var(--t-0); transition: transform .15s, box-shadow .15s; min-width: 0; }
+.bo .maschine:hover { transform: translateY(-2px); box-shadow: 0 8px 21px rgba(30, 37, 19, .10); }
+.bo .maschine.unterwegs { border-top-color: var(--oliv); }
+.bo .maschine.faellig { border-top-color: var(--rot); }
+.bo .maschine.wartung { border-top-color: var(--gold-tief); }
+.bo .maschine .nr { font: 500 var(--t-2)/1.2 Jost, sans-serif; color: var(--oliv-tief); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bo .maschine .besitzer { color: var(--oliv); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bo .maschine.zieht { opacity: .4; }
+.bo .maschinen-liste { border-radius: var(--ecke); min-height: 80px; }
+.bo .maschinen-liste h2 span { color: var(--grau); font-weight: 400; margin-left: 4px; }
+.bo .maschinen-liste.ziel { outline: 2px dashed var(--gold-tief); outline-offset: 6px; }
+.bo .trenner { border: 0; border-top: var(--linie) solid var(--sand); margin: var(--a-5) 0 var(--a-4); }
+
+/* ---------- Unterlagen und Bestellungen ---------- */
+.bo .unterlage { display: flex; flex-direction: row; flex-wrap: wrap; gap: var(--a-1) var(--a-2); align-items: center; padding: var(--a-2) var(--a-3); border-bottom: var(--linie) solid var(--sand); background: none; }
+.bo .unterlage:last-child { border-bottom: 0; }
+.bo .unterlage .haupt { flex: 1 1 233px; min-width: 0; cursor: pointer; font-weight: 500; }
+.bo .unterlage .haupt:hover { color: var(--oliv); }
+.bo .unterlage .klein { font-weight: 400; }
+.bo .unterlage.bestellung { cursor: pointer; background: var(--creme-hell); border-radius: var(--ecke-klein); border-bottom: 0; margin-bottom: var(--a-1); padding: var(--a-2) var(--a-3); transition: background .15s; }
+.bo .unterlage.bestellung:hover { background: var(--weiss); }
+.bo .u-art { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; background: var(--sand); color: var(--grau); min-width: 55px; text-align: center; }
+.bo .u-art.datei { background: var(--oliv-tief); color: var(--weiss); }
+.bo .u-art.zugang { background: var(--gold-tief); color: var(--weiss); }
+.bo .unterlage .geheim { font-family: ui-monospace, Menlo, monospace; letter-spacing: .05em; }
+.bo .unterlage .auge { background: none; border: 0; padding: 0 4px; margin-left: 4px; color: var(--grau); cursor: pointer; vertical-align: -3px; }
+.bo .unterlage .vorschau { width: 46px; height: 64px; flex: none; border-radius: 3px; background: var(--creme) center top / cover no-repeat; box-shadow: 0 1px 3px rgba(30, 37, 19, .15); }
+.bo .unterlage .vorschau:not(.da) { animation: vorschau-laedt 1.4s ease-in-out infinite; }
+@keyframes vorschau-laedt { 50% { opacity: .5; } }
+.bo .ablage { border: 2px dashed var(--sand); border-radius: var(--ecke); padding: var(--a-3); color: var(--grau); margin: var(--a-1) 0; }
+.bo .ablage.ziel { background: rgba(207, 196, 160, .14); border-color: var(--oliv); }
+.bo .einkaufsliste { background: var(--creme-hell); border-radius: var(--ecke); overflow: hidden; }
+
+/* ---------- Wohnung ---------- */
+.bo .raum { margin: var(--a-5) 0 var(--a-1); }
+.bo .raum h2 { font-size: var(--t-3); display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--a-1) var(--a-2); }
+.bo .raum h2 span { font: 400 var(--t-0) Inter, sans-serif; color: var(--grau); }
+.bo .raum-bilder { display: flex; gap: var(--a-1); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: var(--a-1); margin-bottom: var(--a-2); }
+.bo .raum-bilder a { flex: 0 0 auto; scroll-snap-align: start; }
+.bo .raum-bilder img { height: 233px; width: auto; border-radius: var(--ecke); transition: transform .3s; }
+.bo .raum-bilder a:hover img { transform: scale(1.02); }
+.bo .einkauf { display: flex; gap: var(--a-2); align-items: flex-start; padding: var(--a-2) var(--a-3); border-bottom: var(--linie) solid var(--sand); cursor: pointer; }
+.bo .einkauf input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--oliv); }
+.bo .einkauf .haupt { flex: 1; min-width: 0; }
+.bo .einkauf.gekauft .haupt { color: var(--grau); text-decoration: line-through; }
+.bo .einkauf .preis { text-align: right; font-size: var(--t-0); white-space: nowrap; color: var(--oliv-tief); }
+.bo .einkauf .preis small { display: block; font-size: 12px; color: var(--oliv); }
+.bo form.dazu { display: flex; gap: var(--a-1); padding: var(--a-2) var(--a-3); }
+.bo form.dazu input { flex: 1; }
+.bo .schnaeppchen { background: rgba(207, 196, 160, .14); border-radius: var(--ecke); padding: var(--a-3); margin: 0 0 var(--a-4); }
+.bo .schnaeppchen div { display: flex; justify-content: space-between; gap: var(--a-2); padding: 6px 0; border-top: var(--linie) solid rgba(207, 196, 160, .3); font-size: var(--t-0); }
+.bo .schnaeppchen div:first-of-type { border-top: 0; }
+.bo .schnaeppchen b { color: var(--oliv-tief); white-space: nowrap; }
+@media (max-width: 720px) { .bo .raum-bilder img { height: 170px; } .bo .einkauf { flex-wrap: wrap; } .bo .einkauf .preis { width: 100%; text-align: left; padding-left: var(--a-4); } }
+
+/* ---------- Kopf mit Glocke ---------- */
+.bo-kopf { display: flex; justify-content: flex-end; position: relative; z-index: 15; margin-bottom: var(--a-2); }
+@media (min-width: 1024px) { .bo-kopf { height: 0; margin: 0; } }
+.symbole { position: relative; display: flex; align-items: center; gap: var(--a-1); }
+.symbol { position: relative; width: 44px; height: 44px; padding: 0; border-radius: 50%; border: var(--linie) solid var(--sand); background: var(--creme-hell); color: var(--oliv-tief); display: grid; place-items: center; cursor: pointer; }
+.symbol svg { width: 22px; height: 22px; }
+.symbol:hover { border-color: var(--oliv); }
+.glocke.hat-neues { border-color: var(--oliv-tief); animation: glocke 1.2s ease-in-out 1; }
+@keyframes glocke { 0%, 100% { transform: rotate(0); } 15% { transform: rotate(12deg); } 30% { transform: rotate(-10deg); } 45% { transform: rotate(6deg); } 60% { transform: rotate(-3deg); } }
+.glocke #glocke-zahl { position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--rot); color: var(--weiss); font-size: 12px; line-height: 20px; font-weight: 600; }
+.glocke #glocke-zahl:empty { display: none; }
+.glocke-liste { position: absolute; top: calc(100% + var(--a-1)); right: 0; width: min(377px, calc(100vw - 2 * var(--rand))); max-height: 60vh; overflow: auto; background: var(--weiss); border-radius: var(--ecke); box-shadow: 0 13px 34px rgba(30, 37, 19, .2); padding: var(--a-1); z-index: 40; }
+.glocke-kopf { display: flex; justify-content: space-between; align-items: center; padding: 6px var(--a-1) var(--a-1); }
+.glocke-kopf .link { background: none; border: 0; color: var(--oliv); text-decoration: underline; cursor: pointer; padding: 0; font-size: var(--t-0); }
+.glocke-zeile { display: block; width: 100%; text-align: left; background: none; border: 0; border-top: var(--linie) solid var(--sand); padding: var(--a-2) var(--a-1); cursor: pointer; }
+.glocke-zeile:hover { background: var(--creme-hell); }
+.glocke-zeile span { display: block; }
+.glocke-zeile small { color: var(--grau); }
+
+/* ---------- Dialog (Aufgabe, Kunde, Bestellung, Gerät, Partner) ---------- */
+dialog#dialog { border: 0; border-radius: var(--ecke); padding: 0; width: min(100vw - 2 * var(--a-2), 610px); max-height: calc(100vh - 2 * var(--a-3)); background: var(--creme); color: var(--tinte); box-shadow: 0 21px 55px rgba(0, 0, 0, .3); }
+dialog#dialog::backdrop { background: rgba(20, 24, 12, .55); }
+dialog#dialog[open] { animation: blatt-rein .28s cubic-bezier(.2, .7, .2, 1); }
+@keyframes blatt-rein { from { opacity: 0; transform: translateY(13px) scale(.98); } }
+#dialog-form { padding: var(--a-4) var(--a-3); }
+@media (min-width: 600px) { #dialog-form { padding: var(--a-4); } }
+#dialog h2 { font-size: var(--t-3); margin-bottom: var(--a-3); }
+#dialog h3 { font: 600 var(--t-0)/1.4 Inter, sans-serif; letter-spacing: var(--lw-weit); text-transform: uppercase; color: var(--gold-tief); }
+#dialog .formular { display: grid; grid-template-columns: 1fr 1fr; gap: var(--a-2); }
+#dialog .formular label { font-size: var(--t-0); font-weight: 500; color: var(--grau); display: flex; flex-direction: column; gap: 6px; }
+#dialog .formular .breit { grid-column: 1 / -1; }
+#dialog .formular [hidden] { display: none !important; }
+#dialog .formular .haken { flex-direction: row; align-items: center; gap: var(--a-1); align-self: end; padding-bottom: var(--a-1); }
+#dialog .formular .haken input { width: 20px; height: 20px; margin: 0; }
+@media (max-width: 600px) { #dialog .formular { grid-template-columns: 1fr; } }
+#dialog .knoepfe { display: flex; gap: var(--a-1); justify-content: flex-end; margin-top: var(--a-4); flex-wrap: wrap; position: sticky; bottom: calc(-1 * var(--a-4)); background: var(--creme); padding: var(--a-2) 0; }
+#dialog .knoepfe .links { margin-right: auto; }
+#dialog .verlauf { font-size: var(--t-0); color: var(--grau); margin-top: var(--a-3); border-top: var(--linie) solid var(--sand); padding-top: var(--a-2); }
+#dialog .verlauf b { color: var(--tinte); }
+#dialog .blick { background: var(--creme-hell); border-radius: var(--ecke-klein); padding: var(--a-2) var(--a-3); margin: 0 0 var(--a-3); font-size: var(--t-0); display: grid; gap: 6px; }
+#dialog .blick .leise { color: var(--grau); }
+#dialog .titel-klein { font-size: var(--t-0); color: var(--grau); margin-bottom: 6px; font-weight: 500; }
+#dialog .kaestchen { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px; }
+#dialog .kaestchen label { flex-direction: row; align-items: center; gap: var(--a-1); font-size: var(--t-0); color: var(--tinte); border: var(--linie) solid var(--sand); border-radius: var(--ecke-klein); padding: var(--a-1); cursor: pointer; background: var(--weiss); }
+#dialog .kaestchen label:has(input:checked) { border-color: var(--oliv); background: rgba(207, 196, 160, .14); }
+#dialog .kaestchen input, #dialog .gesundheit input { width: 18px; height: 18px; accent-color: var(--oliv); }
+#dialog .gesundheit .haken { display: flex; flex-direction: row; gap: var(--a-1); align-items: flex-start; font-size: var(--t-0); margin-bottom: 6px; }
+#dialog .gesundheit textarea:disabled { opacity: .5; }
+#dialog .bestell-daten { display: grid; gap: 4px; font-size: var(--t-0); background: var(--creme-hell); border-radius: var(--ecke-klein); padding: var(--a-2) var(--a-3); }
+#dialog .bestell-daten > div { display: flex; gap: var(--a-2); flex-wrap: wrap; }
+#dialog .bestell-daten span { min-width: 130px; color: var(--grau); }
+#dialog .bestell-daten b { font-weight: 500; overflow-wrap: anywhere; }
+#dialog .bestell-dateien { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--a-1); }
+#dialog .sponsor-pad { position: relative; height: 144px; border: var(--linie) solid var(--sand); border-radius: var(--ecke-klein); background: var(--weiss); touch-action: none; }
+#dialog .sponsor-pad canvas { width: 100%; height: 100%; display: block; }
+#dialog .sponsor-pad span { position: absolute; left: var(--a-2); bottom: var(--a-1); font-size: 12px; color: var(--grau); pointer-events: none; }
+#dialog .leiste { display: flex; flex-wrap: wrap; gap: var(--a-1); align-items: center; }
+#dialog .fb-antworten { display: grid; max-height: 62vh; overflow: auto; }
+#dialog .fb-antworten > div { display: grid; grid-template-columns: 1fr 1fr; gap: var(--a-2); padding: var(--a-1) 0; border-bottom: var(--linie) solid var(--sand); font-size: var(--t-0); }
+#dialog .fb-antworten span { color: var(--grau); }
+@media (max-width: 620px) { #dialog .fb-antworten > div { grid-template-columns: 1fr; gap: 2px; } }
+#dialog .beleg-feld { display: flex; align-items: center; justify-content: space-between; gap: var(--a-2); font-size: var(--t-0); color: var(--grau); }
+#dialog .leer { color: var(--grau); font-size: var(--t-0); }
+#dialog #mail-text { font: 400 var(--t-0)/1.5 ui-monospace, Menlo, monospace; }
+
+/* Richtung B (10.11.2026): dunkler Grund. Farben der Termin-Arten heller, damit sie auf Dunkel lesbar bleiben. */
+.a-vorstellen { --art: #A9B88A; } .a-beratung { --art: #8FA36A; } .a-testgeraet { --art: #D2B36A; } .a-filter { --art: #86B4B8; }
+.a-lieferung { --art: #D9A064; } .a-geschaeft { --art: #8FB0C6; } .a-event { --art: #D9968C; } .a-privat { --art: #ACA4DC; }
+.bo .label.termin, .bo .kal-chip.mehrtag { color: #1F2418; }
+.bo .kal-chip { color: #FBF9F4; }
+.bo .avatar { color: #FBF9F4; }
+.bo .board .spalte { border-radius: 18px; }
+.bo .board .karte { background: #1F2418; border-color: transparent; border-radius: 12px; }
+.bo .zahlen, #dialog .zahlen { background: transparent; border: 0; gap: 10px; }
+.bo .zahlen > *, #dialog .zahlen > * { border-radius: 18px; background: var(--c-surface); }
+.bo-start .zahlen > *:first-child { background: #FBF9F4; color: #2A2C22; }
+.bo-start .zahlen > *:first-child * { color: #2A2C22; }
+.bo-start .zahlen > *:first-child b, .bo-start .zahlen > *:first-child strong { color: #8F3A2C; }
+#inhalt:has(.bo-start) { max-width: 980px; }
+#dialog { background: #262C1D; color: var(--c-ink); border: 0; border-radius: 22px; }
+#dialog::backdrop { background: rgba(12, 15, 8, .72); backdrop-filter: blur(8px); }
+.glocke-liste { background: #262C1D; border: 0; border-radius: 18px; }
+@media (min-width: 1024px) { .bo-kopf { position: fixed; z-index: 32; top: 16px; right: calc(var(--rand) + 250px); height: auto; } }

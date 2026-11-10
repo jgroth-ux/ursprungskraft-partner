@@ -1,0 +1,12 @@
+--- Breite 1440
+OK    Anmeldeseite
+OK    Registrieren: Formular mit Enagic-ID
+OK    Registrieren: ungleiche Passwörter werden gemeldet
+OK    Anmelden führt auf Start
+OK    Start: Begrüßung, Felder-Raster, nächster Termin als helles Feld
+OK    Start: Anrufen direkt aus dem Feld
+OK    Start: Flyer liegt auf dem Handy im Foto
+OK    Start: "Heute anrufen" öffnet Kunden mit Filter
+OK    Kunden: Karte als eigene Ansicht
+OK    Kunden: zurück, Scrollposition bleibt
+OK    Kunden: Wechsel ohne neues Laden

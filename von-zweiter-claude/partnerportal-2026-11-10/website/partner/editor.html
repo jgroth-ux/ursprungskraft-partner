@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Flyer-Editor · Ursprungskraft</title>
+<link rel="icon" type="image/png" href="../dashboard/logo-oliv.png?v=2">
+<link href="../schriften/schriften.css" rel="stylesheet">
+<style>
+/* Flyer-Editor (01.11.2026), nur für Jasmin (Rolle admin). Legt pro Motiv und Format fest, wo Foto und Textfelder sitzen.
+   Gespeichert wird in uk_flyer_vorlagen, das Partnerportal übernimmt es sofort. Logik in editor.js, Zeichnen in flyer.js. */
+:root{--ground:#F5F1E8;--surface:#FBF9F4;--weiss:#FFFFFF;--line:#D9CFBA;--olive:#4F5A35;--olive-hover:#414A2C;--ink:#2A2C22;--muted:#5F6152;--rot:#9B3B2E;--auswahl:#2C83B8}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 14px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2{font-family:Jost,system-ui,sans-serif;font-weight:500;margin:0}
+button,select,input{font:inherit;color:inherit}
+.knopf{appearance:none;border:1px solid var(--line);background:var(--weiss);border-radius:6px;padding:8px 12px;cursor:pointer;white-space:nowrap}
+.knopf:hover{border-color:var(--ink)}
+.knopf.haupt{background:var(--olive);border-color:var(--olive);color:#fff}
+.knopf.haupt:hover{background:var(--olive-hover)}
+.knopf[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:#EFEBE0}
+.knopf:disabled{opacity:.4;cursor:default}
+select{border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:var(--weiss);width:100%}
+
+.anmelden{max-width:380px;margin:12vh auto;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:28px}
+.anmelden label{display:block;margin-top:14px;font-weight:500}
+.anmelden input{display:block;width:100%;margin-top:6px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--weiss)}
+.anmelden .knopf{margin-top:20px;width:100%}
+.fehler{color:var(--rot);margin-top:12px}
+
+.editor{display:grid;grid-template-columns:260px 1fr;height:100vh}
+.seite{background:var(--surface);border-right:1px solid var(--line);padding:18px;overflow:auto}
+.seite h1{font-size:22px;margin-bottom:14px}
+.gruppe{margin-bottom:18px}
+.gruppe>b{display:block;font-weight:600;margin-bottom:6px}
+.formate{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.formate .knopf{display:flex;justify-content:space-between;gap:6px}
+.formate small{color:var(--muted)}
+.motive{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.motive button{appearance:none;border:2px solid transparent;padding:0;border-radius:4px;cursor:pointer;background:none;position:relative}
+.motive button[aria-pressed="true"]{border-color:var(--auswahl)}
+.motive img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:2px}
+.motive .weg{position:absolute;inset:0;background:rgba(245,241,232,.7);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--rot)}
+.haken{display:flex;gap:8px;align-items:center;margin-top:8px;cursor:pointer}
+.hilfe{color:var(--muted);font-size:12.5px;margin:6px 0 0}
+
+.arbeit{display:flex;flex-direction:column;min-width:0}
+.leiste{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line);min-height:58px}
+.leiste .name{font-weight:600;margin-right:6px}
+.leiste .trenner{width:1px;height:26px;background:var(--line)}
+.groesse{display:flex;align-items:center;gap:4px}
+.groesse input{width:64px;padding:7px 6px;border:1px solid var(--line);border-radius:6px;text-align:center;background:var(--weiss)}
+.leiste input[type=range]{width:140px}
+.status{margin-left:auto;color:var(--muted);font-size:13px}
+.buehne{flex:1;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden;background:#E7E2D6}
+.rahmen{position:relative;box-shadow:0 6px 30px rgba(40,40,30,.18);touch-action:none;user-select:none}
+.rahmen canvas{display:block}
+.hilfslinie{position:absolute;background:#E0457B;pointer-events:none}
+.auswahl{position:absolute;border:1.5px solid var(--auswahl);pointer-events:none}
+.auswahl.bild{border-style:dashed}
+.griff{position:absolute;width:14px;height:14px;background:#fff;border:1.5px solid var(--auswahl);border-radius:50%;pointer-events:auto}
+.griff.breite{right:-8px;top:50%;margin-top:-7px;cursor:ew-resize}
+.griff.links{left:-8px;top:50%;margin-top:-7px;cursor:ew-resize}
+.griff.ecke{right:-8px;bottom:-8px;cursor:nwse-resize}
+.schwebe{position:absolute;inset:0;cursor:default}
+.schwebe.ziehen{cursor:grabbing}
+.unten{display:flex;gap:8px;padding:10px 16px;background:var(--surface);border-top:1px solid var(--line);flex-wrap:wrap;align-items:center}
+.meldung{margin-left:auto;font-weight:500}
+.meldung.ok{color:var(--olive)}
+.meldung.fehler{color:var(--rot);margin-top:0}
+@media (max-width:860px){.editor{grid-template-columns:1fr;height:auto}.seite{border-right:0;border-bottom:1px solid var(--line)}.buehne{min-height:70vh}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="../vendor/supabase.js"></script>
+<script src="flyer.js?v=20261101d"></script>
+<script src="editor.js?v=20261101a"></script>
+</body>
+</html>

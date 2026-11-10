@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><title>Mails · Vorschau</title>
+<link href="../../schriften/schriften.css" rel="stylesheet">
+<style>
+:root{--ground:#F5F1E8;--surface:#FBF9F4;--line:#D9CFBA;--olive:#4F5A35;--ink:#2A2C22;--muted:#5F6152}
+*{box-sizing:border-box}body{margin:0;background:var(--ground);color:var(--ink);font:400 15px/1.6 Inter,system-ui,sans-serif}
+.kopf{max-width:680px;margin:0 auto;padding:28px 16px 8px}
+h1{font:500 26px/1.2 Jost,system-ui,sans-serif;margin:0 0 6px}
+p{margin:0 0 12px;color:var(--muted)}
+.betreff{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:12px 0;font-size:14px}
+.betreff b{color:var(--ink)}
+.wahl{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 16px}
+.wahl button{font:500 14px Jost,sans-serif;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 16px;cursor:pointer}
+.wahl button[aria-pressed="true"]{background:var(--olive);border-color:var(--olive);color:#fff}
+iframe{display:block;width:100%;max-width:680px;margin:0 auto 48px;border:0;height:1500px;background:#F4F1EA}
+</style></head><body>
+<div class="kopf">
+<h1>Alle Mails aus dem System</h1>
+<p>So sehen die Mails aus, die Kunden und Partner von uns bekommen. Alle haben denselben Kopf mit Logo und Schriftzug. Die Beispielkundin Anna ist erfunden, die Preise kommen aus der echten Preistabelle.</p>
+<div class="betreff">Absender: <b>Ursprungskraft (Daniel Zürcher)</b><br>Betreff: <b id="betreff">Vielen Dank für deine Bestellung</b></div>
+<div class="wahl" role="group" aria-label="Beispiel wählen">
+<button type="button" data-m="mail-k8.html" data-b="Vielen Dank für deine Bestellung" aria-pressed="true">Versand: K8 auf Raten</button>
+<button type="button" data-m="mail-em.html" data-b="Vielen Dank für deine Bestellung" aria-pressed="false">Versand: emGuarde GO</button>
+<button type="button" data-m="mail-bestellung-angekommen.html" data-b="Deine Bestellung ist angekommen" aria-pressed="false">Bestellung angekommen (zurzeit aus)</button>
+<button type="button" data-m="mail-passwort.html" data-b="Dein neues Passwort" aria-pressed="false">Passwort vergessen</button>
+<button type="button" data-m="mail-partner-angekommen.html" data-b="Deine Anmeldung als Partner ist angekommen" aria-pressed="false">Partner: Anmeldung da</button>
+<button type="button" data-m="mail-partner-frei.html" data-b="Dein Zugang zum Partnerportal ist frei" aria-pressed="false">Partner: Zugang frei</button>
+</div></div>
+<iframe id="mail" src="mail-k8.html" title="Vorschau der Kundenmail"></iframe>
+<script>
+const f=document.getElementById('mail');
+function hoehe(){try{f.style.height=f.contentDocument.documentElement.scrollHeight+'px'}catch(e){}}
+f.addEventListener('load',hoehe);
+document.querySelectorAll('.wahl button').forEach(b=>b.addEventListener('click',()=>{
+document.querySelectorAll('.wahl button').forEach(x=>x.setAttribute('aria-pressed',x===b));f.src=b.dataset.m;document.getElementById('betreff').textContent=b.dataset.b;}));
+</script></body></html>
