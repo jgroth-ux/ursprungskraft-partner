@@ -24,9 +24,9 @@ Den Ordner `website/` auf einen Webserver legen (lokal reicht) und öffnen:
 | Startseite als Felder in verschiedenen Größen: nächster Termin als helles Feld, die nächsten Tage, Heute anrufen mit Anruf-Knopf, neue Anfragen, Landingpage, Flyer, Neuigkeit, Bestell-Link. | BESTANDEN | wie oben, Prüfzeilen "Start" |
 | Freischaltung: Was nicht frei ist, trägt auf der Startseite ein Schloss und führt zur Verkaufsansicht. | BESTANDEN | `bildschirmfotos/1440-gesperrt_start.jpg`, `390-gesperrt_start.jpg`, Prüfzeilen "Start gesperrt" |
 | Alle übrigen Partner-Seiten im dunklen Stil mit runden Ecken: Kunden, Karteikarte, Kalender, Tools, Landingpage, Flyer, Wissen, Mehr, Konto, Einführung, Anmelden. | BESTANDEN | `bildschirmfotos/1440-*.jpg`, `390-*.jpg` |
-| Backoffice: Farben, Ecken und Leiste unten. | BESTANDEN | `bildschirmfotos/1440-_bo_uebersicht.jpg`, `1440-_bo_aufgaben.jpg`, `390-_bo_uebersicht.jpg` |
-| Backoffice-Übersicht als Felder-Raster wie im Entwurf | NICHT BESTANDEN (nicht gebaut) | Der Aufbau ist dort noch der alte, nur umgefärbt. Dafür müsste ich in `backoffice.js` eingreifen, das bisher fast unverändert vom Dashboard übernommen ist. Bitte Bescheid geben. |
-| "Ein Feld wächst beim Klick zur großen Ansicht" wie im Entwurf | NICHT BESTANDEN (anders gelöst) | Im Portal führen die Felder direkt auf die jeweilige Seite. Das Aufklappen an Ort und Stelle gibt es nur im Entwurf. |
+| Backoffice-Übersicht als Felder-Raster, sortiert nach Dringlichkeit: helles Feld mit dem, was zuerst dran ist (Bestellungen zuordnen, sonst nächster Termin, sonst Aufgaben), daneben "Heute unterwegs" und "Deine Aufgaben", vier Zahlenfelder, "Neu von Daniel" in Khaki. | BESTANDEN | `bildschirmfotos/1440-_bo_uebersicht.jpg`, `1440-_als_daniel_bo_uebersicht.jpg`, `390-_bo_uebersicht.jpg`, Prüfzeile "Nach Anmeldung Backoffice" |
+| Übrige Backoffice-Bereiche im selben dunklen Stil mit Leiste unten: Aufgaben, Kalender, Bestellungen, Kunden, Partner, Testmaschinen, Unterlagen, Auswertung, Wohnung. Aufbau dort unverändert. | BESTANDEN | `bildschirmfotos/1440-_bo_*.jpg`, alle am Bildschirm auf Lesbarkeit durchgesehen |
+| Felder führen auf eine eigene Seite, kein Pop-up-Fenster (Entscheidung von Jasmin am 10.11.) | BESTANDEN | Prüfzeilen "Start gesperrt: Feld führt zur Verkaufsansicht", "Computer: Leiste führt zu Kunden" |
 
 ## Prüfungen
 
@@ -39,7 +39,7 @@ Den Ordner `website/` auf einen Webserver legen (lokal reicht) und öffnen:
 | "Bewegung reduzieren" schaltet alles ab | BESTANDEN | ebenda: 0 laufende Animationen |
 | Kontrast für Text | BESTANDEN | 17 Farbpaare gerechnet, alle ab 5,2 zu 1. Der Platzhalter in Feldern lag bei 4,4 und wurde aufgehellt |
 | Kein Überlauf nach rechts auf 14 Ansichten | BESTANDEN | Prüfzeile "Alle 14 Ansichten" |
-| Fehler in der Browser-Konsole | BESTANDEN, mit Hinweis | Keine Fehler. Es gibt eine Warnung des Browsers, dass die vorab geladenen Schriften auf manchen Seiten erst spät benutzt werden. Sie hat keine sichtbare Folge |
+| Fehler in der Browser-Konsole | BESTANDEN | Keine Fehler im letzten Lauf. In einem früheren Lauf gab es einmal die Browser-Warnung, dass vorab geladene Schriften spät benutzt wurden, ohne sichtbare Folge |
 | Echte Handys (iPhone, Android), Installation als App | NICHT BESTANDEN (nicht geprüft) | Keine echten Geräte zur Verfügung |
 | Echte Datenbank, automatische Backoffice-Anmeldung, Flyer über Telegram | NICHT BESTANDEN (nicht geprüft) | Alles lief mit Probedaten |
 | Ladezeit gemessen, Durchgang mit Vorleseprogramm | NICHT BESTANDEN (nicht geprüft) | |
@@ -57,12 +57,12 @@ Farben und Schriften bleiben die der CI: Oliv tief, Khaki hell, gebrochenes Wei�
 
 ## Offen
 
-1. **Backoffice-Übersicht als Felder.** Siehe oben.
+1. **Backoffice im Einzelnen.** Die Übersicht ist neu gebaut. In den übrigen Bereichen sind Farben und Ecken angepasst, der Aufbau (Tabellen, Board, Kalender) ist der bisherige. Sag Bescheid, wenn ein Bereich einen neuen Aufbau bekommen soll.
 2. **Neue SQL-Datei für die Einführung.** `supabase/umbau-2026-11-09-partnerportal-einstieg.sql` muss einmal im SQL-Editor laufen, damit "nur ein einziges Mal" auf allen Geräten gilt. Unverändert seit gestern, nur in einer lokalen Test-Datenbank geprüft.
 3. **Video zur Installation, neue Fotoserie, Preise.** Unverändert offen wie gestern: Platzhalter für das Video, zwei vorläufige Fotos, überall "[Preis folgt]".
 4. **Sportler-Landingpage.** Die Übergabe für den anderen Claude liegt in `von-zweiter-claude/uebergabe/STIL-SCHALTZENTRALE-fuer-andere-projekte.md`. Die Seite von Johnny und Kevin selbst kenne ich nicht.
 
 ## Geänderte Dateien gegenüber dem Stand vom 09.11.
 
-Im Ordner `website/partner/`: `portal.css` (Farben umgestellt, Block "Richtung B" angehängt), `partner.js` (Startseite neu, Leiste), `backoffice.css` (Farben für dunklen Grund), `index.html` und `manifest.webmanifest` (Versionsnummern, dunkle Farbe der Statusleiste).
-Unverändert: `flyer.js`, `backoffice.js`, `wissen.js`, `vorschau.js`, das alte Dashboard, `daten.js`.
+Im Ordner `website/partner/`: `portal.css` (Farben umgestellt, Block "Richtung B" angehängt), `partner.js` (Startseite neu, Leiste), `backoffice.css` (Farben für dunklen Grund, Felder der Übersicht), `backoffice.js` (nur die Übersicht neu aufgebaut, alles andere unverändert), `index.html` und `manifest.webmanifest` (Versionsnummern, dunkle Farbe der Statusleiste).
+Unverändert: `flyer.js`, `wissen.js`, `vorschau.js`, das alte Dashboard, `daten.js`.

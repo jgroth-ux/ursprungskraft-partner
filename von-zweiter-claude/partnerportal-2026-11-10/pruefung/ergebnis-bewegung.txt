@@ -1,2 +1,2 @@
-Bewegung normal: 13 Ansichten, längste einmalige Bewegung 600 ms (normal#start: leiste-ein an .), laufende Animationen kurz nach dem Laden zusammen: 131, Dauerschleifen: dreh, plopp, tippen
+Bewegung normal: 13 Ansichten, längste einmalige Bewegung 600 ms (normal#start: leiste-ein an .), laufende Animationen kurz nach dem Laden zusammen: 130, Dauerschleifen: dreh, plopp, tippen
 Bewegung reduziert: 13 Ansichten, längste einmalige Bewegung 0 ms (keine), laufende Animationen kurz nach dem Laden zusammen: 0, Dauerschleifen: keine

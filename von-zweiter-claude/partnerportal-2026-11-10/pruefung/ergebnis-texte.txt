@@ -1,4 +1,4 @@
-Partneransichten geprüft: 33 , Zeichen: 71667
+Partneransichten geprüft: 33 , Zeichen: 71674
 "Werkzeug": 0 
 "Wasser-Check-Seite": 0 
 "in deinen Kunden": 0 
