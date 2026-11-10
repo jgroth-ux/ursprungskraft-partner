@@ -14,7 +14,7 @@ SPORTLER = {
     'kevin': dict(
         name='Kevin Wolter', rolle='Bodybuilder', rolle_lang='Bodybuilder · 216.000 Follower auf Instagram · 617.000 Abonnenten auf YouTube',
         foto='kevin.jpg', foto_pos='50% 10%', foto_pos_titel='50% 30%',
-        akzent='#CF6844', akzent_auf='#171A1C', akzent_hell='#9C4628', akzent_dunkel='#E58A66', foto_pos_schluss='50% 22%',
+        akzent='#CF6844', akzent_auf='#171A1C', akzent_hell='#9C4628', akzent_dunkel='#EC9A79', akzent_linie='#CF6844', foto_pos_schluss='50% 22%',
         link='https://mein.ursprungskraft.net/partner/kevin/', link_kurz='mein.ursprungskraft.net/partner/kevin',
         vorwort_titel='Du trainierst hart. Trinkst du auch gut?',
         vorwort=(
@@ -27,7 +27,7 @@ SPORTLER = {
     'johny': dict(
         name='Johny Yusupov', rolle='MMA-Fighter', rolle_lang='MMA-Fighter · 83.100 Follower auf Instagram · 33.900 Abonnenten auf YouTube',
         foto='johny.jpg', foto_pos='50% 12%', foto_pos_titel='50% 10%',
-        akzent='#4261CC', akzent_auf='#FFFFFF', akzent_hell='#3A57BD', akzent_dunkel='#8DA0EE', foto_pos_schluss='50% 2%',
+        akzent='#4261CC', akzent_auf='#FFFFFF', akzent_hell='#3A57BD', akzent_dunkel='#9EAEF2', akzent_linie='#8DA0EE', foto_pos_schluss='50% 2%',
         link='https://mein.ursprungskraft.net/partner/johny/', link_kurz='mein.ursprungskraft.net/partner/johny',
         vorwort_titel='Du kämpfst hart. Trinkst du auch gut?',
         vorwort=(
@@ -122,6 +122,13 @@ def bauen():
         html = feinsatz(html)
         (HIER / f'ebook-{kurz}.html').write_text(html, encoding='utf-8')
         print('gebaut:', f'ebook-{kurz}.html')
+        # Cover-Variante B (zum Vergleich): ohne Sportlerfoto, mit dem Wasserfoto
+        b = html.replace('<section class="seite s01 titel">', '<section class="seite s01 titel titel-b">', 1)
+        b = re.sub(r'(<section class="seite s01 titel titel-b">.*?)<img [^>]*>',
+                   lambda m: m.group(1) + '<img src="bilder/wasser.jpg" alt="Frisches Wasser aus dem Hahn" style="object-position:40% 55%">',
+                   b, count=1, flags=re.S)
+        (HIER / f'ebook-{kurz}-cover-b.html').write_text(b, encoding='utf-8')
+        print('gebaut:', f'ebook-{kurz}-cover-b.html')
 
 if __name__ == '__main__':
     bauen()

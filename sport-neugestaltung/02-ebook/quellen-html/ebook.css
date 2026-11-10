@@ -3,7 +3,7 @@
    Schriftgrößen in der Leiter 1,272 ab 10 pt: 7,86 · 10 · 12,72 · 16,18 · 20,58 · 26,18 · 33,3 · 42,36 · 53,88 · 68,54 · 87,18.
    Satzspiegel: links und rechts 18 mm, oben 20 mm, Fußzeile 12 mm über der Kante. */
 :root{
-  --papier:#F3F1EB;--papier-2:#E8E6E0;--grund:#171A1C;--feld:#23272A;
+  --papier:#F3F1EB;--papier-2:#E8E6E0;--grund:#383E42;--feld:#444A4F; /* Anthrazit RAL 7016 statt Schwarz (Jasmin, 10.11.) */
   --tinte:#171A1C;--leise:#4F5457;--stein:#B6B8B5;--linie:#D3D0C8;--linie-d:rgba(243,241,235,.18);
   --ak:#CF6844;--ak-auf:#171A1C;--ak-h:#9C4628;--ak-d:#E58A66;
   --s-1:7.86pt;--s0:10pt;--s1:12.72pt;--s2:16.18pt;--s3:20.58pt;--s4:26.18pt;--s5:33.3pt;--s6:42.36pt;--s7:53.88pt;--s8:68.54pt;--s9:87.18pt;
@@ -76,7 +76,7 @@ table.menge td.l small{font-family:'Inter',sans-serif;font-weight:400;font-size:
 .band .zahl{font-family:'Jost',sans-serif;font-weight:500;font-size:var(--s5);line-height:1;letter-spacing:-.03em;margin:2.5mm 0 2.5mm;white-space:nowrap}
 .band p{font-size:var(--s-1);line-height:1.5;color:var(--stein);margin:0}
 .traeger{display:grid;grid-template-columns:repeat(20,1fr);gap:1mm}
-.traeger i{display:block;aspect-ratio:3/2;background:var(--ak);border-radius:.3mm}
+.traeger i{display:block;aspect-ratio:3/2;background:var(--ak-linie);border-radius:.3mm}
 .traeger-text{display:flex;justify-content:space-between;align-items:baseline;margin-top:3mm;font-size:var(--s-1);color:var(--stein)}
 .traeger-text b{font-family:'Jost',sans-serif;font-weight:500;font-size:var(--s1);color:var(--papier)}
 .schlusssatz{margin-top:6mm;text-align:left!important;font-family:'Jost',sans-serif;font-weight:500;font-size:var(--s2);line-height:1.15;letter-spacing:-.02em}
@@ -243,15 +243,20 @@ a.video img{width:100%;height:100%;object-fit:cover;display:block}
 .s12 .rechnung div{padding-top:0}
 
 /* Kapitel 7: Bild so hoch wie der Text daneben, beide unten bündig */
-.star{grid-template-columns:70mm 1fr;align-items:stretch}
+.star{grid-template-columns:70mm 1fr;align-items:start}
 .s11 .star{padding:7mm 0}
 .s11 .rand>.star:first-child{padding-top:0}
 .s11 .zitatblock{margin-top:8mm}
-.star a.video{aspect-ratio:auto;height:100%;min-height:40mm}
+.star a.video{aspect-ratio:3/2;height:auto}
 .star a.video img{object-position:50% 35%}
 
 /* Cover: feine Kontur in der Akzentfarbe um das Foto */
-.titel .foto{outline:.75pt solid var(--ak);outline-offset:2.2mm}
+.titel .foto{outline:.75pt solid var(--ak-linie);outline-offset:2.2mm}
+
+/* Cover B: ohne Sportlerfoto, Titel oben, Wasserfoto darunter */
+.titel-b .kopfteil{padding:22mm var(--seite) 0}
+.titel-b h1{font-size:var(--s8);line-height:.92;letter-spacing:-.04em;margin:5mm 0 6mm}
+.titel-b .foto{order:0;height:140mm;margin:12mm var(--seite) 0}
 
 /* Satzregeln (Jasmin): Blocksatz im freien Fließtext, keine automatische Trennung ===== */
 .rand p,.kopf p,.folgekopf p,.vorwort p,.star p,.schweiss p,.schluss p{text-align:justify}
