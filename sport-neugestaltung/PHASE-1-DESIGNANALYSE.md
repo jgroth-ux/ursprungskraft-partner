@@ -1,3 +1,5 @@
+> **Analyse vom Anfang, teilweise überholt** (zum Beispiel Graphit statt Anthrazit). Der aktuelle Stand steht in `ERGEBNIS.md` und `00-UEBERGABE.md`.
+
 # Phase 1: Designanalyse und Designvorschlag
 
 Stand: 10.11.2026. Grundlage: `AUFTRAG.md`, `03-marke/ursprungskraft-ci.md`, `02-ebook/quellen-html/LIESMICH.md`,

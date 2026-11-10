@@ -1,7 +1,7 @@
 # HTML-Quellen E-Book
 
 - `vorlage.html`: der gemeinsame Inhalt beider Fassungen. Text hier ändern.
-- `bauen.py`: je Sportler Vorwort, Foto, Rolle und Link. Baut `ebook-kevin.html` und `ebook-johny.html`.
+- `bauen.py`: je Sportler Vorwort, Foto, Rolle, Link und Farben (`akzent`, `akzent_auf`, `akzent_hell`, `akzent_dunkel`, `akzent_linie`). Baut `ebook-kevin.html` und `ebook-johny.html`.
   Enthält auch den Feinsatz (Trennregeln, siehe unten) und die pH-Farben.
 - `ebook.css`: Gestaltung, A4 hochkant. `schriften/` und `bilder/` liegen daneben.
 - `pdf-erzeugen.js`: macht aus der HTML-Datei das PDF (Playwright mit Chromium).

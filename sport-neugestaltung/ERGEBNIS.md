@@ -1,7 +1,7 @@
 # Ergebnis: Neugestaltung Sportseite und E-Book (Kevin Wolter, Johny Yusupov)
 
-Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selben Tag
-(Änderungswunsch: Foto auf dem E-Book-Cover mit Rahmen statt randabfallend, umgesetzt).
+Stand: 10.11.2026, Übergabestand. Freigabe der Richtung und des Prototyps durch Jasmin am selben Tag,
+danach drei Runden Nachbesserung (unten). Die Abschnitte sind in zeitlicher Reihenfolge, der letzte gilt.
 
 ## Kurz: was sich am Aussehen geändert hat
 
@@ -47,7 +47,7 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
   - Hellere Akzenttöne für kleine Schrift auf Dunkel: Kevin `#EC9A79`, Johny `#9EAEF2`, beide mindestens 4,8 : 1.
   - Neuer Farbwert `akzent_linie` für Kontur und Trägerfelder: Kevin `#CF6844`, Johny `#8DA0EE`.
   - Kevins Knopf hat jetzt weiße Schrift auf Kupfer, dafür größer (16 pt fett).
-- **Die Landingpage bleibt vorerst bei `#171A1C`**, bis Jasmin entscheidet.
+- **Landingpage:** zu diesem Zeitpunkt noch `#171A1C`, in der dritten Runde ebenfalls auf Anthrazit umgestellt.
 - **Kapitel 7:** Beide Video-Bilder sind jetzt gleich groß, im Querformat 3 : 2. Damit ist der Eddie-Text länger als sein Bild.
 - **Cover:** Entscheidung Jasmin: Cover A mit dem Foto des Sportlers bleibt. Die ausprobierte Variante B ohne Sportlerfoto ist wieder entfernt, aus `bauen.py`, `ebook.css` und den Dateien.
 
@@ -70,22 +70,24 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
 | Datei | Änderung | Grund |
 |---|---|---|
 | `01-landingpage/partner/empfehlung.css` | neu geschrieben | neues Aussehen, Akzent je Sportler über `body[data-kurz]`, Standardfarbe für spätere Sportler |
-| `01-landingpage/partner/_vorlage/seite.html` | `<span class="betont">` in der Hero-Überschrift (Text gleich); neue Leiste `<nav class="dock">` mit drei Sprungmarken (`#rechner`, `#video`, `#ebook`), darin der bisherige `.handyknopf` (gleiche Klasse, gleicher Link `#interesse`); Versionsnummern `?v=20261110a` an CSS und JS | Akzent, Leiste, Cache |
+| `01-landingpage/partner/_vorlage/seite.html` | `<span class="betont">` in der Hero-Überschrift (Text gleich); neue Leiste `<nav class="dock">` mit drei Sprungmarken (`#rechner`, `#video`, `#ebook`), darin der bisherige `.handyknopf` (gleiche Klasse, gleicher Link `#interesse`); Versionsnummern `?v=20261110b` an CSS und `?v=20261110a` an JS | Akzent, Leiste, Cache |
 | `01-landingpage/partner/kevin/index.html`, `johny/index.html` | neu gebaut mit `bauen.py` | |
 | `01-landingpage/partner/ebook/ebook-kevin.pdf`, `ebook-johny.pdf` | neue PDFs (Download auf der Seite) | |
 | `01-landingpage/bilder/partner/ebook-kevin.jpg`, `ebook-johny.jpg` | neu aus Seite 1 der PDFs erzeugt (744 × 1053 px) | Cover-Vorschau auf der Seite |
 | `02-ebook/quellen-html/ebook.css` | neu geschrieben | neues Satzbild |
 | `02-ebook/quellen-html/vorlage.html` | Cover zeigt Sportlerfoto (`{{foto}}`, `{{foto_pos_titel}}`); `<body>` bekommt die Akzentfarben; Inline-Größen und Abstände entfernt und ins CSS verlegt; Seitenklassen `s01` bis `s14`; zwei Zwischentitel mit Klasse `zwischentitel`; Fußnote pH 2,5 mit Klasse `fussnote`; Kapitel 2 „Der dritte Weg“ mit Bild `wasser.jpg` | Gestaltung, kein Text geändert |
-| `02-ebook/quellen-html/bauen.py` | je Sportler vier Farbwerte `akzent`, `akzent_auf`, `akzent_hell`, `akzent_dunkel`; Bildausschnitt Kevin-Cover `foto_pos_titel` von 25 % auf 30 % | Farbe je Sportler, Bildausschnitt |
+| `02-ebook/quellen-html/bauen.py` | je Sportler fünf Farbwerte `akzent`, `akzent_auf`, `akzent_hell`, `akzent_dunkel`, `akzent_linie`; Bildausschnitt Kevin-Cover `foto_pos_titel` von 25 % auf 30 %; Zahlen auf der pH-Skala in Anthrazit statt `#16303F` | Farbe je Sportler, Bildausschnitt, kein Schwarz |
 | `02-ebook/quellen-html/ebook-kevin.html`, `ebook-johny.html` | neu gebaut | |
 | `02-ebook/ebook-kevin.pdf`, `ebook-johny.pdf` | neu erzeugt (je rund 1,5 MB, vorher rund 2 MB) | |
+| `06-backoffice/` | neu: Backoffice für Partner (siehe dritte Runde) | |
 | `empfehlung.js`, `partner.json`, beide `bauen.py`-Abläufe, Schriften, Videos, Untertitel | **unverändert** (außer den Farbwerten in `02-ebook/.../bauen.py`) | |
 
 **Technische Hinweise**
 - **Leiste unten:** Sie nutzt die vorhandene JS-Logik des Handy-Knopfs. Sie erscheint nach dem ersten Bildschirm und verschwindet, solange ein Formular im Bild ist. Das Stylesheet braucht dafür `:has()` (Chrome und Edge ab 105, Safari ab 15.4, Firefox ab 121). In älteren Browsern bleibt die Leiste unsichtbar, die Seite funktioniert trotzdem.
 - **Neuer Sportler:**
-  - Landingpage: eine Zeile `body[data-kurz="name"]{--ak:…}` in `empfehlung.css`, sonst gilt Kupfer.
-  - E-Book: die vier Farbwerte im Eintrag in `bauen.py`.
+  - Landingpage: eine Zeile `body[data-kurz="name"]{--ak:…;--ak-knopf:…;--ak-auf:#FFFFFF;--ak-d:…;--ak-h:…}` in `empfehlung.css`, sonst gilt Kupfer. Kontraste mindestens 4,5 : 1 (Knopf mit weißer Schrift, `--ak-d` auf `#383E42`).
+  - E-Book: die fünf Farbwerte im Eintrag in `bauen.py`.
+  - Backoffice: ein Eintrag unter `partner` in `06-backoffice/konfig-sport.js`.
 
 ## Abnahmetests
 

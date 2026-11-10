@@ -1,3 +1,5 @@
+> **Zwischenstand vom Prototyp, überholt.** Der aktuelle Stand steht in `ERGEBNIS.md` und `00-UEBERGABE.md`.
+
 # Phase 2: Prototyp
 
 Stand: 10.11.2026. Gezeigt werden: Landingpage vom Anfang bis einschließlich Rechner, E-Book-Cover und eine
