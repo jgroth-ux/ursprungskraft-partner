@@ -49,11 +49,7 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
   - Kevins Knopf hat jetzt weiße Schrift auf Kupfer, dafür größer (16 pt fett).
 - **Die Landingpage bleibt vorerst bei `#171A1C`**, bis Jasmin entscheidet.
 - **Kapitel 7:** Beide Video-Bilder sind jetzt gleich groß, im Querformat 3 : 2. Damit ist der Eddie-Text länger als sein Bild.
-- **Cover-Variante B** ohne Sportlerfoto: Titel oben, Wasserfoto mit Kontur darunter, „Empfohlen von“ unten.
-  - `bauen.py` baut dafür zusätzlich `ebook-<name>-cover-b.html`.
-  - PDF und Bild liegen in `02-ebook/cover-varianten/`, ebenso der Vergleich A und B (`vergleich-a-b.jpg`).
-  - Das Haupt-E-Book nutzt weiter Cover A, bis Jasmin entscheidet.
-  - In Variante B kommt das Wasserfoto zweimal vor (Cover und Kapitel 2).
+- **Cover:** Entscheidung Jasmin: Cover A mit dem Foto des Sportlers bleibt. Die ausprobierte Variante B ohne Sportlerfoto ist wieder entfernt, aus `bauen.py`, `ebook.css` und den Dateien.
 
 ## Geänderte Dateien
 

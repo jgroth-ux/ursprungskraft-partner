@@ -122,13 +122,6 @@ def bauen():
         html = feinsatz(html)
         (HIER / f'ebook-{kurz}.html').write_text(html, encoding='utf-8')
         print('gebaut:', f'ebook-{kurz}.html')
-        # Cover-Variante B (zum Vergleich): ohne Sportlerfoto, mit dem Wasserfoto
-        b = html.replace('<section class="seite s01 titel">', '<section class="seite s01 titel titel-b">', 1)
-        b = re.sub(r'(<section class="seite s01 titel titel-b">.*?)<img [^>]*>',
-                   lambda m: m.group(1) + '<img src="bilder/wasser.jpg" alt="Frisches Wasser aus dem Hahn" style="object-position:40% 55%">',
-                   b, count=1, flags=re.S)
-        (HIER / f'ebook-{kurz}-cover-b.html').write_text(b, encoding='utf-8')
-        print('gebaut:', f'ebook-{kurz}-cover-b.html')
 
 if __name__ == '__main__':
     bauen()

@@ -253,11 +253,6 @@ a.video img{width:100%;height:100%;object-fit:cover;display:block}
 /* Cover: feine Kontur in der Akzentfarbe um das Foto */
 .titel .foto{outline:.75pt solid var(--ak-linie);outline-offset:2.2mm}
 
-/* Cover B: ohne Sportlerfoto, Titel oben, Wasserfoto darunter */
-.titel-b .kopfteil{padding:22mm var(--seite) 0}
-.titel-b h1{font-size:var(--s8);line-height:.92;letter-spacing:-.04em;margin:5mm 0 6mm}
-.titel-b .foto{order:0;height:140mm;margin:12mm var(--seite) 0}
-
 /* Satzregeln (Jasmin): Blocksatz im freien Fließtext, keine automatische Trennung ===== */
 .rand p,.kopf p,.folgekopf p,.vorwort p,.star p,.schweiss p,.schluss p{text-align:justify}
 .kasten p,.kachel p,.weg p,.band p,.liste p,.karte p,.faustregel p,.wahl li,.schritte-liste span,.zitatblock blockquote,.traeger-text{text-align:left}
