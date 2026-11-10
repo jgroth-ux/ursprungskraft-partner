@@ -18,7 +18,7 @@
   const sb = V ? null : supabase.createClient(SUPABASE, 'sb_publishable_XXX',
     { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'uk-partner-sb' } });
   // Backoffice: eigene Supabase-Anmeldung über daten.js, erst geladen, wenn ein Team-Konto wechselt
-  const BO_SKRIPTE = ['../dashboard/daten.js?v=20261109a', '../fragebogen/fragen.js?v=20261021c', 'backoffice.js?v=20261108b'];
+  const BO_SKRIPTE = ['../dashboard/daten.js?v=20261109a', '../fragebogen/fragen.js?v=20261021c', 'backoffice.js?v=20261110b2'];
   const BO_LINK = /(^|[#&])(access_token|error_code)=/.test(location.hash);
   const wurzel = document.getElementById('wurzel');
 

@@ -23,7 +23,7 @@ const { chromium } = require('playwright');
   ok('Erste Anmeldung verlangt', await p.isVisible('text=Einmal anmelden.'));
   await p.screenshot({ path: process.env.OUT + '/bo-anmelden.png' });
   await p.fill('#f-bo input[name=passwort]', 'x'); await p.click('#f-bo [type=submit]'); await w(1200);
-  ok('Nach Anmeldung Backoffice', await p.isVisible('.ist-bo') && await p.isVisible('text=Bestellungen warten auf Zuordnung'));
+  ok('Nach Anmeldung Backoffice', await p.isVisible('.ist-bo') && await p.isVisible('.bo-felder .b-haupt') && (await p.$$('.bo-felder > .f')).length >= 6);
   // Schalter zurück und wieder hin ohne Anmeldung
   await p.click('.menue .schalter [data-modus=partner]'); await w(900); ok('Zurück zur Partneransicht', await p.isVisible('text=Die nächsten Tage'));
   await p.click('.menue .schalter [data-modus=bo]'); await w(1000); ok('Wieder hin ohne Anmeldung', await p.isVisible('.ist-bo') && !(await p.isVisible('text=Einmal anmelden.')));

@@ -1500,31 +1500,40 @@ async function zeigeUebersicht(d) {
   const neu = ich.rolle === 'admin' ? d.aufgaben.filter((a) => a.neu && !a.erledigt) : [];
   const route = (() => { const z = termine.filter((e) => e.art !== 'Privat').map((e) => e.adresse).filter(Boolean); if (!z.length) return ''; const ende = z[z.length - 1], zw = z.slice(0, -1);
     return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ende)}${zw.length ? '&waypoints=' + encodeURIComponent(zw.join('|')) : ''}&travelmode=driving`; })();
-  const kachel = (zahl, text, ziel, warn) => `<a class="bo-zahl${warn && zahl ? ' warn' : ''}" href="#bo/${ziel}"><b data-zahl="${zahl}">${zahl}</b><span>${text}</span></a>`;
+  // Richtung B (10.11.2026): dieselben Angaben wie bisher, als Felder in verschiedenen Größen. Reihenfolge nach Dringlichkeit:
+  // Das helle Feld zeigt, was zuerst dran ist (Bestellungen zuordnen, sonst der nächste Termin, sonst die Aufgaben).
+  // Daneben der Tag (Termine), darunter die Aufgaben. Die kleinen Zahlenfelder führen in den jeweiligen Bereich.
+  const auf = '<svg class="pf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+  let nr = 0; const i = () => `style="--i:${nr++}"`;
+  const zahlFeld = (kl, zahl, name, text, ziel, warn) => `<a class="f ${kl}${warn && zahl ? ' f-warn' : ''}" href="#bo/${ziel}" ${i()}><p class="f-name">${name} ${auf}</p><p class="f-gross" data-zahl="${zahl}">${zahl}</p><p class="f-unten">${text}</p></a>`;
+  const terminZeilen = termine.map((e) => `<div class="f-zeile zwei kal-eintrag" ${kalDaten(e)}><b>${e.ganz ? 'ganz' : e.uhr ? e.uhr.slice(0, 5) : 'offen'}</b>
+      <span><span class="label termin ${ART_KLASSE[e.art] || ''}">${esc(e.art)}</span><b>${esc(kalTitel(e))}</b><small>${esc(e.adresse || '')}</small></span></div>`).join('');
+  const bestellZeilen = offen.map((b) => `<div class="f-zeile eins klickbar" data-bestellung="${b.id}"><span><b>${esc(bName(b))}</b><small>${esc([[b.daten.plz, b.daten.ort].filter(Boolean).join(' '), bProdukte(b.daten), 'bestellt ' + datumDE(String(b.erstellt).slice(0, 10)), b.von ? 'über ' + b.von : ''].filter(Boolean).join(' · '))}</small></span><span class="marker warn">Neu</span></div>`).join('');
+  let haupt;
+  if (offen.length) haupt = `<section class="f f-jetzt b-haupt" ${i()}><p class="f-name">${offen.length === 1 ? 'Eine Bestellung wartet' : 'Bestellungen warten'} auf Zuordnung</p>
+      <p class="uhr">${offen.length}</p><h2>${offen.length === 1 ? 'Neue Bestellung' : 'Neue Bestellungen'}</h2>
+      <p>Tipp auf die Bestellung, ordne den Sponsor zu und erstelle den Vertrag.</p>${bestellZeilen}
+      <div class="knoepfe"><a class="knopf hell-zweit" href="#bo/bestellungen">Alle Bestellungen</a></div></section>`;
+  else if (termine.length) haupt = `<section class="f f-jetzt b-haupt" ${i()}><p class="f-name">Als Nächstes</p><p class="uhr">${termine[0].ganz ? 'Heute' : termine[0].uhr ? termine[0].uhr.slice(0, 5) : 'Heute'}</p>
+      <h2>${esc(kalTitel(termine[0]))}</h2><p>${esc([termine[0].art, termine[0].adresse].filter(Boolean).join(', '))}</p>
+      <div class="knoepfe">${termine[0].adresse ? `<a class="knopf hell" href="${kartenLink(termine[0].adresse)}" target="_blank" rel="noopener">Hinfahren</a>` : ''}<a class="knopf hell-zweit" href="#bo/kalender">Zum Kalender</a></div></section>`;
+  else haupt = `<section class="f f-jetzt b-haupt" ${i()}><p class="f-name">Heute</p><p class="uhr">${meine.length}</p><h2>${meine.length ? (meine.length === 1 ? 'Aufgabe ist heute dran' : 'Aufgaben sind heute dran') : 'Für heute ist alles erledigt.'}</h2>
+      <p>Keine Bestellung wartet, kein Termin steht an.</p><div class="knoepfe"><a class="knopf hell" href="#bo/aufgaben">Zum Board</a></div></section>`;
   $('#inhalt').innerHTML = `
-    <header class="gruss"><p class="kicker">Backoffice · ${new Date(heute + 'T12:00:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
-      <h1 class="woerter">${esc(vorname ? 'Hallo ' + vorname + '.' : 'Hallo.')}</h1>
-      <p>${termine.length ? `Heute ${termine.length === 1 ? 'steht ein Termin' : `stehen ${termine.length} Termine`} an.` : 'Heute ist kein Termin eingetragen.'}${offen.length ? ` ${offen.length === 1 ? 'Eine Bestellung wartet' : `${offen.length} Bestellungen warten`} auf Zuordnung.` : ''}</p></header>
-    <div class="bo-zahlen">
-      ${kachel(offen.length, 'Bestellungen warten auf Zuordnung', 'bestellungen', true)}
-      ${kachel(meine.length, 'Aufgaben für dich, heute fällig', 'aufgaben', true)}
-      ${kachel(termine.length, 'Termine heute', 'kalender')}
-      ${kachel(abholen.length, 'Testgeräte zurückholen', 'maschinen', true)}
-    </div>
-    <div class="bo-start">
-      <section><div class="abschnitt-kopf"><h2>Heute unterwegs</h2>${route ? `<a href="${route}" target="_blank" rel="noopener">Route für den Tag</a>` : '<a href="#bo/kalender">Kalender</a>'}</div>
-        ${termine.map((e) => `<div class="kal-eintrag" ${kalDaten(e)}><div class="kal-zeit">${e.ganz ? 'ganztägig' : e.uhr ? e.uhr.slice(0, 5) : 'offen'}</div>
-          <div class="haupt"><span class="label termin ${ART_KLASSE[e.art] || ''}">${esc(e.art)}</span><div class="titel">${esc(kalTitel(e))}</div><div class="klein">${esc(e.adresse || '')}</div></div>
-          ${e.adresse ? `<a class="knopf leise klein-knopf" href="${kartenLink(e.adresse)}" target="_blank" rel="noopener">Hinfahren</a>` : ''}</div>`).join('') || '<p class="leer">Nichts eingetragen. Über den Kalender trägst du einen Termin ein.</p>'}
-      </section>
-      <section><div class="abschnitt-kopf"><h2>Deine Aufgaben</h2><a href="#bo/aufgaben">Zum Board</a></div>
-        ${meine.slice(0, 8).map((a) => `<div class="zeile klickbar" data-aufgabe="${a.id}"><div class="haupt">${a.prio ? `<span class="label ${a.prio}">${PRIO[a.prio]}</span> ` : ''}${esc(a.titel)}<div class="klein">${a.faellig < heute ? 'seit ' + datum(a.faellig) + ' fällig' : 'heute'}</div></div></div>`).join('') || '<p class="leer">Für heute ist alles erledigt.</p>'}
-        ${eingang.length ? `<p class="leer" style="margin-top:12px"><a href="#bo/aufgaben">${eingang.length} im Eingang</a> warten auf ein Datum.</p>` : ''}
-      </section>
-      ${offen.length ? `<section><div class="abschnitt-kopf"><h2>Bestellungen zuordnen</h2><a href="#bo/bestellungen">Alle Bestellungen</a></div>
-        ${offen.map((b) => `<div class="zeile klickbar" data-bestellung="${b.id}"><div class="haupt">${esc(bName(b))}<div class="klein">${esc([[b.daten.plz, b.daten.ort].filter(Boolean).join(' '), bProdukte(b.daten), 'bestellt ' + datumDE(String(b.erstellt).slice(0, 10)), b.von ? 'über ' + b.von : ''].filter(Boolean).join(' · '))}</div></div><span class="marker warn">Neu</span></div>`).join('')}</section>` : ''}
-      ${neu.length ? `<section><div class="abschnitt-kopf"><h2>Neu von Daniel</h2><a href="#bo/aufgaben">Zum Board</a></div>
-        ${neu.map((a) => `<div class="zeile klickbar" data-aufgabe="${a.id}"><div class="haupt">${esc(a.titel)}<div class="klein">${esc(wo(a))}</div></div><span class="marker">Neu</span></div>`).join('')}</section>` : ''}
+    <header class="held"><p class="kicker">Backoffice · ${new Date(heute + 'T12:00:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+      <h1 class="woerter">${esc(vorname ? 'Hallo ' + vorname + '.' : 'Hallo.')}</h1></header>
+    <div class="felder-raster bo-felder">
+      ${haupt}
+      <section class="f b-unterwegs" ${i()}><p class="f-name">Heute unterwegs ${route ? `<a href="${route}" target="_blank" rel="noopener">Route für den Tag</a>` : '<a href="#bo/kalender">Kalender</a>'}</p>
+        ${terminZeilen || '<p class="f-unten">Heute ist kein Termin eingetragen. Über den Kalender trägst du einen ein.</p>'}</section>
+      ${zahlFeld('b-z1', meine.length, 'Heute fällig', meine.length === 1 ? 'Aufgabe für dich' : 'Aufgaben für dich', 'aufgaben', true)}
+      ${zahlFeld('b-z2', abholen.length, 'Testgeräte', abholen.length === 1 ? 'Gerät zurückholen' : 'Geräte zurückholen', 'maschinen', true)}
+      <section class="f b-aufgaben" ${i()}><p class="f-name">Deine Aufgaben <a href="#bo/aufgaben">Zum Board</a></p>
+        ${meine.slice(0, 6).map((a) => `<div class="f-zeile eins klickbar" data-aufgabe="${a.id}"><span>${a.prio ? `<span class="label ${a.prio}">${PRIO[a.prio]}</span>` : ''}<b>${esc(a.titel)}</b><small>${a.faellig < heute ? 'seit ' + datum(a.faellig) + ' fällig' : 'heute'}</small></span></div>`).join('') || '<p class="f-unten">Für heute ist alles erledigt.</p>'}</section>
+      ${zahlFeld('b-z3', termine.length, 'Termine', termine.length === 1 ? 'Termin heute' : 'Termine heute', 'kalender')}
+      ${zahlFeld('b-z4', eingang.length, 'Eingang', 'warten auf ein Datum', 'aufgaben')}
+      ${neu.length ? `<section class="f f-khaki b-neu" ${i()}><p class="f-name">Neu von Daniel <a href="#bo/aufgaben">Zum Board</a></p>
+        ${neu.slice(0, 4).map((a) => `<div class="f-zeile eins klickbar" data-aufgabe="${a.id}"><span><b>${esc(a.titel)}</b><small>${esc(wo(a))}</small></span></div>`).join('')}</section>` : ''}
     </div>`;
   document.querySelectorAll('#inhalt .kal-eintrag').forEach((x) => { x.onclick = (e) => { if (e.target.closest('a')) return; kalOeffnen(x, d); }; });
   document.querySelectorAll('[data-aufgabe]').forEach((x) => { x.onclick = async () => { const a = d.aufgaben.find((y) => y.id === x.dataset.aufgabe); if (a.neu && ich.rolle === 'admin') { try { await gesehen(a); glocke(d); } catch (err) { alert(fehlerText(err)); } } aufgabeBearbeiten(a, d); }; });

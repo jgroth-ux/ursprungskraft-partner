@@ -298,3 +298,35 @@ dialog#dialog[open] { animation: blatt-rein .28s cubic-bezier(.2, .7, .2, 1); }
 #dialog::backdrop { background: rgba(12, 15, 8, .72); backdrop-filter: blur(8px); }
 .glocke-liste { background: #262C1D; border: 0; border-radius: 18px; }
 @media (min-width: 1024px) { .bo-kopf { position: fixed; z-index: 32; top: 16px; right: calc(var(--rand) + 250px); height: auto; } }
+
+/* Übersicht als Felder (Richtung B). Dieselben Bausteine wie auf der Partner-Startseite (.f in portal.css). */
+#inhalt:has(.bo-felder) { max-width: 1240px; }
+.bo .f h2 { font-size: 26px; line-height: 30px; margin: 0; }
+.bo .f-jetzt h2 { font-size: clamp(26px, 2.6vw, 38px); line-height: 1.1; }
+.bo .f-jetzt .uhr { margin-bottom: 14px; }
+.bo .f .f-name a { font: 600 12px/16px Inter, sans-serif; letter-spacing: 0; text-transform: none; color: inherit; text-underline-offset: 3px; }
+.bo .f .f-zeile { cursor: pointer; background: none; border-radius: 0; border-left: 0; border-right: 0; border-bottom: 0; }
+.bo .f .f-zeile.eins { grid-template-columns: minmax(0, 1fr) auto; }
+.bo .f .f-zeile small { white-space: normal; }
+.bo .f .f-zeile .label { margin: 0 0 4px; display: inline-block; }
+.bo .f .f-zeile .label + b { display: block; }
+.bo .f .f-zeile:hover b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.bo .f-jetzt .f-zeile { border-top-color: #D9CFBA; color: #2A2C22; }
+.bo .f-jetzt .f-zeile small { color: #5F6152; }
+.bo .f-jetzt .marker.warn { background: #EFE2C4; color: #6B4E14; }
+.bo .f-khaki .f-zeile { border-top-color: rgba(31, 36, 24, .22); color: #1F2418; }
+.bo .f-khaki .f-zeile small { color: #3A422C; }
+.bo .f-warn .f-gross { color: var(--rot); }
+.bo .f .f-gross { font-size: clamp(64px, 6.4vw, 104px); }
+@media (min-width: 1024px) {
+  .bo-felder { grid-auto-rows: 96px; }
+  .bo-felder > .b-haupt { grid-column: 1 / 6; grid-row: 1 / 6; }
+  .bo-felder > .b-unterwegs { grid-column: 6 / 10; grid-row: 1 / 4; }
+  .bo-felder > .b-z1 { grid-column: 10 / 13; grid-row: 1 / 3; }
+  .bo-felder > .b-z2 { grid-column: 10 / 13; grid-row: 3 / 5; }
+  .bo-felder > .b-aufgaben { grid-column: 6 / 10; grid-row: 4 / 9; }
+  .bo-felder > .b-z3 { grid-column: 1 / 4; grid-row: 6 / 8; }
+  .bo-felder > .b-z4 { grid-column: 4 / 6; grid-row: 6 / 8; }
+  .bo-felder > .b-neu { grid-column: 10 / 13; grid-row: 5 / 9; }
+  .bo-felder > .f { overflow: auto; }
+}
