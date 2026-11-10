@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Backoffice · Anmeldungen</title>
+<!-- Backoffice für Sportpartner (Kevin, Johny und spätere). VORSCHAU mit Beispieldaten, noch ohne Server.
+     Im Echtbetrieb: Anmeldung über Supabase Auth, jeder Partner sieht nur seine eigenen Anmeldungen (Row Level Security). -->
+<link rel="stylesheet" href="../01-landingpage/schriften/schriften.css">
+<link rel="stylesheet" href="backoffice.css?v=20261110a">
+</head>
+<body>
+
+<div class="hinweis-demo" id="hinweis-demo">Vorschau mit Beispieldaten. Die Namen und Zahlen sind ausgedacht.</div>
+
+<!-- Anmeldung -->
+<main class="anmeldung" id="anmeldung">
+  <div class="anmeldung-feld">
+    <div class="eyebrow">Backoffice</div>
+    <h1>Deine Anmeldungen auf einen Blick</h1>
+    <p>Melde dich mit der E-Mail-Adresse an, die du von uns bekommen hast.</p>
+    <form id="login" novalidate>
+      <label class="eingabe">E-Mail<input name="email" type="email" autocomplete="username" required></label>
+      <label class="eingabe">Passwort<input name="passwort" type="password" autocomplete="current-password" required></label>
+      <div class="fehler" id="login-fehler" role="alert"></div>
+      <button class="knopf" type="submit">Anmelden</button>
+      <button class="link" type="button" id="vergessen">Passwort vergessen?</button>
+    </form>
+    <div class="demo-wahl" id="demo-wahl">
+      <span>Vorschau ansehen als</span>
+      <button class="knopf rahmen" type="button" data-wer="kevin">Kevin Wolter</button>
+      <button class="knopf rahmen" type="button" data-wer="johny">Johny Yusupov</button>
+    </div>
+  </div>
+</main>
+
+<!-- Übersicht -->
+<div class="app" id="app" hidden>
+  <header>
+    <div class="innen">
+      <span class="marke"><b id="kopf-name"></b><span id="kopf-rolle"></span></span>
+      <button class="knopf klein rahmen" id="abmelden" type="button">Abmelden</button>
+    </div>
+  </header>
+
+  <main class="innen" id="oben">
+    <section class="raster" aria-label="Übersicht">
+      <div class="feld-gross f-gesamt">
+        <div class="eyebrow">Anmeldungen über deine Seite</div>
+        <b class="riesig" id="z-gesamt">0</b>
+        <p class="unterzeile"><span id="z-woche-text"></span></p>
+        <p class="stand-heute" id="z-stand"></p>
+      </div>
+
+      <div class="feld f-woche">
+        <div class="eyebrow">Die letzten 7 Tage</div>
+        <div class="balken" id="balken" role="img"></div>
+        <div class="tooltip" id="tooltip" hidden></div>
+      </div>
+
+      <a class="feld f-seite" id="seite-link" target="_blank" rel="noopener">
+        <img id="seite-foto" alt="">
+        <span class="f-seite-text"><span class="eyebrow">Deine Seite</span><b>Ansehen</b></span>
+      </a>
+
+      <div class="feld f-geraet">
+        <b class="zahl" id="z-geraet">0</b>
+        <span>wollen das Gerät kennenlernen</span>
+      </div>
+      <div class="feld f-ebook">
+        <b class="zahl" id="z-ebook">0</b>
+        <span>haben sich das E&#8209;Book geholt</span>
+      </div>
+      <div class="feld f-gekauft">
+        <b class="zahl" id="z-gekauft">0</b>
+        <span>Geräte gekauft</span>
+      </div>
+    </section>
+
+    <section class="feld liste" id="liste" aria-labelledby="liste-titel">
+      <div class="liste-kopf">
+        <h2 id="liste-titel">Alle Anmeldungen</h2>
+        <div class="filter" role="tablist" aria-label="Anmeldungen filtern">
+          <button role="tab" data-filter="alle" aria-selected="true">Alle</button>
+          <button role="tab" data-filter="geraet" aria-selected="false">Gerät</button>
+          <button role="tab" data-filter="ebook" aria-selected="false">E&#8209;Book</button>
+          <button role="tab" data-filter="gekauft" aria-selected="false">Gekauft</button>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Datum</th><th>Name</th><th>Ort</th><th>Wunsch</th><th>Stand</th></tr></thead>
+        <tbody id="zeilen"></tbody>
+      </table>
+      <button class="knopf rahmen mehr" id="mehr" type="button" hidden>Alle zeigen</button>
+      <p class="datenschutz">Telefonnummer und E-Mail sieht nur unser Team, das sich bei den Interessenten meldet. Hier siehst du Vorname, Anfangsbuchstabe und Ort.</p>
+    </section>
+  </main>
+
+  <nav class="dock" aria-label="Schnell zu">
+    <a class="dock-symbol" href="#oben" aria-label="Übersicht" title="Übersicht"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg></a>
+    <a class="dock-symbol" href="#liste" aria-label="Liste" title="Liste"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 6.5h12M8.5 12h12M8.5 17.5h12M4 6.5h.01M4 12h.01M4 17.5h.01"/></svg></a>
+    <a class="dock-symbol" id="dock-seite" target="_blank" rel="noopener" aria-label="Deine Seite" title="Deine Seite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></svg></a>
+  </nav>
+</div>
+
+<script src="backoffice.js?v=20261110a"></script>
+</body>
+</html>
