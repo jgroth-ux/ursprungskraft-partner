@@ -4,8 +4,8 @@
    Satzspiegel: links und rechts 18 mm, oben 20 mm, Fußzeile 12 mm über der Kante. */
 :root{
   --papier:#F3F1EB;--papier-2:#E8E6E0;--grund:#383E42;--feld:#444A4F; /* Anthrazit RAL 7016 statt Schwarz (Jasmin, 10.11.) */
-  --tinte:#171A1C;--leise:#4F5457;--stein:#B6B8B5;--linie:#D3D0C8;--linie-d:rgba(243,241,235,.18);
-  --ak:#CF6844;--ak-auf:#171A1C;--ak-h:#9C4628;--ak-d:#E58A66;
+  --tinte:#383E42;--leise:#5C6367; /* Schrift Anthrazit statt Schwarz (Jasmin, 10.11.) */--stein:#B6B8B5;--linie:#D3D0C8;--linie-d:rgba(243,241,235,.18);
+  --ak:#CF6844;--ak-auf:#FFFFFF;--ak-h:#9C4628;--ak-d:#E58A66;
   --s-1:7.86pt;--s0:10pt;--s1:12.72pt;--s2:16.18pt;--s3:20.58pt;--s4:26.18pt;--s5:33.3pt;--s6:42.36pt;--s7:53.88pt;--s8:68.54pt;--s9:87.18pt;
   --seite:18mm;--r:3mm;
 }
@@ -101,7 +101,7 @@ table.menge td.l small{font-family:'Inter',sans-serif;font-weight:400;font-size:
 .zitatblock{border-left:1.2pt solid var(--ak);padding:1mm 0 1mm 7mm}
 .zitatblock blockquote{font-family:'Jost',sans-serif;font-weight:500;font-size:var(--s3);line-height:1.22;letter-spacing:-.015em}
 .zitatblock .wer{font-size:var(--s-1);color:var(--leise);margin-top:3mm}
-.knopf{display:inline-block;background:var(--ak);color:var(--ak-auf);text-decoration:none;font-family:'Inter',sans-serif;font-weight:600;font-size:var(--s1);padding:4.5mm 9mm;border-radius:20mm}
+.knopf{display:inline-block;background:var(--ak);color:var(--ak-auf);text-decoration:none;font-family:'Inter',sans-serif;font-weight:600;font-size:var(--s2);padding:4.5mm 10mm;border-radius:20mm}
 .knopf.hell{background:var(--ak);color:var(--ak-auf)}
 .knopf.mittel{white-space:nowrap}
 

@@ -14,7 +14,7 @@ SPORTLER = {
     'kevin': dict(
         name='Kevin Wolter', rolle='Bodybuilder', rolle_lang='Bodybuilder · 216.000 Follower auf Instagram · 617.000 Abonnenten auf YouTube',
         foto='kevin.jpg', foto_pos='50% 10%', foto_pos_titel='50% 30%',
-        akzent='#CF6844', akzent_auf='#171A1C', akzent_hell='#9C4628', akzent_dunkel='#EC9A79', akzent_linie='#CF6844', foto_pos_schluss='50% 22%',
+        akzent='#CF6844', akzent_auf='#FFFFFF', akzent_hell='#9C4628', akzent_dunkel='#EC9A79', akzent_linie='#CF6844', foto_pos_schluss='50% 22%',
         link='https://mein.ursprungskraft.net/partner/kevin/', link_kurz='mein.ursprungskraft.net/partner/kevin',
         vorwort_titel='Du trainierst hart. Trinkst du auch gut?',
         vorwort=(
@@ -50,7 +50,7 @@ def ph_farbe(ph):
     return PH_FARBEN[min(14, int(ph))]
 
 def schrift_auf(ph):  # dunkle Schrift auf hellen Farben
-    return '#16303F' if 3 <= int(ph) <= 8 else '#FFFFFF'
+    return '#383E42' if 3 <= int(ph) <= 8 else '#FFFFFF'
 
 def skala():
     return ''.join(f'<span style="background:{PH_FARBEN[i]};color:{schrift_auf(i)}">{i}</span>' for i in range(15))
