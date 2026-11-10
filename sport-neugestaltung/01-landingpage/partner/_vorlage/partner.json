@@ -1,0 +1,42 @@
+[
+  {
+    "kurz": "kevin",
+    "vorname": "Kevin",
+    "name": "Kevin Wolter",
+    "rolle": "Bodybuilder",
+    "ueber": "Einer der erfolgreichsten Fitness-Influencer Deutschlands, mit über 800.000 Followern.",
+    "foto": "../../bilder/partner/kevin.webp",
+    "insta": "wolterkevin",
+    "zitat": "Ich trainiere seit Jahren auf höchstem Niveau. Ich empfehle nur, was ich selbst jeden Tag nutze.",
+    "zahlen": [
+      [
+        "216000",
+        "Follower auf Instagram"
+      ],
+      [
+        "617000",
+        "Abonnenten auf YouTube"
+      ]
+    ]
+  },
+  {
+    "kurz": "johny",
+    "vorname": "Johny",
+    "name": "Johny Yusupov",
+    "rolle": "MMA-Fighter",
+    "ueber": "",
+    "foto": "../../bilder/partner/johny.webp",
+    "insta": "johny_yusupov",
+    "zitat": "Im Kampf zählt jedes Detail: Training, Ernährung, Regeneration. Und eben auch das, was ich jeden Tag trinke.",
+    "zahlen": [
+      [
+        "83100",
+        "Follower auf Instagram"
+      ],
+      [
+        "33900",
+        "Abonnenten auf YouTube"
+      ]
+    ]
+  }
+]

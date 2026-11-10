@@ -1,0 +1,328 @@
+/* E-Book "Das unterschätzte Supplement", A4 hochkant */
+:root{
+  --himmel:#C9E6F6;
+  --flaeche:#E4F2F8;
+  --weiss:#FFFFFF;
+  --text:#16303F;
+  --knopf:#14425E;
+  --akzent:#1A6E9C;
+  --linie:#C9E6F6;
+}
+@page{size:A4 portrait;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--weiss);color:var(--text)}
+body{font-family:'Inter',system-ui,sans-serif;font-size:10.5pt;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+h1,h2,h3,.jost{font-family:'Jost',sans-serif;font-weight:600;line-height:1.08;letter-spacing:-0.01em}
+
+.seite{width:210mm;height:297mm;position:relative;overflow:hidden;page-break-after:always;break-after:page;background:var(--weiss)}
+.seite:last-child{page-break-after:auto;break-after:auto}
+.rand{padding:22mm 20mm 0 20mm}
+
+.eyebrow{font-family:'Inter',sans-serif;font-size:8pt;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--akzent)}
+.fuss{position:absolute;left:20mm;right:20mm;bottom:12mm;display:flex;justify-content:space-between;font-size:7.5pt;letter-spacing:.08em;text-transform:uppercase;color:var(--akzent)}
+.fuss b{font-weight:600;color:var(--text)}
+
+/* Vorwort */
+.foto-oben{height:140mm;width:100%;overflow:hidden;background:var(--himmel)}
+.foto-oben img{width:100%;height:100%;object-fit:cover;object-position:50% 10%;display:block}
+.vorwort h1{font-size:30pt;margin:6mm 0 5mm;max-width:150mm}
+.vorwort p{font-size:10.5pt;max-width:160mm;margin-bottom:3mm}
+.vorwort p.lead{font-size:12.5pt;line-height:1.5}
+.unterschrift{margin-top:5mm;display:flex;align-items:baseline;gap:4mm;border-top:1.5px solid var(--text);padding-top:3mm;max-width:160mm}
+.unterschrift b{font-family:'Jost',sans-serif;font-size:13pt;font-weight:600}
+.unterschrift span{font-size:9pt;color:var(--akzent)}
+
+/* Kapitelkopf */
+.kopf{background:var(--himmel);padding:20mm 20mm 9mm 20mm;position:relative}
+.kopf .nr{font-family:'Jost',sans-serif;font-weight:500;font-size:74pt;line-height:.85;color:var(--weiss);position:absolute;right:18mm;top:18mm}
+.kopf h2{font-size:30pt;margin-top:4mm;max-width:130mm}
+.kopf p{font-size:12.5pt;line-height:1.5;margin-top:5mm;max-width:150mm}
+
+.zweispaltig{display:grid;grid-template-columns:1fr 1fr;gap:8mm}
+h3{font-size:14pt;margin-bottom:2mm}
+
+.regel{display:grid;grid-template-columns:62mm 1fr;gap:8mm;align-items:end;padding:7mm 0 6mm;border-bottom:1.5px solid var(--text)}
+.regel .gross{font-family:'Jost',sans-serif;font-weight:600;font-size:54pt;line-height:.9;color:var(--knopf)}
+.regel .gross small{font-size:20pt;font-weight:500}
+.regel p{font-size:10.5pt;padding-bottom:1mm}
+
+table.menge{width:100%;border-collapse:collapse;margin-top:6mm}
+table.menge th{font-size:7.5pt;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--akzent);text-align:left;padding:0 0 2mm}
+table.menge td{padding:2mm 0;border-top:1px solid var(--linie);font-size:10.5pt}
+table.menge td.l{font-family:'Jost',sans-serif;font-weight:600;font-size:14pt;text-align:right}
+table.menge th.r{text-align:right}
+
+.kasten{background:var(--flaeche);padding:6mm 6mm 5mm}
+.kasten.dunkel{background:var(--knopf);color:var(--weiss)}
+.kasten.dunkel .eyebrow{color:var(--himmel)}
+.kasten .zahl{font-family:'Jost',sans-serif;font-weight:600;font-size:34pt;line-height:1;margin:3mm 0 2mm}
+.kasten p{font-size:9.5pt}
+
+/* Knopf */
+.knopf{display:inline-block;background:var(--knopf);color:var(--weiss);text-decoration:none;font-family:'Jost',sans-serif;font-weight:600;font-size:15pt;padding:6mm 10mm;border-radius:2mm}
+
+/* Vorschau am Bildschirm: Doppelseiten nebeneinander */
+@media screen{
+  body{background:#dfe7ec;padding:10mm}
+  .bogen{display:flex;gap:0;justify-content:center;margin-bottom:10mm;box-shadow:0 1mm 4mm rgba(22,48,63,.18);width:max-content;margin-left:auto;margin-right:auto}
+}
+@media print{.bogen{display:contents}}
+
+.traeger{display:grid;grid-template-columns:repeat(30,1fr);gap:1.1mm;margin-top:4mm}
+.traeger i{display:block;aspect-ratio:3/2;background:var(--himmel)}
+.traeger-text{display:flex;justify-content:space-between;align-items:baseline;margin-top:3mm;font-size:8.5pt;color:var(--akzent)}
+.traeger-text b{font-family:'Jost',sans-serif;font-size:12pt;color:var(--text)}
+
+/* Titel */
+.titel .foto{height:190mm;overflow:hidden;background:var(--himmel)}
+.titel .foto img{width:100%;height:100%;object-fit:cover;display:block}
+.titel .unten{background:var(--himmel);height:107mm;padding:13mm 20mm 0}
+.titel h1{font-size:40pt;line-height:1;margin:3mm 0 4mm}
+.titel .unter{font-family:'Jost',sans-serif;font-size:17pt;font-weight:500;line-height:1.25;max-width:150mm}
+.titel .mit{position:absolute;left:20mm;right:20mm;bottom:13mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1.5px solid var(--text);padding-top:3mm;font-size:9pt}
+.titel .mit b{font-family:'Jost',sans-serif;font-size:13pt;font-weight:600}
+
+/* Folgeseite ohne Kopfband */
+.folgekopf{padding:20mm 20mm 0}
+.folgekopf h2{font-size:26pt;margin-top:3mm;max-width:160mm}
+.folgekopf p.lead{font-size:12pt;line-height:1.5;margin-top:4mm;max-width:160mm}
+
+.drei{display:grid;grid-template-columns:repeat(3,1fr);gap:6mm}
+.karte{border-top:3px solid var(--knopf);padding-top:4mm}
+.karte .nr{font-family:'Jost',sans-serif;font-weight:600;font-size:11pt;color:var(--akzent);margin-bottom:2mm}
+.karte h3{font-size:13.5pt}
+.karte p{font-size:9.6pt}
+.kacheln{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+.kachel{background:var(--flaeche);padding:6mm}
+.kachel h3{font-size:13pt}
+.kachel p{font-size:9.6pt}
+.kachel .ph{display:inline-block;font-family:'Jost',sans-serif;font-weight:600;font-size:9pt;background:var(--knopf);color:var(--weiss);padding:.8mm 2.5mm;margin-bottom:3mm}
+
+.zitatblock{border-left:3px solid var(--akzent);padding:1mm 0 1mm 7mm}
+.zitatblock blockquote{font-family:'Jost',sans-serif;font-weight:500;font-size:17pt;line-height:1.3}
+.zitatblock .wer{font-size:8.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--akzent);margin-top:3mm}
+
+/* pH Skala */
+.skala{display:grid;grid-template-columns:repeat(14,1fr);height:9mm;margin-top:6mm}
+.skala span{display:flex;align-items:center;justify-content:center;font-size:7pt;color:var(--knopf)}
+.skala-marken{position:relative;height:9mm;margin-top:1mm}
+.skala-marken b{position:absolute;transform:translateX(-50%);font-family:'Jost',sans-serif;font-size:9pt;background:var(--knopf);color:#fff;padding:.6mm 2mm;white-space:nowrap}
+.skala-legende{display:flex;justify-content:space-between;font-size:7.5pt;letter-spacing:.12em;text-transform:uppercase;color:var(--akzent);margin-top:1mm}
+
+table.arten{width:100%;border-collapse:collapse;margin-top:7mm}
+table.arten th{font-size:7.5pt;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--akzent);text-align:left;padding:0 3mm 2mm 0}
+table.arten td{padding:3.2mm 3mm 3.2mm 0;border-top:1px solid var(--linie);vertical-align:top;font-size:9.8pt}
+table.arten td.ph{font-family:'Jost',sans-serif;font-weight:600;font-size:16pt;white-space:nowrap;width:34mm;line-height:1.1}
+table.arten td.name{font-weight:600;width:38mm}
+.marke-ja,.marke-nein{display:inline-block;font-size:7pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.6mm 1.8mm;margin-top:1.5mm}
+.marke-ja{background:var(--knopf);color:#fff}
+.marke-nein{border:1px solid var(--knopf);color:var(--knopf)}
+
+/* Ablauf im Gerät */
+.weg{display:grid;grid-template-columns:1fr 8mm 1fr 8mm 1fr;align-items:stretch;margin-top:6mm}
+.weg .schritt{background:var(--flaeche);padding:5mm}
+.weg .schritt.dunkel{background:var(--knopf);color:#fff}
+.weg .schritt.dunkel .eyebrow{color:var(--himmel)}
+.weg .pfeil{display:flex;align-items:center;justify-content:center;font-family:'Jost',sans-serif;font-size:16pt;color:var(--akzent)}
+.weg h3{font-size:12.5pt;margin-top:2mm}
+.weg p{font-size:9.2pt}
+
+.fakten{display:grid;grid-template-columns:repeat(4,1fr);border-top:1.5px solid var(--text);border-bottom:1.5px solid var(--text)}
+.fakten div{padding:5mm 4mm 5mm 0}
+.fakten b{display:block;font-family:'Jost',sans-serif;font-weight:600;font-size:22pt;line-height:1;color:var(--knopf)}
+.fakten span{font-size:8.6pt}
+
+/* Liste mit pH-Spalte */
+.liste{border-top:1.5px solid var(--text)}
+.liste .zeile{display:grid;grid-template-columns:26mm 1fr;gap:5mm;padding:3.4mm 0;border-bottom:1px solid var(--linie)}
+.liste .zeile .ph{font-family:'Jost',sans-serif;font-weight:600;font-size:13pt;color:var(--knopf);line-height:1.2}
+.liste .zeile h3{font-size:11.5pt;margin-bottom:.8mm}
+.liste .zeile p{font-size:9.5pt}
+
+/* Rechnung */
+.rechnung{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:7mm;border-top:1.5px solid var(--text)}
+.rechnung div{padding:6mm 5mm 6mm 0;border-right:1px solid var(--linie)}
+.rechnung div:last-child{border-right:0;padding-left:5mm}
+.rechnung div:nth-child(2){padding-left:5mm}
+.rechnung b{display:block;font-family:'Jost',sans-serif;font-weight:600;font-size:40pt;line-height:1;color:var(--knopf)}
+.rechnung span{font-size:9.5pt}
+.ausfuellen{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:4mm;align-items:end;margin-top:5mm}
+.ausfuellen .feld{border-bottom:1.5px solid var(--text);height:12mm;position:relative}
+.ausfuellen .feld small{position:absolute;bottom:-5mm;left:0;font-size:7.5pt;color:var(--akzent);letter-spacing:.06em}
+.ausfuellen .op{font-family:'Jost',sans-serif;font-size:18pt;padding-bottom:1mm}
+
+/* Profis */
+.profi{display:grid;grid-template-columns:44mm 1fr;gap:8mm;padding:7mm 0;border-top:1.5px solid var(--text)}
+.profi .wer b{display:block;font-family:'Jost',sans-serif;font-size:19pt;font-weight:600;line-height:1.05}
+.profi .wer span{display:block;font-size:8.5pt;color:var(--akzent);margin-top:2mm;letter-spacing:.06em;text-transform:uppercase}
+.profi p{font-size:10pt;margin-bottom:2.5mm}
+
+/* Schluss */
+.schluss{background:var(--knopf);color:#fff}
+.schluss .foto{height:118mm;overflow:hidden}
+.schluss .foto img{width:100%;height:100%;object-fit:cover;display:block}
+.schluss h2{font-size:32pt;margin:3mm 0 4mm}
+.schluss .eyebrow{color:var(--himmel)}
+.schluss p{font-size:11pt;max-width:160mm}
+.schritte{display:grid;grid-template-columns:repeat(3,1fr);gap:6mm;margin:7mm 0 8mm}
+.schritte div{border-top:2px solid var(--himmel);padding-top:3mm}
+.schritte b{display:block;font-family:'Jost',sans-serif;font-size:12.5pt;margin-bottom:1mm}
+.schritte span{font-size:9.2pt;color:var(--flaeche)}
+.knopf.hell{background:var(--weiss);color:var(--knopf);font-size:17pt;padding:7mm 12mm}
+.schluss .url{margin-top:4mm;font-size:9pt;color:var(--himmel)}
+.schluss .url a{color:var(--himmel)}
+.schluss .fuss{color:var(--himmel)}
+.schluss .fuss b{color:#fff}
+
+/* Feinschliff: größere Lesetexte auf den Inhaltsseiten */
+.karte h3{font-size:15pt}
+.karte p{font-size:10.8pt}
+.kachel h3{font-size:14pt}
+.kachel p{font-size:10.5pt}
+.liste .zeile{padding:4.6mm 0;grid-template-columns:30mm 1fr}
+.liste .zeile .ph{font-size:15pt}
+.liste .zeile h3{font-size:12.5pt}
+.liste .zeile p{font-size:10.5pt}
+.profi p{font-size:10.8pt}
+table.arten td{font-size:10.5pt;padding:4mm 3mm 4mm 0}
+.weg p{font-size:9.8pt}
+.zitatblock blockquote{font-size:19pt}
+
+/* Titel: Schrift oben, Foto unten */
+.titel{background:var(--himmel)}
+.titel .kopfteil{height:118mm;padding:24mm 20mm 0}
+.titel .kopfteil h1{font-size:46pt;line-height:.98;margin:4mm 0 5mm;max-width:160mm}
+.titel .foto{height:179mm}
+.titel .mit{position:absolute;left:0;right:0;bottom:0;background:var(--knopf);color:#fff;border:0;padding:6mm 20mm;font-size:9.5pt}
+.titel .mit span{color:var(--himmel)}
+
+.schluss .foto{height:142mm}
+.liste.eng .zeile{padding:3.4mm 0}
+
+/* Link in der Fußzeile */
+.fuss a{color:var(--akzent);text-decoration:none;letter-spacing:.04em;text-transform:none;font-size:8pt}
+.fuss a b{color:var(--knopf)}
+
+/* Pitch */
+.wahl{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:7mm}
+.wahl .kasten{padding:7mm}
+.wahl h3{font-size:15pt;margin:2mm 0 3mm}
+.wahl ul{list-style:none}
+.wahl li{font-size:10.4pt;padding:1.9mm 0;border-top:1px solid var(--linie)}
+.wahl .dunkel li{border-top-color:rgba(201,230,246,.35)}
+.ehrlich{display:grid;grid-template-columns:1fr auto;gap:8mm;align-items:center;margin-top:7mm;padding-top:5mm;border-top:1.5px solid var(--text)}
+.ehrlich p{font-size:10.5pt}
+.knopf.mittel{font-size:13pt;padding:5mm 8mm;white-space:nowrap}
+
+/* Blocksatz in freien Textflächen, nicht in Kästen */
+.rand p,.liste p,.profi p,.karte p,.star p,.vorwort p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.kasten p,.kachel p,.weg p,.ehrlich p,.schluss p,.band p,.traeger-text,.zitatblock{text-align:left;hyphens:manual}
+
+/* Seite 3: breites Band */
+.band{display:grid;grid-template-columns:62mm 1fr;gap:8mm;align-items:center;background:var(--knopf);color:#fff;padding:7mm;margin-top:8mm}
+.band .eyebrow{color:var(--himmel)}
+.band .zahl{font-family:'Jost',sans-serif;font-weight:600;font-size:32pt;line-height:1;margin:2mm 0 2mm}
+.band p{font-size:9.5pt}
+.band .traeger{grid-template-columns:repeat(20,1fr);gap:1mm;margin-top:0}
+.band .traeger i{background:var(--himmel)}
+.band .traeger-text{color:var(--himmel)}
+.band .traeger-text b{color:#fff}
+
+/* Kapitel 7: Stars mit Video */
+.star{display:grid;grid-template-columns:74mm 1fr;gap:7mm;padding:6mm 0;border-top:1.5px solid var(--text);align-items:start}
+.star h3{font-size:18pt;margin:1.5mm 0 2mm}
+.star p{font-size:10.2pt}
+.star .mehr{display:inline-block;margin-top:3mm;font-family:'Jost',sans-serif;font-weight:600;font-size:11pt;color:var(--akzent);text-decoration:none;border-bottom:1.5px solid var(--akzent)}
+a.video{display:block;position:relative;aspect-ratio:16/10;background:var(--knopf);overflow:hidden;text-decoration:none}
+a.video img{width:100%;height:100%;object-fit:cover;display:block}
+a.video .play{position:absolute;left:50%;top:50%;width:15mm;height:15mm;margin:-7.5mm 0 0 -7.5mm;border-radius:50%;background:#fff}
+a.video .play:after{content:"";position:absolute;left:5.8mm;top:4.3mm;border-style:solid;border-width:3.2mm 0 3.2mm 5mm;border-color:transparent transparent transparent var(--knopf)}
+a.video .titelzeile{position:absolute;left:4mm;bottom:3.5mm;right:4mm;color:#fff;font-family:'Jost',sans-serif;font-weight:600;font-size:10pt}
+
+/* Schlussseite */
+.schluss .foto{height:98mm}
+.schluss-raster{display:grid;grid-template-columns:1fr 50mm;gap:9mm;align-items:start}
+.schluss h2{font-size:30pt}
+.schritte-liste{margin:5mm 0 0}
+.schritte-liste div{display:grid;grid-template-columns:9mm 1fr;gap:3mm;padding:2.6mm 0;border-top:1px solid rgba(201,230,246,.35);font-size:10pt}
+.schritte-liste b{font-family:'Jost',sans-serif;font-size:15pt;color:var(--himmel);line-height:1.1}
+.schritte-liste strong{color:#fff}
+.schritte-liste span{color:var(--flaeche)}
+.geraet{margin:0}
+.geraet img{width:50mm;height:84mm;object-fit:cover;object-position:50% 45%;display:block}
+.geraet figcaption{font-size:8pt;color:var(--himmel);margin-top:2mm;letter-spacing:.06em;text-transform:uppercase}
+.schluss .knopf.hell{margin-top:8mm}
+table.arten td.ph{width:40mm}
+table.arten .dot{display:inline-block;width:4mm;height:4mm;border-radius:50%;margin-right:2.5mm;vertical-align:.3mm}
+.skala-marken b{color:#16303F}
+
+/* ===== Überarbeitung 03.11. abends ===== */
+/* Blocksatz überall außer in Kästen */
+.rand p,.kopf p,.folgekopf p,.liste p,.karte p,.star p,.vorwort p,.zitatblock blockquote,.schluss p,.schritte-liste span,.ehrlich p,.schweiss p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.kasten p,.kachel p,.weg p,.band p,.wahl li{text-align:left}
+.kopf p{max-width:none}
+.folgekopf p.lead{max-width:none}
+
+/* Seite 3 */
+.faustregel{display:grid;grid-template-columns:58mm 1fr;gap:8mm;align-items:center;border:1.5px solid var(--text);padding:5mm 7mm;margin-top:8mm}
+.faustregel .gross{font-family:'Jost',sans-serif;font-weight:600;font-size:40pt;line-height:1;color:var(--knopf);margin-top:1mm}
+.faustregel .je{font-family:'Jost',sans-serif;font-weight:500;font-size:12.5pt;margin-top:1mm}
+.faustregel p{font-size:11pt;line-height:1.5}
+.paar{display:grid;grid-template-columns:1fr 1fr;column-gap:10mm;row-gap:3mm;margin-top:8mm;align-items:stretch}
+.paar > h3{margin:0}
+table.menge{margin-top:0;border-top:1.5px solid var(--text);border-bottom:1px solid var(--linie)}
+table.menge tr:first-child td{border-top:0}
+table.menge td{padding:2.3mm 0}
+table.menge td.l small{font-family:'Inter',sans-serif;font-weight:400;font-size:9pt}
+.schweiss{border-top:1.5px solid var(--text);border-bottom:1px solid var(--linie);padding-top:2.3mm}
+.schweiss p{font-size:10.5pt;margin-bottom:3mm}
+.band{margin-top:8mm}
+.schlusssatz{margin-top:7mm;font-family:'Jost',sans-serif;font-weight:500;font-size:12.6pt;line-height:1.5;text-align:justify;text-align-last:justify}
+
+/* Fotobänder unter dem Kapitelkopf */
+.foto-band{height:62mm;overflow:hidden}
+.foto-band img{width:100%;height:100%;object-fit:cover;display:block}
+.paar .liste{border-top:1.5px solid var(--text)}
+.liste.kurz .zeile{grid-template-columns:15mm 1fr;gap:3mm;padding:3.4mm 0}
+.liste.kurz .zeile .ph{font-size:13pt}
+.liste.kurz .zeile h3{font-size:11.5pt}
+.liste.kurz .zeile p{font-size:9.8pt}
+
+/* Seite 6: Skala mit Luft */
+.skala{grid-template-columns:repeat(15,1fr);height:10mm;margin-top:9mm}
+.skala span{font-size:7.5pt}
+.skala-marken{margin-top:4mm;height:10mm}
+.skala-marken b{font-size:9.5pt;padding:1mm 2.4mm}
+.skala-legende{margin-top:2mm}
+table.arten{margin-top:11mm}
+table.arten td{padding:5.4mm 3mm 5.4mm 0}
+
+/* Kapitel 7: Screenshot oder nur Text */
+.star:not(:has(a.video)){grid-template-columns:1fr}
+a.video{aspect-ratio:16/10}
+
+/* Eddies Rechnung */
+.rechnung b{font-size:34pt}
+
+/* Schluss ohne Gerätefoto */
+.schluss-raster{grid-template-columns:1fr}
+.schluss .foto{height:120mm}
+.schlusssatz{white-space:nowrap;text-align:left;text-align-last:auto;font-size:19.15pt;line-height:1.2;margin-top:9mm;letter-spacing:0}
+.rechnung b{font-size:30pt;white-space:nowrap}
+table.arten td{padding:6.2mm 3mm 6.2mm 0}
+.faustregel{grid-template-columns:48mm 1fr;margin-top:7mm;padding:5mm 6mm}
+.faustregel p{font-size:10.5pt}
+.paar{margin-top:7mm}
+.band{margin-top:7mm}
+.schlusssatz{margin-top:7mm}
+
+/* Trennregeln: keine automatische Trennung, nur an festgelegten Wortfugen (bauen.py) */
+*{hyphens:manual !important;-webkit-hyphens:manual !important}
+/* Aufzählungen ohne Blocksatz */
+.liste p,.liste h3{text-align:left}
+h1,h2,h3,.eyebrow{hyphens:none !important;-webkit-hyphens:none !important}
+.karte p,.zitatblock blockquote{text-align:left}
+.ehrlich{grid-template-columns:1fr;gap:5mm}
+.ehrlich .knopf{justify-self:start}
+.ehrlich{margin-top:6mm;padding-top:4mm;gap:4mm}
+.wahl li{padding:1.6mm 0}
