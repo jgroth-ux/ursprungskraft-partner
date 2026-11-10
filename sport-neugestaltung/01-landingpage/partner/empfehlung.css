@@ -150,48 +150,84 @@ section:has(.sechs) .gross{max-width:46ch}
 .ergebnis span{color:var(--leise);margin-top:16px;font-size:var(--t0)}
 .rechner .klein{grid-column:1/-1;grid-row:2;margin:40px 0 0;padding-top:24px;border-top:1px solid var(--linie-h);color:var(--leise);font-size:var(--t0);max-width:none}
 
-/* ===== Ab hier: Grundgestaltung, Feinschliff folgt in Phase 3 ===== */
+/* ===== Allgemein zweispaltig ===== */
 .zwei{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 .zwei.oben{align-items:start}
-.dunkel{background:var(--grund)}
-.videos{display:grid;grid-template-columns:7fr 5fr;gap:var(--luecke);margin-top:48px;align-items:start}
-.videos>div{background:var(--feld);border-radius:var(--r);padding:12px 12px 28px}
-.videos h3{margin:24px 16px 8px;font-size:var(--t2)}
-.videos p{margin:0 16px;color:var(--stein)}
-.drei{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--luecke);margin-top:48px}
-.sand{background:var(--grund)}
-.arten{list-style:none;padding:0;margin:48px 0 0;border-top:1px solid var(--linie-d)}
-.arten li{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;padding:24px 0;border-bottom:1px solid var(--linie-d);align-items:baseline}
-.arten b{font:500 var(--t5)/1 Jost,sans-serif;letter-spacing:-.03em;color:var(--papier);white-space:nowrap}
-.arten span{color:var(--stein);font-size:var(--t1);line-height:1.45}
+.dunkel,.sand{background:var(--grund)}
+
+/* ===== Videos der Profis: zwei Felder verschiedener Größe ===== */
+#video h2{font-size:var(--t6);max-width:14ch}
+.videos{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--luecke);margin-top:var(--t4);align-items:start}
+.videos>div{background:var(--feld);border-radius:var(--r);padding:12px 12px 32px}
+.videos .video{border-radius:var(--r-klein)}
+.videos h3{margin:28px 20px 8px;font-size:var(--t2);line-height:1.15;letter-spacing:-.02em}
+.videos p{margin:0 20px;color:var(--stein)}
+
+/* ===== Meal Prep: helles Feld, drei hohe Bilder, mittleres versetzt ===== */
+section:has(.drei) h2{font-size:var(--t6);max-width:14ch}
+section:has(.drei) .gross{max-width:46ch}
+.drei{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:var(--t4);align-items:start}
+.drei .kachel{background:none;padding:0;border-radius:0;overflow:visible}
+.drei .kachel img{width:100%;margin:0 0 24px;aspect-ratio:1/1;border-radius:var(--r);filter:saturate(.72) contrast(1.03)}
+.drei .kachel:nth-child(2){margin-top:var(--t6)}
+.drei .kachel h3{padding-top:16px;border-top:1.5px solid var(--tinte)}
+
+/* ===== Fünf Wasserarten: große Zahlenleiter ===== */
+.arten{list-style:none;padding:0;margin:var(--t4) 0 0;border-top:1.5px solid var(--papier)}
+.arten li{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke);padding:28px 0;border-bottom:1px solid var(--linie-d);align-items:baseline}
+.arten b{grid-column:1/6;font:500 var(--t6)/1 Jost,sans-serif;letter-spacing:-.04em;color:var(--papier);white-space:nowrap;font-variant-numeric:tabular-nums}
+.arten span{grid-column:6/13;color:var(--stein);font-size:var(--t1);line-height:1.45}
+.arten li:first-child b{color:var(--ak-d)}
+
+/* ===== Interesse: Text links (bleibt stehen), Formular als helles Feld ===== */
+#interesse .zwei{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+#interesse .zwei>div:first-child{position:sticky;top:96px}
+#interesse p{color:var(--stein)}
 .ablauf{list-style:none;counter-reset:a;padding:0;margin:32px 0}
 .ablauf li{counter-increment:a;display:grid;grid-template-columns:56px 1fr;padding:16px 0;border-top:1px solid var(--linie-d)}
-.ablauf li::before{content:'0' counter(a);font:500 var(--t2)/1 Jost,sans-serif;color:var(--ak-d);grid-row:span 2}
+.ablauf li:last-child{border-bottom:1px solid var(--linie-d)}
+.ablauf li::before{content:'0' counter(a);font:500 var(--t2)/1 Jost,sans-serif;color:var(--ak-d);grid-row:span 2;font-variant-numeric:tabular-nums}
 .ablauf b{font-weight:600}
 .ablauf span{color:var(--stein)}
-#interesse p{color:var(--stein)}
-form{background:var(--papier);color:var(--tinte);border-radius:var(--r);padding:40px}
+form{background:var(--papier);color:var(--tinte);border-radius:var(--r);padding:48px}
+form h3{font-size:var(--t3);letter-spacing:-.02em;margin:0 0 16px}
+form .eyebrow{color:var(--ak-h)}
 form.hell{background:none;padding:0;margin-top:32px}
-fieldset{border:0;padding:0;margin:0 0 24px}
-legend{font-weight:600;font-size:var(--t0);margin-bottom:12px;padding:0}
-fieldset label{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--linie-h);border-radius:var(--r-klein);padding:12px 16px;margin-bottom:8px;cursor:pointer;font-size:15px;line-height:1.45;transition:border-color .2s}
+fieldset{border:0;padding:0;margin:0 0 32px}
+legend{font:500 var(--t1)/1.3 Jost,sans-serif;letter-spacing:-.01em;margin-bottom:16px;padding:0}
+fieldset label{display:flex;gap:12px;align-items:center;border:1.5px solid var(--linie-h);border-radius:var(--r-klein);padding:14px 16px;margin-bottom:8px;cursor:pointer;font-size:var(--t0);line-height:1.4;background:var(--papier);transition:border-color .2s,background-color .2s}
 fieldset label:hover{border-color:var(--leise)}
-fieldset input{accent-color:var(--tinte);margin-top:3px;flex:none}
+fieldset input{accent-color:var(--ak);width:18px;height:18px;margin:0;flex:none}
 fieldset label:has(input:checked){border-color:var(--tinte);background:#fff}
-.hinweis{font-size:14px;color:var(--leise)!important;margin:-4px 0 12px}
-.feld{display:block;font-size:14px;color:var(--leise);margin-bottom:12px}
-.feld input,.feld select{display:block;width:100%;margin-top:6px;border:1.5px solid var(--linie-h);border-radius:var(--r-klein);padding:12px 16px;font:inherit;font-size:var(--t0);color:var(--tinte);background:#fff}
+fieldset label:has(input:focus-visible){outline:2px solid var(--ak);outline-offset:2px}
+.hinweis{font-size:14px;color:var(--leise)!important;margin:-8px 0 16px}
+.feld{display:block;font-size:14px;font-weight:600;color:var(--leise);margin-bottom:16px}
+.feld input,.feld select{display:block;width:100%;min-height:52px;margin-top:8px;border:1.5px solid var(--linie-h);border-radius:var(--r-klein);padding:12px 16px;font:400 var(--t0)/1.4 Inter,sans-serif;color:var(--tinte);background:#fff;transition:border-color .2s}
+.feld input:hover,.feld select:hover{border-color:var(--leise)}
+.feld input:focus,.feld select:focus{outline:none;border-color:var(--ak)}
+.feld input:focus-visible,.feld select:focus-visible{outline:2px solid var(--ak);outline-offset:2px}
 .reihe{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.haken{display:flex;gap:12px;font-size:14px;line-height:1.5;color:var(--leise);margin:8px 0 16px}
-.haken input{accent-color:var(--tinte);margin-top:3px;flex:none}
-.fehler{color:#A23B2A;font-size:14px;margin-bottom:8px}
-.umschauen{background:var(--papier-2);border-radius:var(--r-klein);padding:16px 20px;margin-bottom:12px}
+.haken{display:flex;gap:12px;font-size:14px;line-height:1.5;color:var(--leise);margin:8px 0 24px;cursor:pointer}
+.haken input{accent-color:var(--ak);width:18px;height:18px;margin:1px 0 0;flex:none}
+.haken a{color:var(--tinte)}
+.fehler{color:#A23B2A;font-size:14px;font-weight:600;margin-bottom:8px}
+.fehler:empty{display:none}
+.umschauen{background:var(--papier-2);border-radius:var(--r-klein);padding:16px 20px;margin-bottom:24px}
 .umschauen p{color:var(--tinte)!important;margin:0}
+#anfrage .knopf{width:100%;min-height:56px}
+
+/* ===== E-Book: helles Feld mit Cover ===== */
+#ebook .zwei{grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke)}
+#ebook img.buch{grid-column:2/6}
+#ebook .zwei>div{grid-column:7/12}
 #ebook p{color:var(--leise)}
-img.buch{display:block;width:100%;max-width:420px;height:auto;border-radius:6px;box-shadow:0 24px 48px rgba(23,26,28,.22)}
-footer{color:var(--stein);font-size:14px;padding:48px 0 120px}
-footer .innen{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer a{color:var(--papier)}
+img.buch{display:block;width:100%;max-width:420px;height:auto;border-radius:6px;box-shadow:0 2px 4px rgba(23,26,28,.12),0 24px 48px rgba(23,26,28,.22)}
+
+/* ===== Fuß ===== */
+footer{color:var(--stein);font-size:14px;padding:var(--t4) 0 128px}
+footer .innen{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--linie-d);padding-top:24px}
+footer a{color:var(--papier);text-underline-offset:3px}
+footer a:hover{color:var(--ak-d)}
 
 /* ===== Leiste unten (aus der Schaltzentrale, deckend, ohne Glas) ===== */
 .dock{position:fixed;left:50%;bottom:20px;z-index:40;display:flex;align-items:center;gap:8px;padding:8px;background:var(--feld-2);border-radius:24px;box-shadow:0 0 0 1px var(--linie-d),0 16px 40px rgba(0,0,0,.35);transform:translate(-50%,140%);visibility:hidden;transition:transform .5s var(--weich),visibility 0s .5s}
@@ -267,7 +303,20 @@ footer a{color:var(--papier)}
   .rechner .klein{margin-top:0}
   .zwei{grid-template-columns:1fr;gap:32px}
   .videos,.drei{grid-template-columns:1fr}
-  .arten li{grid-template-columns:1fr;gap:4px}
+  #video h2,section:has(.drei) h2{font-size:var(--t4)}
+  .drei{gap:32px}
+  .drei .kachel:nth-child(2){margin-top:0}
+  .drei .kachel img{aspect-ratio:4/3}
+  .videos h3{margin:20px 12px 8px;font-size:var(--t1)}
+  .videos p{margin:0 12px}
+  .arten li{display:block;padding:20px 0}
+  .arten span{display:block;font-size:var(--t0);margin-top:8px}
+  #interesse .zwei,#ebook .zwei{grid-template-columns:1fr}
+  #interesse .zwei>div:first-child{position:static}
+  #ebook img.buch,#ebook .zwei>div{grid-column:1}
+  #ebook img.buch{max-width:260px;margin:0 auto}
+  #ebook h2{font-size:var(--t3)}
+  footer .innen{flex-direction:column}
   .arten b{font-size:var(--t4)}
   form{padding:24px 20px}
   .reihe{grid-template-columns:1fr;gap:0}

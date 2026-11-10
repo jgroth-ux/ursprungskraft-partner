@@ -13,7 +13,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--papier);color:var(--tinte)}
 body{font-family:'Inter',system-ui,sans-serif;font-size:var(--s0);line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-kerning:normal}
-h1,h2,h3{font-family:'Jost',sans-serif;font-weight:500;line-height:1.05;letter-spacing:-.02em}
+h1,h2,h3{font-family:'Jost',sans-serif;font-weight:500;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
 h3{font-size:var(--s2);line-height:1.15;margin-bottom:2mm}
 .seite{width:210mm;height:297mm;position:relative;overflow:hidden;break-after:page;page-break-after:always;background:var(--papier)}
 .seite:last-child{break-after:auto;page-break-after:auto}
@@ -29,9 +29,9 @@ p{margin-bottom:2.5mm}
 
 /* ===== Titel ===== */
 .titel{background:var(--grund);color:var(--papier);display:flex;flex-direction:column}
-.titel .foto{order:-1;height:182mm;overflow:hidden;background:var(--feld)}
+.titel .foto{order:-1;height:158mm;margin:var(--seite) var(--seite) 0;border-radius:var(--r);overflow:hidden;background:var(--feld)}
 .titel .foto img{width:100%;height:100%;object-fit:cover;display:block}
-.titel .kopfteil{padding:11mm var(--seite) 0}
+.titel .kopfteil{padding:13mm var(--seite) 0}
 .titel .eyebrow{color:var(--ak-d)}
 .titel h1{font-size:var(--s7);line-height:.94;letter-spacing:-.035em;margin:4mm 0 5mm;text-wrap:balance}
 .titel .unter{font-size:var(--s1);line-height:1.4;color:var(--stein)}
@@ -142,7 +142,7 @@ table.arten .dot{display:inline-block;width:3.5mm;height:3.5mm;border-radius:50%
 .liste.kurz .zeile h3{font-size:11pt}
 .liste.kurz .zeile p{font-size:9.4pt}
 .foto-band{height:62mm;overflow:hidden;margin:8mm var(--seite) 0;border-radius:var(--r)}
-.foto-band img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.8)}
+.foto-band img{width:100%;height:100%;object-fit:cover;display:block}
 .foto-band + .rand{padding-top:7mm}
 
 .rechnung{display:grid;grid-template-columns:repeat(3,1fr);margin-top:2mm;border-top:1.2pt solid var(--tinte)}
@@ -163,7 +163,7 @@ table.arten .dot{display:inline-block;width:3.5mm;height:3.5mm;border-radius:50%
 a.video{display:block;aspect-ratio:16/10;overflow:hidden;border-radius:var(--r);background:var(--grund)}
 a.video img{width:100%;height:100%;object-fit:cover;display:block}
 
-.vorwort .foto-oben{height:140mm;overflow:hidden;background:var(--feld)}
+.vorwort .foto-oben{height:112mm;margin:var(--seite) var(--seite) 0;border-radius:var(--r);overflow:hidden;background:var(--feld)}
 .vorwort .foto-oben img{width:100%;height:100%;object-fit:cover;display:block}
 .vorwort h1{font-size:var(--s5);letter-spacing:-.03em;margin:4mm 0 5mm}
 .vorwort p{max-width:none}
@@ -182,7 +182,7 @@ a.video img{width:100%;height:100%;object-fit:cover;display:block}
 .ehrlich .knopf{justify-self:start}
 
 .schluss{background:var(--grund);color:var(--papier)}
-.schluss .foto{height:120mm;overflow:hidden}
+.schluss .foto{height:124mm;margin:var(--seite) var(--seite) 0;border-radius:var(--r);overflow:hidden;background:var(--feld)}
 .schluss .foto img{width:100%;height:100%;object-fit:cover;display:block}
 .schluss .eyebrow{color:var(--ak-d)}
 .schluss h2{font-size:var(--s5);letter-spacing:-.03em;margin:3mm 0 4mm}
@@ -194,6 +194,47 @@ a.video img{width:100%;height:100%;object-fit:cover;display:block}
 .schluss .knopf{margin-top:8mm}
 .schluss .fuss{color:var(--stein);border-top-color:var(--linie-d)}
 .schluss .fuss b,.schluss .fuss>span:last-child{color:var(--papier)}
+
+/* ===== Abstände je Seite (ersetzen die früheren Inline-Angaben) ===== */
+.folgekopf + .rand{padding-top:8mm}
+.s02 .rand{padding-top:9mm}
+.s02 .rand>p{font-size:var(--s1);line-height:1.5}
+.s02 .rand>p.lead{font-weight:500;margin-bottom:3mm}
+.s03 .faustregel{margin-top:0}
+.s04 .zitatblock{margin-top:12mm}
+.dritter-weg{display:grid;grid-template-columns:62mm 1fr;padding:0;overflow:hidden;background:var(--grund);color:var(--papier);margin-top:12mm}
+.dritter-weg .foto-klein{min-height:58mm}
+.dritter-weg .foto-klein img{width:100%;height:100%;object-fit:cover;display:block;object-position:40% 50%}
+.dritter-weg>div:last-child{padding:7mm 8mm}
+.dritter-weg .eyebrow{color:var(--ak-d)}
+.dritter-weg h3{font-size:var(--s3);margin:2mm 0 3mm}
+.dritter-weg p{color:var(--stein);margin:0}
+.s05 .rand>p:first-child{max-width:none}
+.s05 .zweispaltig{margin-top:9mm;gap:10mm}
+.zweispaltig p + h3{margin-top:5mm}
+.s05 .fakten{margin-top:9mm}
+.fussnote{font-size:var(--s-1);color:var(--leise);margin-top:4mm}
+.s07 .zitatblock,.s07 .zweispaltig{margin-top:10mm}
+.s08 .zweispaltig{gap:5mm}
+.s08 .kasten{padding:6mm}
+.s08 .liste .zeile{padding:2.6mm 0}
+.s08 .zwischentitel{margin-top:8mm}
+.s08 .kasten .zahl{font-size:var(--s4)}
+.zwischentitel{font-size:var(--s3);margin-top:11mm}
+.s08 .liste{margin-top:4mm}
+.s08 .rand>.kasten:last-child{margin-top:6mm}
+.kasten h3{font-size:var(--s3);margin-top:2mm}
+.s11 .zitatblock{margin-top:5mm}
+.s11 .star{padding:5mm 0}
+.s12 .zitatblock{margin-top:8mm}
+.s12 .kasten{margin-top:7mm;padding:7mm}
+.s12 .ausfuellen{margin-bottom:6mm}
+.s12 .rand>p:last-child{margin-top:8mm}
+.s13 .kopf + .rand{padding-top:0}
+.s13 .drei{margin-top:5mm}
+.zwischentitel + .drei{margin-top:5mm}
+.s13 .zwischentitel{margin-top:8mm}
+.s14 .rand{padding-top:10mm}
 
 /* ===== Satzregeln (Jasmin): Blocksatz im freien Fließtext, keine automatische Trennung ===== */
 .rand p,.kopf p,.folgekopf p,.vorwort p,.star p,.schweiss p,.schluss p{text-align:justify}
