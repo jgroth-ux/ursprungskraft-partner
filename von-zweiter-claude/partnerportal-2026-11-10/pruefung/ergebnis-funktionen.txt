@@ -10,3 +10,41 @@ OK    Start: "Heute anrufen" öffnet Kunden mit Filter
 OK    Kunden: Karte als eigene Ansicht
 OK    Kunden: zurück, Scrollposition bleibt
 OK    Kunden: Wechsel ohne neues Laden
+OK    Kunden: Filter Gekauft
+OK    Kunden: Suche
+OK    Karte: Stand ändern
+OK    Karte: Stufe ändern
+OK    Karte: nächsten Schritt speichern
+OK    Karte: Notiz speichern, neue oben
+OK    Karte: drei Schnellknöpfe (Anrufen, WhatsApp, Termin)
+OK    Karte: Angaben ändern öffnet
+OK    Karte: ablegen unter "Kein Interesse"
+OK    Karte: Termin aus der Karte
+OK    Karte: Bestellstand mit drei Schritten
+OK    Kunden: Kunde eintragen
+OK    Kalender: Monat, jeder Tag ein Feld
+OK    Kalender: Einträge mit Uhrzeit und Name, farbig nach Art
+OK    Kalender: Klick auf Eintrag öffnet ihn
+OK    Kalender: Klick auf leeren Tag legt Termin an (Datum vorbelegt)
+OK    Kalender: neuer Termin steht im Tag
+OK    Kalender: Monat weiter
+OK    Kalender: Heute
+OK    Termine: Umschalter Liste
+OK    Termine: Termin löschen
+OK    Termine: Kalender-Abo (iPhone, Google, Link kopieren)
+OK    Termine: Adresse #termine/neu öffnet das Formular
+OK    Termine leer: Hinweis, Kalender bleibt nutzbar
+OK    Start leer: Einladung zum ersten Termin
+OK    Alte Adresse #werkzeuge führt zu Tools
+OK    Tools: Reihenfolge Landingpage, Flyer, Bestell-Link, Assistent
+OK    Tools: Bestell-Link mit Erklärung, QR und Abwicklung
+OK    Tools: Abwicklung umstellen
+OK    Tools: Assistent öffnen
+OK    Landingpage: Link, Teilen, Formular, Vorschau
+OK    Landingpage: Vorschau läuft beim Tippen mit (neuer Knopf Anrufen)
+OK    Landingpage: Termin-Link ohne https wird gemeldet
+OK    Landingpage: Speichern
+OK    Landingpage nicht gebucht: Verkaufsansicht mit Freischalten
+OK    Flyer: Reihenfolge 1 Motiv und Farben, 2 Text, 3 Formate und Speichern
+OK    Flyer: Motiv und Farbe ändern die Vorschau
+OK    Flyer: zweites Format, Umschalter in der Vorschau
