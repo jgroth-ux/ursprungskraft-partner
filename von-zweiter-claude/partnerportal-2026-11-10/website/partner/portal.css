@@ -150,7 +150,7 @@ input:not([type=radio]):not([type=checkbox]):not([type=file]), select, textarea 
 }
 select { appearance: none; padding-right: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B9B7A6' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; background-size: 20px; }
 textarea { resize: vertical; min-height: 88px; }
-input::placeholder, textarea::placeholder { color: #9C9D8D; }
+input::placeholder, textarea::placeholder { color: #ACAD9E; }
 input:hover, select:hover, textarea:hover { border-color: var(--c-khaki); }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--c-olive); box-shadow: 0 0 0 3px var(--c-olive-zart); }
 .regel { display: block; font-weight: 400; color: var(--c-muted); margin-top: var(--s-1); }
@@ -1125,3 +1125,8 @@ a.f-khaki:hover { background: #DBD0AF; color: var(--tief); }
   .f-jetzt .uhr { font-size: clamp(96px, 11vw, 176px); }
   .f-flyer h2 { font-size: 20px; line-height: 24px; }
 }
+/* Handybilder der Anleitung zeigen eine helle Seite, unabhängig vom dunklen Portal */
+.g-seite { background: #F5F1E8; }
+.g-seite i { background: #D9CFBA; }
+.g-seite i.k { background: #2A2C22; }
+.g-seite i.o { background: #4F5A35; }

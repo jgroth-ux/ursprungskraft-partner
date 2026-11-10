@@ -1,0 +1,61 @@
+OK    Normal: kein Schalter
+OK    Normal: #bo landet auf Start
+OK    Normal: daten.js nicht geladen
+OK    Team: Schalter sichtbar
+OK    Erste Anmeldung verlangt
+OK    Nach Anmeldung Backoffice
+OK    Zurück zur Partneransicht
+OK    Wieder hin ohne Anmeldung
+OK    Startet im Backoffice (zuletzt)
+OK    Vertrag erstellt: Fertig.
+OK    Formulare zum Herunterladen
+OK    Kunde öffnet
+OK    Aufgabe angelegt
+OK    Kalender Monat
+OK    Maschine öffnet
+404 http://localhost:8766/dashboard/wohnung/Kueche-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Wohnzimmer-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-3.jpg
+404 http://localhost:8766/dashboard/wohnung/Wohnzimmer-3.jpg
+404 http://localhost:8766/dashboard/wohnung/Wohnzimmer-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-4.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-5.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-6.jpg
+404 http://localhost:8766/dashboard/wohnung/Bad-3.jpg
+404 http://localhost:8766/dashboard/wohnung/Bad-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Bad-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Bad-4.jpg
+404 http://localhost:8766/dashboard/wohnung/Schlafzimmer-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Schlafzimmer-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Behandlungsraum-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Schlafzimmer-3.jpg
+404 http://localhost:8766/dashboard/wohnung/Behandlungsraum-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Wohnzimmer-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Wohnzimmer-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-3.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Wohnzimmer-3.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-4.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-5.jpg
+404 http://localhost:8766/dashboard/wohnung/Kueche-6.jpg
+404 http://localhost:8766/dashboard/wohnung/Bad-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Bad-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Bad-3.jpg
+404 http://localhost:8766/dashboard/wohnung/Bad-4.jpg
+404 http://localhost:8766/dashboard/wohnung/Schlafzimmer-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Schlafzimmer-2.jpg
+404 http://localhost:8766/dashboard/wohnung/Behandlungsraum-1.jpg
+404 http://localhost:8766/dashboard/wohnung/Schlafzimmer-3.jpg
+404 http://localhost:8766/dashboard/wohnung/Behandlungsraum-2.jpg
+OK    Wohnung Eintrag
+OK    Reiter unterlagen
+OK    Reiter partner
+OK    Reiter auswertung
+OK    Reiter meine
+OK    Glocke für Jasmin
+OK    Daniel: keine Glocke
+OK    Daniel: Wohnung im Menü
+OK    Daniel: Rolle Team
+OK    Abmelden im Backoffice meldet überall ab
