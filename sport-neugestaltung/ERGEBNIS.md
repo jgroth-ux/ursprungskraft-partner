@@ -17,8 +17,8 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
   - **Formular:** als helles Feld, der Text links bleibt beim Scrollen stehen.
   - **Leiste unten (aus der Schaltzentrale):** deckend, ohne Glas.
 - **Akzentfarbe je Sportler:** Kevin Kupfer `#CF6844`, Johny Sportblau `#4261CC`. Sonst sind beide Seiten gleich, ein gemeinsames System.
-- **E-Book:** helles Papier, Graphit-Schrift, große Kapitelnummern im Akzent, Haarlinien statt vieler Kästen.
-  - **Cover:** Sportlerfoto mit Rahmen auf Graphit.
+- **E-Book:** helles Papier, Schrift in Anthrazit, große Kapitelnummern im Akzent, Haarlinien statt vieler Kästen.
+  - **Cover:** Sportlerfoto mit Rahmen auf Anthrazit.
   - **Vorwort und Schlussseite:** Foto ebenfalls gerahmt.
   - **Kapitel 2:** Das bisherige Cover-Foto (`wasser.jpg`) steht jetzt beim „dritten Weg“.
 - **Schriften:** Jost und Inter wie bisher. Alle Größen kommen aus der Leiter 1,272: Web ab 16 px, E-Book ab 10 pt.
@@ -37,7 +37,25 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
   - Feine Kontur (0,75 pt) in der Akzentfarbe um das Foto, mit etwas Abstand.
   - Kevin: Kupferrot. Johny: Blau.
 
+## Zweite Nachbesserung (10.11.2026)
 
+- **Kein Schwarz mehr im E-Book:**
+  - Alle dunklen Flächen (Cover, Kästen, Band auf Seite 3, Schlussseite) sind jetzt Anthrazit `#383E42` (RAL 7016) statt `#171A1C`.
+  - Fließtext, Überschriften, Linien und die Zahlen auf der pH-Skala sind ebenfalls Anthrazit, Nebentext `#5C6367` (5,4 : 1).
+  - Automatische Prüfung: Kein Text, keine Linie und keine Fläche ist dunkler als Anthrazit. Einzige Ausnahme ist das Violett bei pH 14 auf der Skala.
+- **Farben dazu angepasst:**
+  - Hellere Akzenttöne für kleine Schrift auf Dunkel: Kevin `#EC9A79`, Johny `#9EAEF2`, beide mindestens 4,8 : 1.
+  - Neuer Farbwert `akzent_linie` für Kontur und Trägerfelder: Kevin `#CF6844`, Johny `#8DA0EE`.
+  - Kevins Knopf hat jetzt weiße Schrift auf Kupfer, dafür größer (16 pt fett).
+- **Die Landingpage bleibt vorerst bei `#171A1C`**, bis Jasmin entscheidet.
+- **Kapitel 7:** Beide Video-Bilder sind jetzt gleich groß, im Querformat 3 : 2. Damit ist der Eddie-Text länger als sein Bild.
+- **Cover-Variante B** ohne Sportlerfoto: Titel oben, Wasserfoto mit Kontur darunter, „Empfohlen von“ unten.
+  - `bauen.py` baut dafür zusätzlich `ebook-<name>-cover-b.html`.
+  - PDF und Bild liegen in `02-ebook/cover-varianten/`, ebenso der Vergleich A und B (`vergleich-a-b.jpg`).
+  - Das Haupt-E-Book nutzt weiter Cover A, bis Jasmin entscheidet.
+  - In Variante B kommt das Wasserfoto zweimal vor (Cover und Kapitel 2).
+
+## Geänderte Dateien
 
 | Datei | Änderung | Grund |
 |---|---|---|
