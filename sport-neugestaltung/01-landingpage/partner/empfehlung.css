@@ -1,32 +1,33 @@
-/* Empfehlungsseiten der Sportler. Neugestaltung 10.11.2026: dunkler Grund (Graphit), Felder in verschiedenen Größen,
+/* Empfehlungsseiten der Sportler. Neugestaltung 10.11.2026: dunkler Grund (Anthrazit statt Schwarz, Jasmin 10.11.), Felder in verschiedenen Größen,
    ein heller Blickpunkt je Bildschirm, eine Akzentfarbe je Sportler. Formensprache aus dem Entwurf "Schaltzentrale",
    Farben unabhängig von Ursprungskraft. Keine Glas-, Leucht- oder Verlaufseffekte.
    Schriftgrößen aus der Leiter 1,272 (16 · 20,35 · 25,89 · 32,93 · 41,89 · 53,28 · 67,77 · 86,21 · 109,66 · 139,49),
    Abstände aus 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128. */
 
 :root{
-  --grund:#171A1C;      /* Seitengrund Graphit */
-  --feld:#23272A;       /* Feld eine Stufe heller */
-  --feld-2:#2C3134;     /* Symbolfelder, Hover */
+  --grund:#2F3438;      /* Seitengrund Anthrazit */
+  --feld:#383E42;       /* Feld eine Stufe heller (RAL 7016, wie E-Book) */
+  --feld-2:#42484D;     /* Leiste unten */
   --papier:#F3F1EB;     /* heller Blickpunkt, helle Abschnitte */
   --papier-2:#E8E6E0;   /* Feld auf hellem Grund */
-  --stein:#B6B8B5;      /* Nebentext auf Dunkel (8,7 : 1) */
-  --leise:#4F5457;      /* Nebentext auf Hell (6,8 : 1) */
-  --tinte:#171A1C;
+  --stein:#C4C6C3;      /* Nebentext auf Dunkel (6,3 : 1 auf Feld) */
+  --leise:#5C6367;      /* Nebentext auf Hell (5,4 : 1) */
+  --tinte:#383E42;      /* Schrift auf Hell: Anthrazit, kein Schwarz */
   --linie-d:rgba(243,241,235,.14);
   --linie-h:#D3D0C8;
   /* Akzent je Sportler. Standard für neue Sportler: Kupfer. */
-  --ak:#CF6844;         /* Flächen, große Zahlen, Knöpfe */
-  --ak-auf:#171A1C;     /* Schrift auf Akzent (4,8 : 1) */
-  --ak-d:#E58A66;       /* kleine Akzentschrift auf Dunkel (6,8 : 1) */
+  --ak:#CF6844;         /* Akzent für Linien und Auswahl */
+  --ak-knopf:#B4512F;   /* Knöpfe und Akzentfeld, weiße Schrift (5,1 : 1) */
+  --ak-auf:#FFFFFF;
+  --ak-d:#EC9A79;       /* kleine Akzentschrift auf Dunkel (4,9 : 1 auf Feld) */
   --ak-h:#9C4628;       /* kleine Akzentschrift auf Hell */
   --t-1:12.58px;--t0:16px;--t1:20.35px;--t2:25.89px;--t3:32.93px;--t4:41.89px;--t5:53.28px;--t6:67.77px;--t7:86.21px;--t8:109.66px;--t9:139.49px;
   --r:20px;--r-klein:14px;
   --rand:24px;--luecke:12px;
   --weich:cubic-bezier(.16,1,.3,1);
 }
-body[data-kurz="kevin"]{--ak:#CF6844;--ak-auf:#171A1C;--ak-d:#E58A66;--ak-h:#9C4628}
-body[data-kurz="johny"]{--ak:#4261CC;--ak-auf:#FFFFFF;--ak-d:#8DA0EE;--ak-h:#3A57BD}
+body[data-kurz="kevin"]{--ak:#CF6844;--ak-knopf:#B4512F;--ak-auf:#FFFFFF;--ak-d:#EC9A79;--ak-h:#9C4628}
+body[data-kurz="johny"]{--ak:#4261CC;--ak-knopf:#4261CC;--ak-auf:#FFFFFF;--ak-d:#9EAEF2;--ak-h:#3A57BD}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -47,7 +48,7 @@ section{padding:var(--t8) 0;scroll-margin-top:64px}
 .dunkeltext{color:var(--stein)}
 
 /* Knöpfe: Pille, Akzent */
-.knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;background:var(--ak);color:var(--ak-auf);text-decoration:none;border:0;border-radius:999px;padding:14px 28px;font:600 var(--t0)/1.3 Inter,sans-serif;cursor:pointer;transition:transform .35s var(--weich),background-color .2s}
+.knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;background:var(--ak-knopf);color:var(--ak-auf);text-decoration:none;border:0;border-radius:999px;padding:14px 28px;font:600 var(--t0)/1.3 Inter,sans-serif;cursor:pointer;transition:transform .35s var(--weich),background-color .2s}
 .knopf:hover{transform:translateY(-2px)}
 .knopf:active{transform:translateY(0) scale(.98)}
 .knopf.rahmen{background:none;box-shadow:inset 0 0 0 1.5px currentColor;color:var(--papier)}
@@ -88,7 +89,7 @@ body[data-kurz="kevin"] .hero h1 .betont{color:var(--ak-h)}
 .zahl{background:var(--feld);border-radius:var(--r);padding:32px;min-height:208px;display:flex;flex-direction:column;justify-content:space-between;grid-column:span 4}
 .zahl:nth-child(1){grid-column:1/6}
 .zahl:nth-child(2){grid-column:6/10}
-.zahl:last-child{grid-column:10/13;background:var(--ak);color:var(--ak-auf)}
+.zahl:last-child{grid-column:10/13;background:var(--ak-knopf);color:var(--ak-auf)}
 .zahl b{display:block;font:500 var(--t6)/1 Jost,sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
 .zahl span{display:block;font-size:var(--t0);line-height:1.4;color:var(--stein);margin-top:16px}
 .zahl:last-child span{color:inherit}
@@ -232,10 +233,10 @@ footer a:hover{color:var(--ak-d)}
 /* ===== Leiste unten (aus der Schaltzentrale, deckend, ohne Glas) ===== */
 .dock{position:fixed;left:50%;bottom:20px;z-index:40;display:flex;align-items:center;gap:8px;padding:8px;background:var(--feld-2);border-radius:24px;box-shadow:0 0 0 1px var(--linie-d),0 16px 40px rgba(0,0,0,.35);transform:translate(-50%,140%);visibility:hidden;transition:transform .5s var(--weich),visibility 0s .5s}
 .dock:has(.handyknopf.zeigen){transform:translate(-50%,0);visibility:visible;transition:transform .5s var(--weich),visibility 0s}
-.dock-symbol{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:#3A4044;color:var(--papier);transition:transform .3s var(--weich),background-color .2s}
+.dock-symbol{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:#50575C;color:var(--papier);transition:transform .3s var(--weich),background-color .2s}
 .dock-symbol svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.dock-symbol:hover{transform:scale(1.12);background:#454C50}
-.handyknopf{display:inline-flex;align-items:center;height:52px;padding:0 24px;border-radius:16px;background:var(--ak);color:var(--ak-auf);font:600 var(--t0)/1 Inter,sans-serif;text-decoration:none;white-space:nowrap;transition:transform .3s var(--weich)}
+.dock-symbol:hover{transform:scale(1.12);background:#5A6166}
+.handyknopf{display:inline-flex;align-items:center;height:52px;padding:0 24px;border-radius:16px;background:var(--ak-knopf);color:var(--ak-auf);font:600 var(--t0)/1 Inter,sans-serif;text-decoration:none;white-space:nowrap;transition:transform .3s var(--weich)}
 .handyknopf:hover{transform:scale(1.04)}
 
 /* ===== Einblenden ===== */

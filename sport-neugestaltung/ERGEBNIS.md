@@ -5,7 +5,7 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
 
 ## Kurz: was sich am Aussehen geändert hat
 
-- **Landingpage:** dunkler Grund (Graphit) statt Hellblau. Felder in verschiedenen Größen statt gleicher Kacheln, je Bildschirm ein heller Blickpunkt.
+- **Landingpage:** dunkler Grund (Anthrazit) statt Hellblau. Felder in verschiedenen Größen statt gleicher Kacheln, je Bildschirm ein heller Blickpunkt.
   - **Hero:** helles Textfeld neben einem hohen Bildfeld mit dem Sportler.
   - **Zahlen:** in drei unterschiedlich großen Feldern.
   - **Zitat:** als reine Typografie.
@@ -50,6 +50,20 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
 - **Die Landingpage bleibt vorerst bei `#171A1C`**, bis Jasmin entscheidet.
 - **Kapitel 7:** Beide Video-Bilder sind jetzt gleich groß, im Querformat 3 : 2. Damit ist der Eddie-Text länger als sein Bild.
 - **Cover:** Entscheidung Jasmin: Cover A mit dem Foto des Sportlers bleibt. Die ausprobierte Variante B ohne Sportlerfoto ist wieder entfernt, aus `bauen.py`, `ebook.css` und den Dateien.
+
+## Dritte Runde (10.11.2026)
+
+- **Landingpage in Anthrazit** wie E-Book und Backoffice:
+  - Grund `#2F3438`, Felder `#383E42`, Schrift auf Hell `#383E42`, Nebentext `#C4C6C3` bzw. `#5C6367`.
+  - Kevins Knöpfe und das Akzentfeld: weiße Schrift auf `#B4512F` (5,1 : 1).
+  - Kleine Akzentschrift auf Dunkel: Kevin `#EC9A79`, Johny `#9EAEF2`.
+  - Nur `empfehlung.css` geändert, dazu die Versionsnummer in `seite.html`. Beide Seiten neu gebaut.
+  - Text unverändert (geprüft), Rechner 90 kg = 3,6 Liter (geprüft), kein waagrechtes Scrollen bei 1440, 768, 375 und 320 px (geprüft).
+- **Backoffice für Partner** (`06-backoffice/`): Grundlage für alle Gruppen, Inhalt je Gruppe in `konfig-*.js`.
+  - **Funktionen:** Anmeldung, Passwort vergessen, Einladung, Passwort ändern, Abmelden. Kennzahlen, Verlauf über 7 Tage oder 12 Wochen, Liste mit Filtern, Hinweis, solange noch niemand da ist.
+  - **Datenschutz:** Der Partner sieht nur Vorname, Anfangsbuchstabe, Ort, Wunsch und Stand.
+  - **Vorschau mit Beispieldaten** in Chromium geprüft: Abläufe, Filter, Fehlermeldungen, kein Überlauf bei 1440, 768, 375 und 320 px, keine JS-Fehler.
+  - **Echtbetrieb:** `quelle-supabase.js` ist vorbereitet, aber nicht prüfbar ohne Schema und Schlüssel. Beschreibung für den anderen Claude: `06-backoffice/SCHNITTSTELLE.md`. Anleitung: `06-backoffice/LIESMICH.md`.
 
 ## Geänderte Dateien
 

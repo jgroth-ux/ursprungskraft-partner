@@ -4,96 +4,119 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Backoffice · Anmeldungen</title>
-<!-- Backoffice für Sportpartner (Kevin, Johny und spätere). VORSCHAU mit Beispieldaten, noch ohne Server.
-     Im Echtbetrieb: Anmeldung über Supabase Auth, jeder Partner sieht nur seine eigenen Anmeldungen (Row Level Security). -->
+<title>Backoffice</title>
+<!-- Backoffice für Partner (Grundlage für alle Gruppen). Inhalt kommt aus konfig-*.js, Daten aus quelle-*.js.
+     Siehe LIESMICH.md und SCHNITTSTELLE.md. Alle Texte stehen in der Konfiguration, nicht hier. -->
 <link rel="stylesheet" href="../01-landingpage/schriften/schriften.css">
-<link rel="stylesheet" href="backoffice.css?v=20261110a">
+<link rel="stylesheet" href="backoffice.css?v=20261110b">
 </head>
 <body>
 
-<div class="hinweis-demo" id="hinweis-demo">Vorschau mit Beispieldaten. Die Namen und Zahlen sind ausgedacht.</div>
+<div class="hinweis-demo" id="hinweis-demo" hidden></div>
 
-<!-- Anmeldung -->
-<main class="anmeldung" id="anmeldung">
+<!-- Anmeldung, Passwort vergessen, Passwort festlegen -->
+<main class="anmeldung" id="anmeldung" hidden>
   <div class="anmeldung-feld">
-    <div class="eyebrow">Backoffice</div>
-    <h1>Deine Anmeldungen auf einen Blick</h1>
-    <p>Melde dich mit der E-Mail-Adresse an, die du von uns bekommen hast.</p>
-    <form id="login" novalidate>
+    <form id="f-login" novalidate>
+      <div class="eyebrow" data-t="anmeldungEyebrow"></div>
+      <h1 data-t="anmeldungTitel"></h1>
+      <p class="text" data-t="anmeldungText"></p>
       <label class="eingabe">E-Mail<input name="email" type="email" autocomplete="username" required></label>
       <label class="eingabe">Passwort<input name="passwort" type="password" autocomplete="current-password" required></label>
-      <div class="fehler" id="login-fehler" role="alert"></div>
-      <button class="knopf" type="submit">Anmelden</button>
-      <button class="link" type="button" id="vergessen">Passwort vergessen?</button>
+      <div class="fehler" role="alert"></div>
+      <button class="knopf breit" type="submit">Anmelden</button>
+      <button class="link" type="button" data-zu="vergessen">Passwort vergessen?</button>
     </form>
-    <div class="demo-wahl" id="demo-wahl">
+
+    <form id="f-vergessen" novalidate hidden>
+      <div class="eyebrow" data-t="anmeldungEyebrow"></div>
+      <h1 data-t="vergessenTitel"></h1>
+      <p class="text" data-t="vergessenText"></p>
+      <label class="eingabe">E-Mail<input name="email" type="email" autocomplete="username" required></label>
+      <div class="fehler" role="alert"></div>
+      <p class="erfolg" role="status" hidden data-t="vergessenFertig"></p>
+      <button class="knopf breit" type="submit">Link schicken</button>
+      <button class="link" type="button" data-zu="login">Zurück zur Anmeldung</button>
+    </form>
+
+    <form id="f-passwort" novalidate hidden>
+      <div class="eyebrow" data-t="anmeldungEyebrow"></div>
+      <h1 id="passwort-titel"></h1>
+      <p class="text" id="passwort-text"></p>
+      <label class="eingabe">Neues Passwort<input name="passwort" type="password" autocomplete="new-password" minlength="10" required></label>
+      <label class="eingabe">Noch einmal<input name="wiederholung" type="password" autocomplete="new-password" minlength="10" required></label>
+      <div class="fehler" role="alert"></div>
+      <button class="knopf breit" type="submit">Passwort speichern</button>
+    </form>
+
+    <div class="demo-wahl" id="demo-wahl" hidden>
       <span>Vorschau ansehen als</span>
-      <button class="knopf rahmen" type="button" data-wer="kevin">Kevin Wolter</button>
-      <button class="knopf rahmen" type="button" data-wer="johny">Johny Yusupov</button>
+      <div id="demo-knoepfe"></div>
     </div>
   </div>
 </main>
+
+<!-- Laden und Fehler -->
+<div class="zustand" id="laden" hidden><span class="punkt"></span>Einen Moment</div>
+<div class="zustand" id="fehler-laden" hidden>
+  <p>Deine Anmeldungen konnten gerade nicht geladen werden.</p>
+  <button class="knopf" type="button" id="nochmal">Noch einmal versuchen</button>
+</div>
 
 <!-- Übersicht -->
 <div class="app" id="app" hidden>
   <header>
     <div class="innen">
       <span class="marke"><b id="kopf-name"></b><span id="kopf-rolle"></span></span>
-      <button class="knopf klein rahmen" id="abmelden" type="button">Abmelden</button>
+      <span class="kopf-knoepfe">
+        <button class="knopf klein leise" id="passwort-aendern" type="button">Passwort ändern</button>
+        <button class="knopf klein rahmen" id="abmelden" type="button">Abmelden</button>
+      </span>
     </div>
   </header>
 
   <main class="innen" id="oben">
     <section class="raster" aria-label="Übersicht">
       <div class="feld-gross f-gesamt">
-        <div class="eyebrow">Anmeldungen über deine Seite</div>
+        <div class="eyebrow" data-t="gesamt"></div>
         <b class="riesig" id="z-gesamt">0</b>
-        <p class="unterzeile"><span id="z-woche-text"></span></p>
+        <p class="unterzeile" id="z-woche"></p>
         <p class="stand-heute" id="z-stand"></p>
       </div>
 
-      <div class="feld f-woche">
-        <div class="eyebrow">Die letzten 7 Tage</div>
+      <div class="feld f-verlauf">
+        <div class="verlauf-kopf">
+          <div class="eyebrow" data-t="verlauf"></div>
+          <div class="umschalter" role="group" aria-label="Zeitraum">
+            <button type="button" data-zeitraum="tage" aria-pressed="true">7 Tage</button>
+            <button type="button" data-zeitraum="wochen" aria-pressed="false">12 Wochen</button>
+          </div>
+        </div>
         <div class="balken" id="balken" role="img"></div>
         <div class="tooltip" id="tooltip" hidden></div>
       </div>
 
       <a class="feld f-seite" id="seite-link" target="_blank" rel="noopener">
         <img id="seite-foto" alt="">
-        <span class="f-seite-text"><span class="eyebrow">Deine Seite</span><b>Ansehen</b></span>
+        <span class="f-seite-text"><span class="eyebrow" data-t="seite"></span><b data-t="seiteKnopf"></b></span>
       </a>
 
-      <div class="feld f-geraet">
-        <b class="zahl" id="z-geraet">0</b>
-        <span>wollen das Gerät kennenlernen</span>
-      </div>
-      <div class="feld f-ebook">
-        <b class="zahl" id="z-ebook">0</b>
-        <span>haben sich das E&#8209;Book geholt</span>
-      </div>
-      <div class="feld f-gekauft">
-        <b class="zahl" id="z-gekauft">0</b>
-        <span>Geräte gekauft</span>
-      </div>
+      <div class="feld f-k1 kennzahl"><b class="zahl" id="k0">0</b><span id="k0-text"></span></div>
+      <div class="feld f-k2 kennzahl"><b class="zahl" id="k1">0</b><span id="k1-text"></span></div>
+      <div class="feld f-k3 kennzahl akzent"><b class="zahl" id="k2">0</b><span id="k2-text"></span></div>
     </section>
 
     <section class="feld liste" id="liste" aria-labelledby="liste-titel">
       <div class="liste-kopf">
-        <h2 id="liste-titel">Alle Anmeldungen</h2>
-        <div class="filter" role="tablist" aria-label="Anmeldungen filtern">
-          <button role="tab" data-filter="alle" aria-selected="true">Alle</button>
-          <button role="tab" data-filter="geraet" aria-selected="false">Gerät</button>
-          <button role="tab" data-filter="ebook" aria-selected="false">E&#8209;Book</button>
-          <button role="tab" data-filter="gekauft" aria-selected="false">Gekauft</button>
-        </div>
+        <h2 id="liste-titel" data-t="liste"></h2>
+        <div class="filter" id="filter" role="group" aria-label="Anmeldungen filtern"></div>
       </div>
       <table>
         <thead><tr><th>Datum</th><th>Name</th><th>Ort</th><th>Wunsch</th><th>Stand</th></tr></thead>
         <tbody id="zeilen"></tbody>
       </table>
-      <button class="knopf rahmen mehr" id="mehr" type="button" hidden>Alle zeigen</button>
-      <p class="datenschutz">Telefonnummer und E-Mail sieht nur unser Team, das sich bei den Interessenten meldet. Hier siehst du Vorname, Anfangsbuchstabe und Ort.</p>
+      <button class="knopf rahmen mehr" id="mehr" type="button" hidden></button>
+      <p class="datenschutz" data-t="datenschutz"></p>
     </section>
   </main>
 
@@ -102,8 +125,26 @@
     <a class="dock-symbol" href="#liste" aria-label="Liste" title="Liste"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 6.5h12M8.5 12h12M8.5 17.5h12M4 6.5h.01M4 12h.01M4 17.5h.01"/></svg></a>
     <a class="dock-symbol" id="dock-seite" target="_blank" rel="noopener" aria-label="Deine Seite" title="Deine Seite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></svg></a>
   </nav>
+
+  <dialog id="d-passwort" aria-labelledby="d-passwort-titel">
+    <form id="f-aendern" novalidate>
+      <h2 id="d-passwort-titel">Passwort ändern</h2>
+      <p class="text" data-t="neuesPasswortText"></p>
+      <label class="eingabe">Neues Passwort<input name="passwort" type="password" autocomplete="new-password" minlength="10" required></label>
+      <label class="eingabe">Noch einmal<input name="wiederholung" type="password" autocomplete="new-password" minlength="10" required></label>
+      <div class="fehler" role="alert"></div>
+      <p class="erfolg" role="status" hidden>Dein neues Passwort ist gespeichert.</p>
+      <div class="dialog-knoepfe">
+        <button class="knopf" type="submit">Speichern</button>
+        <button class="knopf rahmen" type="button" id="d-schliessen">Schließen</button>
+      </div>
+    </form>
+  </dialog>
 </div>
 
-<script src="backoffice.js?v=20261110a"></script>
+<!-- Inhalt der Gruppe und Datenquelle. Für den Echtbetrieb: ../vendor/supabase.js und quelle-supabase.js -->
+<script src="konfig-sport.js?v=20261110b"></script>
+<script src="quelle-vorschau.js?v=20261110b"></script>
+<script src="backoffice.js?v=20261110b"></script>
 </body>
 </html>
