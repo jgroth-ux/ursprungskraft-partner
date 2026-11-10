@@ -23,7 +23,21 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
   - **Kapitel 2:** Das bisherige Cover-Foto (`wasser.jpg`) steht jetzt beim „dritten Weg“.
 - **Schriften:** Jost und Inter wie bisher. Alle Größen kommen aus der Leiter 1,272: Web ab 16 px, E-Book ab 10 pt.
 
-## Geänderte Dateien
+## Nachbesserung nach Jasmins Durchsicht (10.11.2026)
+
+- **Keine doppelten Linien mehr:**
+  - Unter der Linie des Kapitelkopfs steht keine zweite Linie mehr.
+  - Betroffen waren Kapitel 2 (drei Karten), Kapitel 7 (erster Video-Block) und Eddies Rechnung (Zahlenleiste).
+  - Eine automatische Prüfung aller 14 Seiten beider E-Books findet keine zwei Linien mehr, die ohne Inhalt dazwischen untereinander stehen.
+- **Kapitel 7:**
+  - Das Bild ist jetzt so hoch wie der Text daneben, unten bündig mit dem Link „Hier siehst du das Video“.
+  - Die Bildspalte ist so gewählt (70 mm), dass „Spa“ nicht mehr allein in der letzten Zeile steht. Eddie: 6 Zeilen, Ronaldo: 3 Zeilen.
+  - Am Text wurde nichts geändert.
+- **Cover:**
+  - Feine Kontur (0,75 pt) in der Akzentfarbe um das Foto, mit etwas Abstand.
+  - Kevin: Kupferrot. Johny: Blau.
+
+
 
 | Datei | Änderung | Grund |
 |---|---|---|
@@ -60,7 +74,7 @@ Stand: 10.11.2026. Freigabe der Richtung und des Prototyps durch Jasmin am selbe
 | 9 | Bilder, Videos, Untertitel, Datenschutz, Formulare | BESTANDEN | Alle Bild- und Videopfade unverändert. Datenschutz-Haken mit Link `../../datenschutz/`, Impressum und Datenschutz im Fuß. Formularprüfung im Browser: Pflichtfragen-Meldung erscheint, „Ich will mich erst mal nur umschauen“ zeigt den Hinweis und ändert den Knopf auf „E-Book holen“. Keine JS-Fehler. |
 | 10 | Abschnittsübergänge angesehen | BESTANDEN | Ganzseitige Bildschirmfotos beider Seiten in vier Breiten durchgesehen (`_pruefung/phase-3/`). Übergänge nur über Flächenwechsel (dunkel, helles Feld mit 28 px Rundung), keine Wellen oder Schrägen. |
 | 11 | Keine verbotenen Effekte | BESTANDEN | Suche in CSS, JS und HTML nach `backdrop`, `blur`, `gradient`, `glow`, `mousemove`, `parallax`, `perspective`, `translateZ`: 0 Treffer. Keine Glas-Effekte, kein Maus-Licht, kein Scroll-Maus-Symbol. Bewegung: Einblenden, einmaliges Hochzählen wie bisher, ruhige Hover. Bei „Bewegung reduzieren“ ist alles sofort sichtbar (geprüft). |
-| 12 | E-Books: Typografie, Umbrüche, kein Überlauf | BESTANDEN | Automatische Messung je Seite: Inhalt endet überall mindestens 5,7 mm vor der Fußzeile, nichts ragt rechts heraus (Seite 1 hat keine Fußzeile). Blocksatz im Fließtext, `hyphens:manual`, Trennung nur an den Fugen aus `TRENNFUGEN` (unverändert). Alle 14 Seiten beider Fassungen angesehen. |
+| 12 | E-Books: Typografie, Umbrüche, kein Überlauf | BESTANDEN | Automatische Messung je Seite: Inhalt endet überall mindestens 5,7 mm vor der Fußzeile; Linienprüfung: keine doppelten Linien; nichts ragt rechts heraus (Seite 1 hat keine Fußzeile). Blocksatz im Fließtext, `hyphens:manual`, Trennung nur an den Fugen aus `TRENNFUGEN` (unverändert). Alle 14 Seiten beider Fassungen angesehen. |
 | 13 | Desktop und Handy als zusammenhängendes Design | BESTANDEN (Sichtprüfung) | Bildschirmfotos 1440, 768, 375, 320 px in `_pruefung/phase-3/`. Das ist meine Einschätzung, das letzte Wort hat Jasmin. |
 
 **NICHT PRÜFBAR**
