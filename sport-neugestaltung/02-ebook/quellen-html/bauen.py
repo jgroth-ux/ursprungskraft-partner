@@ -13,7 +13,8 @@ GEMEINSAM_VORWORT_ENDE = (
 SPORTLER = {
     'kevin': dict(
         name='Kevin Wolter', rolle='Bodybuilder', rolle_lang='Bodybuilder · 216.000 Follower auf Instagram · 617.000 Abonnenten auf YouTube',
-        foto='kevin.jpg', foto_pos='50% 10%', foto_pos_titel='50% 25%', foto_pos_schluss='50% 22%',
+        foto='kevin.jpg', foto_pos='50% 10%', foto_pos_titel='50% 30%',
+        akzent='#CF6844', akzent_auf='#171A1C', akzent_hell='#9C4628', akzent_dunkel='#E58A66', foto_pos_schluss='50% 22%',
         link='https://mein.ursprungskraft.net/partner/kevin/', link_kurz='mein.ursprungskraft.net/partner/kevin',
         vorwort_titel='Du trainierst hart. Trinkst du auch gut?',
         vorwort=(
@@ -25,7 +26,8 @@ SPORTLER = {
     ),
     'johny': dict(
         name='Johny Yusupov', rolle='MMA-Fighter', rolle_lang='MMA-Fighter · 83.100 Follower auf Instagram · 33.900 Abonnenten auf YouTube',
-        foto='johny.jpg', foto_pos='50% 12%', foto_pos_titel='50% 10%', foto_pos_schluss='50% 2%',
+        foto='johny.jpg', foto_pos='50% 12%', foto_pos_titel='50% 10%',
+        akzent='#4261CC', akzent_auf='#FFFFFF', akzent_hell='#3A57BD', akzent_dunkel='#8DA0EE', foto_pos_schluss='50% 2%',
         link='https://mein.ursprungskraft.net/partner/johny/', link_kurz='mein.ursprungskraft.net/partner/johny',
         vorwort_titel='Du kämpfst hart. Trinkst du auch gut?',
         vorwort=(

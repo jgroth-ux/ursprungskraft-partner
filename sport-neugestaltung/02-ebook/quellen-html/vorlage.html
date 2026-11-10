@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="schriften/schriften.css">
 <link rel="stylesheet" href="ebook.css">
 </head>
-<body>
+<body style="--ak:{{akzent}};--ak-auf:{{akzent_auf}};--ak-h:{{akzent_hell}};--ak-d:{{akzent_dunkel}}">
 <!-- Gebaut aus vorlage.html mit bauen.py. Text hier ändern, dann bauen.py laufen lassen. -->
 
 <!-- 1 Titel -->
@@ -17,7 +17,7 @@
     <h1>Das unterschätzte Supplement</h1>
     <div class="unter">Was Sportler über ihr Wasser wissen sollten</div>
   </div>
-  <div class="foto"><img src="bilder/wasser.jpg" alt="Frisches Wasser aus dem Hahn" style="object-position:40% 50%"></div>
+  <div class="foto"><img src="bilder/{{foto}}" alt="{{name}}" style="object-position:{{foto_pos_titel}}"></div>
   <div class="mit"><span>Empfohlen von</span><b>{{name}}</b></div>
 </section>
 </div>
