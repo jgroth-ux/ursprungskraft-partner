@@ -1,0 +1,162 @@
+/* Partnerportal, Ansicht "Meine Seiten" (Baukasten, 11.11.2026). Ergänzt portal.css und nutzt nur dessen Variablen.
+   In index.html nach portal.css einbinden. Ein dunkler Blickpunkt je Seite (Bühne), sonst Haarlinien, keine Schatten. */
+
+/* ---------- Telefonrahmen mit echter Seite (390 x 844, verkleinert) ---------- */
+.ms-handy { --s: .62; margin: 0; display: grid; justify-items: center; gap: var(--s-2); }
+.ms-handy.gross { --s: .8; }
+.ms-schirm { position: relative; width: calc(390px * var(--s)); height: calc(760px * var(--s)); overflow: hidden; border: 6px solid #12150E; border-radius: 28px; background: var(--c-surface); box-sizing: content-box; }
+.ms-schirm iframe { position: absolute; left: 0; top: 0; width: 390px; height: 760px; border: 0; transform: scale(var(--s)); transform-origin: 0 0; background: #F5F1E8; }
+.ms-ganz { position: absolute; inset: 0; z-index: 2; }
+.ms-handy figcaption { font: 400 13px/20px var(--f-text); color: var(--c-muted); text-align: center; max-width: calc(390px * var(--s) + 12px); }
+
+/* ---------- Gesperrt: Bühne mit den Beispielen ---------- */
+.ms-buehne { display: grid; grid-template-columns: minmax(0, 1fr); background: var(--c-olive-deep); color: var(--c-surface); border-radius: var(--radius-gross); overflow: hidden; }
+.ms-buehne .text { padding: var(--s-5) var(--s-4); display: grid; gap: var(--s-3); align-content: center; justify-items: start; }
+.ms-buehne .kicker { color: var(--c-surface); opacity: .75; display: inline-flex; align-items: center; gap: var(--s-2); }
+.ms-buehne .kicker svg { width: 14px; height: 14px; }
+.ms-buehne h2 { color: var(--c-surface); font-size: var(--g-h1); line-height: var(--z-h1); letter-spacing: -0.01em; }
+.ms-buehne p { color: var(--c-surface); opacity: .85; max-width: 34em; }
+.ms-buehne .kosten { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-4); margin-top: var(--s-2); }
+.ms-buehne .kosten span { font: 400 14px/20px var(--f-text); color: var(--c-surface); opacity: .75; }
+.ms-buehne .knopf.hell { background: var(--c-ground); border-color: var(--c-ground); color: var(--c-ink); }
+.ms-buehne .knopf.hell:hover { background: var(--c-surface); border-color: var(--c-surface); }
+.ms-beispiele { display: flex; justify-content: center; align-items: flex-start; gap: var(--s-4); padding: var(--s-5) var(--s-3); background: var(--c-sand); flex-wrap: wrap; }
+.ms-beispiele .ms-handy { --s: .56; }
+.ms-beispiele .ms-handy:nth-child(2) { margin-top: var(--s-6); }
+.ms-beispiele figcaption { color: var(--c-ink); }
+.ms-beispiele .ms-schirm { transition: transform var(--t-mittel) var(--aus); }
+.ms-beispiele .ms-handy:hover .ms-schirm { transform: translateY(-4px); }
+
+.ms-fassungen { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); margin-top: var(--s-6); list-style: none; padding: 0; }
+.ms-fassungen a { display: block; border-top: var(--haar); padding-top: var(--s-3); color: inherit; text-decoration: none; }
+.ms-fassungen .zahl-gross { display: block; font-size: 44px; margin-bottom: var(--s-2); }
+.ms-fassungen .kicker { margin-bottom: var(--s-1); }
+.ms-fassungen p:last-child { color: var(--c-muted); font-size: 15px; line-height: 24px; margin-top: var(--s-1); }
+.ms-fassungen a:hover h3 { color: var(--c-olive); }
+
+/* ---------- Info ---------- */
+.ms-info-punkte ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-3); grid-template-columns: minmax(0, 1fr); }
+.ms-info-punkte li { display: grid; gap: var(--s-1); padding: var(--s-4); border: var(--haar); border-radius: var(--radius); background: var(--c-surface); }
+.ms-info-punkte b { font: 500 var(--g-h3)/var(--z-h3) var(--f-kopf); }
+.ms-info-punkte span { color: var(--c-muted); }
+.ms-drei { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
+.ms-fassung-info { display: grid; gap: var(--s-2); align-content: start; justify-items: start; }
+.ms-fassung-info .ms-handy { justify-self: stretch; margin-bottom: var(--s-2); }
+.ms-fassung-info .ms-handy { --s: .58; }
+.ms-ohne-beispiel { justify-self: stretch; display: grid; place-items: center; aspect-ratio: 390 / 760; max-height: 440px; border: var(--haar); border-radius: var(--radius); background: var(--c-surface); color: var(--c-muted); }
+.ms-ablauf { list-style: none; padding: 0; }
+.ms-preise { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2); margin: 0; }
+.ms-preise div { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-3); padding: var(--s-3) 0; border-bottom: var(--haar); }
+.ms-preise dt { color: var(--c-muted); }
+.ms-preise dd { margin: 0; font: 500 20px/28px var(--f-kopf); }
+.ms-schluss { margin-top: var(--s-6); }
+.ms-schluss span { font: 400 14px/20px var(--f-text); color: var(--c-muted); }
+
+/* ---------- Übersicht ---------- */
+.ms-stand { display: grid; gap: var(--s-4); padding: var(--s-4); border: var(--haar); border-radius: var(--radius); background: var(--c-surface); margin-bottom: var(--s-6); }
+.ms-wer { display: flex; align-items: center; gap: var(--s-3); min-width: 0; }
+.ms-wer b { display: block; font: 500 20px/26px var(--f-kopf); }
+.ms-wer span { color: var(--c-muted); font-size: 14px; }
+.ms-foto { flex: none; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: var(--c-khaki-light); color: #2F3524; font: 500 20px/1 var(--f-kopf); }
+.ms-foto img { width: 100%; height: 100%; object-fit: cover; }
+.ms-wer .ms-foto > span { color: #2F3524; font: 500 20px/1 var(--f-kopf); }
+.ms-stand dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-3); margin: 0; }
+.ms-stand dt { font: 600 12px/16px var(--f-text); letter-spacing: .08em; text-transform: uppercase; color: var(--c-muted); }
+.ms-stand dd { margin: var(--s-1) 0 0; font: 500 28px/32px var(--f-kopf); font-variant-numeric: tabular-nums; }
+.ms-stand dd.klein { font: 600 15px/32px var(--f-text); }
+.ms-reihen { display: grid; gap: var(--s-7); }
+.ms-reihe { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); align-items: center; }
+.ms-reihe .zahl-gross { display: block; margin-bottom: var(--s-2); }
+.ms-reihe .kicker { margin-bottom: var(--s-2); }
+.ms-reihe h2 { margin-bottom: var(--s-4); }
+.ms-reihe .linkfeld + .knoepfe { margin-top: var(--s-2); }
+.ms-mini { display: grid; justify-items: center; }
+.ms-mini .ms-handy { --s: .5; }
+.ms-ebook { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1) var(--s-2); margin-top: var(--s-4); padding-top: var(--s-3); border-top: var(--haar); }
+.ms-ebook > span { display: inline-flex; align-items: center; gap: var(--s-2); margin-right: auto; }
+.ms-ebook > span svg { width: 18px; height: 18px; color: var(--c-olive); }
+.ms-ebook b { font-weight: 600; }
+.ms-reihe .nebenbei { font-size: 13px; line-height: 20px; color: var(--c-muted); margin-top: var(--s-2); }
+.ms-mehr { display: grid; gap: var(--s-2); }
+.ms-mehr a { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-3); border: var(--haar); border-radius: var(--radius); color: inherit; text-decoration: none; background: var(--c-surface); transition: border-color var(--t-klein); }
+.ms-mehr a:hover { border-color: var(--c-olive); }
+.ms-mehr b { display: block; }
+.ms-mehr small { color: var(--c-muted); font-size: 13px; }
+.ms-mehr svg { width: 20px; height: 20px; color: var(--c-olive); flex: none; }
+.ms-hinweise { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-2); }
+.ms-hinweise li { padding-left: var(--s-4); position: relative; color: var(--c-muted); }
+.ms-hinweise li::before { content: ''; position: absolute; left: 4px; top: 11px; width: 8px; height: 1px; background: var(--c-khaki); }
+
+/* ---------- Formular mit Live-Vorschau ---------- */
+.ms-aufbau { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-6); align-items: start; }
+.ms-form { display: grid; gap: var(--s-6); }
+.ms-form > section { display: grid; gap: var(--s-3); padding-top: var(--s-4); border-top: var(--haar); }
+.ms-form > section > .kicker { margin-bottom: var(--s-1); }
+.ms-fotowahl { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: var(--s-4); align-items: center; }
+.ms-fotofeld { width: 112px; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: var(--c-khaki-light); color: #2F3524; display: grid; place-items: center; font: 500 32px/1 var(--f-kopf); border: var(--haar); }
+.ms-fotofeld img { width: 100%; height: 100%; object-fit: cover; }
+.ms-fotowahl h3 { margin-bottom: var(--s-1); }
+.ms-fotowahl .knoepfe { margin-top: var(--s-2); }
+.ms-datei { position: relative; overflow: hidden; }
+.ms-datei input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.ms-datei:focus-within { outline: 2px solid var(--c-olive); outline-offset: 2px; }
+.ms-haken { padding: var(--s-3); border: var(--haar); border-radius: var(--radius); background: var(--c-surface); }
+.ms-haken small, .ms-wahl small { display: block; color: var(--c-muted); font-size: 13px; line-height: 20px; }
+.ms-wahl { display: grid; gap: var(--s-2); }
+.ms-wahl label.haken { padding: var(--s-3); border: var(--haar); border-radius: var(--radius); background: var(--c-surface); transition: border-color var(--t-klein), background var(--t-klein); }
+.ms-wahl label:hover { border-color: var(--c-khaki); }
+.ms-wahl label:has(input:checked) { border-color: var(--c-olive); background: var(--c-ground); }
+.ms-wahl label.aus { opacity: .55; cursor: not-allowed; }
+.ms-wahl small.fuer { color: var(--c-olive); font-weight: 600; margin-bottom: 2px; }
+.ms-adresse { display: flex; align-items: stretch; border: var(--haar); border-radius: var(--radius); background: var(--c-surface); overflow: hidden; transition: border-color var(--t-klein), box-shadow var(--t-klein); }
+.ms-adresse:focus-within { border-color: var(--c-olive); box-shadow: 0 0 0 3px var(--c-olive-zart); }
+.ms-adresse span { display: flex; align-items: center; padding: 0 0 0 12px; font: 400 15px/24px var(--f-text); color: var(--c-muted); white-space: nowrap; max-width: 60%; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
+.ms-adresse input { border: 0 !important; box-shadow: none !important; background: transparent !important; padding-left: 2px !important; min-width: 0; }
+.regel.gut { color: var(--c-olive); }
+.regel.schlecht { color: var(--rot); }
+.ms-live { margin: 0; display: grid; justify-items: center; gap: var(--s-3); }
+.ms-live figcaption { font: 400 13px/20px var(--f-text); color: var(--c-muted); text-align: center; }
+.ms-live .umschalter { max-width: 100%; }
+
+/* Ausschnitt wählen */
+.ms-zuschnitt .blatt-innen { gap: var(--s-3); }
+.ms-zuschnitt-feld { position: relative; width: min(100%, 320px); justify-self: center; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: var(--c-surface); }
+.ms-zuschnitt-feld canvas { width: 100%; height: 100%; cursor: grab; touch-action: none; }
+.ms-zuschnitt-feld canvas:active { cursor: grabbing; }
+.ms-zuschnitt-feld canvas:focus-visible { outline: 2px solid var(--c-olive); outline-offset: -2px; }
+/* Kreis zeigt, was im runden Bild oben auf der Seite landet */
+.ms-kreis { position: absolute; left: 50%; top: 42%; width: 62%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; border: 1px dashed rgba(251, 249, 244, .8); pointer-events: none; }
+.ms-zuschnitt input[type=range] { width: 100%; accent-color: var(--c-olive); min-height: 0; padding: 0; border: 0; background: none; }
+
+@media (min-width: 700px) {
+  .ms-fassungen { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-5); }
+  .ms-info-punkte ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ms-drei { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ms-preise { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5); }
+  .ms-stand { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: center; padding: var(--s-4) var(--s-5); }
+  .ms-reihe { grid-template-columns: 260px minmax(0, 1fr); gap: var(--s-6); }
+}
+@media (min-width: 1024px) {
+  .ms-buehne { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); min-height: 460px; }
+  .ms-buehne .text { padding: var(--s-7) var(--s-6); }
+  .ms-beispiele { padding: var(--s-6) var(--s-4) var(--s-5); flex-wrap: nowrap; }
+  .ms-aufbau { grid-template-columns: minmax(0, 1fr) 360px; gap: var(--s-7); }
+  .ms-live { position: sticky; top: var(--s-5); }
+}
+@media (max-width: 1023px) {
+  .ms-live { order: -1; }
+  .ms-live .ms-handy.gross { --s: .62; }
+}
+@media (max-width: 420px) {
+  .ms-beispiele .ms-handy { --s: .42; }
+  .ms-beispiele .ms-handy:nth-child(2) { margin-top: var(--s-5); }
+  .ms-beispiele { gap: var(--s-3); padding: var(--s-4) var(--s-2); flex-wrap: nowrap; }
+  .ms-stand dl { gap: var(--s-2); }
+  .ms-stand dd { font-size: 22px; }
+  .ms-stand dt { letter-spacing: .04em; font-size: 11px; }
+  .ms-fotowahl { grid-template-columns: 88px minmax(0, 1fr); gap: var(--s-3); }
+  .ms-fotofeld { width: 88px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ms-beispiele .ms-schirm { transition: none; }
+}

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Baukasten Partnerseiten · Vorschau</title>
+<link rel="stylesheet" href="/schriften/schriften.css">
+<style>
+  :root { --ground:#F5F1E8; --surface:#FBF9F4; --line:#D9CFBA; --olive:#4F5A35; --olive-deep:#2F3524; --ink:#2A2C22; --muted:#5F6152; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 16px/1.6 Inter, system-ui, sans-serif; }
+  main { max-width: 960px; margin: 0 auto; padding: 48px 16px 96px; }
+  .eyebrow { font: 600 12px/16px Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--olive); margin: 0 0 8px; }
+  h1 { font: 500 clamp(32px, 5vw, 48px)/1.08 Jost, sans-serif; margin: 0 0 16px; letter-spacing: -.02em; }
+  h2 { font: 500 24px/1.25 Jost, sans-serif; margin: 48px 0 16px; padding-top: 24px; border-top: 1px solid var(--line); }
+  p { max-width: 64ch; color: var(--muted); }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  li a { display: flex; justify-content: space-between; gap: 16px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); text-decoration: none; }
+  li a:hover { border-color: var(--olive); }
+  li small { color: var(--muted); text-align: right; }
+  code { font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Baukasten Partnerseiten · Vorschau</p>
+  <h1>Alles zum Anklicken, mit Beispieldaten.</h1>
+  <p>Hier wird nichts gespeichert und nichts gesendet. Die Seiten holen ihre Angaben aus <code>website/p/vorschau-daten.js</code>, die Portal-Ansicht aus dem Browser. Am besten auch am Handy-Format ansehen (375 px breit).</p>
+
+  <h2>Die drei Seiten</h2>
+  <ul>
+    <li><a href="/p/max-muster/neutral">Neutral, Max Muster <small>/p/max-muster/neutral</small></a></li>
+    <li><a href="/p/max-muster/sport">Sport, Max Muster <small>/p/max-muster/sport</small></a></li>
+    <li><a href="/p/max-muster/gesundheit">Gesundheit, Max Muster <small>/p/max-muster/gesundheit</small></a></li>
+    <li><a href="/p/lena-beispiel/gesundheit">Gesundheit, Lena Beispiel (Heilpraktikerin) <small>/p/lena-beispiel/gesundheit</small></a></li>
+    <li><a href="/p/daniel-zuercher/neutral">Beispiel Daniel, ohne Satz, mit freigegebenem Kontakt <small>/p/daniel-zuercher/neutral</small></a></li>
+    <li><a href="/p/lena-beispiel/sport">Fassung, die der Partner nicht hat: leitet weiter <small>/p/lena-beispiel/sport</small></a></li>
+    <li><a href="/p/gibt-es-nicht/sport">Adresse, die es nicht gibt <small>/p/gibt-es-nicht/sport</small></a></li>
+  </ul>
+
+  <h2>Partnerportal, Ansicht "Meine Seiten"</h2>
+  <ul>
+    <li><a href="/vorschau/portal.html?stand=gesperrt#seiten">Paket nicht gebucht: Vorschau mit Beispielen <small>?stand=gesperrt</small></a></li>
+    <li><a href="/vorschau/portal.html?stand=gesperrt#seiten/info">Info-Seite zum Paket <small>#seiten/info</small></a></li>
+    <li><a href="/vorschau/portal.html?stand=leer#seiten">Gebucht, Formular zum ersten Mal <small>?stand=leer</small></a></li>
+    <li><a href="/vorschau/portal.html?stand=fertig#seiten">Eingerichtet: Links, Vorschau, E-Book <small>?stand=fertig</small></a></li>
+  </ul>
+
+  <h2>E-Book mit "Empfohlen von"</h2>
+  <ul>
+    <li><a href="/p/vorschau/ebook-sport.pdf" target="_blank" rel="noopener">Beispiel Sport (Seite 2 ist die eingefügte Seite) <small>PDF</small></a></li>
+    <li><a href="/p/vorschau/ebook-neutral.pdf" target="_blank" rel="noopener">Beispiel Neutral <small>PDF</small></a></li>
+    <li><a href="/p/vorschau/ebook-gesundheit.pdf" target="_blank" rel="noopener">Beispiel Gesundheit <small>PDF</small></a></li>
+  </ul>
+  <p>Die Titelseite und die Inhaltsseiten sind Platzhalter, bis die echten E-Books aus dem Paket E-Books da sind.</p>
+</main>
+</body>
+</html>

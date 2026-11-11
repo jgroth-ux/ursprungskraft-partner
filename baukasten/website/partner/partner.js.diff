@@ -1,0 +1,98 @@
+--- partner.js	2026-11-11 18:59:19.000000000 +0000
++++ partner.js	2026-11-11 19:28:58.666195301 +0000
+@@ -15,7 +15,9 @@
+   const PORTAL_ADRESSE = 'https://mein.ursprungskraft.net/partner/';
+   const SPEICHER = 'uk-partnerportal';
+   const V = window.Vorschau;
+-  const sb = V ? null : supabase.createClient(SUPABASE, 'sb_publishable_XXX',
++  // BAUKASTEN 11.11.2026: öffentlicher Schlüssel als Konstante, "Meine Seiten" braucht ihn für die Edge Function partner-foto
++  const OEFFENTLICH = 'sb_publishable_XXX';
++  const sb = V ? null : supabase.createClient(SUPABASE, OEFFENTLICH,
+     { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'uk-partner-sb' } });
+   // Backoffice: eigene Supabase-Anmeldung über daten.js, erst geladen, wenn ein Team-Konto wechselt
+   const BO_SKRIPTE = ['../dashboard/daten.js?v=20261109a', '../fragebogen/fragen.js?v=20261021c', 'backoffice.js?v=20261110b2'];
+@@ -135,6 +137,8 @@
+     satz: '<path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-7l-4.5 3.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5z"/><path d="M8 9h8M8 12h5"/>',
+     video: '<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/>',
+     teilen: '<circle cx="6" cy="12" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="18" cy="18" r="2.3"/><path d="M8 11l8-4M8 13l8 4"/>',
++    // BAUKASTEN 11.11.2026: Symbol für "Meine Seiten" (Browserfenster mit Zeilen)
++    seiten: '<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 8.5h17M7 12.5h6M7 15.5h4"/>',
+   };
+   const ico = (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+ 
+@@ -323,11 +327,12 @@
+ 
+   // ---------- App-Rahmen ----------
+   const MENUE = [
+-    ['start', 'Start'], ['kunden', 'Kunden'], ['termine', 'Termine'], ['tools', 'Tools'], ['flyer', 'Flyer'], ['wissen', 'Wissen'], ['neuigkeiten', 'Neuigkeiten'],
++    // BAUKASTEN 11.11.2026: "Meine Seiten" nach Tools
++    ['start', 'Start'], ['kunden', 'Kunden'], ['termine', 'Termine'], ['tools', 'Tools'], ['seiten', 'Meine Seiten'], ['flyer', 'Flyer'], ['wissen', 'Wissen'], ['neuigkeiten', 'Neuigkeiten'],
+     null, ['mehr', 'Mehr für dein Geschäft'], ['konto', 'Konto'],
+   ];
+   const LEISTE = [['start', 'Start'], ['kunden', 'Kunden'], ['termine', 'Termine'], ['tools', 'Tools'], ['menue', 'Mehr']];
+-  const ZU_MEHR = ['flyer', 'wissen', 'neuigkeiten', 'mehr', 'konto', 'menue'];
++  const ZU_MEHR = ['seiten', 'flyer', 'wissen', 'neuigkeiten', 'mehr', 'konto', 'menue']; // BAUKASTEN 11.11.2026: 'seiten' ergänzt
+   const BO_ICO = { uebersicht: 'start', aufgaben: 'haken', kalender: 'termine', bestellungen: 'paket', kunden: 'kunden', partner: 'partner', maschinen: 'geraet', unterlagen: 'ordner', auswertung: 'zahlen', meine: 'zahlen', wohnung: 'start', menue: 'punkte' };
+   const BO_LEISTE = [['uebersicht', 'Übersicht'], ['aufgaben', 'Aufgaben'], ['kalender', 'Kalender'], ['bestellungen', 'Bestellungen'], ['menue', 'Mehr']];
+   let modus = 'partner';
+@@ -411,8 +416,9 @@
+   }
+ 
+   // ---------- Router ----------
+-  const SEITEN = { start, kunden, termine, tools, flyer, wissen, neuigkeiten, mehr, konto, menue };
+-  const TITEL = { start: 'Start', kunden: 'Kunden', termine: 'Termine', tools: 'Tools', flyer: 'Flyer erstellen', wissen: 'Wissen', neuigkeiten: 'Neuigkeiten', mehr: 'Mehr für dein Geschäft', konto: 'Konto', menue: 'Mehr' };
++  // BAUKASTEN 11.11.2026: seiten ergänzt (Ansicht "Meine Seiten", Datei seiten.js)
++  const SEITEN = { start, kunden, termine, tools, seiten, flyer, wissen, neuigkeiten, mehr, konto, menue };
++  const TITEL = { start: 'Start', kunden: 'Kunden', termine: 'Termine', tools: 'Tools', seiten: 'Meine Seiten', flyer: 'Flyer erstellen', wissen: 'Wissen', neuigkeiten: 'Neuigkeiten', mehr: 'Mehr für dein Geschäft', konto: 'Konto', menue: 'Mehr' };
+   let lauf = 0;
+   async function zeigen() {
+     if (!S.p) return;
+@@ -434,7 +440,7 @@
+     catch (e) { console.warn(e); if (nr === lauf) box.innerHTML = '<p class="meldung">Das hat nicht geklappt. Bitte lade die Seite neu.</p>'; }
+     markieren(seite);
+     if (window.Bewegung && nr === lauf) Bewegung.auftritt(box);
+-    if (!rest.length || (seite === 'tools' && rest[0] === 'seite')) window.scrollTo(0, 0);
++    if (!rest.length || (seite === 'tools' && rest[0] === 'seite') || seite === 'seiten') window.scrollTo(0, 0); // BAUKASTEN 11.11.2026: auch bei #seiten/...
+   }
+ 
+   // ================= BACKOFFICE =================
+@@ -1071,6 +1077,12 @@
+         ${!frei('assistent') ? `<div class="knoepfe"><a class="knopf zweit" href="${freischaltMail('assistent')}">${ico('schloss')} Freischalten</a></div>` : `${p.assistent_bot ? `<div class="knoepfe"><a class="knopf" href="https://t.me/${esc(p.assistent_bot)}?start=${esc(p.tg_code)}" target="_blank" rel="noopener">${p.tg_verbunden ? 'Assistent öffnen' : 'Assistent verbinden'}</a>${p.tg_verbunden ? '<span class="verbunden">Verbunden</span>' : ''}</div>
+         ${p.tg_verbunden ? '' : '<p class="nebenbei">Telegram öffnet sich. Dort tippst du auf "Starten", mehr ist es nicht.</p>'}` : '<p class="nebenbei">Der Assistent wird gerade eingerichtet. Der Knopf zum Verbinden erscheint hier in Kürze.</p>'}`}
+       </div></section>` : ''}
++
++      ${/* // BAUKASTEN 11.11.2026: Hinweis auf das Paket "Eigene Seite" (Ansicht #seiten) */ ''}
++      <section class="reihe tool" id="eigene-seiten"><div class="bild">${foto('landingpage')}</div><div class="text">
++        <span class="zahl-gross" aria-hidden="true">${p.tg_code ? '05' : '04'}</span><p class="kicker">Deine eigene Seite</p><h2>Empfehlungsseiten mit E-Book</h2>
++        <p class="wozu">Deine eigene Seite mit Foto und Namen, in drei Fassungen: neutral, Sport und Gesundheit. Dazu ein E-Book, in dem du drinstehst. Wer sich einträgt, bleibt für immer bei dir.</p>
++        <div class="knoepfe"><a class="knopf zweit" href="#seiten">${ico('seiten')} Meine Seiten</a></div></div></section>
+       </div>`;
+     mocksFertig(box);
+     box.querySelectorAll('[data-kopie]').forEach((b) => (b.onclick = () => kopieren(b.dataset.kopie, 'Link kopiert.')));
+@@ -1498,6 +1510,16 @@
+     d.tabIndex = -1; document.body.append(d); d.showModal(); d.focus(); malen();
+   }
+ 
++  // ================= MEINE SEITEN =================
++  // BAUKASTEN 11.11.2026: Ansicht "Meine Seiten" (Paket "Eigene Seite"). Die ganze Logik steht in seiten.js, hier nur die Übergabe.
++  function seiten(box, rest, aktuell) {
++    if (!window.MeineSeiten) { box.innerHTML = '<p class="meldung">Diese Ansicht wird gerade eingerichtet. Bitte lade die Seite neu.</p>'; return; }
++    return MeineSeiten.zeigen(box, rest, {
++      rpc: (name, args) => mitSitzung(name, args), sitzung: () => sitzung.lesen(), aktuell,
++      esc, ico, kopf, toast, kopieren, p: S.p, vorschau: !!V, supabase: SUPABASE, schluessel: OEFFENTLICH, kontakt: KONTAKT,
++    });
++  }
++
+   // ================= KONTO =================
+   function konto(box) {
+     const p = S.p, t = testTage();
+@@ -1520,7 +1542,8 @@
+   // ================= MEHR-MENÜ (Handy) =================
+   function menue(box) {
+     const n = ungelesen();
+-    const z = [['flyer', 'Flyer erstellen', 'Deine Einladung zum Infoabend'], ['wissen', 'Wissen und Schulung', 'Unterlagen, Produktwissen, Einwände'],
++    // BAUKASTEN 11.11.2026: "Meine Seiten" als erster Eintrag
++    const z = [['seiten', 'Meine Seiten', 'Deine Empfehlungsseiten mit E-Book'], ['flyer', 'Flyer erstellen', 'Deine Einladung zum Infoabend'], ['wissen', 'Wissen und Schulung', 'Unterlagen, Produktwissen, Einwände'],
+       ['neuigkeiten', 'Neuigkeiten', n ? `${n} neu von Daniel und Jasmin` : 'Von Daniel und Jasmin'], ['mehr', 'Mehr für dein Geschäft', 'Was dir zusätzlich Zeit spart'],
+       ['konto', 'Konto', 'Deine Angaben, App aufs Handy, Abmelden']];
+     box.innerHTML = `${kopf('Mehr', '')}${testTage() !== null ? `<p class="hinweis" style="margin-bottom:var(--s-4)"><b>Testzeit.</b> Noch ${testTage() === 0 ? 'heute' : testTage() === 1 ? '1 Tag' : testTage() + ' Tage'} ist alles kostenlos für dich frei.</p>` : ''}

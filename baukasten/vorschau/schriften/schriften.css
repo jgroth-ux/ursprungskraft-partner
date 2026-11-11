@@ -1,0 +1,3 @@
+/* Nur für die lokale Vorschau. Auf dem Server liegt /schriften/schriften.css schon. */
+@font-face{font-family:Jost;font-style:normal;font-weight:500;font-display:swap;src:url(/schriften/jost-latin.woff2) format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:400 600;font-display:swap;src:url(/schriften/inter-latin.woff2) format('woff2')}

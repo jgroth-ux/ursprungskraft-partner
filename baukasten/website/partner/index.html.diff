@@ -1,0 +1,21 @@
+--- index.html	2026-11-11 18:59:15.000000000 +0000
++++ index.html	2026-11-11 19:28:58.666512726 +0000
+@@ -19,6 +19,8 @@
+ <link rel="stylesheet" href="../schriften/schriften.css">
+ <link rel="stylesheet" href="portal.css?v=20261111i">
+ <link rel="stylesheet" href="backoffice.css?v=20261110c1">
++<!-- BAUKASTEN 11.11.2026: Ansicht "Meine Seiten" -->
++<link rel="stylesheet" href="seiten.css?v=20261111a">
+ </head>
+ <body>
+ <a class="sprung" href="#inhalt">Zum Inhalt</a>
+@@ -29,6 +31,8 @@
+ <script src="flyer-anpassen.js?v=20261111b"></script>
+ <script src="wissen.js?v=20261111g"></script>
+ <script src="vorschau.js?v=20261111c"></script>
+-<script src="partner.js?v=20261111d"></script>
++<!-- BAUKASTEN 11.11.2026: Ansicht "Meine Seiten", muss vor partner.js stehen -->
++<script src="seiten.js?v=20261111a"></script>
++<script src="partner.js?v=20261111e"></script>
+ </body>
+ </html>

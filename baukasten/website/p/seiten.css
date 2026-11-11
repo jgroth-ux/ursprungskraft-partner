@@ -1,0 +1,417 @@
+/* Partnerseiten aus dem Baukasten (11.11.2026). Drei Fassungen: neutral, sport, gesundheit. Eine Datei für alle drei.
+   Formensprache wie die Sportseiten (empfehlung.css): Felder in verschiedenen Größen, ein heller Blickpunkt je Bildschirm,
+   große Fotos, Leiste unten. Farben und Schriften aus marke/ursprungskraft-ci.md, Radien nach CI (4 px, Karten 8 px).
+   Kein Logo von Ursprungskraft: Die Seiten laufen später unter einer neutralen Domain.
+   Keine Schatten, keine Verläufe, keine Glas- oder Leuchteffekte. Inhalt mit Deckel bei 1392 px, Flächen volle Breite. */
+
+:root{
+  /* CI */
+  --ground:#F5F1E8; --surface:#FBF9F4; --sand:#EAE3D3; --line:#D9CFBA; --khaki-light:#CFC4A0; --khaki:#A8996A;
+  --olive:#4F5A35; --olive-deep:#2F3524; --ink:#2A2C22; --muted:#5F6152;
+  /* Rollen, je Fassung unten neu belegt */
+  --grund:var(--ground);      /* Seitengrund */
+  --feld:var(--surface);      /* Karte auf dem Grund */
+  --feld-2:var(--sand);       /* zweite Fläche, Bildplatzhalter */
+  --text:var(--ink);
+  --leise:var(--muted);
+  --linie:var(--line);
+  --akzent:var(--olive);      /* Eyebrow, Zahlen, Linien */
+  --knopf:var(--olive); --knopf-text:var(--surface); --knopf-hover:var(--olive-deep);
+  --hell:var(--surface); --hell-text:var(--ink); --hell-leise:var(--muted); --hell-akzent:var(--olive);
+  --dunkel:var(--olive-deep); --dunkel-text:var(--surface); --dunkel-leise:var(--khaki-light);
+  /* Maße */
+  --r:8px; --r-klein:4px;
+  --rand:32px; --luecke:12px;
+  --deckel:1392px;
+  --weich:cubic-bezier(.16,1,.3,1);
+  --t-h1:clamp(40px,5.4vw,76px); --t-h2:clamp(30px,3.6vw,52px); --t-h3:22px; --t-gross:20px;
+}
+/* Sport: dunkler Grund wie die Sportseiten, in Olive tief statt Anthrazit. Feld = Olive tief mit 7 % Surface. */
+body[data-fassung="sport"]{
+  --grund:var(--olive-deep); --feld:#3D4333; --feld-2:#474E3C; --text:var(--surface); --leise:var(--khaki-light);
+  --linie:rgba(251,249,244,.16); --akzent:var(--khaki-light);
+  --knopf:var(--khaki-light); --knopf-text:var(--olive-deep); --knopf-hover:var(--surface);
+  --dunkel:#3D4333; --dunkel-text:var(--surface); --dunkel-leise:var(--khaki-light);
+}
+/* Gesundheit: hell und ruhig, mehr Sand */
+body[data-fassung="gesundheit"]{ --grund:var(--surface); --feld:var(--ground); --feld-2:var(--sand); --hell:var(--sand); }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:80px}
+body{margin:0;background:var(--grund);color:var(--text);font:400 16px/1.625 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+h1,h2,h3{font-family:Jost,system-ui,sans-serif;font-weight:500;margin:0;text-wrap:balance;hyphens:manual}
+h2{font-size:var(--t-h2);line-height:1.06;letter-spacing:-.02em;margin-bottom:16px}
+h3{font-size:var(--t-h3);line-height:1.25;letter-spacing:-.01em;margin-bottom:8px}
+p{margin:0 0 16px;max-width:62ch;text-wrap:pretty}
+a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--akzent);outline-offset:3px;border-radius:var(--r-klein)}
+.innen{max-width:var(--deckel);margin:0 auto;padding:0 var(--rand)}
+section{padding:112px 0}
+.eyebrow{font:600 12px/16px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--akzent);margin-bottom:12px}
+.gross{font-size:var(--t-gross);line-height:1.5}
+.leise{color:var(--leise)}
+.klein{font-size:14px;line-height:1.55}
+.sprung{position:absolute;left:16px;top:-80px;z-index:90;background:var(--knopf);color:var(--knopf-text);padding:8px 16px;border-radius:var(--r-klein)}
+.sprung:focus{top:16px}
+
+/* Knöpfe: gerade Kante, Radius 4 px */
+.knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:14px 26px;border:1px solid var(--knopf);border-radius:var(--r-klein);background:var(--knopf);color:var(--knopf-text);font:600 16px/1.25 Inter,sans-serif;text-decoration:none;cursor:pointer;text-align:center;transition:background-color .2s,border-color .2s,color .2s,transform .3s var(--weich)}
+.knopf:hover{background:var(--knopf-hover);border-color:var(--knopf-hover)}
+.knopf:active{transform:scale(.98)}
+.knopf.rahmen{background:transparent;color:inherit;border-color:currentColor}
+.knopf.rahmen:hover{background:rgba(127,127,127,.08)}
+.knopf.klein{min-height:40px;padding:8px 16px;font-size:14px;white-space:nowrap}
+.knopf svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.leiste{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ===== Kopf ===== */
+header.kopf{position:sticky;top:0;z-index:30;background:var(--grund);border-bottom:1px solid transparent;transition:border-color .3s}
+header.kopf.gescrollt{border-bottom-color:var(--linie)}
+header.kopf .innen{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.wer-kopf{display:flex;align-items:center;gap:12px;min-width:0;text-decoration:none}
+.wer-kopf .mini{width:36px;height:36px;border-radius:50%;flex:none;overflow:hidden;background:var(--feld-2)}
+.wer-kopf span{display:flex;flex-direction:column;min-width:0;line-height:1.2}
+.wer-kopf small{font-size:12px;color:var(--leise);white-space:nowrap}
+.wer-kopf b{font:500 18px/1.2 Jost,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Foto oder Initialen des Partners */
+.foto-p{position:relative;overflow:hidden;background:var(--khaki-light);color:var(--olive-deep)}
+.foto-p img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.foto-p{container-type:inline-size}
+.foto-p .initialen{position:absolute;inset:0;display:grid;place-items:center;font:500 clamp(13px,34cqi,140px)/1 Jost,sans-serif;letter-spacing:.02em}
+
+/* Bildplatzhalter: fehlt ein Foto, steht ein ruhiges Feld mit Beschreibung da (siehe bild-prompts.md) */
+.bild{position:relative;overflow:hidden;background:var(--feld-2)}
+.bild img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s var(--weich)}
+.bild.leer::after{content:attr(data-platzhalter);position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;font:500 14px/1.45 Inter,sans-serif;color:var(--leise);background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(127,127,127,.06) 14px 15px)}
+.bild.leer img{visibility:hidden}
+
+/* ===== Hero: Textfeld und hohes Bildfeld ===== */
+.hero{max-width:var(--deckel);margin:0 auto;padding:8px var(--rand) 0;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke)}
+.hero-text,.hero-bild{min-height:min(780px,calc(100svh - 84px));border-radius:var(--r)}
+.hero-text{grid-column:1/7;background:var(--hell);color:var(--hell-text);padding:48px;display:flex;flex-direction:column}
+.hero-text .eyebrow{color:var(--hell-akzent)}
+.hero h1{font-size:var(--t-h1);line-height:1;letter-spacing:-.03em;margin:auto 0 28px;padding-top:40px}
+.hero h1 .betont{color:var(--hell-akzent)}
+.hero-text .gross{color:var(--hell-leise);max-width:36ch;margin-bottom:32px}
+.hero-text .knopf.rahmen{color:var(--hell-text)}
+.hero-text .knopf:not(.rahmen){--knopf:var(--olive);--knopf-text:var(--surface);--knopf-hover:var(--olive-deep)}
+.hero-bild{grid-column:7/13;position:relative;margin:0;overflow:hidden}
+.hero-bild>.bild,.hero-bild>.foto-p{position:absolute;inset:0;width:100%;height:100%}
+.hero-bild>.bild img{object-position:50% 40%}
+
+/* "Empfohlen von": Karte unten links auf dem Hero-Foto */
+.empfohlen{position:absolute;left:12px;bottom:12px;right:12px;max-width:440px;display:grid;grid-template-columns:72px minmax(0,1fr);gap:4px 16px;align-items:center;background:var(--grund);color:var(--text);border-radius:var(--r);padding:16px 20px 16px 16px}
+.empfohlen .foto-p{width:72px;height:72px;border-radius:50%;grid-row:span 2}
+.empfohlen small{display:block;font:600 11px/16px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--akzent)}
+.empfohlen b{display:block;font:500 22px/1.15 Jost,sans-serif;letter-spacing:-.01em}
+.empfohlen .rolle{display:block;font-size:14px;color:var(--leise)}
+.empfohlen .satz{grid-column:1/-1;margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--leise)}
+.empfohlen .insta{grid-column:1/-1;justify-self:start}
+.insta{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;text-decoration:none;color:inherit}
+.insta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5}
+.insta:hover{text-decoration:underline}
+
+/* Neutral: der Partner ist das Hero-Foto, die Karte zeigt nur Name, Rolle, Satz */
+.hero-bild .namensfeld{position:absolute;left:12px;bottom:12px;right:12px;max-width:420px;background:var(--grund);color:var(--text);border-radius:var(--r);padding:18px 22px;font-size:14px;line-height:1.5}
+.namensfeld b{display:block;font:500 24px/1.15 Jost,sans-serif;letter-spacing:-.01em}
+.namensfeld .rolle{display:block;color:var(--akzent);font-weight:600;margin:4px 0 6px}
+.namensfeld .satz{margin:0 0 6px;color:var(--leise)}
+
+/* ===== Zahlenfelder ===== */
+.zahlen{padding:var(--luecke) 0 0}
+.zahlen .innen{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke)}
+.zahl{background:var(--feld);border-radius:var(--r);padding:32px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between;grid-column:span 4}
+.zahl:nth-child(1){grid-column:1/6}
+.zahl:nth-child(2){grid-column:6/10}
+.zahl:nth-child(3){grid-column:10/13;background:var(--dunkel);color:var(--dunkel-text)}
+.zahl b{white-space:nowrap;display:block;font:500 clamp(44px,5vw,68px)/1 Jost,sans-serif;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.zahl span{display:block;color:var(--leise);margin-top:16px;max-width:28ch}
+.zahl:nth-child(3) span{color:var(--dunkel-leise)}
+body[data-fassung="sport"] .zahl:nth-child(3){background:var(--khaki-light);color:var(--olive-deep)}
+body[data-fassung="sport"] .zahl:nth-child(3) span{color:var(--olive-deep)}
+
+/* ===== Abschnitt als großes helles Feld ===== */
+.feldabschnitt{background:var(--hell);color:var(--hell-text);margin:0 var(--luecke);border-radius:var(--r)}
+.feldabschnitt .eyebrow{color:var(--hell-akzent)}
+.feldabschnitt .leise{color:var(--hell-leise)}
+/* Helle Sandfläche: setzt die Farben zurück, damit sie auch auf der dunklen Sportseite lesbar ist */
+.flaeche-sand{background:var(--sand);color:var(--ink);--text:var(--ink);--leise:var(--muted);--akzent:var(--olive);--linie:var(--line);--feld:var(--surface);--feld-2:var(--ground)}
+.flaeche-feld{background:var(--feld)}
+.flaeche-dunkel{background:var(--dunkel);color:var(--dunkel-text)}
+.flaeche-dunkel .eyebrow{color:var(--dunkel-leise)}
+.flaeche-dunkel .leise{color:var(--dunkel-leise)}
+.kopfzeile{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke);align-items:end;margin-bottom:48px}
+.kopfzeile>div:first-child{grid-column:1/8}
+.kopfzeile>p{grid-column:8/13;margin:0}
+.kopfzeile h2{margin:0}
+
+/* Sechs Karten: groß, zwei quer, drei unten. Bilder randlos bis an die Kartenkante. */
+.sechs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke)}
+.karte{background:var(--feld);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.feldabschnitt .karte{background:var(--feld-2)}
+body[data-fassung="sport"] .feldabschnitt .karte{background:var(--ground)}
+.karte>.bild{aspect-ratio:16/10;flex:none}
+.karte .text{padding:24px 28px 28px}
+.karte .nr{font:500 16px/1 Jost,sans-serif;color:var(--akzent);margin-bottom:12px;font-variant-numeric:tabular-nums}
+.feldabschnitt .karte .nr{color:var(--hell-akzent)}
+.karte h3{font-size:24px;line-height:1.15;letter-spacing:-.015em}
+.karte p{color:var(--leise);margin:0}
+.feldabschnitt .karte p{color:var(--hell-leise)}
+.karte:hover .bild img{transform:scale(1.03)}
+.sechs .karte:nth-child(1){grid-column:1/8;grid-row:span 2}
+.sechs .karte:nth-child(1)>.bild{aspect-ratio:auto;flex:1 1 auto;min-height:320px}
+.sechs .karte:nth-child(1) h3{font-size:32px}
+.sechs .karte:nth-child(2),.sechs .karte:nth-child(3){grid-column:8/13;flex-direction:row;min-height:220px}
+.sechs .karte:nth-child(2)>.bild,.sechs .karte:nth-child(3)>.bild{width:42%;aspect-ratio:auto;align-self:stretch}
+.sechs .karte:nth-child(2) .text,.sechs .karte:nth-child(3) .text{flex:1;align-self:center;padding:24px}
+.sechs .karte:nth-child(n+4){grid-column:span 4}
+
+/* Drei Karten nebeneinander, die mittlere versetzt */
+.drei{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--luecke);align-items:start}
+.drei .karte>.bild{aspect-ratio:4/3}
+.drei.versetzt .karte:nth-child(2){margin-top:64px}
+
+/* Einzelbild im Raster */
+.bild-rund{border-radius:var(--r);aspect-ratio:4/3}
+
+/* Zwei Spalten allgemein */
+.zwei{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke);align-items:center}
+.zwei>:first-child{grid-column:1/6}
+.zwei>:last-child{grid-column:7/13}
+.zwei.oben{align-items:start}
+
+/* Fünf Wasserarten als Zahlenleiter */
+.arten{list-style:none;padding:0;margin:0;border-top:1.5px solid currentColor}
+.arten li{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke);padding:26px 0;border-bottom:1px solid var(--linie);align-items:baseline}
+.flaeche-dunkel .arten li{border-bottom-color:rgba(251,249,244,.16)}
+.arten b{grid-column:1/5;font:500 clamp(36px,4.4vw,64px)/1 Jost,sans-serif;letter-spacing:-.03em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.arten b small{font-size:.38em;letter-spacing:0;margin-left:8px;color:var(--leise);font-family:Inter,sans-serif;font-weight:600}
+.flaeche-dunkel .arten b small{color:var(--dunkel-leise)}
+.arten span{grid-column:5/13;font-size:var(--t-gross);line-height:1.45;color:var(--leise)}
+.flaeche-dunkel .arten span{color:var(--dunkel-leise)}
+.arten li:first-child b{color:var(--akzent)}
+.flaeche-dunkel .arten li:first-child b{color:var(--khaki-light)}
+.arten-hinweis{margin-top:24px;font-size:14px}
+
+/* Rechner: das helle Blickpunkt-Feld */
+.rechner{background:var(--hell);color:var(--hell-text);border-radius:var(--r);padding:48px;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:48px;row-gap:24px;align-items:end}
+.feldabschnitt .rechner,.flaeche-sand .rechner{background:var(--surface)}
+.rechner .eingaben{display:grid;gap:16px}
+.rechner label{display:block;font-size:14px;font-weight:600;color:var(--hell-leise)}
+.rechner input{display:block;width:180px;margin-top:8px;border:1px solid var(--line);border-radius:var(--r-klein);background:#fff;padding:10px 16px;font:500 32px/1.1 Jost,sans-serif;color:var(--hell-text);-moz-appearance:textfield}
+.rechner input::-webkit-outer-spin-button,.rechner input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.rechner input:focus{outline:none;border-color:var(--olive)}
+.rechner input:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+.ergebnis b{display:block;font:500 clamp(72px,9vw,128px)/.85 Jost,sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.ergebnis span{display:block;color:var(--hell-leise);margin-top:16px}
+.rechner .unten{grid-column:1/-1;margin:16px 0 0;padding-top:20px;border-top:1px solid var(--line);color:var(--hell-leise);max-width:none}
+
+/* Video im Hochformat */
+.video{position:relative;aspect-ratio:9/16;background:#000;border-radius:var(--r);overflow:hidden;max-width:380px;width:100%;margin:0 auto}
+.video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video.leer{background:var(--feld-2)}
+.video.leer video{display:none}
+.video.leer::after{content:attr(data-platzhalter);position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;font-size:14px;color:var(--leise)}
+
+/* Ablauf in Schritten */
+.ablauf{list-style:none;counter-reset:a;padding:0;margin:32px 0}
+.ablauf li{counter-increment:a;display:grid;grid-template-columns:56px minmax(0,1fr);padding:16px 0;border-top:1px solid var(--linie)}
+.ablauf li:last-child{border-bottom:1px solid var(--linie)}
+.ablauf li::before{content:'0' counter(a);font:500 24px/1 Jost,sans-serif;color:var(--akzent);grid-row:span 2;font-variant-numeric:tabular-nums}
+.ablauf b{font-weight:600}
+.ablauf span{color:var(--leise)}
+.flaeche-dunkel .ablauf li{border-color:rgba(251,249,244,.16)}
+.flaeche-dunkel .ablauf li::before{color:var(--khaki-light)}
+.flaeche-dunkel .ablauf span{color:var(--dunkel-leise)}
+
+/* Über mich (neutral, gesundheit) */
+.ueber{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke);align-items:stretch}
+.ueber .foto-p{grid-column:1/6;border-radius:var(--r);aspect-ratio:4/5}
+.ueber .text{grid-column:7/13;align-self:center}
+.ueber blockquote{margin:0 0 32px;font:500 clamp(26px,2.8vw,40px)/1.18 Jost,sans-serif;letter-spacing:-.02em;max-width:24ch}
+.ueber blockquote::before{content:'„'}
+.ueber blockquote::after{content:'“'}
+.kontaktwege{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+
+/* Häufige Fragen */
+.fragen{border-top:1px solid var(--linie)}
+.fragen details{border-bottom:1px solid var(--linie)}
+.fragen summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:64px;padding:12px 0;font:500 20px/1.3 Jost,sans-serif}
+.fragen summary::-webkit-details-marker{display:none}
+.fragen summary::after{content:'';width:10px;height:10px;border-right:1.5px solid var(--akzent);border-bottom:1.5px solid var(--akzent);transform:rotate(45deg) translate(-3px,-3px);transition:transform .3s var(--weich);flex:none;margin-right:6px}
+.fragen details[open] summary::after{transform:rotate(225deg) translate(-3px,-3px)}
+.fragen details p{color:var(--leise);margin:0 0 24px}
+
+/* Hinweis "kein Heilmittel" */
+.hinweisbox{border:1px solid var(--line);border-left:2px solid var(--khaki);background:var(--surface);color:var(--ink);border-radius:var(--r-klein);padding:28px 32px;max-width:860px}
+.hinweisbox h3{margin-bottom:8px}
+.hinweisbox p{color:var(--muted);margin:0}
+
+/* ===== Interesse: Text links, Formular als helles Feld ===== */
+#interesse .zwei{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px}
+#interesse .zwei>:first-child,#interesse .zwei>:last-child{grid-column:auto}
+#interesse .zwei>div:first-child{position:sticky;top:96px}
+form.formular{background:var(--surface);color:var(--ink);border-radius:var(--r);padding:48px}
+form.formular h3{font-size:28px;letter-spacing:-.02em;margin:0 0 12px}
+form.formular .eyebrow{color:var(--olive)}
+body:not([data-fassung="sport"]) form.formular{border:1px solid var(--line)}
+fieldset{border:0;padding:0;margin:0 0 32px;min-width:0}
+legend{font:500 20px/1.3 Jost,sans-serif;margin-bottom:16px;padding:0}
+fieldset label{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:var(--r-klein);padding:14px 16px;margin-bottom:8px;cursor:pointer;line-height:1.4;background:var(--surface);transition:border-color .2s,background-color .2s}
+fieldset label:hover{border-color:var(--khaki)}
+fieldset input{accent-color:var(--olive);width:18px;height:18px;margin:0;flex:none}
+fieldset label:has(input:checked){border-color:var(--olive);background:#fff}
+fieldset label:has(input:focus-visible){outline:2px solid var(--olive);outline-offset:2px}
+.formular .hinweis{font-size:14px;color:var(--muted);margin:-8px 0 16px}
+.feld{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:16px;min-width:0}
+.feld input,.feld select{display:block;width:100%;min-height:52px;margin-top:8px;border:1px solid var(--line);border-radius:var(--r-klein);padding:12px 16px;font:400 16px/1.4 Inter,sans-serif;color:var(--ink);background:#fff;transition:border-color .2s}
+.feld input:hover,.feld select:hover{border-color:var(--khaki)}
+.feld input:focus,.feld select:focus{outline:none;border-color:var(--olive)}
+.feld input:focus-visible,.feld select:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+.reihe{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.haken{display:flex;gap:12px;font-size:14px;line-height:1.5;color:var(--leise);margin:8px 0 24px;cursor:pointer}
+form.formular .haken{color:var(--muted)}
+.haken input{accent-color:var(--olive);width:18px;height:18px;margin:1px 0 0;flex:none}
+.haken a{color:inherit;font-weight:600}
+.fehler{color:#9A3B26;font-size:14px;font-weight:600;margin-bottom:8px}
+.fehler:empty{display:none}
+.umschauen{background:var(--sand);border-radius:var(--r-klein);padding:16px 20px;margin-bottom:24px}
+.umschauen p{margin:0;color:var(--ink)}
+.formular .knopf{--knopf:var(--olive);--knopf-text:var(--surface);--knopf-hover:var(--olive-deep);width:100%;min-height:56px}
+.danke p{color:var(--muted);margin:0 0 20px}
+
+/* ===== E-Book: Titelseite als Fläche, mit dem Namen des Partners ===== */
+#ebook .zwei>:first-child{grid-column:2/6}
+#ebook .zwei>:last-child{grid-column:7/12}
+.buch{position:relative;aspect-ratio:210/297;width:100%;max-width:400px;border-radius:var(--r-klein);background:var(--olive-deep);color:var(--surface);padding:11% 10% 9%;display:flex;flex-direction:column;border:1px solid var(--line);overflow:hidden}
+.buch .buch-eyebrow{font:600 11px/16px Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--khaki-light)}
+.buch .buch-titel{font:500 clamp(26px,3vw,40px)/1.04 Jost,sans-serif;letter-spacing:-.02em;margin:auto 0 16px}
+.buch .buch-unter{font-size:14px;line-height:1.5;color:var(--khaki-light);margin:0}
+.buch .buch-fuss{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:16px;border-top:1px solid rgba(251,249,244,.2);font-size:13px;line-height:1.35;color:var(--khaki-light)}
+.buch .buch-fuss .foto-p{width:36px;height:36px;border-radius:50%;flex:none}
+.buch .buch-fuss b{display:block;color:var(--surface);font-weight:600}
+form.buchform{margin-top:32px}
+form.buchform .knopf{width:auto}
+#ebook form.buchform{background:none;border:0;padding:0;color:inherit}
+#ebook .feld{color:var(--leise)}
+
+/* ===== Fuß ===== */
+footer{color:var(--leise);font-size:14px;padding:48px 0 128px}
+footer .innen{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--linie);padding-top:24px}
+footer a{color:var(--text)}
+
+/* ===== Leiste unten (deckend, ohne Glas) ===== */
+.dock{position:fixed;left:50%;bottom:20px;z-index:40;display:flex;align-items:center;gap:8px;padding:8px;background:var(--olive-deep);border-radius:var(--r);border:1px solid rgba(251,249,244,.14);transform:translate(-50%,160%);visibility:hidden;transition:transform .5s var(--weich),visibility 0s .5s}
+.dock.zeigen{transform:translate(-50%,0);visibility:visible;transition:transform .5s var(--weich),visibility 0s}
+.dock a{color:var(--surface)}
+.dock-symbol{display:grid;place-items:center;width:52px;height:52px;border-radius:var(--r-klein);background:#3D4333;transition:background-color .2s}
+.dock-symbol:hover{background:#474E3C}
+.dock-symbol svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.dock-knopf{display:inline-flex;align-items:center;height:52px;padding:0 24px;border-radius:var(--r-klein);background:var(--khaki-light);color:var(--olive-deep)!important;font:600 16px/1 Inter,sans-serif;text-decoration:none;white-space:nowrap}
+.dock-knopf:hover{background:var(--surface)}
+
+/* ===== Seite nicht gefunden ===== */
+.nicht-da{min-height:100svh;display:grid;place-items:center;padding:32px 16px;text-align:center}
+.nicht-da h1{font-size:clamp(32px,4vw,48px);line-height:1.1;margin-bottom:16px}
+.nicht-da p{margin:0 auto;color:var(--leise)}
+body.fehlt>:not(.nicht-da):not(script){display:none!important}
+body.laedt [data-wenn],body.laedt .empfohlen,body.laedt .namensfeld{visibility:hidden}
+
+/* Vorschau-Band (nur lokal und in der Portal-Vorschau) */
+.vorschau-band{position:relative;z-index:50;background:var(--khaki-light);color:var(--olive-deep);font:400 12px/16px Inter,sans-serif;padding:6px var(--rand);text-align:center}
+
+/* ===== Einblenden ===== */
+.auf{opacity:0;transform:translateY(20px);transition:opacity .8s var(--weich),transform .8s var(--weich)}
+.auf.da{opacity:1;transform:none}
+.hero>*{animation:feld .9s var(--weich) both}
+.hero>:nth-child(2){animation-delay:70ms}
+@keyframes feld{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ===== Tablet ===== */
+@media (max-width:1100px){
+  .hero-text{padding:40px}
+  .rechner{padding:40px;column-gap:32px}
+  .kopfzeile>div:first-child,.kopfzeile>p{grid-column:1/-1}
+  .zwei>:first-child,.zwei>:last-child{grid-column:1/-1}
+  .zwei{row-gap:40px}
+  #ebook .zwei>:first-child,#ebook .zwei>:last-child{grid-column:1/-1}
+}
+
+/* ===== Handy ===== */
+@media (max-width:820px){
+  :root{--rand:16px;--luecke:8px;--t-gross:18px}
+  section{padding:72px 0}
+  .wer-kopf b{font-size:16px}
+  .hero{grid-template-columns:minmax(0,1fr);padding-top:4px}
+  .hero-text,.hero-bild{grid-column:1;min-height:0}
+  .hero-bild{order:-1;aspect-ratio:4/5;max-height:74svh}
+  .hero-text{padding:28px 20px 24px}
+  .hero h1{line-height:1.02;padding-top:0;margin:12px 0 18px}
+  .hero-text .gross{margin-bottom:24px}
+  .leiste .knopf{flex:1 1 100%}
+  .empfohlen{left:8px;right:8px;bottom:8px;grid-template-columns:56px minmax(0,1fr);padding:12px 14px 12px 12px;column-gap:12px}
+  .empfohlen .foto-p{width:56px;height:56px}
+  .empfohlen b{font-size:19px}
+  .empfohlen .satz{display:none}
+  .hero-bild .namensfeld{left:8px;right:8px;bottom:8px;padding:14px 16px}
+  .namensfeld b{font-size:20px}
+  .namensfeld .satz{display:none}
+  .zahlen .innen{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .zahl,.zahl:nth-child(1),.zahl:nth-child(2){grid-column:span 1;min-height:0;padding:20px}
+  .zahl:nth-child(3){grid-column:1/-1;flex-direction:row;align-items:center;gap:16px;justify-content:flex-start;min-height:0;padding:20px}
+  .zahl:nth-child(3) span{margin:0}
+  .zahl b{font-size:36px}
+  .zahl span{font-size:14px;margin-top:8px}
+  .feldabschnitt{margin:0 8px}
+  .kopfzeile{margin-bottom:32px}
+  .sechs{grid-template-columns:minmax(0,1fr)}
+  .sechs .karte:nth-child(n){grid-column:1;grid-row:auto}
+  .sechs .karte:nth-child(1)>.bild{min-height:0;aspect-ratio:4/3}
+  .sechs .karte:nth-child(1) h3{font-size:24px}
+  .sechs .karte:nth-child(n+2){flex-direction:row;min-height:0}
+  .sechs .karte:nth-child(n+2)>.bild{width:112px;aspect-ratio:auto;align-self:stretch;flex:none}
+  .sechs .karte:nth-child(n+2) .text{padding:16px}
+  .sechs .karte:nth-child(n+2) h3{font-size:19px}
+  .sechs .karte:nth-child(n+2) p{font-size:15px;line-height:1.5}
+  .karte .text{padding:20px}
+  .drei{grid-template-columns:minmax(0,1fr)}
+  .drei.versetzt .karte:nth-child(2){margin-top:0}
+  .arten li{display:block;padding:20px 0}
+  .arten span{display:block;font-size:16px;margin-top:8px}
+  .rechner{grid-template-columns:minmax(0,1fr);padding:28px 20px;row-gap:24px}
+  .rechner input{width:100%}
+  .rechner .unten{margin-top:0}
+  .ueber .foto-p,.ueber .text{grid-column:1/-1}
+  .ueber .foto-p{aspect-ratio:1/1;max-height:420px}
+  #interesse .zwei{grid-template-columns:minmax(0,1fr);gap:32px}
+  #interesse .zwei>div:first-child{position:static}
+  form.formular{padding:24px 18px}
+  .reihe{grid-template-columns:minmax(0,1fr);gap:0}
+  .buch{max-width:280px;margin:0 auto}
+  footer .innen{flex-direction:column}
+  .dock{left:12px;right:12px;bottom:12px;transform:translateY(160%);gap:6px;padding:6px}
+  .dock.zeigen{transform:none}
+  .dock-symbol{width:48px;height:48px;flex:none}
+  .dock-knopf{flex:1;justify-content:center;height:48px;padding:0 12px}
+}
+@media (min-width:601px) and (max-width:820px){
+  .hero-bild{aspect-ratio:4/3}
+  .sechs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .sechs .karte:nth-child(n){grid-column:auto}
+  .sechs .karte:nth-child(1){grid-column:1/-1}
+  .sechs .karte:nth-child(n+2){flex-direction:column}
+  .sechs .karte:nth-child(n+2)>.bild{width:100%;aspect-ratio:16/10}
+}
+@media (max-width:380px){
+  .wer-kopf small{display:none}
+  header.kopf .knopf.klein{padding:8px 12px;font-size:13px}
+  .dock-symbol{width:42px;height:42px}
+  .dock-knopf{font-size:15px;padding:0 8px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
