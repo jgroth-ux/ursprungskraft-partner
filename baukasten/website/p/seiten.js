@@ -82,9 +82,9 @@
       const tel = t(p.telefon).replace(/[^\d+]/g, '');
       let wa = tel.replace(/^00/, '').replace(/^\+/, ''); if (wa.startsWith('0')) wa = '49' + wa.slice(1);
       box.innerHTML = [
-        tel && `<a class="knopf rahmen" href="tel:${esc(tel)}">Anrufen</a>`,
-        tel && `<a class="knopf rahmen" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">WhatsApp</a>`,
-        t(p.email) && `<a class="knopf rahmen" href="mailto:${esc(t(p.email))}">E-Mail</a>`,
+        tel && `<a class="knopf rahmen klein" href="tel:${esc(tel)}">Anrufen</a>`,
+        tel && `<a class="knopf rahmen klein" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">WhatsApp</a>`,
+        t(p.email) && `<a class="knopf rahmen klein" href="mailto:${esc(t(p.email))}">E-Mail</a>`,
       ].filter(Boolean).join('');
     });
     // Wer meldet sich? leads_bei = 'partner': der Partner selbst, sonst Daniel und Jasmin ("wir")
@@ -144,7 +144,7 @@
         nachricht: [`Lead von ${t(P.vorname)} (${STUFE[w.budget]}, Seite ${FASSUNG})`, `Interesse: ${w.interesse}`, `Trinkt heute: ${w.geraet}`, `Budget: ${BUDGET[w.budget]}`].join(' · ') });
       const d = document.createElement('div'); d.className = 'danke';
       d.innerHTML = `<div class="eyebrow">Danke, ${esc(w.vorname)}</div><h3>Deine Anfrage ist angekommen</h3>
-        <p>${P.leads_bei === 'partner' ? `${esc(t(P.vorname))} meldet sich` : 'Wir melden uns'} persönlich bei dir. Bis dahin kannst du dir weiter unten das E-Book holen.</p><a class="knopf" href="#ebook">Zum E-Book</a>`;
+        <p>${P.leads_bei === 'partner' ? `${esc(t(P.vorname))} meldet sich` : 'Wir melden uns'} persönlich bei dir. Bis dahin kannst du dir weiter unten das E-Book holen.</p><a class="knopf" href="#ebook" style="margin-top:16px">Zum E-Book</a>`;
       f.replaceChildren(d);
     } catch {
       k.disabled = false;
@@ -188,31 +188,43 @@
     },
   };
 
-  // ---------- Bilder: fehlt eine Datei, bleibt ein ruhiger Platzhalter mit Beschreibung ----------
+  // ---------- Bilder: fehlt eine Datei, steht ein ruhiges Feld mit Beschreibung da (siehe bild-prompts.md) ----------
+  // Das Feld ist ein kleines SVG an derselben Stelle, so bleiben Größe und Gestaltung genau wie mit Foto.
+  const platzhalter = (text) => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet"><rect x="-4000" y="-4000" width="8800" height="8600" fill="#42484D"/>` +
+    `<text x="400" y="306" fill="#C4C6C3" font-family="Inter,system-ui,sans-serif" font-size="20" text-anchor="middle">${esc(text)}</text></svg>`);
   function bilderPruefen() {
-    $$('.bild img').forEach((img) => {
-      const leer = () => img.parentElement.classList.add('leer');
-      if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) leer();
+    $$('img[data-platzhalter]').forEach((img) => {
+      const leer = () => { if (!img.src.startsWith('data:')) img.src = platzhalter(img.dataset.platzhalter); };
       img.addEventListener('error', leer);
+      if (img.complete && img.naturalWidth === 0) leer();
     });
-    $$('.video video').forEach((v) => {
-      const leer = () => v.parentElement.classList.add('leer');
-      v.addEventListener('error', leer);
-      // Bei preload="none" meldet erst das Vorschaubild, ob die Dateien da sind
-      if (v.poster) { const i = new Image(); i.onerror = leer; i.src = v.poster; }
+    $$('video[data-platzhalter]').forEach((v) => {
+      if (!v.poster) return;
+      const i = new Image(); i.onerror = () => { v.poster = platzhalter(v.dataset.platzhalter); }; i.src = v.poster;
     });
   }
 
-  // ---------- Bewegung: Einblenden, Zahlen, Leiste unten ----------
+  // ---------- Bewegung wie auf den Sportseiten: Einblenden beim Scrollen, Zahlen zählen hoch, Knopf am Handy ----------
+  // Ohne JavaScript oder mit "Bewegung reduzieren" ist alles sofort sichtbar.
   function effekte() {
     const ruhig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const zaehlen = (el) => {
+      const ziel = Number(el.dataset.zahl), start = performance.now(), dauer = 1400;
+      const schritt = (jetzt) => {
+        const k = Math.min(1, (jetzt - start) / dauer), e = 1 - Math.pow(1 - k, 3);
+        el.textContent = Math.round(ziel * e).toLocaleString('de-DE');
+        if (k < 1) requestAnimationFrame(schritt);
+      };
+      requestAnimationFrame(schritt);
+    };
     if (!ruhig && 'IntersectionObserver' in window) {
-      const teile = $$('main section:not(.hero) h2, main section:not(.hero) .eyebrow, .karte, .zahl, .rechner, .arten li, .ablauf li, .buch, .ueber .foto-p, .hinweisbox, .fragen details');
+      const teile = $$('section:not(.hero) h2, section:not(.hero) .eyebrow, section:not(.hero) .gross, .kachel, .video.hoch, .rechner, .arten li, .ablauf li, .zitat blockquote, .zitat .wer, .buch, .zahl, .fragen details, .hinweisbox, .bildtext img');
       teile.forEach((el) => {
-        if (el.getBoundingClientRect().top < innerHeight) return;
         el.classList.add('auf');
-        const g = [...el.parentElement.children].filter((k) => k.matches('.karte, .zahl, .arten li, .ablauf li, .fragen details'));
-        const i = g.indexOf(el); if (i > 0) el.style.transitionDelay = `${Math.min(i, 5) * 80}ms`;
+        const geschwister = [...el.parentElement.children].filter((k) => k.matches('.kachel, .arten li, .ablauf li, .zahl, .fragen details'));
+        const i = geschwister.indexOf(el);
+        if (i > 0) el.style.transitionDelay = `${Math.min(i, 5) * 90}ms`;
       });
       const beob = new IntersectionObserver((e) => e.forEach((x) => {
         if (!x.isIntersecting) return;
@@ -220,26 +232,21 @@
         x.target.querySelectorAll('[data-zahl]').forEach(zaehlen);
         beob.unobserve(x.target);
       }), { rootMargin: '0px 0px -8% 0px' });
-      teile.forEach((el) => el.classList.contains('auf') && beob.observe(el));
+      teile.forEach((el) => beob.observe(el));
+      $$('[data-zahl]').forEach((el) => { el.textContent = '0'; });
     }
-    function zaehlen(el) {
-      const ziel = Number(el.dataset.zahl); if (!ziel || ruhig) return;
-      const start = performance.now();
-      const schritt = (jetzt) => { const k = Math.min(1, (jetzt - start) / 1200); el.textContent = zahl(Math.round(ziel * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(schritt); };
-      requestAnimationFrame(schritt);
-    }
-    // Kopf bekommt beim Scrollen eine Linie. Die Leiste unten erscheint nach dem ersten Bildschirm
+    // Kopfleiste bekommt beim Scrollen eine Linie, der Knopf unten erscheint nach dem ersten Bildschirm
     // und verschwindet, solange ein Formular im Bild ist.
-    const kopf = $('header.kopf'), dock = $('.dock');
+    const kopf = $('body > header'), knopf = $('.handyknopf');
+    if (!$('#rechner')) $('.dock [href="#rechner"]')?.remove();
     const formulare = $$('#interesse, #ebook'); const sichtbar = new Set();
     if ('IntersectionObserver' in window) {
       const fb = new IntersectionObserver((e) => { e.forEach((x) => (x.isIntersecting ? sichtbar.add(x.target) : sichtbar.delete(x.target))); lage(); });
       formulare.forEach((f) => fb.observe(f));
     }
-    if (!$('#rechner')) $('.dock [href="#rechner"]')?.remove();
     function lage() {
       kopf.classList.toggle('gescrollt', scrollY > 10);
-      dock.classList.toggle('zeigen', scrollY > innerHeight * 0.8 && !sichtbar.size);
+      knopf.classList.toggle('zeigen', scrollY > innerHeight * 0.8 && !sichtbar.size);
     }
     addEventListener('scroll', lage, { passive: true });
     lage();

@@ -34,8 +34,9 @@ Vorschau dort Platzhalter. **Prüfen:** Ist auf einem davon Kevin oder Johny zu 
 | Datei | Wo | Ersatz-Prompt falls nötig |
 |---|---|---|
 | `schneller-fit.jpg` | Karte 01 "Nach dem Training" (groß, 16 : 10 bis hoch) | A |
-| `besser-schlafen.jpg` | Karte 02 "Regeneration" (schmal hoch, 3 : 4) | B |
-| `supplements.jpg` | Karte 04 "Shake, Kreatin und Co." (16 : 10) | C |
+| `hydration.jpg` | Karte 02 "Regeneration ist dein halbes Training" (schmal hoch) | B |
+| `supplements.jpg` | Karte 04 "Shake, Kreatin und Co." (16 : 9) | C |
+| `besser-schlafen.jpg` | Karte 05 "Regeneration passiert nachts" (16 : 9) | B |
 | `mealprep-gemuese.jpg`, `mealprep-fleisch.jpg`, `mealprep-reis.jpg` | Meal Prep, drei Karten (4 : 3) | D |
 | `sportler-wasser.mp4` mit `.jpg` und `.de.vtt` | Video "In knapp zwei Minuten erklärt" | kein Prompt, Video prüfen |
 

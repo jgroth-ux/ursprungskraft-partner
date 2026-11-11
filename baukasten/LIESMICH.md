@@ -37,6 +37,12 @@ Daniel und Jasmin legen **je Partner** fest, wer sich bei den Interessenten meld
 
 In beiden Fällen bleibt jede Anfrage für immer beim Partner, über dessen Seite sie kam.
 
+**Anfragen-Bot für Partner, die sich selbst kümmern:** ein eigener Telegram-Bot nur für Anfragen, getrennt vom
+Assistenten. Im Portal unter "Meine Seiten" steht der Knopf "Telegram verbinden". Ein Klick öffnet Telegram, der Partner
+tippt auf "Starten", fertig. Ab dann kommt jede neue Anfrage sofort als Nachricht, mit Telefon, E-Mail und einem Knopf
+"WhatsApp schreiben". Trennen geht im Portal oder im Bot mit /stop. Schreibt der Partner dem Bot etwas, antwortet er,
+dass hier nur Anfragen ankommen und der Assistent für alles andere da ist.
+
 **Einstellen:** im Dashboard, Reiter Partner, Partner anklicken, Feld "Anfragen über seine Seiten"
 (Ergänzung in `dashboard-ergaenzung/app.js.diff`). Bis das eingespielt ist, im SQL-Editor:
 
@@ -72,7 +78,9 @@ baukasten/
     app.js.diff            Feld "Anfragen über seine Seiten" im Partner-Dialog des Dashboards (gegen dashboard/app.js im Projekt)
   supabase/
     umbau-2026-11-11-baukasten.sql   darf mehrfach laufen
-    functions/partner-lead/          geändert: keine Gruppenmeldung bei "Partner kümmert sich selbst", Zeile "Seite: sport"
+    functions/partner-anfragenbot/   NEU: Webhook des Anfragen-Bots (verbinden, trennen)
+    functions/partner-lead/          geändert: bei "Partner kümmert sich selbst" keine Gruppenmeldung, sondern Nachricht
+                                     über den Anfragen-Bot an den Partner; Zeile "Seite: sport"
                                      (index.ts komplett, index.ts.diff zeigt die drei Stellen)
     functions/partner-ebook/         index.ts und empfohlen.js (gemeinsamer Code mit der lokalen Probe)
     functions/partner-foto/          index.ts
@@ -106,9 +114,22 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 2. **Speicher:** Die drei Dateien aus `supabase/ebook-schriften/` nach `partner-ebooks/schriften/` hochladen.
    Sobald die E-Books aus dem Paket E-Books da sind: als `partner-ebooks/vorlagen/ebook-neutral.pdf`,
    `ebook-sport.pdf`, `ebook-gesundheit.pdf`. Bis dahin nimmt die Funktion eine schlichte Platzhalter-Vorlage.
-3. **Edge Functions:**
+3. **Anfragen-Bot anlegen** (einmal):
+   - Bei Telegram mit @BotFather einen neuen Bot anlegen, zum Beispiel "Ursprungskraft Anfragen". Den Namen, der auf
+     `bot` endet, notieren, den Schlüssel (Token) kopieren.
+   - Schlüssel in den Tresor: `select vault.create_secret('<TOKEN>', 'tg_token_anfragen', 'Anfragen-Bot für Partner');`
+   - Namen eintragen: `update uk_einstellungen set wert = '<name_bot>' where name = 'anfragenbot_name';`
+     Solange der Name fehlt, steht im Portal "wird gerade eingerichtet" statt des Knopfs.
+   - Nach dem Deploy (Schritt 4) den Webhook setzen. Das Geheimnis steht im Tresor unter `tg_webhook_anfragenbot`:
+     ```bash
+     curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://XXX.supabase.co/functions/v1/partner-anfragenbot&secret_token=<GEHEIMNIS>"
+     ```
+4. **Edge Functions:**
    ```bash
    supabase functions deploy partner-lead
+   ```
+   ```bash
+   supabase functions deploy partner-anfragenbot --no-verify-jwt
    ```
    ```bash
    supabase functions deploy partner-foto
@@ -118,22 +139,24 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
    ```
    `partner-ebook` ohne "Verify JWT", weil der E-Book-Link ohne Schlüssel im Browser aufgeht. Sie gibt nur heraus,
    was die Seite ohnehin zeigt. `partner-foto` und `partner-lead` mit "Verify JWT" wie bisher.
-   `partner-lead` erst nach der SQL deployen (sie ruft die neue Funktion `uk_partner_lead_zustaendig`).
-4. **Schlüssel eintragen:** `XXX` in `website/p/seiten.js` (Supabase-Adresse und öffentlicher Schlüssel, derselbe wie in
+   `partner-lead` erst nach der SQL deployen (sie ruft die neuen Funktionen `uk_partner_lead_zustaendig` und
+   `uk_anfragenbot_ziel`). `partner-anfragenbot` ohne "Verify JWT", weil Telegram keinen Schlüssel schickt, sie prüft
+   stattdessen das Webhook-Geheimnis.
+5. **Schlüssel eintragen:** `XXX` in `website/p/seiten.js` (Supabase-Adresse und öffentlicher Schlüssel, derselbe wie in
    `dashboard/daten.js`) und in `website/_redirects-ergaenzung.txt` (Projektkennung). `partner.js` hat sie schon.
-5. **Website:** `website/p/` in die Website legen (ohne `vorschau/`, die PDFs dort sind nur für die lokale Vorschau),
+6. **Website:** `website/p/` in die Website legen (ohne `vorschau/`, die PDFs dort sind nur für die lokale Vorschau),
    die fünf Zeilen aus `_redirects-ergaenzung.txt` in `website/_redirects` vor eine allgemeine Regel wie `/*`.
    Im Partnerportal `seiten.js` und `seiten.css` dazulegen, `partner.js` und `index.html` ersetzen. Hat sich
    `partner.js` seit dem Paket geändert, die Diffs nehmen oder die markierten Stellen von Hand übertragen.
-6. **Dashboard:** die zwei Zeilen aus `dashboard-ergaenzung/app.js.diff` in `website/dashboard/app.js` übernehmen.
+7. **Dashboard:** die zwei Zeilen aus `dashboard-ergaenzung/app.js.diff` in `website/dashboard/app.js` übernehmen.
    Das Dashboard speichert die Spalte `leads_bei` dann von selbst mit.
-7. **Ein Upload** für alles. Danach braucht kein Partner mehr einen Upload.
-8. **Paket freischalten** (bis Stripe kommt), im SQL-Editor:
+8. **Ein Upload** für alles. Danach braucht kein Partner mehr einen Upload.
+9. **Paket freischalten** (bis Stripe kommt), im SQL-Editor:
    ```sql
    select uk_seiten_paket_setzen('anna-beispiel', current_date + 31);
    ```
    Nur bestimmte Fassungen: `select uk_seiten_paket_setzen('anna-beispiel', current_date + 31, '{sport}');`
-9. **Später neutrale Domain:** in Netlify als weitere Domain eintragen, dann
+10. **Später neutrale Domain:** in Netlify als weitere Domain eintragen, dann
    `update uk_einstellungen set wert = 'https://neue-domain.de' where name = 'seiten_basis';`
 
 ## Prüfen, bevor es online geht
@@ -146,6 +169,8 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
       `/p/gibt-es-nicht/sport` zeigt "Diese Seite gibt es gerade nicht".
 - [ ] Testanfrage über eine Partnerseite: Zeile in `uk_partner_leads` mit `herkunft` = Kürzel des Partners,
       `antworten->>'fassung'` gesetzt, Meldung in der Gruppe "Leads".
+- [ ] Anfragen-Bot: Im Portal "Telegram verbinden", in Telegram "Starten", Begrüßung kommt, im Portal steht
+      "Verbunden". Testanfrage kommt als Nachricht mit WhatsApp-Knopf. /stop trennt.
 - [ ] Partner auf "kümmert sich selbst" stellen, Testanfrage: keine Meldung in der Gruppe "Leads", die Anfrage steht
       bei ihm unter "Meine Seiten" mit Kontakt. Bei "Daniel und Jasmin" umgekehrt, und er sieht dort keine Kontakte.
 - [ ] Im Portal: Formular speichern, Foto hochladen (landet in `partner-seiten/<partner_id>/`, das alte wird gelöscht),
@@ -175,8 +200,7 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 
 ## Bewusst nicht gebaut
 
-- Stripe (Schnittstelle steht, siehe Schritt 8).
-- Nachricht aufs Handy an Partner, die sich selbst kümmern (offene Frage 10). Sie sehen ihre Anfragen im Portal.
+- Stripe (Schnittstelle steht, siehe Schritt 9).
 
 ## Hinweise für das Einspielen
 
@@ -185,7 +209,8 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 - Gefunden, nicht geändert: In `uk_partner_registrieren` (10-31b) ist `translate(..., 'äöüßéèàç ', 'aousseeac-')`
   um ein Zeichen verschoben. Folge: "é" wird "s", ein Leerzeichen "c" ("Anna Lena" ergibt "annaclena"). Die neuen Seiten
   bauen ihre Adresse selbst und richtig ("ä" wird "ae").
-- Gestaltung: Die Ecken folgen der CI (Knöpfe 4 px, Karten 8 px), runder als bei Kevin geht an einer Stelle in
-  `website/p/seiten.css` (`--r`, `--r-klein`). Die Sportseite ist dunkel in Olive tief statt Anthrazit.
+- Gestaltung (zweite Fassung, Jasmin 11.11.2026): `website/p/seiten.css` ist Kevins `partner/empfehlung.css`
+  (Anthrazit, große Felder, Pillen-Knöpfe, Effekte) plus Ergänzungen am Ende. Akzent je Fassung: Sport Kupfer wie Kevin,
+  Neutral Oliv, Gesundheit Salbeigrün. Ändert ihr `empfehlung.css`, den oberen Teil von `seiten.css` mitziehen.
 - Das E-Book-Formular auf den Seiten hat einen Einwilligungs-Haken (bei Kevin fehlt er).
 - `partner-ebook` baut die PDF bei jedem Abruf neu (Sekundenbruchteile, der Browser hält sie eine Stunde).

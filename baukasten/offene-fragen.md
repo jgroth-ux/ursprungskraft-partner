@@ -3,9 +3,11 @@
 Stand 11.11.2026, zweite Fassung. Nur noch das, was ihr entscheiden müsst. Technisches für den Claude, der einspielt,
 steht in `LIESMICH.md`.
 
-**Schon geklärt:** Je Partner legt ihr fest, ob ihr euch bei seinen Interessenten meldet (wie bei Kevin und Johny)
-oder ob er es selbst macht. Das ist eingebaut, siehe `LIESMICH.md`, Abschnitt "Wer kümmert sich um die Anfragen".
-Eure allgemeine Ursprungskraft-Landingpage bleibt, wie sie ist. Ich habe sie nicht angefasst.
+**Schon geklärt und eingebaut:**
+- Je Partner legt ihr fest, ob ihr euch bei seinen Interessenten meldet (wie bei Kevin und Johny) oder ob er es selbst macht.
+- Wer es selbst macht, verbindet mit einem Klick seinen eigenen Anfragen-Bot in Telegram, getrennt vom Assistenten.
+- Die Seiten sehen jetzt aus wie die von Kevin und Johny, mit denselben Effekten.
+- Eure allgemeine Ursprungskraft-Landingpage bleibt, wie sie ist. Ich habe sie nicht angefasst.
 
 ---
 
@@ -73,11 +75,10 @@ Im Portal sehen Partner ohne Paket eure zwei Seiten als Beispiel. Vorgesehen: Da
 Gesundheit und Neutral. Unter eurem Namen steht eine Zeile, was ihr macht (zum Beispiel "Wasserberaterin").
 Was soll da bei euch stehen? Foto und den Satz tragt ihr selbst im Portal ein.
 
-## 10. Nachricht aufs Handy für Partner, die sich selbst kümmern
+## 10. Name des Anfragen-Bots
 
-Diese Partner sehen jede neue Anfrage im Portal unter "Meine Seiten", mit Telefon und E-Mail. Sollen sie zusätzlich
-sofort eine Nachricht aufs Handy bekommen (über ihren Telegram-Assistenten im Portal)? Dafür braucht der Claude, der
-einspielt, den Namen des Bot-Schlüssels im Tresor.
+Der neue Bot muss einmal bei Telegram angelegt werden (geht in zwei Minuten, Anleitung in `LIESMICH.md`, Schritt 3).
+Wie soll er heißen? Vorschlag: "Ursprungskraft Anfragen". Den sehen die Partner in Telegram, ihre Interessenten nie.
 
 ## 11. Später
 

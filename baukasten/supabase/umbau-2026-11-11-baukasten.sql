@@ -402,6 +402,97 @@ revoke all on function uk_seiten_paket_setzen(text, date, text[], text) from pub
 grant execute on function uk_seiten_paket_setzen(text, date, text[], text) to service_role;
 
 -- ---------------------------------------------------------------------------------------------------------------
+-- 6b. Anfragen-Bot (Jasmin, 11.11.2026): eigener Telegram-Bot NUR für Anfragen, getrennt vom Assistenten.
+-- Für Partner, die sich selbst kümmern (leads_bei = 'partner'). Im Portal unter "Meine Seiten" ein Knopf
+-- "Telegram verbinden": öffnet t.me/<bot>?start=<code>, der Partner tippt auf "Starten", fertig.
+-- Ab dann schickt partner-lead jede neue Anfrage mit Kontakt in diesen Chat.
+-- Einrichten (einmal): Bot bei @BotFather anlegen, Name in uk_einstellungen 'anfragenbot_name' (ohne @),
+-- Schlüssel in den Tresor als 'tg_token_anfragen', Webhook setzen (siehe LIESMICH).
+-- ---------------------------------------------------------------------------------------------------------------
+alter table uk_partner add column if not exists anfragenbot_code text;   -- Code im Start-Link, wechselt beim Trennen
+alter table uk_partner add column if not exists anfragenbot_chat text;   -- Telegram-Chat, an den die Anfragen gehen
+alter table uk_partner add column if not exists anfragenbot_seit timestamptz;
+create unique index if not exists uk_partner_anfragenbot_code on uk_partner (anfragenbot_code);
+
+insert into uk_einstellungen (name, wert)
+select 'anfragenbot_name', '' where not exists (select 1 from uk_einstellungen where name = 'anfragenbot_name');
+
+do $$
+begin
+  if not exists (select 1 from vault.secrets where name = 'tg_webhook_anfragenbot') then
+    perform vault.create_secret(encode(extensions.gen_random_bytes(24), 'hex'), 'tg_webhook_anfragenbot', 'secret_token für den Webhook des Anfragen-Bots');
+  end if;
+end $$;
+
+-- Portal: Stand und Link zum Verbinden. Legt beim ersten Aufruf den Code an.
+-- {"moeglich": false} wenn Daniel und Jasmin sich kümmern, {"bereit": false} solange der Bot noch nicht eingerichtet ist.
+create or replace function uk_partner_anfragenbot(p_sitzung text) returns jsonb
+language plpgsql security definer set search_path = public, extensions as $$
+declare v uuid := uk_partner_von_sitzung(p_sitzung); p uk_partner; v_bot text;
+begin
+  if v is null then return null; end if;
+  select * into p from uk_partner where id = v;
+  if p.leads_bei <> 'partner' then return '{"moeglich": false}'; end if;
+  select nullif(btrim(ltrim(wert, '@')), '') into v_bot from uk_einstellungen where name = 'anfragenbot_name';
+  if v_bot is null then return '{"moeglich": true, "bereit": false}'; end if;
+  if p.anfragenbot_code is null then
+    update uk_partner set anfragenbot_code = encode(gen_random_bytes(12), 'hex') where id = v returning * into p;
+  end if;
+  return jsonb_build_object('moeglich', true, 'bereit', true, 'bot', v_bot, 'verbunden', p.anfragenbot_chat is not null,
+    'seit', p.anfragenbot_seit, 'link', 'https://t.me/' || v_bot || '?start=' || p.anfragenbot_code);
+end $$;
+
+-- Portal: Verbindung trennen. Neuer Code, damit der alte Link nicht mehr funktioniert.
+create or replace function uk_partner_anfragenbot_trennen(p_sitzung text) returns boolean
+language plpgsql security definer set search_path = public, extensions as $$
+declare v uuid := uk_partner_von_sitzung(p_sitzung);
+begin
+  if v is null then return false; end if;
+  update uk_partner set anfragenbot_chat = null, anfragenbot_seit = null, anfragenbot_code = encode(gen_random_bytes(12), 'hex') where id = v;
+  return true;
+end $$;
+revoke all on function uk_partner_anfragenbot(text), uk_partner_anfragenbot_trennen(text) from public;
+grant execute on function uk_partner_anfragenbot(text), uk_partner_anfragenbot_trennen(text) to anon, authenticated;
+
+-- Edge Function partner-anfragenbot: "/start <code>" verbindet den Chat. Ein Chat gehört zu höchstens einem Partner.
+create or replace function uk_anfragenbot_verbinden(p_code text, p_chat text) returns jsonb
+language plpgsql security definer set search_path = public as $$
+declare p uk_partner;
+begin
+  if coalesce(p_code, '') !~ '^[0-9a-f]{24}$' then return null; end if;
+  select * into p from uk_partner where anfragenbot_code = p_code and leads_bei = 'partner';
+  if p.id is null then return null; end if;
+  update uk_partner set anfragenbot_chat = null, anfragenbot_seit = null where anfragenbot_chat = p_chat and id <> p.id;
+  update uk_partner set anfragenbot_chat = p_chat, anfragenbot_seit = now() where id = p.id;
+  return jsonb_build_object('vorname', p.vorname);
+end $$;
+
+-- "/stop" im Bot
+create or replace function uk_anfragenbot_abmelden(p_chat text) returns boolean
+language sql security definer set search_path = public as $$
+  with x as (update uk_partner set anfragenbot_chat = null, anfragenbot_seit = null where anfragenbot_chat = p_chat returning 1)
+  select exists (select 1 from x)
+$$;
+
+-- Edge Function partner-lead: an welchen Chat geht die Anfrage? null = keiner verbunden oder Daniel und Jasmin kümmern sich.
+create or replace function uk_anfragenbot_ziel(p_kurz text) returns text
+language sql stable security definer set search_path = public as $$
+  select anfragenbot_chat from uk_partner where kurz = lower(btrim(p_kurz)) and leads_bei = 'partner'
+$$;
+
+-- Schlüssel und Webhook-Geheimnis, nur mit Dienstschlüssel
+create or replace function uk_anfragenbot_geheim() returns jsonb
+language sql stable security definer set search_path = public as $$
+  select jsonb_build_object(
+    'token', (select btrim(decrypted_secret) from vault.decrypted_secrets where name = 'tg_token_anfragen'),
+    'secret', (select decrypted_secret from vault.decrypted_secrets where name = 'tg_webhook_anfragenbot'))
+$$;
+revoke all on function uk_anfragenbot_verbinden(text, text), uk_anfragenbot_abmelden(text), uk_anfragenbot_ziel(text), uk_anfragenbot_geheim()
+  from public, anon, authenticated;
+grant execute on function uk_anfragenbot_verbinden(text, text), uk_anfragenbot_abmelden(text), uk_anfragenbot_ziel(text), uk_anfragenbot_geheim()
+  to service_role;
+
+-- ---------------------------------------------------------------------------------------------------------------
 -- 7. Beispiele für das Portal: je eine Seite von Daniel und von Jasmin (falls es die Partner mit diesem Kürzel gibt).
 -- Rolle, Satz und Foto tragen die beiden danach selbst im Portal unter "Meine Seiten" ein.
 -- ---------------------------------------------------------------------------------------------------------------

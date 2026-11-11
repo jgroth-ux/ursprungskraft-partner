@@ -156,7 +156,7 @@ window.MeineSeiten = (() => {
         <p class="leise klein" style="margin-top:var(--s-3)">Mehrere Fassungen? Das Hosting zahlst du trotzdem nur einmal.</p></section>
       <section class="abschnitt"><div class="abschnitt-kopf"><h2>Häufige Fragen</h2></div>
         <details class="aufklappen"><summary>Steht meine Telefonnummer auf der Seite?</summary><p class="leise">Nur wenn du es ausdrücklich willst. Telefon und E-Mail brauchen wir, um dir Anfragen weiterzugeben. Auf der Seite und im E-Book stehen sie nur, wenn du den Haken dafür setzt.</p></details>
-        <details class="aufklappen"><summary>Wer meldet sich bei meinen Interessenten?</summary><p class="leise">Das legen Daniel und Jasmin mit dir fest. Entweder melden sie sich bei allen, die sich über deine Seite eintragen. Oder du kümmerst dich selbst darum, dann siehst du hier jede Anfrage mit Telefon und E-Mail. Jede Anfrage bleibt in beiden Fällen bei dir.</p></details>
+        <details class="aufklappen"><summary>Wer meldet sich bei meinen Interessenten?</summary><p class="leise">Das legen Daniel und Jasmin mit dir fest. Entweder melden sie sich bei allen, die sich über deine Seite eintragen. Oder du kümmerst dich selbst darum, dann siehst du hier jede Anfrage mit Telefon und E-Mail und bekommst sie auf Wunsch sofort über einen eigenen Telegram-Bot aufs Handy. Jede Anfrage bleibt in beiden Fällen bei dir.</p></details>
         <details class="aufklappen"><summary>Muss ich Sportler sein für die Sportseite?</summary><p class="leise">Nein. Oben steht ein Sportfoto, du erscheinst daneben als "Empfohlen von". Die Seite spricht sportliche Menschen an, nicht dich als Sportler.</p></details>
         <details class="aufklappen"><summary>Kann ich später etwas ändern?</summary><p class="leise">Ja, jederzeit: Foto, Satz, Fassungen und sogar die Adresse. Alte Links führen weiter zu deiner Seite.</p></details>
         <details class="aufklappen"><summary>Läuft die Seite unter Ursprungskraft?</summary><p class="leise">Nein. Die Seiten laufen unter einer neutralen Adresse. Im Mittelpunkt stehst du.</p></details>
@@ -193,7 +193,8 @@ window.MeineSeiten = (() => {
           </div></section>`).join('')}</div>
       <section class="abschnitt" id="anfragen"><div class="abschnitt-kopf"><h2>Deine Anfragen</h2></div>
         ${D.leads_bei === 'partner'
-          ? `<p class="leise" style="margin-bottom:var(--s-3)">Du kümmerst dich selbst um alle, die sich über deine Seiten eintragen. Melde dich am besten noch am selben Tag.</p><div id="ms-anfragen"><p class="laden">Einen Moment …</p></div>`
+          ? `<p class="leise" style="margin-bottom:var(--s-3)">Du kümmerst dich selbst um alle, die sich über deine Seiten eintragen. Melde dich am besten noch am selben Tag.</p>
+            <div class="ms-bot" id="ms-bot"></div><div id="ms-anfragen"><p class="laden">Einen Moment …</p></div>`
           : `<p class="hinweis">Daniel und Jasmin melden sich bei allen, die sich über deine Seiten eintragen. Oben siehst du, wie viele es sind.</p>`}
       </section>
       ${fehlen.length ? `<section class="abschnitt"><div class="abschnitt-kopf"><h2>Weitere Fassungen</h2></div>
@@ -207,7 +208,42 @@ window.MeineSeiten = (() => {
     box.querySelectorAll('[data-kopie]').forEach((b) => (b.onclick = () => u.kopieren(b.dataset.kopie, b.dataset.hinweis || 'Link kopiert.')));
     // In der Vorschau zeigen die kleinen Rahmen die gespeicherten Angaben (es gibt keine echte Seite)
     if (u.vorschau) box.querySelectorAll('.ms-mini iframe').forEach((f) => vorschauVerbinden(f, () => seitenAngaben(s)));
-    if (D.leads_bei === 'partner') anfragenZeigen(box.querySelector('#ms-anfragen'));
+    if (D.leads_bei === 'partner') { anfragenZeigen(box.querySelector('#ms-anfragen')); botZeigen(box.querySelector('#ms-bot')); }
+  }
+
+  // Anfragen-Bot: eigener Telegram-Bot nur für Anfragen, getrennt vom Assistenten. Ein Klick verbindet ihn.
+  async function botZeigen(ziel) {
+    const r = await rpc('uk_partner_anfragenbot');
+    const b = r.error ? null : r.data;
+    if (!ziel.isConnected || !b || !b.moeglich) { ziel.remove(); return; }
+    const symbol = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4.5 3.5 11.3c-.8.3-.8 1.4 0 1.7l4.3 1.5 1.6 5c.2.7 1.1.9 1.6.4l2.4-2.3 4.4 3.2c.6.4 1.4.1 1.6-.6L22 5.6c.2-.8-.5-1.4-1-1.1z"/><path d="M8 14.5 18 7.5"/></svg>';
+    if (!b.bereit) {
+      ziel.innerHTML = `<div class="ms-bot-symbol">${symbol}</div><div><b>Anfragen aufs Handy</b><p>Dein Telegram-Bot für Anfragen wird gerade eingerichtet. Der Knopf zum Verbinden erscheint hier in Kürze.</p></div>`;
+      return;
+    }
+    if (b.verbunden) {
+      ziel.innerHTML = `<div class="ms-bot-symbol an">${symbol}</div><div><b>Anfragen kommen aufs Handy</b>
+        <p>Jede neue Anfrage schickt dir dein Anfragen-Bot sofort in Telegram, mit Telefon und E-Mail. Getrennt von deinem Assistenten.</p>
+        <div class="knoepfe"><span class="verbunden">Verbunden</span><button class="knopf still" type="button" data-bot-weg>Trennen</button></div></div>`;
+      ziel.querySelector('[data-bot-weg]').onclick = async () => {
+        if (!confirm('Anfragen nicht mehr aufs Handy schicken?')) return;
+        const x = await rpc('uk_partner_anfragenbot_trennen');
+        if (x.error || !x.data) return u.toast('Das hat nicht geklappt. Bitte versuch es noch einmal.');
+        u.toast('Getrennt. Deine Anfragen findest du weiter hier.'); botZeigen(ziel);
+      };
+      return;
+    }
+    ziel.innerHTML = `<div class="ms-bot-symbol">${symbol}</div><div><b>Anfragen sofort aufs Handy</b>
+      <p>Mit einem Klick bekommst du jede neue Anfrage als Nachricht in Telegram, mit Telefon, E-Mail und einem Knopf für WhatsApp. Das ist ein eigener Bot nur für Anfragen, getrennt von deinem Assistenten.</p>
+      <div class="knoepfe"><a class="knopf" href="${esc(b.link)}" target="_blank" rel="noopener" data-bot-an>${symbol} Telegram verbinden</a></div>
+      <p class="klein leise">Telegram öffnet sich. Dort tippst du auf "Starten", mehr ist es nicht.</p></div>`;
+    // Zurück im Portal: nachsehen, ob die Verbindung steht
+    ziel.querySelector('[data-bot-an]').addEventListener('click', () => {
+      if (u.vorschau) Vorschau.botVerbinden();
+      const wieder = () => { if (document.visibilityState !== 'visible') return; removeEventListener('visibilitychange', wieder); setTimeout(() => botZeigen(ziel), 600); };
+      addEventListener('visibilitychange', wieder);
+      if (u.vorschau) setTimeout(() => botZeigen(ziel), 1200);
+    });
   }
 
   // Anfragen mit Kontakt, nur für Partner, die sich selbst kümmern (uk_partner.leads_bei = 'partner')
@@ -510,8 +546,13 @@ window.MeineSeiten = (() => {
           return { data: { ok: true, adresse: p.adresse } };
         }
         if (name === 'uk_partner_seiten_anfragen') return { data: leadsBei === 'partner' && gespeichert.seite ? anfragen : [] };
+        if (name === 'uk_partner_anfragenbot') return { data: leadsBei !== 'partner' ? { moeglich: false }
+          : { moeglich: true, bereit: true, bot: 'beispiel_anfragen_bot', verbunden: !!gespeichert.bot, link: 'https://t.me/beispiel_anfragen_bot?start=vorschau' } };
+        if (name === 'uk_partner_anfragenbot_trennen') { gespeichert.bot = false; merken(); return { data: true }; }
         return { error: new Error('Vorschau kennt ' + name + ' nicht') };
       },
+      // Vorschau: so tun, als hätte der Partner in Telegram auf "Starten" getippt
+      botVerbinden() { gespeichert.bot = true; merken(); },
       // Das Foto bleibt als Daten-Adresse im Browser, damit es auch nach dem Neuladen noch da ist
       async foto(blob) {
         gespeichert.seite.foto = blob ? await new Promise((ok) => { const r = new FileReader(); r.onload = () => ok(r.result); r.readAsDataURL(blob); }) : null;

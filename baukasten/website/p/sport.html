@@ -2,146 +2,156 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wasser, das unterschätzte Supplement</title>
 <meta name="description" content="Für alle, die trainieren: frisches Wasser direkt aus dem Hahn, für Training, Regeneration, Meal Prep und Alltag.">
-<meta name="theme-color" content="#2F3524">
-<!-- Fassung Sport: für sportliche Interessenten. Der Partner muss kein Sportler sein, er erscheint als "Empfohlen von".
-     Eine Datei für alle Partner. Name, Foto, Rolle und Satz kommen beim Aufruf aus uk_seite_oeffentlich() (seiten.js).
-     Adresse: /p/<adresse>/sport, Netlify leitet per _redirects hierher. Gebaut von Ursprungskraft, Baukasten vom 11.11.2026. -->
-<link rel="preload" href="/schriften/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/schriften/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="robots" content="noindex, nofollow">
+<!-- Fassung Sport: für sportliche Interessenten. Der Partner muss kein Sportler sein, oben ein Sportfoto, er steht als "Empfohlen von" daneben.
+     Baukasten Partnerseiten, gestaltet wie die Sportseiten von Kevin und Johny. Eine Datei für alle Partner:
+     Name, Foto, Rolle und Satz kommen beim Aufruf aus uk_seite_oeffentlich() (seiten.js). Adresse /p/<adresse>/sport. -->
 <link rel="stylesheet" href="/schriften/schriften.css">
-<link rel="stylesheet" href="/p/seiten.css?v=20261111a">
+<link rel="stylesheet" href="/p/seiten.css?v=20261111b">
 </head>
 <body data-fassung="sport" class="laedt" data-titel="{name} empfiehlt: Wasser, das unterschätzte Supplement">
-<a class="sprung" href="#inhalt">Zum Inhalt</a>
 
-<header class="kopf">
+<header>
   <div class="innen">
-    <a class="wer-kopf" href="#ueber"><span class="mini foto-p" data-p="foto"></span><span><small>Empfohlen von</small><b data-p="name"></b></span></a>
+    <span class="marke"><span class="mini foto-p" data-p="foto"></span><b data-p="name"></b><span data-p="rolle" data-wenn="rolle"></span></span>
     <a class="knopf klein" href="#interesse">Gerät kennenlernen</a>
   </div>
 </header>
 
-<main id="inhalt">
-<section class="hero" aria-label="Einstieg">
+<section class="hero">
   <div class="hero-text">
     <div class="eyebrow">Für alle, die trainieren</div>
-    <h1>Wasser. <span class="betont">Das unterschätzte Supplement.</span></h1>
-    <p class="gross">Auf Eiweiß, Schlaf und deinen Trainingsplan achtest du genau. Wasser trinkst du jeden Tag literweise. Wie gut ist eigentlich das, was da in deiner Flasche ist?</p>
+    <h1>Du trainierst hart. <span class="betont">Trinkst du auch gut?</span></h1>
+    <p class="gross">Eiweiß, Schlaf, Trainingsplan: Darauf achtest du genau. Wasser trinkst du jeden Tag literweise, und genau da schaut kaum jemand hin. Wasser ist das unterschätzte Supplement.</p>
     <div class="leiste">
-      <a class="knopf" href="#interesse">Ich will das Gerät kennenlernen</a>
+      <a class="knopf hell" href="#interesse">Ich interessiere mich für das Gerät</a>
       <a class="knopf rahmen" href="#ebook">E-Book holen</a>
     </div>
   </div>
-  <figure class="hero-bild">
-    <div class="bild" data-platzhalter="Foto folgt: Sportlerin nach dem Training mit einem Glas Wasser (sport-hero)"><img src="/p/bilder/sport-hero.jpg" alt="Eine Sportlerin trinkt nach dem Training ein Glas Wasser" loading="lazy"></div>
-    <figcaption class="empfohlen">
-      <span class="foto-p" data-p="foto"></span>
-      <span><small>Empfohlen von</small><b data-p="name"></b></span>
-      <span class="rolle" data-p="rolle" data-wenn="rolle"></span>
-      <p class="satz" data-p="satz" data-wenn="satz"></p>
-      <a class="insta" data-p="insta" data-wenn="insta" href="#" target="_blank" rel="noopener"></a>
+  <figure class="person">
+    <img src="/p/bilder/sport-hero.jpg" alt="Eine Sportlerin trinkt nach dem Training ein Glas Wasser" data-platzhalter="Foto folgt: Sportfoto">
+    <figcaption>
+      <div class="wer-zeile"><span class="foto-p" data-p="foto"></span><span><small>Empfohlen von</small><b data-p="name"></b></span></div>
+      <span data-p="rolle" data-wenn="rolle"></span><p class="ueber" data-p="satz" data-wenn="satz"></p><a class="insta" data-p="insta" data-wenn="insta" href="#" target="_blank" rel="noopener"></a>
     </figcaption>
   </figure>
 </section>
 
-<section class="zahlen" aria-label="In Zahlen">
+<section class="zahlen">
   <div class="innen">
-    <div class="zahl"><b data-zahl="5">5</b><span>Wasserarten aus einem Gerät</span></div>
-    <div class="zahl"><b data-zahl="0">0</b><span>Kisten und Flaschen, die du noch schleppst</span></div>
-    <div class="zahl"><b>40 ml</b><span>Wasser je Kilo Körpergewicht gelten als Faustregel am Tag</span></div>
+    <div class="zahl"><b data-zahl="5">5</b><span>Wasserarten aus einem Gerät</span></div><div class="zahl"><b data-zahl="0">0</b><span>Kisten und Flaschen, die du noch schleppst</span></div><div class="zahl"><b>40 ml</b><span>Wasser je Kilo Körpergewicht als Faustregel am Tag</span></div>
+  </div>
+</section>
+
+<section class="zitat" data-wenn="satz">
+  <div class="innen">
+    <blockquote data-p="satz"></blockquote>
+    <div class="wer"><span class="foto-p" data-p="foto"></span><span><b data-p="name"></b><span data-p="rolle"></span></span></div>
   </div>
 </section>
 
 <section>
   <div class="innen">
-    <div class="kopfzeile">
-      <div><div class="eyebrow">Warum Sportler genauer hinschauen</div><h2>Du achtest auf jedes Gramm Eiweiß. Und aufs Wasser?</h2></div>
-      <p class="gross leise">Wasser nimmst du öfter zu dir als jedes andere Supplement. Trotzdem schaut kaum jemand auf die Qualität.</p>
-    </div>
+    <div class="eyebrow">Warum Sportler umsteigen</div>
+    <h2>Wasser ist dein meistgenutztes Supplement</h2>
+    <p class="gross dunkeltext">Auf jedes Gramm Eiweiß achtest du. Wasser trinkst du jeden Tag literweise, und genau da schaut kaum jemand auf die Qualität.</p>
     <div class="sechs">
-      <article class="karte">
-        <div class="bild" data-platzhalter="Foto vom Server: schneller-fit.jpg (Training)"><img src="/bilder/partner/schneller-fit.jpg" alt="" loading="lazy"></div>
-        <div class="text"><div class="nr">01</div><h3>Nach dem Training zählt, was du nachfüllst</h3><p>Du schwitzt und verlierst Wasser. Was du danach trinkst, ist das, womit dein Körper weiterarbeitet. Genau da lohnt sich der Blick aufs Glas.</p></div>
-      </article>
-      <article class="karte">
-        <div class="bild" data-platzhalter="Foto vom Server: besser-schlafen.jpg (Regeneration)"><img src="/bilder/partner/besser-schlafen.jpg" alt="" loading="lazy"></div>
-        <div class="text"><div class="nr">02</div><h3>Regeneration ist dein halbes Training</h3><p>Schlaf, Essen, Trinken. Wer gut regenerieren will, achtet auf alle drei.</p></div>
-      </article>
-      <article class="karte">
-        <div class="bild" data-platzhalter="Glas am Wasserhahn"><img src="/p/bilder/glas-hahn.jpg" alt="" loading="lazy"></div>
-        <div class="text"><div class="nr">03</div><h3>Du trinkst endlich genug</h3><p>Wasser, das weich schmeckt und nicht nach Chlor riecht, trinkst du lieber. Und damit oft ganz von allein mehr.</p></div>
-      </article>
-      <article class="karte">
-        <div class="bild" data-platzhalter="Foto vom Server: supplements.jpg (Shake und Kreatin)"><img src="/bilder/partner/supplements.jpg" alt="" loading="lazy"></div>
-        <div class="text"><div class="nr">04</div><h3>Shake, Kreatin und Co.</h3><p>Was du jeden Tag anrührst, rührst du mit Wasser an. Also lohnt es sich zu wissen, womit.</p></div>
-      </article>
-      <article class="karte">
-        <div class="bild" data-platzhalter="Küche mit Gemüse"><img src="/p/bilder/kueche.jpg" alt="" loading="lazy"></div>
-        <div class="text"><div class="nr">05</div><h3>Meal Prep mit System</h3><p>Einweichen, abspülen, kochen: Für jeden Schritt gibt es das passende Wasser aus demselben Gerät.</p></div>
-      </article>
-      <article class="karte">
-        <div class="bild" data-platzhalter="Frau trägt Wasserkisten"><img src="/p/bilder/kisten.jpg" alt="" loading="lazy"></div>
-        <div class="text"><div class="nr">06</div><h3>Schluss mit Kisten</h3><p>Frisches Wasser direkt aus deinem Hahn, so viel du willst. Kein Schleppen, kein Pfand, kein Stapel Flaschen im Flur.</p></div>
-      </article>
+      <div class="kachel">
+        <img src="/bilder/partner/schneller-fit.jpg" alt="" loading="lazy" data-platzhalter="Foto vom Server: Training">
+        <div class="nr">01</div>
+        <h3>Nach dem Training zählt, was du nachfüllst</h3>
+        <p>Du schwitzt und verlierst Wasser. Was du danach trinkst, ist das, womit dein Körper weiterarbeitet. Genau da lohnt sich der Blick aufs Glas.</p>
+      </div>
+      <div class="kachel">
+        <img src="/bilder/partner/hydration.jpg" alt="" loading="lazy" data-platzhalter="Foto vom Server: Hydration">
+        <div class="nr">02</div>
+        <h3>Regeneration ist dein halbes Training</h3>
+        <p>Schlaf, Essen, Trinken. Wer gut regenerieren will, achtet auf alle drei.</p>
+      </div>
+      <div class="kachel">
+        <img src="/p/bilder/glas-hahn.jpg" alt="" loading="lazy" data-platzhalter="Glas am Wasserhahn">
+        <div class="nr">03</div>
+        <h3>Du trinkst endlich genug</h3>
+        <p>Weich im Geschmack, ohne Chlorgeruch. Wasser, das dir schmeckt, trinkst du lieber. Und damit oft ganz von allein mehr.</p>
+      </div>
+      <div class="kachel">
+        <img src="/bilder/partner/supplements.jpg" alt="" loading="lazy" data-platzhalter="Foto vom Server: Supplements">
+        <div class="nr">04</div>
+        <h3>Shake, Kreatin und Co.</h3>
+        <p>Was du jeden Tag anrührst, rührst du mit Wasser an. Also lohnt es sich zu wissen, womit.</p>
+      </div>
+      <div class="kachel">
+        <img src="/bilder/partner/besser-schlafen.jpg" alt="" loading="lazy" data-platzhalter="Foto vom Server: Schlaf">
+        <div class="nr">05</div>
+        <h3>Regeneration passiert nachts</h3>
+        <p>Training, Essen, Schlaf und Trinken gehören zusammen. Wer auf eins achtet, sollte die anderen nicht vergessen.</p>
+      </div>
+      <div class="kachel">
+        <img src="/p/bilder/kisten.jpg" alt="" loading="lazy" data-platzhalter="Kisten">
+        <div class="nr">06</div>
+        <h3>Schluss mit Kisten</h3>
+        <p>Frisches Wasser direkt aus deinem Hahn, so viel du willst. Keine Flaschen, kein Schleppen, kein Pfand.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="sportvideo" style="padding-top:0">
+<section class="sportvideo">
   <div class="innen zwei">
-    <div class="video" data-platzhalter="Video vom Server: sportler-wasser.mp4"><video src="/bilder/partner/sportler-wasser.mp4" poster="/bilder/partner/sportler-wasser.jpg" controls preload="none" playsinline><track kind="subtitles" srclang="de" label="Deutsch" src="/bilder/partner/sportler-wasser.de.vtt" default></video></div>
+    <div class="video hoch"><video src="/bilder/partner/sportler-wasser.mp4" poster="/bilder/partner/sportler-wasser.jpg" controls preload="none" playsinline data-platzhalter="Video vom Server"><track kind="subtitles" srclang="de" label="Deutsch" src="/bilder/partner/sportler-wasser.de.vtt" default></video></div>
     <div>
       <div class="eyebrow">In knapp zwei Minuten erklärt</div>
       <h2>Was dieses Wasser für dich als Sportler macht</h2>
-      <p class="gross leise">Im Video siehst du, wie das Wasser direkt aus dem Gerät kommt und was es vom Wasser aus der Flasche unterscheidet.</p>
+      <p class="gross dunkeltext">Regeneration, Hydration, Säure und Basen: Im Video siehst du, wie das Wasser direkt aus dem Gerät kommt und was es vom Wasser aus der Flasche unterscheidet.</p>
       <a class="knopf" href="#interesse">Ich will das Gerät kennenlernen</a>
     </div>
   </div>
 </section>
 
-<section class="feldabschnitt" id="rechner">
+<section class="sand" id="rechner">
   <div class="innen zwei">
     <div>
       <div class="eyebrow">Rechne kurz nach</div>
       <h2>Wie viel solltest du trinken?</h2>
-      <p class="gross leise">Als Faustregel gelten 40 ml je Kilo Körpergewicht am Tag. An Trainingstagen kommt dazu, was du ausschwitzt.</p>
+      <p>Als Faustregel gelten 40 ml je Kilo Körpergewicht. An Trainingstagen kommt das dazu, was du ausschwitzt.</p>
     </div>
     <div class="rechner" data-rechner="sport">
-      <div class="eingaben"><label>Dein Körpergewicht in kg<input id="kg" type="number" inputmode="numeric" min="30" max="200" value="80"></label></div>
+      <label class="feld">Dein Körpergewicht in kg<input id="kg" type="number" inputmode="numeric" min="30" max="200" value="80"></label>
       <div class="ergebnis"><b id="ergebnis">3,2</b><span>Liter am Tag, ohne Training</span></div>
-      <p class="unten" id="ergebnis-text">Das sind rund 1.170 Liter im Jahr. In 1,5-Liter-Flaschen wären das 130 Sechserträger zum Schleppen.</p>
+      <p class="klein" id="ergebnis-text">Das sind rund 1.170 Liter im Jahr. In 1,5-Liter-Flaschen wären das 130 Sechserträger zum Schleppen.</p>
     </div>
   </div>
 </section>
 
 <section>
   <div class="innen">
-    <div class="kopfzeile">
-      <div><div class="eyebrow">Meal Prep</div><h2>Auch dein Essen profitiert</h2></div>
-      <p class="gross leise">Das Gerät macht nicht nur Trinkwasser. Mit den verschiedenen Wasserarten bereitest du dein Essen anders vor.</p>
-    </div>
-    <div class="drei versetzt">
-      <article class="karte">
-        <div class="bild" data-platzhalter="Foto vom Server: mealprep-gemuese.jpg"><img src="/bilder/partner/mealprep-gemuese.jpg" alt="" loading="lazy"></div>
-        <div class="text"><h3>Obst und Gemüse</h3><p>45 Minuten in pH 11,5 einlegen, danach mit pH 9,5 abspülen. Das hilft, Rückstände von der Schale zu lösen.</p></div>
-      </article>
-      <article class="karte">
-        <div class="bild" data-platzhalter="Foto vom Server: mealprep-fleisch.jpg"><img src="/bilder/partner/mealprep-fleisch.jpg" alt="" loading="lazy"></div>
-        <div class="text"><h3>Fleisch und Fisch</h3><p>In pH 11,5 eingelegt wird Fleisch zarter. Mit pH 2,5 nimmst du Gerüche von Fisch und Brettern.</p></div>
-      </article>
-      <article class="karte">
-        <div class="bild" data-platzhalter="Foto vom Server: mealprep-reis.jpg"><img src="/bilder/partner/mealprep-reis.jpg" alt="" loading="lazy"></div>
-        <div class="text"><h3>Reis, Hafer, Hülsenfrüchte</h3><p>30 Minuten in pH 11,5 einweichen, mit pH 9,5 abspülen. Gekocht wird mit pH 9,5, Eier und Pasta mit pH 6,0.</p></div>
-      </article>
+    <div class="eyebrow">Meal Prep</div>
+    <h2>Auch dein Essen profitiert</h2>
+    <p class="gross dunkeltext">Das Gerät macht nicht nur Trinkwasser. Mit den verschiedenen pH-Werten bereitest du dein Essen anders vor.</p>
+    <div class="drei">
+      <div class="kachel">
+        <img src="/bilder/partner/mealprep-gemuese.jpg" alt="" loading="lazy" data-platzhalter="Foto vom Server: Gemüse">
+        <h3>Obst und Gemüse</h3>
+        <p>45 Minuten in pH 11,5 einlegen, danach mit pH 9,5 abspülen. Das hilft, Rückstände von der Schale zu lösen.</p>
+      </div>
+      <div class="kachel">
+        <img src="/bilder/partner/mealprep-fleisch.jpg" alt="" loading="lazy" data-platzhalter="Foto vom Server: Fleisch und Fisch">
+        <h3>Fleisch und Fisch</h3>
+        <p>45 Minuten in pH 11,5 eingelegt wird Fleisch zarter. Mit pH 2,5 nimmst du Gerüche von Fisch und Brettern.</p>
+      </div>
+      <div class="kachel">
+        <img src="/bilder/partner/mealprep-reis.jpg" alt="" loading="lazy" data-platzhalter="Foto vom Server: Reis">
+        <h3>Reis, Hafer, Hülsenfrüchte</h3>
+        <p>30 Minuten in pH 11,5 einweichen, mit pH 9,5 abspülen. Gekocht wird mit pH 9,5, Eier und Pasta mit pH 6,0.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="flaeche-dunkel" style="padding-top:48px">
+<section class="sand">
   <div class="innen">
     <div class="eyebrow">Ein Gerät, fünf Wasserarten</div>
     <h2>Vom Shake bis zur Sporttasche</h2>
@@ -152,24 +162,25 @@
       <li><b>11,5<small>nicht zum Trinken</small></b><span>Obst und Gemüse waschen und einweichen, Fett und Flecken lösen.</span></li>
       <li><b>2,5<small>nicht zum Trinken</small></b><span>Zum Reinigen: Flächen, Bretter und Gerüche aus Wäsche und Taschen.</span></li>
     </ul>
-    <p class="arten-hinweis leise">pH 11,5 und pH 2,5 sind nicht zum Trinken. Das Gerät zeigt dir bei jeder Wasserart an, welche gerade läuft.</p>
+    <p class="arten-hinweis">pH 11,5 und pH 2,5 sind nicht zum Trinken. Das Gerät zeigt dir bei jeder Wasserart an, welche gerade läuft.</p>
   </div>
 </section>
 
-<section class="flaeche-dunkel" id="interesse">
+<section class="dunkel" id="interesse">
   <div class="innen zwei oben">
     <div>
       <div class="eyebrow">Du überlegst, dir ein Gerät zu holen?</div>
       <h2>Lern das Gerät persönlich kennen</h2>
-      <p class="leise">Trag dich ein, wenn du ernsthaft überlegst, dir ein eigenes Gerät zu holen. Das passiert danach:</p>
+      <p>Trag dich ein, wenn du ernsthaft überlegst, dir ein eigenes Gerät zu holen. Das passiert danach:</p>
       <ol class="ablauf">
         <li><b>Du trägst dich ein</b><span>Drei kurze Fragen, dann deine Kontaktdaten.</span></li>
         <li><b data-partner="{v} meldet sich bei dir">Wir melden uns bei dir</b><span data-partner="Persönlich, und beantwortet alle Fragen rund ums Wasser.">Persönlich, und wir beantworten alle Fragen rund ums Wasser.</span></li>
         <li><b>Du lernst das Gerät kennen</b><span>Wie es arbeitet und was du mit jeder Wasserart machst.</span></li>
       </ol>
-      <p class="klein leise">Du willst dich erst mal nur einlesen? Dann hol dir weiter unten das E-Book.</p>
+      <p class="klein">Du willst dich erst mal nur einlesen? Dann hol dir weiter unten das E-Book.</p>
+      <div class="kontaktwege" data-wenn="kontakt"></div>
     </div>
-    <form class="formular" id="anfrage" novalidate>
+    <form id="anfrage" novalidate>
       <fieldset>
         <legend>Was interessiert dich am meisten?</legend>
         <label><input type="radio" name="interesse" value="Training und Regeneration"> Training und Regeneration</label>
@@ -192,22 +203,24 @@
       <div class="umschauen" id="umschauen" hidden>
         <p>Kein Problem. Trag dich trotzdem ein, dann bekommst du das E-Book. Darin steht alles Wichtige rund ums Wasser, und du entscheidest in Ruhe.</p>
       </div>
-      <div class="reihe">
-        <label class="feld">Vorname<input name="vorname" autocomplete="given-name"></label>
-        <label class="feld">Nachname<input name="nachname" autocomplete="family-name"></label>
+      <div id="kontaktfelder">
+        <div class="reihe">
+          <label class="feld">Vorname<input name="vorname" autocomplete="given-name"></label>
+          <label class="feld">Nachname<input name="nachname" autocomplete="family-name"></label>
+        </div>
+        <div class="reihe">
+          <label class="feld">Telefon<input name="telefon" type="tel" autocomplete="tel"></label>
+          <label class="feld">E-Mail<input name="email" type="email" autocomplete="email"></label>
+        </div>
+        <div class="reihe">
+          <label class="feld">Wohnort<input name="ort" autocomplete="address-level2"></label>
+          <label class="feld">Land<select name="land"><option value="DE">Deutschland</option><option value="AT">Österreich</option><option value="CH">Schweiz</option><option value="anderes">anderes Land</option></select></label>
+        </div>
+        <label class="feld"><span data-partner="Wann erreicht dich {v} am besten?">Wann erreichen wir dich am besten?</span><input name="erreichbar" placeholder="z. B. werktags ab 18 Uhr"></label>
+        <label class="haken"><input type="checkbox" name="ok"> <span>Ich bin einverstanden, dass meine Angaben gespeichert werden und man mich dazu anruft. Mehr in der <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a>.</span></label>
+        <div class="fehler" id="fehler" role="alert"></div>
+        <button class="knopf" type="submit" id="senden">Ich interessiere mich für das Gerät</button>
       </div>
-      <div class="reihe">
-        <label class="feld">Telefon<input name="telefon" type="tel" autocomplete="tel"></label>
-        <label class="feld">E-Mail<input name="email" type="email" autocomplete="email"></label>
-      </div>
-      <div class="reihe">
-        <label class="feld">Wohnort<input name="ort" autocomplete="address-level2"></label>
-        <label class="feld">Land<select name="land"><option value="DE">Deutschland</option><option value="AT">Österreich</option><option value="CH">Schweiz</option><option value="anderes">anderes Land</option></select></label>
-      </div>
-      <label class="feld"><span data-partner="Wann erreicht dich {v} am besten?">Wann erreichen wir dich am besten?</span><input name="erreichbar" placeholder="z. B. werktags ab 18 Uhr"></label>
-      <label class="haken"><input type="checkbox" name="ok"> <span>Ich bin einverstanden, dass meine Angaben gespeichert werden und man mich dazu anruft. Mehr in der <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a>.</span></label>
-      <div class="fehler" id="fehler" role="alert"></div>
-      <button class="knopf" type="submit" id="senden">Ich interessiere mich für das Gerät</button>
     </form>
   </div>
 </section>
@@ -223,8 +236,8 @@
     <div>
       <div class="eyebrow">Kostenlos für dich</div>
       <h2>Das E-Book: Das unterschätzte Supplement</h2>
-      <p class="leise">Was in deinem Trinkwasser steckt, warum Sportler so genau hinschauen und was die fünf Wasserarten für Training, Küche und Alltag können.</p>
-      <form class="buchform" id="buchform" novalidate>
+      <p>Was in deinem Trinkwasser steckt, warum Sportler so genau hinschauen und was die fünf Wasserarten für Training, Küche und Alltag können.</p>
+      <form id="buchform" class="hell" novalidate>
         <div class="reihe">
           <label class="feld">Vorname<input name="vorname" autocomplete="given-name"></label>
           <label class="feld">E-Mail<input name="email" type="email" autocomplete="email"></label>
@@ -237,27 +250,10 @@
   </div>
 </section>
 
-<section class="flaeche-feld" id="ueber">
-  <div class="innen ueber">
-    <div class="foto-p" data-p="foto"></div>
-    <div class="text">
-      <div class="eyebrow">Wer dir diese Seite geschickt hat</div>
-      <blockquote data-p="satz" data-wenn="satz"></blockquote>
-      <h2 data-p="name"></h2>
-      <p class="leise" data-p="rolle" data-wenn="rolle"></p>
-      <p class="leise" data-partner="Hast du Fragen? Trag dich oben ein, dann meldet sich {v} persönlich bei dir.">Hast du Fragen? Trag dich oben ein, dann melden wir uns persönlich bei dir.</p>
-      <div class="kontaktwege" data-wenn="kontakt"></div>
-      <p data-wenn="insta" style="margin-top:16px"><a class="insta" data-p="insta" href="#" target="_blank" rel="noopener"></a></p>
-    </div>
-  </div>
-</section>
-
-</main>
-
 <nav class="dock" aria-label="Schnell zu">
-  <a class="dock-symbol" href="#rechner" aria-label="Rechner" title="Rechner"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 7h7M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15v2.5M8.5 18h.01M12 18h.01"/></svg></a>
+  <a class="dock-symbol" href="#rechner" aria-label="Rechner" title="Rechner"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7h7M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15v2.5M8.5 18h.01M12 18h.01"/></svg></a>
   <a class="dock-symbol" href="#ebook" aria-label="E-Book" title="E-Book"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.2 5 7.6 4.5 4 4.5v14c3.6 0 6.2.5 8 2 1.8-1.5 4.4-2 8-2v-14c-3.6 0-6.2.5-8 2zM12 6.5v14"/></svg></a>
-  <a class="dock-knopf" href="#interesse">Gerät kennenlernen</a>
+  <a class="handyknopf" href="#interesse">Gerät kennenlernen</a>
 </nav>
 
 <footer>
@@ -274,6 +270,6 @@
   </div>
 </div>
 
-<script src="/p/seiten.js?v=20261111a"></script>
+<script src="/p/seiten.js?v=20261111b"></script>
 </body>
 </html>

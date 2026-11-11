@@ -2,17 +2,18 @@
 
 Alle Überschriften, kleinen Zeilen darüber (Eyebrow) und Knopftexte der drei Seiten, in der Reihenfolge auf der Seite.
 Zum Abhaken für Jasmin, bevor etwas online geht. Fließtexte stehen in den HTML-Dateien unter `website/p/`.
-Erzeugt aus den HTML-Dateien am 11.11.2026. `{Name}` und `{Vorname}` setzt die Seite beim Aufruf ein.
+Zweite Fassung (Gestaltung wie Kevin), 11.11.2026. `{Name}` und `{Vorname}` setzt die Seite beim Aufruf ein.
+Wo "Wir melden uns" steht, steht bei Partnern, die sich selbst kümmern, "{Vorname} meldet sich".
 
 ## Neutral
 
 - [ ] Titel im Browser: Ein Gerät, fünf Wasserarten (mit Namen: "{Name} empfiehlt: Ein Gerät, fünf Wasserarten")
-- [ ] Eyebrow: Eine Empfehlung von {Vorname}
+- [ ] Eyebrow: Meine Empfehlung für dich
 - [ ] Überschrift groß: Ein Gerät. Fünf Wasserarten.
-- [ ] Knopf: Ich will das Gerät kennenlernen
+- [ ] Knopf: Ich interessiere mich für das Gerät
 - [ ] Knopf: E-Book holen
 - [ ] Eyebrow: Im Alltag
-- [ ] Überschrift: Wasser für alles, was du jeden Tag machst.
+- [ ] Überschrift: Wasser für alles, was du jeden Tag machst
 - [ ] Zwischenüberschrift: Trinken und Kochen
 - [ ] Zwischenüberschrift: Für Haut und Haare
 - [ ] Zwischenüberschrift: Im Haushalt
@@ -20,9 +21,12 @@ Erzeugt aus den HTML-Dateien am 11.11.2026. `{Name}` und `{Vorname}` setzt die S
 - [ ] Überschrift: Was aus deinem Hahn kommt
 - [ ] Eyebrow: Rechne kurz nach
 - [ ] Überschrift: Wie viele Kisten trägst du im Jahr?
-- [ ] Eyebrow: Wer dich berät
 - [ ] Eyebrow: Häufige Fragen
 - [ ] Überschrift: Kurz beantwortet
+- [ ] Häufige Frage: Was kostet so ein Gerät?
+- [ ] Häufige Frage: Wie kommt das Gerät an meinen Wasserhahn?
+- [ ] Häufige Frage: Muss ich etwas kaufen, wenn ich mich eintrage?
+- [ ] Häufige Frage: Kann ich das Gerät vorher erleben?
 - [ ] Eyebrow: Du überlegst, dir ein Gerät zu holen?
 - [ ] Überschrift: Lern das Gerät persönlich kennen
 - [ ] Frage im Formular: Was interessiert dich am meisten?
@@ -39,16 +43,16 @@ Erzeugt aus den HTML-Dateien am 11.11.2026. `{Name}` und `{Vorname}` setzt die S
 
 - [ ] Titel im Browser: Wasser, das unterschätzte Supplement (mit Namen: "{Name} empfiehlt: Wasser, das unterschätzte Supplement")
 - [ ] Eyebrow: Für alle, die trainieren
-- [ ] Überschrift groß: Wasser. Das unterschätzte Supplement.
-- [ ] Knopf: Ich will das Gerät kennenlernen
+- [ ] Überschrift groß: Du trainierst hart. Trinkst du auch gut?
+- [ ] Knopf: Ich interessiere mich für das Gerät
 - [ ] Knopf: E-Book holen
-- [ ] Eyebrow: Warum Sportler genauer hinschauen
-- [ ] Überschrift: Du achtest auf jedes Gramm Eiweiß. Und aufs Wasser?
+- [ ] Eyebrow: Warum Sportler umsteigen
+- [ ] Überschrift: Wasser ist dein meistgenutztes Supplement
 - [ ] Zwischenüberschrift: Nach dem Training zählt, was du nachfüllst
 - [ ] Zwischenüberschrift: Regeneration ist dein halbes Training
 - [ ] Zwischenüberschrift: Du trinkst endlich genug
 - [ ] Zwischenüberschrift: Shake, Kreatin und Co.
-- [ ] Zwischenüberschrift: Meal Prep mit System
+- [ ] Zwischenüberschrift: Regeneration passiert nachts
 - [ ] Zwischenüberschrift: Schluss mit Kisten
 - [ ] Eyebrow: In knapp zwei Minuten erklärt
 - [ ] Überschrift: Was dieses Wasser für dich als Sportler macht
@@ -72,7 +76,6 @@ Erzeugt aus den HTML-Dateien am 11.11.2026. `{Name}` und `{Vorname}` setzt die S
 - [ ] Eyebrow: Kostenlos für dich
 - [ ] Überschrift: Das E-Book: Das unterschätzte Supplement
 - [ ] Knopf: E-Book holen
-- [ ] Eyebrow: Wer dir diese Seite geschickt hat
 - [ ] Knopf: Gerät kennenlernen
 
 ## Gesundheit
@@ -80,10 +83,10 @@ Erzeugt aus den HTML-Dateien am 11.11.2026. `{Name}` und `{Vorname}` setzt die S
 - [ ] Titel im Browser: Gut für dich sorgen fängt beim Wasser an (mit Namen: "{Name} empfiehlt: Gut für dich sorgen fängt beim Wasser an")
 - [ ] Eyebrow: Eine Empfehlung für dich
 - [ ] Überschrift groß: Gut für dich sorgen fängt beim Wasser an.
-- [ ] Knopf: Ich will das Gerät kennenlernen
+- [ ] Knopf: Ich interessiere mich für das Gerät
 - [ ] Knopf: E-Book holen
 - [ ] Eyebrow: Jeden Tag
-- [ ] Überschrift: Kaum etwas nimmst du so oft zu dir wie Wasser.
+- [ ] Überschrift: Kaum etwas nimmst du so oft zu dir wie Wasser
 - [ ] Eyebrow: Was sich ändert
 - [ ] Überschrift: Drei Dinge, die du im Alltag merkst
 - [ ] Zwischenüberschrift: Leichter genug trinken
@@ -93,9 +96,9 @@ Erzeugt aus den HTML-Dateien am 11.11.2026. `{Name}` und `{Vorname}` setzt die S
 - [ ] Überschrift: Wie viel trinkst du am Tag?
 - [ ] Eyebrow: Ein Gerät, fünf Wasserarten
 - [ ] Überschrift: Für Trinken, Pflege und Haushalt
-- [ ] Zwischenüberschrift: Ehrlich gesagt
 - [ ] Eyebrow: Kleine Gewohnheiten
 - [ ] Überschrift: So trinkst du mehr, ganz nebenbei
+- [ ] Zwischenüberschrift: Ehrlich gesagt
 - [ ] Eyebrow: Du überlegst, dir ein Gerät zu holen?
 - [ ] Überschrift: Lern das Gerät persönlich kennen
 - [ ] Frage im Formular: Was interessiert dich am meisten?
@@ -106,9 +109,7 @@ Erzeugt aus den HTML-Dateien am 11.11.2026. `{Name}` und `{Vorname}` setzt die S
 - [ ] Eyebrow: Kostenlos für dich
 - [ ] Überschrift: Das E-Book: Wasser im Alltag
 - [ ] Knopf: E-Book holen
-- [ ] Eyebrow: Wer dir diese Seite empfiehlt
 - [ ] Knopf: Gerät kennenlernen
-
 ## Portal, Ansicht "Meine Seiten"
 
 Texte stehen in `website/partner/seiten.js` (oben die Fassungen, darunter je Ansicht).
@@ -116,6 +117,7 @@ Texte stehen in `website/partner/seiten.js` (oben die Fassungen, darunter je Ans
 - [ ] Paket "Eigene Seite" / Die drei Fassungen / So funktioniert es / Was es kostet / Häufige Fragen
 - [ ] Deine Seiten einrichten / Angaben ändern / Seiten erstellen / Speichern
 - [ ] Deine Seite für alle / Deine Sportseite / Deine Gesundheitsseite / E-Book zu dieser Seite / Gut zu wissen
+- [ ] Deine Anfragen / Anfragen sofort aufs Handy / Telegram verbinden / Anfragen kommen aufs Handy / Trennen
 
 ## E-Book, eingefügte Seite
 
