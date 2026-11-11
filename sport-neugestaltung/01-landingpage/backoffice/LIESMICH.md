@@ -1,5 +1,7 @@
 # Backoffice für Partner
 
+Ort: `01-landingpage/backoffice/`, online unter `…/backoffice/` (neben `…/partner/kevin/` und `…/partner/johny/`).
+
 Stand: 10.11.2026. Eine Seite, auf der sich Partner anmelden und sehen, wer sich über ihre Landingpage eingetragen hat.
 Gebaut als **Grundlage für alle Gruppen**. Heute für die Sportler (Kevin, Johny, weitere), später für Heilpraktiker,
 Osteopathen und andere. Aufbau, Gestaltung und Ablauf bleiben gleich, nur die Inhaltsdatei wird getauscht.
@@ -47,7 +49,7 @@ Eine Einzeldatei zum Weitergeben liegt im Paket unter `vorschau/backoffice-vorsc
 ## Neue Gruppe (zum Beispiel Heilpraktiker)
 
 1. `konfig-vorlage.js` kopieren als `konfig-heilpraktiker.js`, alle `[FEHLT: …]` füllen.
-2. Den Ordner `06-backoffice` für die Gruppe kopieren und in `index.html` die Zeile mit `konfig-sport.js` auf die neue Datei ändern.
+2. Den Ordner `backoffice` für die Gruppe kopieren (zum Beispiel als `backoffice-heilpraktiker`) und in `index.html` die Zeile mit `konfig-sport.js` auf die neue Datei ändern.
 3. Wunsch, Stand, Kennzahlen und Filter an das anpassen, was auf der Landingpage dieser Gruppe abgefragt wird.
    Die Darstellung passt sich von selbst an.
 4. Für eine ruhigere Optik reichen andere Farben in `standardFarben` und bei den Partnern. Die Vorlage hat dafür nur einen neutralen Platzhalter.

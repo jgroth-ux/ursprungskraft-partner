@@ -59,11 +59,11 @@ danach drei Runden Nachbesserung (unten). Die Abschnitte sind in zeitlicher Reih
   - Kleine Akzentschrift auf Dunkel: Kevin `#EC9A79`, Johny `#9EAEF2`.
   - Nur `empfehlung.css` geändert, dazu die Versionsnummer in `seite.html`. Beide Seiten neu gebaut.
   - Text unverändert (geprüft), Rechner 90 kg = 3,6 Liter (geprüft), kein waagrechtes Scrollen bei 1440, 768, 375 und 320 px (geprüft).
-- **Backoffice für Partner** (`06-backoffice/`): Grundlage für alle Gruppen, Inhalt je Gruppe in `konfig-*.js`.
+- **Backoffice für Partner** (`01-landingpage/backoffice/`): Grundlage für alle Gruppen, Inhalt je Gruppe in `konfig-*.js`.
   - **Funktionen:** Anmeldung, Passwort vergessen, Einladung, Passwort ändern, Abmelden. Kennzahlen, Verlauf über 7 Tage oder 12 Wochen, Liste mit Filtern, Hinweis, solange noch niemand da ist.
   - **Datenschutz:** Der Partner sieht nur Vorname, Anfangsbuchstabe, Ort, Wunsch und Stand.
   - **Vorschau mit Beispieldaten** in Chromium geprüft: Abläufe, Filter, Fehlermeldungen, kein Überlauf bei 1440, 768, 375 und 320 px, keine JS-Fehler.
-  - **Echtbetrieb:** `quelle-supabase.js` ist vorbereitet, aber nicht prüfbar ohne Schema und Schlüssel. Beschreibung für den anderen Claude: `06-backoffice/SCHNITTSTELLE.md`. Anleitung: `06-backoffice/LIESMICH.md`.
+  - **Echtbetrieb:** `quelle-supabase.js` ist vorbereitet, aber nicht prüfbar ohne Schema und Schlüssel. Beschreibung für den anderen Claude: `01-landingpage/backoffice/SCHNITTSTELLE.md`. Anleitung: `01-landingpage/backoffice/LIESMICH.md`.
 
 ## Geänderte Dateien
 
@@ -79,7 +79,7 @@ danach drei Runden Nachbesserung (unten). Die Abschnitte sind in zeitlicher Reih
 | `02-ebook/quellen-html/bauen.py` | je Sportler fünf Farbwerte `akzent`, `akzent_auf`, `akzent_hell`, `akzent_dunkel`, `akzent_linie`; Bildausschnitt Kevin-Cover `foto_pos_titel` von 25 % auf 30 %; Zahlen auf der pH-Skala in Anthrazit statt `#16303F` | Farbe je Sportler, Bildausschnitt, kein Schwarz |
 | `02-ebook/quellen-html/ebook-kevin.html`, `ebook-johny.html` | neu gebaut | |
 | `02-ebook/ebook-kevin.pdf`, `ebook-johny.pdf` | neu erzeugt (je rund 1,5 MB, vorher rund 2 MB) | |
-| `06-backoffice/` | neu: Backoffice für Partner (siehe dritte Runde) | |
+| `01-landingpage/backoffice/` | neu: Backoffice für Partner (siehe dritte Runde) | |
 | `empfehlung.js`, `partner.json`, beide `bauen.py`-Abläufe, Schriften, Videos, Untertitel | **unverändert** (außer den Farbwerten in `02-ebook/.../bauen.py`) | |
 
 **Technische Hinweise**
@@ -87,7 +87,7 @@ danach drei Runden Nachbesserung (unten). Die Abschnitte sind in zeitlicher Reih
 - **Neuer Sportler:**
   - Landingpage: eine Zeile `body[data-kurz="name"]{--ak:…;--ak-knopf:…;--ak-auf:#FFFFFF;--ak-d:…;--ak-h:…}` in `empfehlung.css`, sonst gilt Kupfer. Kontraste mindestens 4,5 : 1 (Knopf mit weißer Schrift, `--ak-d` auf `#383E42`).
   - E-Book: die fünf Farbwerte im Eintrag in `bauen.py`.
-  - Backoffice: ein Eintrag unter `partner` in `06-backoffice/konfig-sport.js`.
+  - Backoffice: ein Eintrag unter `partner` in `01-landingpage/backoffice/konfig-sport.js`.
 
 ## Abnahmetests
 

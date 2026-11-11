@@ -9,7 +9,7 @@ Die technische Anbindung des Backoffice (Datenbank, Leads aus dem Telegram-Bot) 
 |---|---|---|
 | `01-landingpage/` | **Die beiden Landingpages** in Anthrazit, fertig gebaut: `partner/kevin/index.html`, `partner/johny/index.html`, dazu Vorlage, Gestaltung, Bilder, Schriften, Videos und die E-Book-PDFs zum Herunterladen | kommt eins zu eins auf den Server (siehe unten) |
 | `02-ebook/` | **Die beiden E-Books**: `ebook-kevin.pdf`, `ebook-johny.pdf` (je 14 Seiten A4), dazu alle Quellen zum Neubauen in `quellen-html/` | PDFs liegen zusätzlich schon in `01-landingpage/partner/ebook/` |
-| `06-backoffice/` | **Das Backoffice** für Partner: Anmeldung, Zahlen, Verlauf, Liste der Anmeldungen. Grundlage für alle Gruppen (Sportler, später Heilpraktiker, Osteopathen) | geht an den anderen Claude zur Anbindung |
+| `01-landingpage/backoffice/` | **Das Backoffice der Sportler** (Kevin, Johny, weitere): Anmeldung, Zahlen, Verlauf, Liste der Anmeldungen. Zugleich Grundlage für spätere Gruppen (Heilpraktiker, Osteopathen) | kommt mit auf den Server unter `…/backoffice/`, die Anbindung an die Datenbank macht der andere Claude |
 | `vorschau/` | Drei Einzeldateien **nur zum Ansehen und Weitergeben** (Doppelklick genügt): beide Landingpages und das Backoffice mit Beispieldaten | nicht auf den Server |
 | `ERGEBNIS.md` | Prüfbericht: alle Änderungen, alle Tests mit Beleg, offene Fragen | lesen |
 | `_pruefung/` | Bildschirmfotos (Computer, Tablet, Handy) und alle E-Book-Seiten im Überblick | zum Nachschauen |
@@ -25,6 +25,7 @@ Die technische Anbindung des Backoffice (Datenbank, Leads aus dem Telegram-Bot) 
    - `partner/kevin/index.html`, `partner/johny/index.html`
    - `partner/ebook/ebook-kevin.pdf`, `partner/ebook/ebook-johny.pdf`
    - `bilder/partner/ebook-kevin.jpg`, `bilder/partner/ebook-johny.jpg` (neue Cover-Vorschau)
+   - `backoffice/` (neu): das Backoffice der Sportler, später erreichbar unter `…/backoffice/`. Bis der andere Claude es angebunden hat, zeigt es nur Beispieldaten.
    - Alle übrigen Bilder, Videos, Untertitel und Schriften sind unverändert.
 3. In `partner/empfehlung.js` die echten Werte statt `XXX` eintragen (wie bisher, die Logik ist unverändert).
 4. Danach im Browser prüfen: Seite lädt, Rechner zeigt bei 90 kg 3,6 Liter, ein Testeintrag kommt im Telegram-Bot an, das E-Book öffnet sich nach dem Formular.
@@ -45,14 +46,14 @@ Danach die PDFs nach `01-landingpage/partner/ebook/` kopieren und die Cover-Vors
 
 ## Backoffice: was der andere Claude braucht
 
-Alles steht in `06-backoffice/SCHNITTSTELLE.md`. Kurz:
+Alles steht in `01-landingpage/backoffice/SCHNITTSTELLE.md`. Kurz:
 - Die Oberfläche ist fertig. Für den Echtbetrieb wird nur die Datenquelle getauscht (`quelle-vorschau.js` gegen `quelle-supabase.js`).
 - Die Datenbank muss für den angemeldeten Partner **nur seine eigenen** Anmeldungen liefern, mit Datum, Vorname, Anfangsbuchstabe, Ort, Land, Wunsch und Stand. **Nie** Telefon, E-Mail oder Nachname.
 - Eigene Adresse, zum Beispiel `…/backoffice/`, nicht über die Landingpage verlinkt.
 - Prüfliste vor dem Start steht am Ende der Datei.
 
-Neuer Sportler im Backoffice: ein Eintrag in `06-backoffice/konfig-sport.js`. Neue Gruppe: `konfig-vorlage.js` kopieren und füllen
-(Anleitung in `06-backoffice/LIESMICH.md`).
+Neuer Sportler im Backoffice: ein Eintrag in `01-landingpage/backoffice/konfig-sport.js`. Neue Gruppe: `konfig-vorlage.js` kopieren und füllen
+(Anleitung in `01-landingpage/backoffice/LIESMICH.md`).
 
 ## Was vor dem Start noch offen ist
 

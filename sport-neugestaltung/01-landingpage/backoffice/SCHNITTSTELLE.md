@@ -44,8 +44,8 @@ Das ist die Abmachung mit Jasmin (Datenschutz): Der Partner sieht nur, was oben 
 
 ## Auf dem Server
 
-- Ordner `06-backoffice` als eigene Adresse ausliefern, zum Beispiel `…/backoffice/`. Nicht über die Landingpage verlinken.
-- Die Pfade `../01-landingpage/schriften/` und `../01-landingpage/bilder/partner/` (Schriften, Fotos) an die echte Ordnerstruktur anpassen, oder Schriften und Fotos in den Backoffice-Ordner kopieren.
+- Der Ordner liegt in `01-landingpage/backoffice/` und wird mit den Landingpages ausgeliefert, also unter `…/backoffice/` (neben `…/partner/`). Nicht über die Landingpage verlinken.
+- Schriften und Fotos kommen aus `../schriften/` und `../bilder/partner/`, also aus denselben Ordnern wie die Landingpages. Liegt das Backoffice woanders, diese Pfade anpassen.
 - In `index.html` statt `quelle-vorschau.js`: `<script src="…/vendor/supabase.js"></script>` und `quelle-supabase.js`.
 - `noindex, nofollow` ist gesetzt.
 

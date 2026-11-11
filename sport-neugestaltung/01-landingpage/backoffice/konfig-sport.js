@@ -64,13 +64,13 @@ window.BO_KONFIG = {
   partner: {
     kevin: {
       name: 'Kevin Wolter', rolle: 'Bodybuilder',
-      foto: '../01-landingpage/bilder/partner/kevin.webp', fotoPosition: '50% 20%',
+      foto: '../bilder/partner/kevin.webp', fotoPosition: '50% 20%',
       seite: 'https://mein.ursprungskraft.net/partner/kevin/',
       farben: { akzent: '#CF6844', knopf: '#B4512F', aufKnopf: '#FFFFFF', aufDunkel: '#EC9A79', aufHell: '#9C4628' },
     },
     johny: {
       name: 'Johny Yusupov', rolle: 'MMA-Fighter',
-      foto: '../01-landingpage/bilder/partner/johny.webp', fotoPosition: '50% 15%',
+      foto: '../bilder/partner/johny.webp', fotoPosition: '50% 15%',
       seite: 'https://mein.ursprungskraft.net/partner/johny/',
       farben: { akzent: '#4261CC', knopf: '#4261CC', aufKnopf: '#FFFFFF', aufDunkel: '#9EAEF2', aufHell: '#3A57BD' },
     },
