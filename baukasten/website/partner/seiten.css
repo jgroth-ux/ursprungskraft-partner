@@ -87,6 +87,17 @@
 .ms-hinweise li { padding-left: var(--s-4); position: relative; color: var(--c-muted); }
 .ms-hinweise li::before { content: ''; position: absolute; left: 4px; top: 11px; width: 8px; height: 1px; background: var(--c-khaki); }
 
+/* Anfragen (nur wenn der Partner sich selbst kümmert) */
+.ms-anfragen { display: grid; gap: var(--s-2); }
+.ms-anfrage { display: grid; gap: var(--s-1); padding: var(--s-3) var(--s-4); border: var(--haar); border-left: 2px solid var(--kalt); border-radius: var(--radius); background: var(--c-surface); }
+.ms-anfrage.heiss { border-left-color: var(--heiss); }
+.ms-anfrage.warm { border-left-color: var(--warm); }
+.ms-anfrage .kopf { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s-1) var(--s-3); }
+.ms-anfrage .kopf b { font: 500 18px/24px var(--f-kopf); }
+.marke-stufe { font: 600 12px/16px var(--f-text); color: var(--c-muted); }
+.ms-anfrage.heiss .marke-stufe { color: var(--heiss); }
+.ms-anfrage .knoepfe { margin-top: var(--s-2); }
+
 /* ---------- Formular mit Live-Vorschau ---------- */
 .ms-aufbau { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-6); align-items: start; }
 .ms-form { display: grid; gap: var(--s-6); }

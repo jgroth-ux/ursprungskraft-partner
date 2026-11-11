@@ -1,0 +1,20 @@
+--- app.js
++++ app.js
+@@ -643,7 +643,7 @@
+     <div class="tabelle-huelle"><table>
+       <tr><th>Name</th><th>Art</th><th>Link</th><th>Anfragen</th><th>Testen</th><th>Käufe</th><th>dieses Jahr</th><th>Quote</th><th>Letzter Kauf</th></tr>
+       ${liste.map(({ p, z }) => `<tr class="klickbar" data-id="${p.id}">
+-        <td>${esc(name(p))}<div style="color:var(--leise);font-size:13px">${esc(p.ort || '')}${p.aktiv ? '' : ' · inaktiv'}</div></td>
++        <td>${esc(name(p))}<div style="color:var(--leise);font-size:13px">${esc(p.ort || '')}${p.aktiv ? '' : ' · inaktiv'}${p.leads_bei === 'partner' ? ' · kümmert sich selbst um Anfragen' : ''}</div></td>
+         <td><span class="marker">${esc(p.art)}</span></td>
+         <td><button class="knopf leise kopieren" data-link="${esc(LINK_BASIS + p.kurz)}" title="Link kopieren">${esc(LINK_BASIS + p.kurz)}</button></td>
+         <td>${z.anfragen}</td><td>${z.tester}</td><td><b>${z.kaeufe.length}</b></td><td>${z.jahr}</td>
+@@ -680,6 +680,8 @@
+       <label class="breit">Link: ${esc(LINK_BASIS)}…<input name="kurz" required pattern="[a-z0-9\\-]{2,30}" title="nur Kleinbuchstaben, Zahlen und Bindestrich" value="${esc(vorschlag)}" placeholder="z. B. lena"></label>
+       <label>Partner seit<input type="date" name="seit" value="${esc(p.seit)}"></label>
+       <label>Aktiv<select name="aktiv"><option value="ja" ${p.aktiv !== false ? 'selected' : ''}>ja</option><option value="nein" ${p.aktiv === false ? 'selected' : ''}>nein</option></select></label>
++      <!-- BAUKASTEN 11.11.2026: Wer meldet sich bei Anfragen über die Seiten des Partners? -->
++      <label class="breit">Anfragen über seine Seiten<select name="leads_bei"><option value="team" ${p.leads_bei !== 'partner' ? 'selected' : ''}>Daniel und Jasmin melden sich</option><option value="partner" ${p.leads_bei === 'partner' ? 'selected' : ''}>Partner kümmert sich selbst</option></select></label>
+       <label class="breit">Notiz<textarea name="notiz">${esc(p.notiz)}</textarea></label>
+     </div>
+     ${z && Object.keys(z.geraete).length ? `<div class="verlauf"><b>Verkaufte Geräte</b><br>${Object.entries(z.geraete).map(([g, n]) => `${esc(g)}: ${n}`).join('<br>')}</div>` : ''}

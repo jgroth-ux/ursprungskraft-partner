@@ -1,0 +1,30 @@
+--- index.ts	2026-11-11 18:59:15.000000000 +0000
++++ index.ts	2026-11-11 21:23:02.845816112 +0000
+@@ -2,6 +2,9 @@
+ // und meldet sie in die Telegram-Gruppe "Leads" (Bot @uk_leads_team_bot). Heiß und warm landen zusätzlich auf der Anrufliste.
+ // Bot-Schlüssel und Gruppe kommen aus dem Tresor über uk_partner_lead_geheim().
+ // Die Seite schickt den öffentlichen Schlüssel mit, "Verify JWT" bleibt eingeschaltet.
++// BAUKASTEN 11.11.2026: Kümmert sich der Partner selbst um seine Leads (uk_partner.leads_bei = 'partner'), geht keine
++// Meldung in die Gruppe "Leads". Der Lead wird trotzdem gespeichert, der Partner sieht ihn im Portal unter "Meine Seiten".
++// Die Meldung nennt jetzt auch die Seite (Fassung), über die der Lead kam.
+ import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
+ 
+ type Json = any; // eslint-disable-line @typescript-eslint/no-explicit-any
+@@ -25,6 +28,7 @@
+     a.interesse && `Interesse: ${a.interesse}`,
+     a.geraet && `Trinkt heute: ${a.geraet}`,
+     a.budget_text && `Gerät: ${a.budget_text}`,
++    a.fassung && `Seite: ${a.fassung}${a.seite ? ` (${a.seite})` : ''}`, // BAUKASTEN 11.11.2026
+   ].filter((x) => x !== undefined && x !== null && x !== false).join('\n');
+ }
+ 
+@@ -37,6 +41,9 @@
+   const { data, error } = await db.rpc('uk_partner_lead_speichern', { p: w });
+   if (error) { console.error('partner-lead speichern', error); return antwort({ fehler: 'nicht gespeichert' }, 400); }
+   if (!data?.neu) return antwort({ ok: true });
++  // BAUKASTEN 11.11.2026: Partner kümmert sich selbst, also keine Meldung an Daniel und Jasmin
++  const { data: wer } = await db.rpc('uk_partner_lead_zustaendig', { p_kurz: String(w.von || '') });
++  if (wer === 'partner') return antwort({ ok: true });
+   // Der Lead ist gespeichert. Klappt die Meldung nicht, bleibt gemeldet leer, die Seite bekommt trotzdem ein Ok.
+   try {
+     const { data: geheim, error: f } = await db.rpc('uk_partner_lead_geheim');

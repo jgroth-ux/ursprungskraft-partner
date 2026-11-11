@@ -16,6 +16,13 @@
 -- Die Basis-Adresse der Seiten (später eine neutrale Domain) steht an EINER Stelle: uk_einstellungen, name = 'seiten_basis'.
 --   Portal und E-Book lesen sie von dort. Die Seiten selbst brauchen sie nicht (sie laufen unter jeder Domain).
 --
+-- Wer kümmert sich um die Anfragen? (Jasmin, 11.11.2026) Das legen Daniel und Jasmin je Partner fest, nicht der Partner:
+--   uk_partner.leads_bei = 'team'     Daniel und Jasmin melden sich (wie bei Kevin und Johny). Standard.
+--   uk_partner.leads_bei = 'partner'  Der Partner macht es selbst. Meldung geht nicht in die Gruppe "Leads",
+--                                     der Partner sieht seine Anfragen mit Kontakt im Portal unter "Meine Seiten".
+--   Einstellen im Dashboard (Reiter Partner, siehe dashboard-ergaenzung/) oder im SQL-Editor:
+--   update uk_partner set leads_bei = 'partner' where kurz = 'anna-beispiel';
+--
 -- Darf mehrfach laufen. Voraussetzung: umbau-2026-10-31b-partnerportal.sql und umbau-2026-11-06-partner-leads.sql.
 
 -- ---------------------------------------------------------------------------------------------------------------
@@ -29,6 +36,12 @@ where not exists (select 1 from uk_einstellungen where name = 'seiten_basis');
 -- ---------------------------------------------------------------------------------------------------------------
 -- 1. Tabellen
 -- ---------------------------------------------------------------------------------------------------------------
+
+-- Wer meldet sich bei den Interessenten: 'team' (Daniel und Jasmin) oder 'partner' (er selbst). Gilt für alles,
+-- was über die Seiten des Partners kommt. Steht bei uk_partner, damit das Dashboard es im Partner-Dialog setzen kann.
+alter table uk_partner add column if not exists leads_bei text not null default 'team';
+alter table uk_partner drop constraint if exists uk_partner_leads_bei_check;
+alter table uk_partner add constraint uk_partner_leads_bei_check check (leads_bei in ('team', 'partner'));
 
 -- Die Angaben des Partners für seine Seiten. Eine Zeile je Partner, gilt für alle Fassungen.
 create table if not exists uk_partner_seiten (
@@ -173,6 +186,7 @@ declare
   v_partner uuid;
   s uk_partner_seiten;
   v_kurz text;
+  v_leads text;
   v_fassungen text[];
 begin
   if v_adresse !~ '^[a-z0-9]+(-[a-z0-9]+)*$' or length(v_adresse) > 40 then return null; end if;
@@ -181,7 +195,7 @@ begin
   if v_partner is null then return null; end if;
 
   select * into s from uk_partner_seiten where partner_id = v_partner;
-  select kurz into v_kurz from uk_partner where id = v_partner and status = 'freigegeben';
+  select kurz, leads_bei into v_kurz, v_leads from uk_partner where id = v_partner and status = 'freigegeben';
   if s.partner_id is null or v_kurz is null or not uk_seiten_gebucht(v_partner) then return null; end if;
 
   -- Reihenfolge immer neutral, sport, gesundheit
@@ -202,6 +216,7 @@ begin
     'foto', s.foto,
     'telefon', case when s.kontakt_zeigen then s.lead_telefon end,
     'email', case when s.kontakt_zeigen then s.lead_email end,
+    'leads_bei', v_leads,   -- die Seite sagt dann "Wir melden uns" oder "Anna meldet sich"
     'basis', uk_seiten_basis());
 end $$;
 revoke all on function uk_seite_oeffentlich(text, text) from public;
@@ -223,6 +238,7 @@ begin
   select * into k from uk_partner_seiten_paket where partner_id = v;
   return jsonb_build_object(
     'basis', uk_seiten_basis(),
+    'leads_bei', p.leads_bei,
     'gebucht', uk_seiten_gebucht(v),
     'gebucht_bis', k.gebucht_bis,
     'erlaubt', to_jsonb(uk_seiten_erlaubt(v)),
@@ -301,9 +317,34 @@ begin
   return jsonb_build_object('ok', true, 'adresse', v_adresse);
 end $$;
 
-revoke all on function uk_partner_seiten_daten(text), uk_partner_seiten_adresse(text, text), uk_partner_seiten_speichern(text, jsonb) from public;
-grant execute on function uk_partner_seiten_daten(text), uk_partner_seiten_adresse(text, text), uk_partner_seiten_speichern(text, jsonb)
-  to anon, authenticated;
+-- Anfragen über die eigenen Seiten MIT Kontakt, aber nur für Partner, die sich selbst kümmern (leads_bei = 'partner').
+-- Bei 'team' kommt eine leere Liste: Dann melden sich Daniel und Jasmin, der Partner sieht nur die Zahlen.
+create or replace function uk_partner_seiten_anfragen(p_sitzung text) returns jsonb
+language sql stable security definer set search_path = public as $$
+  with p as (select id, kurz from uk_partner where id = uk_partner_von_sitzung(p_sitzung) and leads_bei = 'partner')
+  select coalesce(jsonb_agg(jsonb_build_object(
+      'datum', to_char(l.erstellt at time zone 'Europe/Berlin', 'YYYY-MM-DD'),
+      'vorname', l.vorname, 'nachname', l.nachname, 'telefon', l.telefon, 'email', l.email,
+      'erreichbar', l.erreichbar, 'ort', l.ort, 'land', l.land, 'stufe', l.stufe, 'quelle', l.quelle,
+      'fassung', l.antworten->>'fassung', 'interesse', l.antworten->>'interesse', 'trinkt', l.antworten->>'geraet',
+      'wann', l.antworten->>'budget_text'
+    ) order by l.erstellt desc), '[]'::jsonb)
+  from uk_partner_leads l join p on (l.partner_id = p.id or l.herkunft = p.kurz)
+  where l.antworten ? 'fassung'
+$$;
+
+revoke all on function uk_partner_seiten_daten(text), uk_partner_seiten_adresse(text, text), uk_partner_seiten_speichern(text, jsonb),
+  uk_partner_seiten_anfragen(text) from public;
+grant execute on function uk_partner_seiten_daten(text), uk_partner_seiten_adresse(text, text), uk_partner_seiten_speichern(text, jsonb),
+  uk_partner_seiten_anfragen(text) to anon, authenticated;
+
+-- Für die Edge Function partner-lead: Wer kümmert sich um Leads mit diesem Kürzel? Unbekannt = 'team' (wie bisher).
+create or replace function uk_partner_lead_zustaendig(p_kurz text) returns text
+language sql stable security definer set search_path = public as $$
+  select coalesce((select leads_bei from uk_partner where kurz = lower(btrim(p_kurz))), 'team')
+$$;
+revoke all on function uk_partner_lead_zustaendig(text) from public, anon, authenticated;
+grant execute on function uk_partner_lead_zustaendig(text) to service_role;
 
 -- ---------------------------------------------------------------------------------------------------------------
 -- 5. Foto (nur für die Edge Function partner-foto, mit Dienstschlüssel)
@@ -378,5 +419,5 @@ where not exists (select 1 from uk_partner_seiten s where s.partner_id = p.id)
   and uk_seiten_adresse_status(x.adresse, p.id) = 'ok';
 
 -- Stand ansehen
-select p.kurz, s.adresse, s.fassungen, s.beispiel, k.gebucht_bis, uk_seiten_basis() as basis
+select p.kurz, p.leads_bei, s.adresse, s.fassungen, s.beispiel, k.gebucht_bis, uk_seiten_basis() as basis
 from uk_partner_seiten s join uk_partner p on p.id = s.partner_id left join uk_partner_seiten_paket k on k.partner_id = s.partner_id;

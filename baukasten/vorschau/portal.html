@@ -24,7 +24,8 @@
   <p class="stand-wahl">Vorschau mit Beispieldaten, es wird nichts gesendet. Ausgangspunkt:
     <a href="?stand=gesperrt#seiten">Paket nicht gebucht</a>
     <a href="?stand=leer#seiten">Gebucht, noch nichts eingerichtet</a>
-    <a href="?stand=fertig#seiten">Eingerichtet</a></p>
+    <a href="?stand=fertig#seiten">Eingerichtet, Partner kümmert sich selbst</a>
+    <a href="?stand=fertig&amp;leads=team#seiten">Eingerichtet, Daniel und Jasmin melden sich</a></p>
   <div class="app">
     <aside class="menue" aria-label="Menü">
       <a class="marke" href="#seiten"><span><b>Partnerportal</b><small>Vorschau</small></span></a>
@@ -46,7 +47,8 @@
     kopie: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>',
     auge: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/>',
     whatsapp: '<path d="M4 20l1.3-3.8A8 8 0 1 1 8 19z"/><path d="M9 9.5c.3 2 2.5 4.3 4.6 4.7l1.2-1.2 1.7.8"/>',
-    laden: '<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>', schloss: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
+    laden: '<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>', mail: '<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/>',
+    telefon: '<path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/>', schloss: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
   };
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const ico = (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n] || ''}</svg>`;
@@ -58,7 +60,8 @@
   }
   async function kopieren(text, hinweis) { try { await navigator.clipboard.writeText(text); toast(hinweis || 'Kopiert.'); } catch { prompt('Zum Kopieren markieren:', text); } }
   const stand = new URLSearchParams(location.search).get('stand') || 'gesperrt';
-  document.querySelectorAll('.stand-wahl a').forEach((a) => a.href.includes('stand=' + stand) && a.setAttribute('aria-current', 'true'));
+  const leads = new URLSearchParams(location.search).get('leads') || '';
+  document.querySelectorAll('.stand-wahl a').forEach((a) => a.href.includes('stand=' + stand) && a.href.includes('leads=team') === (leads === 'team') && a.setAttribute('aria-current', 'true'));
   let lauf = 0;
   async function zeigen() {
     const [ziel, ...rest] = (location.hash.slice(1) || 'seiten').split('/');

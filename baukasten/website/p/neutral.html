@@ -121,7 +121,7 @@
       <blockquote data-p="satz" data-wenn="satz"></blockquote>
       <h2 data-p="name"></h2>
       <p class="leise" data-p="rolle" data-wenn="rolle"></p>
-      <p class="leise">Ich zeige dir das Gerät in Ruhe und beantworte deine Fragen. Ohne Druck, du entscheidest selbst.</p>
+      <p class="leise" data-partner="Ich zeige dir das Gerät in Ruhe und beantworte deine Fragen. Ohne Druck, du entscheidest selbst.">Wir zeigen dir das Gerät in Ruhe und beantworten deine Fragen. Ohne Druck, du entscheidest selbst.</p>
       <div class="kontaktwege" data-wenn="kontakt"></div>
       <p data-wenn="insta" style="margin-top:16px"><a class="insta" data-p="insta" href="#" target="_blank" rel="noopener"></a></p>
     </div>
@@ -152,7 +152,7 @@
       <p class="leise">Trag dich ein, wenn du ernsthaft überlegst, dir ein eigenes Gerät zu holen. Das passiert danach:</p>
       <ol class="ablauf">
         <li><b>Du trägst dich ein</b><span>Drei kurze Fragen, dann deine Kontaktdaten.</span></li>
-        <li><b>Wir melden uns bei dir</b><span>Persönlich, und wir beantworten alle Fragen rund ums Wasser.</span></li>
+        <li><b data-partner="{v} meldet sich bei dir">Wir melden uns bei dir</b><span data-partner="Persönlich, und beantwortet alle Fragen rund ums Wasser.">Persönlich, und wir beantworten alle Fragen rund ums Wasser.</span></li>
         <li><b>Du lernst das Gerät kennen</b><span>Wie es arbeitet und was du mit jeder Wasserart machst.</span></li>
       </ol>
       <p class="klein leise">Du willst dich erst mal nur einlesen? Dann hol dir weiter unten das E-Book.</p>
@@ -192,7 +192,7 @@
         <label class="feld">Wohnort<input name="ort" autocomplete="address-level2"></label>
         <label class="feld">Land<select name="land"><option value="DE">Deutschland</option><option value="AT">Österreich</option><option value="CH">Schweiz</option><option value="anderes">anderes Land</option></select></label>
       </div>
-      <label class="feld">Wann erreichen wir dich am besten?<input name="erreichbar" placeholder="z. B. werktags ab 18 Uhr"></label>
+      <label class="feld"><span data-partner="Wann erreicht dich {v} am besten?">Wann erreichen wir dich am besten?</span><input name="erreichbar" placeholder="z. B. werktags ab 18 Uhr"></label>
       <label class="haken"><input type="checkbox" name="ok"> <span>Ich bin einverstanden, dass meine Angaben gespeichert werden und man mich dazu anruft. Mehr in der <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a>.</span></label>
       <div class="fehler" id="fehler" role="alert"></div>
       <button class="knopf" type="submit" id="senden">Ich interessiere mich für das Gerät</button>

@@ -1,73 +1,86 @@
-# Offene Fragen (statt zu raten)
+# Offene Fragen an Jasmin
 
-Stand 11.11.2026. Wo ich eine vorläufige Lösung gebaut habe, steht sie dabei. Alles lässt sich an einer Stelle ändern.
+Stand 11.11.2026, zweite Fassung. Nur noch das, was ihr entscheiden müsst. Technisches für den Claude, der einspielt,
+steht in `LIESMICH.md`.
 
-## Geld und Paket
+**Schon geklärt:** Je Partner legt ihr fest, ob ihr euch bei seinen Interessenten meldet (wie bei Kevin und Johny)
+oder ob er es selbst macht. Das ist eingebaut, siehe `LIESMICH.md`, Abschnitt "Wer kümmert sich um die Anfragen".
+Eure allgemeine Ursprungskraft-Landingpage bleibt, wie sie ist. Ich habe sie nicht angefasst.
 
-1. **Preise.** Einrichtung und Hosting stehen als `[Preis folgt]` in `website/partner/seiten.js` (ganz oben, `PREIS`).
-   Ist die Einrichtung einmal je Partner oder je Fassung?
-2. **Was ist im Paket?** Alle drei Fassungen, oder bucht man Fassungen einzeln? Vorbereitet: `uk_partner_seiten_paket.fassungen`
-   (leer = alle drei, sonst nur die genannten). Im Formular sind nicht gebuchte Fassungen ausgegraut.
-3. **Paket abgelaufen.** Heute: Ab dem Tag nach `gebucht_bis` zeigt die Seite "Diese Seite gibt es gerade nicht",
-   das E-Book ebenso. Wollt ihr eine Schonfrist (zum Beispiel 7 Tage) oder einen Hinweis an den Partner vorher?
-4. **Paket buchen.** Bis Stripe da ist, öffnet der Knopf eine fertige Mail an `info@ursprungskraft.net`.
-   Für Stripe in `seiten.js` `BUCHEN_LINK` setzen, die Freischaltung schreibt `uk_seiten_paket_setzen()`.
+---
 
-## Leads
+## 1. Was kostet das Paket?
 
-5. **Wer meldet sich bei den Interessenten?** Leads von den Partnerseiten laufen wie bei Kevin und Johny über
-   `partner-lead` in die Telegram-Gruppe "Leads", heiß und warm landen auf der Anrufliste. Ruft also das Team an,
-   oder soll der Partner seine Leads direkt bekommen? Die Seiten sagen neutral "Wir melden uns bei dir".
-6. **Telefon und E-Mail "nur für Leads an ihn".** Gespeichert in `uk_partner_seiten.lead_telefon` und `lead_email`,
-   aber noch nicht genutzt, weil der Weg fehlt: Telegram über den Partner-Assistenten (wenn verbunden), E-Mail
-   (Mail-Dienst fehlt) oder gar nicht, weil das Team anruft? Beim Sportler-Backoffice sieht der Partner bewusst keine
-   Kontaktdaten der Interessenten (Datenschutz). Soll das für Baukasten-Partner anders sein?
-7. **Übersicht der Leads für den Partner.** Im Portal steht nur die Anzahl je Fassung (keine Namen). Sollen die
-   Baukasten-Partner zusätzlich das Backoffice bekommen (wie Kevin und Johny), oder reicht ihre Kundenübersicht im Portal?
-8. **Telegram-Meldung.** `antworten.fassung` und `antworten.seite` werden gespeichert, die Meldung von `partner-lead`
-   zeigt sie aber nicht. Eine zusätzliche Zeile "Seite: sport" in `meldung()` würde reichen. Soll ich?
-9. **Partner muss `aktiv` sein.** `uk_partner_lead_speichern` setzt `partner_id` nur bei `aktiv = true`. Sonst bleibt
-   der Lead trotzdem über `herkunft` (kurz) beim Partner, aber ohne `partner_id`. Bitte bei Freigabe prüfen.
+Im Portal gibt es eine Info-Seite zum Paket "Eigene Seite". Dort steht bei den Preisen gerade nur "[Preis folgt]".
 
-## Texte und Inhalte
+- Was kostet die **Einrichtung** (einmal)?
+- Was kostet das **Hosting** (jeden Monat)?
+- Ein Partner kann bis zu drei Seiten haben: Neutral, Sport, Gesundheit. Nimmt er zum Beispiel Neutral **und** Sport:
+  Zahlt er die Einrichtung **einmal oder zweimal**? Das Hosting zahlt er laut deiner Vorgabe nur einmal.
 
-10. **Alle Überschriften** stehen zum Abhaken in `ueberschriften.md`.
-11. **E-Book-Titel** sind Entwürfe, bis das Paket E-Books fertig ist: Neutral "Ein Gerät, fünf Wasserarten",
-    Sport "Das unterschätzte Supplement" (wie bei Kevin), Gesundheit "Wasser im Alltag". Passt das zu den echten E-Books?
-12. **Faustregel 40 ml je Kilo** (Sportseite, Zahlenfeld und Rechner) stammt von der Seite von Kevin. Gibt es dafür
-    eine Quelle, die wir angeben sollen? Sonst `[FEHLT: Quelle]` oder streichen.
-13. **Promi-Videos.** Die Videos mit Eddie Hall und aus "Soy Georgina" habe ich auf der Sportseite weggelassen
-    ("ohne Promi"). Sollen sie als eigener Abschnitt doch rein? Sind die Rechte geklärt?
-14. **"Selbst Partner werden"** steht als dritte Antwort bei "Was interessiert dich am meisten?" auf Neutral und Sport
-    (wie bei Kevin). Bei Gesundheit steht stattdessen "Das Gerät für meine Praxis". So gewollt?
-15. **Gesundheitsseite, Kasten "Ehrlich gesagt":** "Das Gerät macht Wasser. Es ist kein Heilmittel und ersetzt keine
-    Behandlung. Bei Fragen zu deiner Gesundheit sprich mit deinem Arzt oder Therapeuten." Bitte rechtlich prüfen lassen.
-16. **pH 7,0 "zum Einnehmen von Medikamenten"** steht wie auf der Seite von Kevin. Auf der Gesundheitsseite heikler?
-17. **Anschluss am Wasserhahn** (Neutral, Häufige Fragen): "Das Gerät steht neben deiner Spüle und wird an den
-    Wasserhahn angeschlossen." Stimmt das für alle Geräte, die Partner verkaufen (K8, ANESPA DX ist für die Dusche)?
-18. **Einwilligung beim E-Book-Formular.** Ich habe einen Haken ergänzt (bei Kevin fehlt er). Bitte mit der
-    Datenschutzerklärung abgleichen. Dort muss auch stehen, dass der Partner Empfänger bzw. Herkunft des Leads ist.
+## 2. Paket gekündigt: was passiert mit der Seite?
 
-## Gestaltung
+Heute ist die Seite am Tag nach dem Ende des Pakets weg. Wer den Link öffnet, liest "Diese Seite gibt es gerade nicht".
+Soll sie noch ein paar Tage weiterlaufen (zum Beispiel 7 Tage), damit kein Interessent ins Leere läuft?
 
-19. **Radien.** Die Sportseiten haben runde Karten (20 px) und Pillen-Knöpfe. Hier habe ich mich an die CI gehalten
-    ("klare Kanten": 4 px Knöpfe, 8 px Karten). Eine Stelle in `website/p/seiten.css`: `--r` und `--r-klein`.
-20. **Sportseite dunkel** in Olive tief statt Anthrazit (Farben aus der CI). Akzent ist Khaki hell statt Kupfer.
-21. **Daniel und Jasmin als Beispiele.** Die SQL legt Seiten mit den Adressen `daniel-zuercher` (Neutral, Sport) und
-    `jasmin-groth` (Gesundheit, Neutral) an, aber nur, wenn es Partner mit dem Kürzel `daniel` und `jasmin` gibt.
-    Rolle, Satz und Foto tragt ihr selbst im Portal ein. Andere Fassungen gewünscht?
+## 3. Wie heißen die drei E-Books?
 
-## Technik
+Auf jeder Seite gibt es unten den Abschnitt "Kostenlos für dich" mit einer gezeichneten Titelseite des E-Books.
+Dort brauche ich den Titel. Ich habe vorläufig eingesetzt:
 
-22. **Neutrale Domain.** Name noch offen. Später: Domain in Netlify als weitere Domain der Website eintragen und in
-    `uk_einstellungen` den Wert `seiten_basis` ändern. Kein Upload nötig. Sollen die Seiten dann nur noch unter der
-    neutralen Domain erreichbar sein (Weiterleitung von mein.ursprungskraft.net/p/...)?
-23. **Impressum und Datenschutz** verlinken auf `/impressum.html` und `/datenschutz/` derselben Website. Auf der neutralen
-    Domain zeigen sie dann Ursprungskraft (laut Auftrag erlaubt). Passt der Text der Datenschutzerklärung für Partnerseiten?
-24. **Alte "Landingpage" im Portal** (Tools, Wasser-Check-Seite `/wasser/?von=`). Bleibt sie neben "Meine Seiten" oder
-    ersetzen die neuen Seiten sie? Zwei Landingpages könnten Partner verwirren.
-25. **Gefunden, nicht geändert:** In `uk_partner_registrieren` (10-31b) passt `translate(..., 'äöüßéèàç ', 'aousseeac-')`
-    nicht: Die zweite Liste ist ein Zeichen länger. Folge: "é" wird zu "s", ein Leerzeichen zu "c"
-    ("Anna Lena" wird "annaclena-..."). Die neue Adresse der Seiten baut ihren Vorschlag richtig ("ä" zu "ae").
-26. **E-Book im Speicher zwischenspeichern?** Heute baut `partner-ebook` die PDF bei jedem Abruf neu (Sekundenbruchteile,
-    der Browser hält sie eine Stunde). Bei sehr vielen Abrufen lohnt sich eine Ablage je Partner und Fassung.
+| Seite | Titel, den ich eingesetzt habe |
+|---|---|
+| Neutral | Ein Gerät, fünf Wasserarten |
+| Sport | Das unterschätzte Supplement (wie bei Kevin) |
+| Gesundheit | Wasser im Alltag |
+
+Die E-Books selbst kommen aus dem anderen Auftrag (Paket E-Books). Heißen sie dort anders, sag mir die Titel.
+
+## 4. Die "40 ml je Kilo" auf der Sportseite
+
+Auf der Sportseite steht oben ein Feld: "40 ml Wasser je Kilo Körpergewicht gelten als Faustregel am Tag".
+Darunter gibt es einen kleinen Rechner "Wie viel solltest du trinken?": Man tippt sein Gewicht ein, die Seite rechnet
+die Liter aus (80 kg ergibt 3,2 Liter). Das habe ich von der Seite von Kevin übernommen.
+Unsere Regel ist: keine Zahl ohne Quelle. **Haben wir eine Quelle dafür?** Wenn nicht, nehme ich das Feld und den
+Rechner raus oder ersetze den Rechner durch den Kisten-Rechner der neutralen Seite.
+
+## 5. Videos mit Eddie Hall und Ronaldo
+
+Kevins Seite hat einen Abschnitt "Die Besten trinken es schon" mit diesen zwei Videos. Auf der neuen Sportseite habe ich
+ihn weggelassen, weil du "ohne Promi" gesagt hast. Bleibt das so?
+
+## 6. Antwort "Selbst Partner werden"
+
+Im Formular "Lern das Gerät persönlich kennen" fragt die Seite: "Was interessiert dich am meisten?"
+Bei Neutral und Sport ist die dritte Antwort "Selbst Partner werden" (wie bei Kevin). Bei Gesundheit steht dort
+"Das Gerät für meine Praxis". Passt das?
+
+## 7. Kasten auf der Gesundheitsseite
+
+Dort steht ein Kasten "Ehrlich gesagt": "Das Gerät macht Wasser. Es ist kein Heilmittel und ersetzt keine Behandlung.
+Bei Fragen zu deiner Gesundheit sprich mit deinem Arzt oder Therapeuten." Ist der Satz so in Ordnung?
+
+## 8. Zwei Sätze, bei denen ich unsicher bin
+
+- In der Liste der fünf Wasserarten steht bei pH 7,0: "Für Babynahrung und zum Einnehmen von Medikamenten" (wie bei Kevin).
+  Darf das auch auf der Gesundheitsseite so stehen?
+- Auf der neutralen Seite bei den Fragen: "Das Gerät steht neben deiner Spüle und wird an den Wasserhahn angeschlossen."
+  Stimmt das so?
+
+## 9. Eure eigenen Beispielseiten
+
+Im Portal sehen Partner ohne Paket eure zwei Seiten als Beispiel. Vorgesehen: Daniel mit Neutral und Sport, du mit
+Gesundheit und Neutral. Unter eurem Namen steht eine Zeile, was ihr macht (zum Beispiel "Wasserberaterin").
+Was soll da bei euch stehen? Foto und den Satz tragt ihr selbst im Portal ein.
+
+## 10. Nachricht aufs Handy für Partner, die sich selbst kümmern
+
+Diese Partner sehen jede neue Anfrage im Portal unter "Meine Seiten", mit Telefon und E-Mail. Sollen sie zusätzlich
+sofort eine Nachricht aufs Handy bekommen (über ihren Telegram-Assistenten im Portal)? Dafür braucht der Claude, der
+einspielt, den Namen des Bot-Schlüssels im Tresor.
+
+## 11. Später
+
+- Wie heißt die neutrale Domain? (Umstellen geht dann ohne neuen Upload.)
+- Die Datenschutzerklärung sollte erwähnen, dass Anfragen über eine Partnerseite dem Partner zugeordnet werden und,
+  je nach Einstellung, der Partner selbst anruft. Bitte einmal prüfen lassen.

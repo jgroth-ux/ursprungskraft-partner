@@ -87,6 +87,12 @@
         t(p.email) && `<a class="knopf rahmen" href="mailto:${esc(t(p.email))}">E-Mail</a>`,
       ].filter(Boolean).join('');
     });
+    // Wer meldet sich? leads_bei = 'partner': der Partner selbst, sonst Daniel und Jasmin ("wir")
+    const selbst = p.leads_bei === 'partner';
+    $$('[data-partner]').forEach((el) => {
+      if (el.dataset.team === undefined) el.dataset.team = el.textContent;
+      el.textContent = selbst ? el.dataset.partner.replace('{v}', werte.vorname || 'Dein Ansprechpartner') : el.dataset.team;
+    });
     if (document.body.dataset.titel && name) document.title = document.body.dataset.titel.replace('{name}', name);
     document.body.classList.remove('laedt');
   }
@@ -138,7 +144,7 @@
         nachricht: [`Lead von ${t(P.vorname)} (${STUFE[w.budget]}, Seite ${FASSUNG})`, `Interesse: ${w.interesse}`, `Trinkt heute: ${w.geraet}`, `Budget: ${BUDGET[w.budget]}`].join(' · ') });
       const d = document.createElement('div'); d.className = 'danke';
       d.innerHTML = `<div class="eyebrow">Danke, ${esc(w.vorname)}</div><h3>Deine Anfrage ist angekommen</h3>
-        <p>Wir melden uns persönlich bei dir. Bis dahin kannst du dir weiter unten das E-Book holen.</p><a class="knopf" href="#ebook">Zum E-Book</a>`;
+        <p>${P.leads_bei === 'partner' ? `${esc(t(P.vorname))} meldet sich` : 'Wir melden uns'} persönlich bei dir. Bis dahin kannst du dir weiter unten das E-Book holen.</p><a class="knopf" href="#ebook">Zum E-Book</a>`;
       f.replaceChildren(d);
     } catch {
       k.disabled = false;

@@ -156,6 +156,7 @@ window.MeineSeiten = (() => {
         <p class="leise klein" style="margin-top:var(--s-3)">Mehrere Fassungen? Das Hosting zahlst du trotzdem nur einmal.</p></section>
       <section class="abschnitt"><div class="abschnitt-kopf"><h2>Häufige Fragen</h2></div>
         <details class="aufklappen"><summary>Steht meine Telefonnummer auf der Seite?</summary><p class="leise">Nur wenn du es ausdrücklich willst. Telefon und E-Mail brauchen wir, um dir Anfragen weiterzugeben. Auf der Seite und im E-Book stehen sie nur, wenn du den Haken dafür setzt.</p></details>
+        <details class="aufklappen"><summary>Wer meldet sich bei meinen Interessenten?</summary><p class="leise">Das legen Daniel und Jasmin mit dir fest. Entweder melden sie sich bei allen, die sich über deine Seite eintragen. Oder du kümmerst dich selbst darum, dann siehst du hier jede Anfrage mit Telefon und E-Mail. Jede Anfrage bleibt in beiden Fällen bei dir.</p></details>
         <details class="aufklappen"><summary>Muss ich Sportler sein für die Sportseite?</summary><p class="leise">Nein. Oben steht ein Sportfoto, du erscheinst daneben als "Empfohlen von". Die Seite spricht sportliche Menschen an, nicht dich als Sportler.</p></details>
         <details class="aufklappen"><summary>Kann ich später etwas ändern?</summary><p class="leise">Ja, jederzeit: Foto, Satz, Fassungen und sogar die Adresse. Alte Links führen weiter zu deiner Seite.</p></details>
         <details class="aufklappen"><summary>Läuft die Seite unter Ursprungskraft?</summary><p class="leise">Nein. Die Seiten laufen unter einer neutralen Adresse. Im Mittelpunkt stehst du.</p></details>
@@ -190,6 +191,11 @@ window.MeineSeiten = (() => {
               <a class="knopf still" href="${esc(u.vorschau ? `/p/vorschau/ebook-${f}.pdf` : ebook(s.adresse, f))}" target="_blank" rel="noopener">Öffnen</a></div>
             <p class="nebenbei">${Number(a[f]) === 1 ? '1 Anmeldung' : `${Number(a[f]) || 0} Anmeldungen`} über diese Seite.</p>
           </div></section>`).join('')}</div>
+      <section class="abschnitt" id="anfragen"><div class="abschnitt-kopf"><h2>Deine Anfragen</h2></div>
+        ${D.leads_bei === 'partner'
+          ? `<p class="leise" style="margin-bottom:var(--s-3)">Du kümmerst dich selbst um alle, die sich über deine Seiten eintragen. Melde dich am besten noch am selben Tag.</p><div id="ms-anfragen"><p class="laden">Einen Moment …</p></div>`
+          : `<p class="hinweis">Daniel und Jasmin melden sich bei allen, die sich über deine Seiten eintragen. Oben siehst du, wie viele es sind.</p>`}
+      </section>
       ${fehlen.length ? `<section class="abschnitt"><div class="abschnitt-kopf"><h2>Weitere Fassungen</h2></div>
         <div class="ms-mehr">${fehlen.map((f) => `<a href="#seiten/bearbeiten"><span><b>${esc(FASSUNG[f].name)}</b><small>${esc(FASSUNG[f].fuer)}</small></span>${ico('plus')}</a>`).join('')}</div></section>` : ''}
       <section class="abschnitt"><div class="abschnitt-kopf"><h2>Gut zu wissen</h2></div>
@@ -201,12 +207,32 @@ window.MeineSeiten = (() => {
     box.querySelectorAll('[data-kopie]').forEach((b) => (b.onclick = () => u.kopieren(b.dataset.kopie, b.dataset.hinweis || 'Link kopiert.')));
     // In der Vorschau zeigen die kleinen Rahmen die gespeicherten Angaben (es gibt keine echte Seite)
     if (u.vorschau) box.querySelectorAll('.ms-mini iframe').forEach((f) => vorschauVerbinden(f, () => seitenAngaben(s)));
+    if (D.leads_bei === 'partner') anfragenZeigen(box.querySelector('#ms-anfragen'));
+  }
+
+  // Anfragen mit Kontakt, nur für Partner, die sich selbst kümmern (uk_partner.leads_bei = 'partner')
+  const STUFE_TEXT = { heiss: 'Will jetzt ein Gerät', warm: 'In den nächsten Monaten', kalt: 'Hat das E-Book geholt' };
+  async function anfragenZeigen(ziel) {
+    const r = await rpc('uk_partner_seiten_anfragen');
+    const liste = r.error ? null : r.data || [];
+    if (!liste) { ziel.innerHTML = '<p class="meldung">Die Anfragen ließen sich gerade nicht laden. Bitte lade die Seite neu.</p>'; return; }
+    if (!liste.length) { ziel.innerHTML = '<p class="leer">Noch keine Anfragen. Sobald sich jemand einträgt, steht er hier.</p>'; return; }
+    const tel = (x) => String(x || '').replace(/[^\d+]/g, '');
+    const wa = (x) => { let n = tel(x).replace(/^00/, '').replace(/^\+/, ''); if (n.startsWith('0')) n = '49' + n.slice(1); return 'https://wa.me/' + n; };
+    ziel.innerHTML = `<div class="ms-anfragen">${liste.map((a) => `<article class="ms-anfrage ${esc(a.stufe)}">
+        <div class="kopf"><b>${esc(name(a))}</b><span class="marke-stufe">${esc(STUFE_TEXT[a.stufe] || '')}</span></div>
+        <p class="leise klein">${esc(datum(a.datum))}${a.ort ? ', ' + esc(a.ort) : ''} · über deine Seite ${esc(FASSUNG[a.fassung]?.name || '')}</p>
+        ${a.interesse || a.trinkt ? `<p class="klein">${[a.interesse, a.trinkt && 'trinkt heute: ' + a.trinkt].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
+        ${a.erreichbar ? `<p class="klein">Erreichbar: ${esc(a.erreichbar)}</p>` : ''}
+        <div class="knoepfe">${a.telefon ? `<a class="knopf zweit" href="tel:${esc(tel(a.telefon))}">${ico('telefon')} Anrufen</a><a class="knopf zweit" href="${esc(wa(a.telefon))}" target="_blank" rel="noopener">${ico('whatsapp')} WhatsApp</a>` : ''}
+          ${a.email ? `<a class="knopf still" href="mailto:${esc(a.email)}">${ico('mail')} ${esc(a.email)}</a>` : ''}</div>
+      </article>`).join('')}</div>`;
   }
   const fotoHtml = (s, gross) => `<span class="ms-foto${gross ? ' gross' : ''}">${s.foto ? `<img src="${esc(s.foto)}" alt="">` : `<span>${esc(`${t(s.vorname)[0] || ''}${t(s.nachname)[0] || ''}`.toUpperCase())}</span>`}</span>`;
   // Angaben so, wie die öffentliche Funktion sie der Seite gibt
   const seitenAngaben = (s) => ({
     von: u.p.kurz, adresse: s.adresse, vorname: s.vorname, nachname: s.nachname, rolle: s.rolle, satz: s.satz, insta: s.insta, foto: s.foto,
-    telefon: s.kontakt_zeigen ? s.lead_telefon : null, email: s.kontakt_zeigen ? s.lead_email : null,
+    telefon: s.kontakt_zeigen ? s.lead_telefon : null, email: s.kontakt_zeigen ? s.lead_email : null, leads_bei: D.leads_bei,
   });
 
   // ================= FORMULAR =================
@@ -443,7 +469,15 @@ window.MeineSeiten = (() => {
   // ================= VORSCHAU OHNE DATENBANK =================
   // Wie quelle-vorschau.js im Backoffice: alles im Browser. ?stand=gesperrt | leer | fertig wählt den Ausgangspunkt.
   const Vorschau = (() => {
-    const stand = new URLSearchParams(location.search).get('stand') || 'gesperrt';
+    const q = new URLSearchParams(location.search);
+    const stand = q.get('stand') || 'gesperrt';
+    const leadsBei = q.get('leads') === 'team' ? 'team' : 'partner';
+    const tag = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return d.toLocaleDateString('sv-SE'); };
+    const anfragen = [
+      { datum: tag(0), vorname: 'Lea', nachname: 'Sommer', telefon: '+49 170 5550101', email: 'lea@example.com', ort: 'Köln', stufe: 'heiss', fassung: 'sport', interesse: 'Training und Regeneration', trinkt: 'Aus Flaschen', erreichbar: 'werktags ab 18 Uhr' },
+      { datum: tag(2), vorname: 'Tom', nachname: 'Berger', telefon: '+49 171 5550102', email: 'tom@example.com', ort: 'Bonn', stufe: 'warm', fassung: 'neutral', interesse: 'Besseres Trinkwasser für zu Hause', trinkt: 'Aus dem Hahn' },
+      { datum: tag(5), vorname: 'Mia', nachname: null, telefon: null, email: 'mia@example.com', ort: null, stufe: 'kalt', fassung: 'sport' },
+    ];
     const beispiele = [
       { adresse: 'daniel-zuercher', fassung: 'neutral', fassungen: ['neutral', 'sport'], vorname: 'Daniel', nachname: 'Zürcher' },
       { adresse: 'jasmin-groth', fassung: 'gesundheit', fassungen: ['gesundheit', 'neutral'], vorname: 'Jasmin', nachname: 'Groth' },
@@ -459,7 +493,7 @@ window.MeineSeiten = (() => {
       async rpc(name, args) {
         await warten();
         if (name === 'uk_partner_seiten_daten') return { data: {
-          basis: 'https://mein.ursprungskraft.net', gebucht: stand !== 'gesperrt', gebucht_bis: stand === 'gesperrt' ? null : '2026-12-11',
+          basis: 'https://mein.ursprungskraft.net', leads_bei: leadsBei, gebucht: stand !== 'gesperrt', gebucht_bis: stand === 'gesperrt' ? null : '2026-12-11',
           erlaubt: REIHE, vorschlag: 'anna-beispiel', vorgabe: { vorname: 'Anna', nachname: 'Beispiel', email: 'anna@example.com', telefon: '+49 170 1234567' },
           seite: gespeichert.seite, beispiele, anmeldungen: gespeichert.seite ? { gesamt: 14, woche: 3, neutral: 5, sport: 9, gesundheit: 0 } : { gesamt: 0, woche: 0 } } };
         if (name === 'uk_partner_seiten_adresse') {
@@ -475,6 +509,7 @@ window.MeineSeiten = (() => {
           merken();
           return { data: { ok: true, adresse: p.adresse } };
         }
+        if (name === 'uk_partner_seiten_anfragen') return { data: leadsBei === 'partner' && gespeichert.seite ? anfragen : [] };
         return { error: new Error('Vorschau kennt ' + name + ' nicht') };
       },
       // Das Foto bleibt als Daten-Adresse im Browser, damit es auch nach dem Neuladen noch da ist
