@@ -207,7 +207,7 @@ window.MeineSeiten = (() => {
         </ul></section>`;
     box.querySelectorAll('[data-kopie]').forEach((b) => (b.onclick = () => u.kopieren(b.dataset.kopie, b.dataset.hinweis || 'Link kopiert.')));
     // In der Vorschau zeigen die kleinen Rahmen die gespeicherten Angaben (es gibt keine echte Seite)
-    if (u.vorschau) box.querySelectorAll('.ms-mini iframe').forEach((f) => vorschauVerbinden(f, () => seitenAngaben(s)));
+    if (u.vorschau) box.querySelectorAll('.ms-mini iframe').forEach((f) => { const fa = (f.src.match(/\/p\/(\w+)\.html/) || [])[1]; vorschauVerbinden(f, () => seitenAngaben(s, fa)); });
     if (D.leads_bei === 'partner') { anfragenZeigen(box.querySelector('#ms-anfragen')); botZeigen(box.querySelector('#ms-bot')); }
   }
 
@@ -266,7 +266,8 @@ window.MeineSeiten = (() => {
   }
   const fotoHtml = (s, gross) => `<span class="ms-foto${gross ? ' gross' : ''}">${s.foto ? `<img src="${esc(s.foto)}" alt="">` : `<span>${esc(`${t(s.vorname)[0] || ''}${t(s.nachname)[0] || ''}`.toUpperCase())}</span>`}</span>`;
   // Angaben so, wie die öffentliche Funktion sie der Seite gibt
-  const seitenAngaben = (s) => ({
+  const seitenAngaben = (s, fassung) => ({
+    aussehen: (s.aussehen || {})[fassung] || null,
     von: u.p.kurz, adresse: s.adresse, vorname: s.vorname, nachname: s.nachname, rolle: s.rolle, satz: s.satz, insta: s.insta, foto: s.foto,
     telefon: s.kontakt_zeigen ? s.lead_telefon : null, email: s.kontakt_zeigen ? s.lead_email : null, leads_bei: D.leads_bei,
   });
@@ -277,6 +278,7 @@ window.MeineSeiten = (() => {
     // Neu: alle erlaubten Fassungen vorausgewählt, Kontakt für Anfragen aus dem Partnerkonto
     const s = D.seite || { ...D.vorgabe, adresse: D.vorschlag, lead_email: D.vorgabe?.email, lead_telefon: D.vorgabe?.telefon, fassungen: [...(D.erlaubt || REIHE)], kontakt_zeigen: false };
     let foto = { url: s.foto || null, blob: null, weg: false };
+    const aussehen = { ...(s.aussehen || {}) }; // { sport: { modus, akzent }, ... }, fehlt eine Fassung: Vorschlag aus farben.js
     let adresseAngefasst = !neu;
     const erlaubt = D.erlaubt || REIHE;
     const vorne = REIHE.find((f) => (s.fassungen || []).includes(f)) || 'neutral';
@@ -325,6 +327,7 @@ window.MeineSeiten = (() => {
         <figure class="ms-live" aria-label="Vorschau deiner Seite">
           <div class="umschalter" role="group" aria-label="Fassung in der Vorschau">${REIHE.map((f) => `<button type="button" data-live="${f}" aria-pressed="${f === vorne}">${FASSUNG[f].name}</button>`).join('')}</div>
           <div class="ms-handy gross"><div class="ms-schirm"><iframe id="ms-rahmen" title="Vorschau deiner Seite" src="${rahmenAdresse(vorne)}"></iframe></div></div>
+          <div class="ms-look" id="ms-look" aria-label="Aussehen"></div>
           <figcaption>Die Vorschau läuft beim Tippen mit. Formulare darin senden nichts.</figcaption>
         </figure>
       </div>`;
@@ -337,16 +340,39 @@ window.MeineSeiten = (() => {
       w.kontakt_zeigen = f.kontakt_zeigen.checked;
       w.insta = w.insta.replace(/^\s*(https?:\/\/)?(www\.)?(instagram\.com\/)?@?/i, '').replace(/[/?].*$/, '');
       w.adresse = w.adresse.toLowerCase();
+      w.aussehen = aussehen;
       return w;
     };
     // Live-Vorschau
     const rahmen = box.querySelector('#ms-rahmen');
-    const angaben = () => { const w = werte(); return seitenAngaben({ ...w, foto: foto.weg ? null : foto.url }); };
+    let live = vorne;
+    const angaben = () => { const w = werte(); return seitenAngaben({ ...w, foto: foto.weg ? null : foto.url }, live); };
     const senden = vorschauVerbinden(rahmen, angaben);
     box.querySelectorAll('[data-live]').forEach((b) => (b.onclick = () => {
       box.querySelectorAll('[data-live]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-      rahmen.src = rahmenAdresse(b.dataset.live);
+      live = b.dataset.live;
+      rahmen.src = rahmenAdresse(live);
+      lookZeigen();
     }));
+    // Aussehen je Fassung: Hell oder Dunkel und ein Akzent (Farben aus farben.js, dieselben wie später im Flyer-Editor)
+    const F = window.UKFarben;
+    const look = box.querySelector('#ms-look');
+    function lookZeigen() {
+      if (!F) { look.remove(); return; }
+      const jetzt = F.pruefen(aussehen[live], live), std = F.STANDARD[live];
+      look.innerHTML = `<p class="kicker">Aussehen deiner Seite ${esc(FASSUNG[live].name)}</p>
+        <div class="umschalter ms-modus" role="group" aria-label="Grundton">${Object.entries(F.MODI).map(([k, m]) => `<button type="button" data-modus="${k}" aria-pressed="${k === jetzt.modus}"><i style="background:${m.muster}"></i>${esc(m.name)}</button>`).join('')}</div>
+        <div class="ms-akzente" role="radiogroup" aria-label="Akzentfarbe">${Object.entries(F.AKZENTE).map(([k, a]) => `<button type="button" role="radio" data-akzent="${k}" aria-checked="${k === jetzt.akzent}" title="${esc(a.name)}"><i style="background:${a.knopf}"></i><span>${esc(a.name)}</span></button>`).join('')}</div>
+        <button class="knopf still ms-standard" type="button" data-standard ${aussehen[live] ? '' : 'hidden'}>Zurück zum Vorschlag (${esc(F.MODI[std.modus].name)}, ${esc(F.AKZENTE[std.akzent].name)})</button>`;
+      look.querySelectorAll('[data-modus]').forEach((b) => (b.onclick = () => waehlen({ modus: b.dataset.modus })));
+      look.querySelectorAll('[data-akzent]').forEach((b) => (b.onclick = () => waehlen({ akzent: b.dataset.akzent })));
+      look.querySelector('[data-standard]').onclick = () => { delete aussehen[live]; lookZeigen(); senden(); };
+    }
+    function waehlen(neu) {
+      aussehen[live] = { ...F.pruefen(aussehen[live], live), ...neu };
+      lookZeigen(); senden();
+    }
+    lookZeigen();
     // Foto
     const fotoFeld = box.querySelector('#ms-fotofeld'), weg = box.querySelector('#ms-foto-weg');
     const fotoZeigen = () => {

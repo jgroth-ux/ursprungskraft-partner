@@ -7,6 +7,7 @@ steht in `LIESMICH.md`.
 - Je Partner legt ihr fest, ob ihr euch bei seinen Interessenten meldet (wie bei Kevin und Johny) oder ob er es selbst macht.
 - Wer es selbst macht, verbindet mit einem Klick seinen eigenen Anfragen-Bot in Telegram, getrennt vom Assistenten.
 - Die Seiten sehen jetzt aus wie die von Kevin und Johny, mit denselben Effekten.
+- Jede Seite gibt es hell und dunkel mit sieben Akzentfarben, der Partner wählt im Portal per Klick.
 - Eure allgemeine Ursprungskraft-Landingpage bleibt, wie sie ist. Ich habe sie nicht angefasst.
 
 ---
@@ -80,7 +81,13 @@ Was soll da bei euch stehen? Foto und den Satz tragt ihr selbst im Portal ein.
 Der neue Bot muss einmal bei Telegram angelegt werden (geht in zwei Minuten, Anleitung in `LIESMICH.md`, Schritt 3).
 Wie soll er heißen? Vorschlag: "Ursprungskraft Anfragen". Den sehen die Partner in Telegram, ihre Interessenten nie.
 
-## 11. Später
+## 11. Passen die sieben Akzentfarben?
+
+Kupfer, Oliv, Salbei, Khaki, Petrol, Blau, Beere. Das Bild `farbwelten-beispiele.png` zeigt einige Kombinationen.
+Fehlt eine Farbe oder soll eine raus? Und passen die Vorschläge: Sport dunkel mit Kupfer, Neutral hell mit Oliv,
+Gesundheit hell mit Salbei?
+
+## 12. Später
 
 - Wie heißt die neutrale Domain? (Umstellen geht dann ohne neuen Upload.)
 - Die Datenschutzerklärung sollte erwähnen, dass Anfragen über eine Partnerseite dem Partner zugeordnet werden und,

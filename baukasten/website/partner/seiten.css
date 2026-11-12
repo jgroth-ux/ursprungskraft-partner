@@ -3,7 +3,7 @@
 
 /* ---------- Telefonrahmen mit echter Seite (390 x 844, verkleinert) ---------- */
 .ms-handy { --s: .62; margin: 0; display: grid; justify-items: center; gap: var(--s-2); }
-.ms-handy.gross { --s: .8; }
+.ms-handy.gross { --s: .68; }
 .ms-schirm { position: relative; width: calc(390px * var(--s)); height: calc(760px * var(--s)); overflow: hidden; border: 6px solid #12150E; border-radius: 28px; background: var(--c-surface); box-sizing: content-box; }
 .ms-schirm iframe { position: absolute; left: 0; top: 0; width: 390px; height: 760px; border: 0; transform: scale(var(--s)); transform-origin: 0 0; background: #F5F1E8; }
 .ms-ganz { position: absolute; inset: 0; z-index: 2; }
@@ -140,6 +140,19 @@
 .ms-live { margin: 0; display: grid; justify-items: center; gap: var(--s-3); }
 .ms-live figcaption { font: 400 13px/20px var(--f-text); color: var(--c-muted); text-align: center; }
 .ms-live .umschalter { max-width: 100%; }
+
+/* Aussehen: Grundton und Akzent */
+.ms-look { width: 100%; max-width: 340px; display: grid; gap: var(--s-2); padding: var(--s-3); border: var(--haar); border-radius: var(--radius); background: var(--c-surface); }
+.ms-look .kicker { margin-bottom: var(--s-1); }
+.ms-modus { width: 100%; }
+.ms-modus button { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2); }
+.ms-modus i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--c-line); }
+.ms-akzente { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: var(--s-1); }
+.ms-akzente button { appearance: none; display: flex; align-items: center; gap: var(--s-2); min-height: 40px; padding: 0 var(--s-2); border: 1px solid transparent; border-radius: var(--radius); background: transparent; color: var(--c-muted); font: 600 12px/1 var(--f-text); cursor: pointer; transition: border-color var(--t-klein), color var(--t-klein); }
+.ms-akzente button:hover { color: var(--c-ink); }
+.ms-akzente button[aria-checked=true] { border-color: var(--c-olive); color: var(--c-ink); background: var(--c-ground); }
+.ms-akzente i { width: 20px; height: 20px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25); }
+.ms-standard { justify-self: start; font-size: 13px; }
 
 /* Ausschnitt wählen */
 .ms-zuschnitt .blatt-innen { gap: var(--s-3); }

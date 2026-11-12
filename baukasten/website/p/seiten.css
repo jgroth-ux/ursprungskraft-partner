@@ -1,4 +1,6 @@
-/* Partnerseiten aus dem Baukasten (11.11.2026, zweite Fassung). Gestaltung 1 : 1 wie die Sportseiten von Kevin und Johny
+/* Partnerseiten aus dem Baukasten (11.11.2026, zweite Fassung; 12.11.2026 Hell und Dunkel mit wählbarem Akzent).
+   Farben: Die Werte unten in :root sind nur der Notfall (Dunkel, Kupfer). Zur Laufzeit setzt seiten.js sie aus
+   farben.js (eine Stelle für alle Editoren). Schrift auf dem Seitengrund heißt --text und --text-2, helle Felder --papier. Gestaltung 1 : 1 wie die Sportseiten von Kevin und Johny
    (partner/empfehlung.css, Stand 11.11.2026): Anthrazit, große Felder, heller Blickpunkt, Pillen-Knöpfe, Einblenden,
    Zahlen zählen hoch, Leiste unten. Darunter die Ergänzungen für den Baukasten (Akzent je Fassung, Partnerfoto,
    Platzhalter, nicht gefunden). Ändert sich empfehlung.css, hier den oberen Teil mitziehen.
@@ -21,6 +23,10 @@
   --tinte:#383E42;      /* Schrift auf Hell: Anthrazit, kein Schwarz */
   --linie-d:rgba(243,241,235,.14);
   --linie-h:#D3D0C8;
+  --text:#F3F1EB;       /* Schrift auf dem Seitengrund (Hell: Tinte) */
+  --text-2:#C4C6C3;     /* Nebentext auf dem Seitengrund */
+  --feld-rand:none;     /* Hell: feine Kante um die hellen Felder */
+  --dock:#42484D;--dock-feld:#50575C;--dock-hover:#5A6166;
   /* Akzent je Sportler. Standard für neue Sportler: Kupfer. */
   --ak:#CF6844;         /* Akzent für Linien und Auswahl */
   --ak-knopf:#B4512F;   /* Knöpfe und Akzentfeld, weiße Schrift (5,1 : 1) */
@@ -41,7 +47,7 @@ body[data-fassung="gesundheit"]{--ak:#7FA890;--ak-knopf:#4C7660;--ak-auf:#FFFFFF
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--grund);color:var(--papier);font:400 var(--t0)/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:var(--grund);color:var(--text);transition:opacity .3s;font:400 var(--t0)/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3{font-family:Jost,system-ui,sans-serif;font-weight:500;margin:0;text-wrap:balance}
 h2{font-size:var(--t5);line-height:1.04;letter-spacing:-.03em;margin-bottom:var(--t0)}
 h3{font-size:var(--t1);line-height:1.25;letter-spacing:-.01em;margin-bottom:8px}
@@ -55,13 +61,13 @@ section{padding:var(--t8) 0;scroll-margin-top:64px}
 .eyebrow{font-size:var(--t0);line-height:1.4;font-weight:600;color:var(--ak-d);margin-bottom:12px}
 .gross{font-size:var(--t1);line-height:1.5}
 .klein{font-size:14px;line-height:1.55}
-.dunkeltext{color:var(--stein)}
+.dunkeltext{color:var(--text-2)}
 
 /* Knöpfe: Pille, Akzent */
 .knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;background:var(--ak-knopf);color:var(--ak-auf);text-decoration:none;border:0;border-radius:999px;padding:14px 28px;font:600 var(--t0)/1.3 Inter,sans-serif;cursor:pointer;transition:transform .35s var(--weich),background-color .2s}
 .knopf:hover{transform:translateY(-2px)}
 .knopf:active{transform:translateY(0) scale(.98)}
-.knopf.rahmen{background:none;box-shadow:inset 0 0 0 1.5px currentColor;color:var(--papier)}
+.knopf.rahmen{background:none;box-shadow:inset 0 0 0 1.5px currentColor;color:var(--text)}
 .knopf.klein{min-height:40px;padding:8px 18px;font-size:14px;white-space:nowrap}
 
 /* Kopfleiste */
@@ -70,7 +76,7 @@ header.gescrollt{box-shadow:0 1px 0 var(--linie-d)}
 header .innen{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
 .marke{display:flex;align-items:baseline;gap:12px;min-width:0}
 .marke b{font:600 var(--t1)/1 Jost,sans-serif;letter-spacing:-.01em;white-space:nowrap}
-.marke span{font-size:14px;color:var(--stein);white-space:nowrap}
+.marke span{font-size:14px;color:var(--text-2);white-space:nowrap}
 
 /* ===== Hero: helles Textfeld und hohes Bildfeld ===== */
 .hero{max-width:1392px;margin:0 auto;padding:8px var(--rand) 0;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke)}
@@ -85,13 +91,13 @@ header .innen{display:flex;align-items:center;justify-content:space-between;heig
 .hero-text .knopf.rahmen{color:var(--tinte)}
 .hero .person{grid-column:7/13;position:relative;margin:0;overflow:hidden;background:var(--feld)}
 .hero .person img,.hero .person .platzhalter{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block}
-.hero .person figcaption{position:absolute;left:12px;bottom:12px;max-width:min(400px,calc(100% - 24px));background:var(--grund);color:var(--stein);border-radius:var(--r-klein);padding:20px 24px;font-size:14px;line-height:1.5}
-.hero .person figcaption b{display:block;font:500 var(--t2)/1.1 Jost,sans-serif;letter-spacing:-.02em;color:var(--papier)}
+.hero .person figcaption{position:absolute;left:12px;bottom:12px;max-width:min(400px,calc(100% - 24px));background:var(--grund);color:var(--text-2);border-radius:var(--r-klein);padding:20px 24px;font-size:14px;line-height:1.5}
+.hero .person figcaption b{display:block;font:500 var(--t2)/1.1 Jost,sans-serif;letter-spacing:-.02em;color:var(--text)}
 .hero .person figcaption>span{display:block;color:var(--ak-d);font-weight:600;margin:4px 0 8px}
 .hero .person .ueber{margin:0 0 8px;font-size:14px}
-.insta{color:var(--papier);font-weight:600;text-decoration:none;font-size:14px}
+.insta{color:var(--text);font-weight:600;text-decoration:none;font-size:14px}
 .insta:hover{color:var(--ak-d)}
-.platzhalter{display:flex;align-items:center;justify-content:center;color:var(--stein)}
+.platzhalter{display:flex;align-items:center;justify-content:center;color:var(--text-2)}
 
 /* Zahlenfelder direkt unter dem Hero */
 .zahlen{padding:var(--luecke) 0 0}
@@ -101,18 +107,18 @@ header .innen{display:flex;align-items:center;justify-content:space-between;heig
 .zahl:nth-child(2){grid-column:6/10}
 .zahl:last-child{grid-column:10/13;background:var(--ak-knopf);color:var(--ak-auf)}
 .zahl b{white-space:nowrap;display:block;font:500 var(--t6)/1 Jost,sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
-.zahl span{display:block;font-size:var(--t0);line-height:1.4;color:var(--stein);margin-top:16px}
+.zahl span{display:block;font-size:var(--t0);line-height:1.4;color:var(--text-2);margin-top:16px}
 .zahl:last-child span{color:inherit}
 
 /* Zitat: reine Typografie */
 .zitat{padding:var(--t9) 0 var(--t8)}
 .zitat .innen{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke)}
-.zitat blockquote{grid-column:2/12;margin:0;font:500 var(--t5)/1.12 Jost,sans-serif;letter-spacing:-.03em;color:var(--papier);max-width:24ch;text-wrap:balance}
+.zitat blockquote{grid-column:2/12;margin:0;font:500 var(--t5)/1.12 Jost,sans-serif;letter-spacing:-.03em;color:var(--text);max-width:24ch;text-wrap:balance}
 .zitat blockquote::before{content:'„'}
 .zitat blockquote::after{content:'“'}
-.zitat .wer{grid-column:2/12;display:flex;align-items:center;gap:16px;margin-top:40px;font-size:14px;color:var(--stein)}
+.zitat .wer{grid-column:2/12;display:flex;align-items:center;gap:16px;margin-top:40px;font-size:14px;color:var(--text-2)}
 .zitat .wer img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:50% 20%}
-.zitat .wer b{display:block;font:500 var(--t0)/1.3 Jost,sans-serif;color:var(--papier)}
+.zitat .wer b{display:block;font:500 var(--t0)/1.3 Jost,sans-serif;color:var(--text)}
 
 /* ===== Heller Abschnitt als großes Feld: Warum Sportler umsteigen ===== */
 section:has(.sechs),section:has(.drei),#ebook{background:var(--papier);color:var(--tinte);margin:0 var(--luecke);border-radius:28px}
@@ -147,7 +153,7 @@ section:has(.sechs) .gross{max-width:46ch}
 /* ===== Rechner: das helle Blickpunkt-Feld ===== */
 #rechner .zwei{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke);align-items:center}
 #rechner .zwei>div:first-child{grid-column:1/6;padding-right:24px}
-#rechner .zwei>div:first-child p{color:var(--stein);font-size:var(--t1);line-height:1.5}
+#rechner .zwei>div:first-child p{color:var(--text-2);font-size:var(--t1);line-height:1.5}
 .rechner{grid-column:6/13;background:var(--papier);color:var(--tinte);border-radius:var(--r);padding:48px;display:grid;grid-template-columns:auto 1fr;column-gap:48px;align-items:end}
 .rechner .feld{grid-column:1;grid-row:1;margin:0;color:var(--leise);font-size:14px;font-weight:600}
 .rechner .feld input{display:block;width:184px;margin-top:12px;border:1.5px solid var(--linie-h);border-radius:var(--r-klein);background:#fff;padding:12px 20px;font:500 var(--t4)/1.1 Jost,sans-serif;letter-spacing:-.02em;color:var(--tinte);-moz-appearance:textfield;transition:border-color .2s}
@@ -171,7 +177,7 @@ section:has(.sechs) .gross{max-width:46ch}
 .videos>div{background:var(--feld);border-radius:var(--r);padding:12px 12px 32px}
 .videos .video{border-radius:var(--r-klein)}
 .videos h3{margin:28px 20px 8px;font-size:var(--t2);line-height:1.15;letter-spacing:-.02em}
-.videos p{margin:0 20px;color:var(--stein)}
+.videos p{margin:0 20px;color:var(--text-2)}
 
 /* ===== Meal Prep: helles Feld, drei hohe Bilder, mittleres versetzt ===== */
 section:has(.drei) h2{font-size:var(--t6);max-width:14ch}
@@ -183,22 +189,22 @@ section:has(.drei) .gross{max-width:46ch}
 .drei .kachel h3{padding-top:16px;border-top:1.5px solid var(--tinte)}
 
 /* ===== Fünf Wasserarten: große Zahlenleiter ===== */
-.arten{list-style:none;padding:0;margin:var(--t4) 0 0;border-top:1.5px solid var(--papier)}
+.arten{list-style:none;padding:0;margin:var(--t4) 0 0;border-top:1.5px solid var(--text)}
 .arten li{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke);padding:28px 0;border-bottom:1px solid var(--linie-d);align-items:baseline}
-.arten b{grid-column:1/6;font:500 var(--t6)/1 Jost,sans-serif;letter-spacing:-.04em;color:var(--papier);white-space:nowrap;font-variant-numeric:tabular-nums}
-.arten span{grid-column:6/13;color:var(--stein);font-size:var(--t1);line-height:1.45}
+.arten b{grid-column:1/6;font:500 var(--t6)/1 Jost,sans-serif;letter-spacing:-.04em;color:var(--text);white-space:nowrap;font-variant-numeric:tabular-nums}
+.arten span{grid-column:6/13;color:var(--text-2);font-size:var(--t1);line-height:1.45}
 .arten li:first-child b{color:var(--ak-d)}
 
 /* ===== Interesse: Text links (bleibt stehen), Formular als helles Feld ===== */
 #interesse .zwei{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
 #interesse .zwei>div:first-child{position:sticky;top:96px}
-#interesse p{color:var(--stein)}
+#interesse p{color:var(--text-2)}
 .ablauf{list-style:none;counter-reset:a;padding:0;margin:32px 0}
 .ablauf li{counter-increment:a;display:grid;grid-template-columns:56px 1fr;padding:16px 0;border-top:1px solid var(--linie-d)}
 .ablauf li:last-child{border-bottom:1px solid var(--linie-d)}
 .ablauf li::before{content:'0' counter(a);font:500 var(--t2)/1 Jost,sans-serif;color:var(--ak-d);grid-row:span 2;font-variant-numeric:tabular-nums}
 .ablauf b{font-weight:600}
-.ablauf span{color:var(--stein)}
+.ablauf span{color:var(--text-2)}
 form{background:var(--papier);color:var(--tinte);border-radius:var(--r);padding:48px}
 form h3{font-size:var(--t3);letter-spacing:-.02em;margin:0 0 16px}
 form .eyebrow{color:var(--ak-h)}
@@ -234,29 +240,35 @@ fieldset label:has(input:focus-visible){outline:2px solid var(--ak);outline-offs
 img.buch{display:block;width:100%;max-width:420px;height:auto;border-radius:6px;box-shadow:0 2px 4px rgba(23,26,28,.12),0 24px 48px rgba(23,26,28,.22)}
 
 /* ===== Fuß ===== */
-footer{color:var(--stein);font-size:14px;padding:var(--t4) 0 128px}
+footer{color:var(--text-2);font-size:14px;padding:var(--t4) 0 128px}
 footer .innen{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--linie-d);padding-top:24px}
-footer a{color:var(--papier);text-underline-offset:3px}
+footer a{color:var(--text);text-underline-offset:3px}
 footer a:hover{color:var(--ak-d)}
 
 /* ===== Leiste unten (aus der Schaltzentrale, deckend, ohne Glas) ===== */
-.dock{position:fixed;left:50%;bottom:20px;z-index:40;display:flex;align-items:center;gap:8px;padding:8px;background:var(--feld-2);border-radius:24px;box-shadow:0 0 0 1px var(--linie-d),0 16px 40px rgba(0,0,0,.35);transform:translate(-50%,140%);visibility:hidden;transition:transform .5s var(--weich),visibility 0s .5s}
+.dock{position:fixed;left:50%;bottom:20px;z-index:40;display:flex;align-items:center;gap:8px;padding:8px;background:var(--dock);border-radius:24px;box-shadow:0 0 0 1px var(--linie-d),0 16px 40px rgba(0,0,0,.35);transform:translate(-50%,140%);visibility:hidden;transition:transform .5s var(--weich),visibility 0s .5s}
 .dock:has(.handyknopf.zeigen){transform:translate(-50%,0);visibility:visible;transition:transform .5s var(--weich),visibility 0s}
-.dock-symbol{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:#50575C;color:var(--papier);transition:transform .3s var(--weich),background-color .2s}
+.dock-symbol{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:var(--dock-feld);color:#F3F1EB;transition:transform .3s var(--weich),background-color .2s}
 .dock-symbol svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.dock-symbol:hover{transform:scale(1.12);background:#5A6166}
+.dock-symbol:hover{transform:scale(1.12);background:var(--dock-hover)}
 .handyknopf{display:inline-flex;align-items:center;height:52px;padding:0 24px;border-radius:16px;background:var(--ak-knopf);color:var(--ak-auf);font:600 var(--t0)/1 Inter,sans-serif;text-decoration:none;white-space:nowrap;transition:transform .3s var(--weich)}
 .handyknopf:hover{transform:scale(1.04)}
 
 /* ===== Einblenden ===== */
 .auf{opacity:0;transform:translateY(24px);transition:opacity .9s var(--weich),transform .9s var(--weich)}
 .auf.da{opacity:1;transform:none}
-.hero>*{animation:feld 1s var(--weich) both}
+body:not(.laedt) .hero>*{animation:feld 1s var(--weich) both}
 .hero>:nth-child(2){animation-delay:70ms}
 @keyframes feld{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
 
 /* ===================== Baukasten: Ergänzungen ===================== */
+
+/* Hell und Dunkel: Auf Hell bekommen die hellen Felder eine feine Kante, sonst verschwimmen sie mit dem Grund */
+.hero-text,section:has(.sechs),section:has(.drei),#ebook,.rechner,form:not(.hell),.hinweisbox{box-shadow:var(--feld-rand)}
+/* Bis die Farben des Partners gesetzt sind, bleibt die Seite unsichtbar. Klappt etwas nicht, erscheint sie nach 2,5 s trotzdem. */
+body.laedt{opacity:0;animation:notfall 0s 2.5s forwards}
+@keyframes notfall{to{opacity:1}}
 
 /* Partnerfoto oder Initialen */
 .foto-p{position:relative;overflow:hidden;background:var(--ak-knopf);color:var(--ak-auf);container-type:inline-size}
@@ -285,23 +297,23 @@ footer a:hover{color:var(--ak-d)}
 .rechner .eingaben .feld{grid-row:auto}
 
 /* Kleine Zusätze in der Zahlenleiter */
-.arten b small{font:600 14px/1 Inter,sans-serif;letter-spacing:0;color:var(--stein);margin-left:12px;vertical-align:middle}
-.arten-hinweis{margin-top:24px;color:var(--stein);font-size:14px}
+.arten b small{font:600 14px/1 Inter,sans-serif;letter-spacing:0;color:var(--text-2);margin-left:12px;vertical-align:middle}
+.arten-hinweis{margin-top:24px;color:var(--text-2);font-size:14px}
 
 /* Bild neben Text (Gesundheit) */
 .bildtext .zwei{grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke)}
 .bildtext .zwei>img{grid-column:1/7;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);filter:saturate(.8)}
 .bildtext .zwei>div{grid-column:8/13}
-.bildtext .gross{color:var(--stein)}
+.bildtext .gross{color:var(--text-2)}
 
 /* Häufige Fragen */
-.fragen{border-top:1.5px solid var(--papier)}
+.fragen{border-top:1.5px solid var(--text)}
 .fragen details{border-bottom:1px solid var(--linie-d)}
 .fragen summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:72px;padding:16px 0;font:500 var(--t1)/1.3 Jost,sans-serif}
 .fragen summary::-webkit-details-marker{display:none}
 .fragen summary::after{content:'';width:10px;height:10px;border-right:1.5px solid var(--ak-d);border-bottom:1.5px solid var(--ak-d);transform:rotate(45deg) translate(-3px,-3px);transition:transform .4s var(--weich);flex:none;margin-right:6px}
 .fragen details[open] summary::after{transform:rotate(225deg) translate(-3px,-3px)}
-.fragen details p{color:var(--stein);margin:0 0 24px}
+.fragen details p{color:var(--text-2);margin:0 0 24px}
 section.fragen-abschnitt .zwei{align-items:start}
 
 /* Hinweis "kein Heilmittel" als helles Feld */
@@ -310,21 +322,21 @@ section.fragen-abschnitt .zwei{align-items:start}
 .hinweisbox p{color:var(--leise);margin:0}
 
 /* E-Book: Titelseite gezeichnet, mit dem Namen des Partners */
-.buch{position:relative;display:flex;flex-direction:column;width:100%;max-width:420px;aspect-ratio:210/297;padding:12% 10% 9%;border-radius:6px;background:#23272A;color:var(--papier);overflow:hidden;box-shadow:0 2px 4px rgba(23,26,28,.12),0 24px 48px rgba(23,26,28,.22)}
+.buch{position:relative;display:flex;flex-direction:column;width:100%;max-width:420px;aspect-ratio:210/297;padding:12% 10% 9%;border-radius:6px;background:#23272A;color:#F3F1EB;overflow:hidden;box-shadow:0 2px 4px rgba(23,26,28,.12),0 24px 48px rgba(23,26,28,.22)}
 .buch::before{content:'';position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ak-knopf)}
 .buch-eyebrow{font:600 11px/16px Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ak-d)}
 .buch-titel{font:500 clamp(28px,3.2vw,44px)/1.02 Jost,sans-serif;letter-spacing:-.03em;margin:auto 0 16px}
-.buch-unter{font-size:14px;line-height:1.5;color:var(--stein);margin:0}
-.buch-fuss{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:16px;border-top:1px solid var(--linie-d);font-size:13px;line-height:1.35;color:var(--stein)}
+.buch-unter{font-size:14px;line-height:1.5;color:#C4C6C3;margin:0}
+.buch-fuss{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:16px;border-top:1px solid rgba(243,241,235,.14);font-size:13px;line-height:1.35;color:#C4C6C3}
 .buch-fuss .foto-p{width:36px;height:36px;border-radius:50%;flex:none}
-.buch-fuss b{display:block;color:var(--papier);font-weight:600}
+.buch-fuss b{display:block;color:#F3F1EB;font-weight:600}
 #ebook .haken{color:var(--leise)}
 #ebook .zwei>.buch{grid-column:2/6}
 
 /* Seite gibt es nicht */
 .nicht-da{min-height:100svh;display:grid;place-items:center;padding:32px 16px;text-align:center}
 .nicht-da h1{font-size:var(--t5);line-height:1.05;letter-spacing:-.03em;margin-bottom:16px}
-.nicht-da p{margin:0 auto;color:var(--stein)}
+.nicht-da p{margin:0 auto;color:var(--text-2)}
 body.fehlt>:not(.nicht-da):not(script){display:none!important}
 body.laedt [data-p],body.laedt [data-wenn],body.laedt .person figcaption{visibility:hidden}
 

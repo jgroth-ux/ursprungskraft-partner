@@ -53,6 +53,25 @@ update uk_partner set leads_bei = 'partner' where kurz = 'anna-beispiel';
 Gespeichert in der neuen Spalte `uk_partner.leads_bei`. Heiße und warme Anfragen kommen in beiden Fällen wie bisher über
 `uk_anfrage` in die Kundenliste, mit dem Kürzel des Partners (dadurch auch in seine Kundenübersicht im Portal).
 
+## Farbwelten: Hell, Dunkel und Akzente (Jasmin, 12.11.2026)
+
+Jede Seite gibt es in zwei Grundtönen und sieben Akzenten:
+
+- **Dunkel:** Anthrazit wie bei Kevin und Johny.
+- **Hell:** Creme und Beige, helle Felder mit feiner Kante.
+- **Akzente:** Kupfer, Oliv, Salbei, Khaki, Petrol, Blau, Beere. Jeder Akzent ist auf Hell und auf Dunkel gut lesbar
+  (Schrift mindestens 4,5 : 1, geprüft).
+
+Der Partner wählt im Portal beim Einrichten unter der Vorschau, **für jede Seite einzeln**: Grundton anklicken, Akzent
+anklicken, die Vorschau ändert sich sofort. Wählt er nichts, gilt der Vorschlag: Sport Dunkel und Kupfer, Neutral Hell
+und Oliv, Gesundheit Hell und Salbei.
+
+**Eine Stelle für alle Farben:** `website/p/farben.js`. Die Seiten, das Portal und später der Flyer-Editor lesen daraus
+(`UKFarben.MODI`, `UKFarben.AKZENTE`, `UKFarben.anwenden(element, modus, akzent)`). Neuer Akzent: dort ergänzen und in
+der SQL in `uk_seiten_akzente()`. Gespeichert wird die Wahl in `uk_partner_seiten.aussehen`.
+
+Ausprobieren: `http://localhost:8791/vorschau/farbwelten.html` (alle Kombinationen, Handy und Rechner nebeneinander).
+
 ## Was wo liegt
 
 ```
@@ -66,6 +85,7 @@ baukasten/
     p/                     NEU, kommt so nach website/p/
       neutral.html sport.html gesundheit.html   die drei Seiten
       seiten.css seiten.js                      Gestaltung und Ablauf für alle drei
+      farben.js                                  Grundtöne und Akzente, eine Stelle für alle Editoren
       vorschau-daten.js                          Beispieldaten, nur lokal oder mit ?demo geladen
       bilder/                                    Fotos (verkleinert), sport-hero.jpg fehlt noch
       vorschau/ebook-*.pdf                       Beispiel-E-Books, nur für die lokale Vorschau
@@ -88,6 +108,7 @@ baukasten/
   vorschau/                nur für die lokale Vorschau, nicht hochladen
     server.py              Mini-Server mit den Weiterleitungen aus _redirects
     start.html portal.html Startseite der Vorschau, Nachbau des Portal-Rahmens
+    farbwelten.html        alle Grundtöne und Akzente zum Durchklicken
     portal-stand-2026-11-11.css   unveränderte Kopie von partner/portal.css
     schriften/             Jost und Inter (liegen auf dem Server schon unter /schriften/)
   werkzeuge/ebook-probe.mjs   baut die Beispiel-E-Books mit demselben Code wie die Edge Function
@@ -177,6 +198,8 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
       Adresse ändern (alter Link leitet weiter), Zahlen je Fassung stimmen.
 - [ ] `/p/<adresse>/sport/e-book` öffnet das PDF, Seite 2 ist "Empfohlen von" mit Foto und Link.
 - [ ] Alle drei Seiten am Handy (375 px) ohne seitliches Scrollen, Formulare abschicken.
+- [ ] Im Portal für eine Seite Hell und einen Akzent wählen, speichern: die echte Seite zeigt es, die anderen Seiten
+      behalten ihren Vorschlag.
 - [ ] Jasmin hat `ueberschriften.md` abgehakt und `offene-fragen.md` beantwortet.
 - [ ] Datenschutzerklärung passt für Partnerseiten (siehe offene Frage 11).
 
@@ -191,6 +214,8 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 - Seiten und Portal mit Playwright (Chromium) bei 1440 und 375 px: kein seitliches Scrollen, keine Fehler im Browser.
   Abläufe: Foto wählen und zuschneiden, Formular speichern, Live-Vorschau beim Tippen, Lead-Formular mit Prüfungen,
   E-Book-Formular, drei Rechner, unbekannte Adresse, Umleitung auf vorhandene Fassung.
+- Farbwelten: SQL (Speichern, ungültige Werte werden verworfen, je Fassung an die Seite), Editor im Portal
+  (Umschalten, Vorschau, Speichern, echte Seite zeigt die Wahl), alle sieben Akzente auf Hell und Dunkel als Bild geprüft.
 - Das geänderte `partner.js` mit nachgebauten Portal-Daten: `#seiten`, `#seiten/info`, Tools und Mehr-Menü laufen.
 - "Wer kümmert sich": SQL (Spalte, Prüfung auf erlaubte Werte, `uk_partner_lead_zustaendig`, Kontakte nur bei `partner`),
   Seiten ("Max meldet sich" und "Wir melden uns"), Portal mit Anfrageliste und mit Hinweis.

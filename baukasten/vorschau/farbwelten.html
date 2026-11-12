@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Farbwelten · Vorschau</title>
+<!-- Nur für die lokale Vorschau: alle Grundtöne und Akzente aus website/p/farben.js zum Durchklicken.
+     Dieselbe Auswahl hat der Partner im Portal beim Einrichten, später auch im Flyer-Editor. -->
+<link rel="stylesheet" href="/schriften/schriften.css">
+<style>
+  :root { --ground:#F5F1E8; --surface:#FBF9F4; --line:#D9CFBA; --olive:#4F5A35; --ink:#2A2C22; --muted:#5F6152; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 15px/1.5 Inter, system-ui, sans-serif; }
+  .kopf { padding: 24px 24px 8px; max-width: 1600px; margin: 0 auto; }
+  h1 { font: 500 32px/1.1 Jost, sans-serif; margin: 0 0 6px; }
+  .kopf p { margin: 0; color: var(--muted); }
+  .wahl { position: sticky; top: 0; z-index: 2; background: var(--ground); border-bottom: 1px solid var(--line); }
+  .wahl .innen { max-width: 1600px; margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; }
+  .gruppe { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .gruppe > span { font: 600 11px/16px Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--olive); margin-right: 6px; }
+  button { appearance: none; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font: 600 13px/1 Inter, sans-serif; cursor: pointer; }
+  button[aria-pressed=true] { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+  button i { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+  .buehne { max-width: 1600px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 390px minmax(0, 1fr); gap: 24px; align-items: start; }
+  .rahmen { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; }
+  .rahmen small { display: block; padding: 8px 12px; color: var(--muted); border-bottom: 1px solid var(--line); background: var(--surface); }
+  .handy iframe { width: 390px; height: 800px; border: 0; display: block; }
+  .breit { position: relative; height: 800px; }
+  .breit iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 1270px; border: 0; transform-origin: 0 0; }
+  @media (max-width: 900px) { .buehne { grid-template-columns: minmax(0, 1fr); } .breit { display: none; } .handy iframe { width: 100%; } }
+</style>
+</head>
+<body>
+<header class="kopf">
+  <h1>Farbwelten</h1>
+  <p>Grundton und Akzent anklicken. Links das Handy, rechts der Rechner. Alles kommt aus <code>website/p/farben.js</code>.</p>
+</header>
+<nav class="wahl"><div class="innen">
+  <div class="gruppe" id="fassung"><span>Seite</span></div>
+  <div class="gruppe" id="modus"><span>Grundton</span></div>
+  <div class="gruppe" id="akzent"><span>Akzent</span></div>
+</div></nav>
+<main class="buehne">
+  <div class="rahmen handy"><small>Handy, 390 px</small><iframe id="handy" title="Handy"></iframe></div>
+  <div class="rahmen"><small>Rechner, 1440 px, verkleinert</small><div class="breit" id="breit"><iframe id="rechner" title="Rechner" tabindex="-1"></iframe></div></div>
+</main>
+<script src="/p/farben.js"></script>
+<script>
+  const F = window.UKFarben;
+  const stand = { fassung: 'neutral', modus: 'hell', akzent: 'oliv' };
+  const knoepfe = (id, eintraege, schluessel) => {
+    const g = document.getElementById(id);
+    g.insertAdjacentHTML('beforeend', eintraege.map(([k, name, farbe]) => `<button type="button" data-k="${k}">${farbe ? `<i style="background:${farbe}"></i>` : ''}${name}</button>`).join(''));
+    g.querySelectorAll('button').forEach((b) => (b.onclick = () => {
+      stand[schluessel] = b.dataset.k;
+      if (schluessel === 'fassung') Object.assign(stand, F.STANDARD[b.dataset.k]);
+      zeigen();
+    }));
+  };
+  knoepfe('fassung', [['neutral', 'Neutral'], ['sport', 'Sport'], ['gesundheit', 'Gesundheit']], 'fassung');
+  knoepfe('modus', Object.entries(F.MODI).map(([k, m]) => [k, m.name, m.muster]), 'modus');
+  knoepfe('akzent', Object.entries(F.AKZENTE).map(([k, a]) => [k, a.name, a.knopf]), 'akzent');
+  function zeigen() {
+    for (const id of ['fassung', 'modus', 'akzent']) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === stand[id])));
+    const adresse = stand.fassung === 'gesundheit' ? 'lena-beispiel' : 'max-muster';
+    const url = `/p/${stand.fassung}.html?seite=${adresse}&demo&modus=${stand.modus}&akzent=${stand.akzent}`;
+    document.getElementById('handy').src = url;
+    document.getElementById('rechner').src = url;
+  }
+  const breit = document.getElementById('breit'), rechner = document.getElementById('rechner');
+  const passen = () => { rechner.style.transform = `scale(${breit.clientWidth / 1440})`; breit.style.height = Math.round(1270 * breit.clientWidth / 1440) + 'px'; };
+  addEventListener('resize', passen); passen();
+  zeigen();
+</script>
+</body>
+</html>

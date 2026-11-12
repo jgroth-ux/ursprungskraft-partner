@@ -64,8 +64,21 @@
       const s = document.createElement('span'); s.className = 'initialen'; s.textContent = initialen(p); s.setAttribute('aria-hidden', 'true'); el.append(s);
     }
   }
+  // Farben: Hell oder Dunkel und Akzent, aus farben.js. Gewählt im Portal je Fassung (p.aussehen), sonst der Standard.
+  // Lokal lässt sich das über die Adresse ausprobieren: ?modus=hell&akzent=beere
+  function farben(wahl) {
+    if (!window.UKFarben) return;
+    const probe = DEMO && (q.get('modus') || q.get('akzent')) ? { modus: q.get('modus') || wahl?.modus, akzent: q.get('akzent') || wahl?.akzent } : wahl;
+    const f = UKFarben.pruefen(probe, FASSUNG);
+    UKFarben.anwenden(document.body, f.modus, f.akzent);
+    // Schon gezeigte Platzhalter in den neuen Farben
+    $$('img[data-platzhalter]').forEach((img) => { if (img.src.startsWith('data:')) img.src = platzhalter(img.dataset.platzhalter); });
+    $$('video[data-platzhalter]').forEach((v) => { if (v.poster.startsWith('data:')) v.poster = platzhalter(v.dataset.platzhalter); });
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', UKFarben.MODI[f.modus].werte.grund);
+  }
   function einsetzen(p) {
     P = p;
+    farben(p.aussehen);
     const name = `${t(p.vorname)} ${t(p.nachname)}`.trim();
     const insta = t(p.insta).replace(/^@/, '');
     const werte = { name, vorname: t(p.vorname), rolle: t(p.rolle), satz: t(p.satz), insta };
@@ -98,6 +111,7 @@
   }
 
   function nichtDa() {
+    farben(null);
     document.body.classList.remove('laedt');
     document.body.classList.add('fehlt');
     $('.nicht-da').hidden = false;
@@ -190,9 +204,13 @@
 
   // ---------- Bilder: fehlt eine Datei, steht ein ruhiges Feld mit Beschreibung da (siehe bild-prompts.md) ----------
   // Das Feld ist ein kleines SVG an derselben Stelle, so bleiben Größe und Gestaltung genau wie mit Foto.
-  const platzhalter = (text) => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet"><rect x="-4000" y="-4000" width="8800" height="8600" fill="#42484D"/>` +
-    `<text x="400" y="306" fill="#C4C6C3" font-family="Inter,system-ui,sans-serif" font-size="20" text-anchor="middle">${esc(text)}</text></svg>`);
+  // Farben des Feldes passen zum gewählten Grundton (Hell oder Dunkel)
+  const platzhalter = (text) => {
+    const css = getComputedStyle(document.body), feld = css.getPropertyValue('--feld').trim() || '#42484D', schrift = css.getPropertyValue('--text-2').trim() || '#C4C6C3';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet"><rect x="-4000" y="-4000" width="8800" height="8600" fill="${feld}"/>` +
+      `<text x="400" y="306" fill="${schrift}" font-family="Inter,system-ui,sans-serif" font-size="20" text-anchor="middle">${esc(text)}</text></svg>`);
+  };
   function bilderPruefen() {
     $$('img[data-platzhalter]').forEach((img) => {
       const leer = () => { if (!img.src.startsWith('data:')) img.src = platzhalter(img.dataset.platzhalter); };
@@ -264,6 +282,7 @@
   }
 
   async function start() {
+    farben(null); // Standard der Fassung, bis die Angaben da sind
     verdrahten();
     if (PORTAL) {
       // Das Portal schickt die Angaben aus dem Formular, solange der Partner tippt. Nur vom selben Ursprung.

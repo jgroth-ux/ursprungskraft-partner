@@ -118,6 +118,7 @@ Texte stehen in `website/partner/seiten.js` (oben die Fassungen, darunter je Ans
 - [ ] Deine Seiten einrichten / Angaben ändern / Seiten erstellen / Speichern
 - [ ] Deine Seite für alle / Deine Sportseite / Deine Gesundheitsseite / E-Book zu dieser Seite / Gut zu wissen
 - [ ] Deine Anfragen / Anfragen sofort aufs Handy / Telegram verbinden / Anfragen kommen aufs Handy / Trennen
+- [ ] Aussehen deiner Seite / Dunkel / Hell / Zurück zum Vorschlag
 
 ## E-Book, eingefügte Seite
 
