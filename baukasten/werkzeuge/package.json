@@ -2,6 +2,10 @@
   "name": "baukasten-werkzeuge",
   "private": true,
   "type": "module",
-  "description": "Nur für die Beispiel-PDFs der lokalen Vorschau: npm install, dann node ebook-probe.mjs",
-  "dependencies": { "pdf-lib": "1.17.1", "@pdf-lib/fontkit": "1.1.1" }
+  "description": "Nur zum Bauen: npm install, dann node ebooks-bauen.mjs (E-Books) oder node ebook-probe.mjs",
+  "dependencies": {
+    "pdf-lib": "1.17.1",
+    "@pdf-lib/fontkit": "1.1.1",
+    "qrcode-generator": "1.4.4"
+  }
 }

@@ -65,6 +65,9 @@ create unique index if not exists uk_partner_seiten_adresse on uk_partner_seiten
 -- Aussehen je Fassung (12.11.2026): {"sport": {"modus": "dunkel", "akzent": "kupfer", "aufbau": "buehne"}, ...}. Fehlt eine Fassung,
 -- nimmt die Seite den Vorschlag aus website/p/farben.js. Die Namen müssen zu farben.js passen (uk_seiten_akzente).
 alter table uk_partner_seiten add column if not exists aussehen jsonb not null default '{}'::jsonb;
+-- Welches E-Book jede Seite anbietet (12.11.2026): {"sport": "meal-prep", ...}. Fehlt eine Seite: Vorschlag aus
+-- ebooks/inhalt.mjs (das erste Buch des Themas). Die Namen stehen im Katalog (katalog.json, website/p/ebooks.js).
+alter table uk_partner_seiten add column if not exists ebooks jsonb not null default '{}'::jsonb;
 alter table uk_partner_seiten drop constraint if exists uk_partner_seiten_fassungen_check;
 alter table uk_partner_seiten add constraint uk_partner_seiten_fassungen_check
   check (fassungen <@ array['neutral', 'sport', 'gesundheit']::text[]);
@@ -226,6 +229,7 @@ begin
     'adresse', s.adresse,
     'fassung', case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end,
     'aussehen', s.aussehen -> (case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end),
+    'ebook', s.ebooks ->> (case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end),
     'fassungen', to_jsonb(v_fassungen),
     'vorname', s.vorname,
     'nachname', s.nachname,
@@ -266,7 +270,7 @@ begin
     'seite', case when s.partner_id is null then null else jsonb_build_object(
       'adresse', s.adresse, 'vorname', s.vorname, 'nachname', s.nachname, 'rolle', s.rolle, 'satz', s.satz,
       'insta', s.insta, 'foto', s.foto, 'lead_telefon', s.lead_telefon, 'lead_email', s.lead_email,
-      'kontakt_zeigen', s.kontakt_zeigen, 'fassungen', to_jsonb(s.fassungen), 'aussehen', s.aussehen, 'geaendert', s.geaendert) end,
+      'kontakt_zeigen', s.kontakt_zeigen, 'fassungen', to_jsonb(s.fassungen), 'aussehen', s.aussehen, 'ebooks', s.ebooks, 'geaendert', s.geaendert) end,
     'beispiele', coalesce((select jsonb_agg(jsonb_build_object('adresse', b.adresse, 'fassung', b.fassungen[1],
         'fassungen', to_jsonb(b.fassungen), 'vorname', b.vorname, 'nachname', b.nachname, 'rolle', b.rolle) order by b.erstellt)
       from uk_partner_seiten b where b.beispiel and cardinality(b.fassungen) > 0 and uk_seiten_gebucht(b.partner_id)), '[]'::jsonb),
@@ -353,10 +357,26 @@ language sql stable security definer set search_path = public as $$
   where l.antworten ? 'fassung'
 $$;
 
+-- Welches E-Book eine Seite anbietet. p_buch leer: zurück zum Vorschlag. Name nur in Kleinbuchstaben und Bindestrich,
+-- ob es das Buch gibt, prüfen Portal und Edge Function anhand des Katalogs (unbekannt: Vorschlag).
+create or replace function uk_partner_seiten_ebook(p_sitzung text, p_fassung text, p_buch text) returns boolean
+language plpgsql security definer set search_path = public as $$
+declare v uuid := uk_partner_von_sitzung(p_sitzung);
+begin
+  if v is null or p_fassung not in ('neutral', 'sport', 'gesundheit') then return false; end if;
+  if coalesce(p_buch, '') = '' then
+    update uk_partner_seiten set ebooks = ebooks - p_fassung, geaendert = now() where partner_id = v;
+  elsif p_buch ~ '^[a-z0-9]+(-[a-z0-9]+)*$' and length(p_buch) <= 40 then
+    update uk_partner_seiten set ebooks = ebooks || jsonb_build_object(p_fassung, p_buch), geaendert = now() where partner_id = v;
+  else return false;
+  end if;
+  return found;
+end $$;
+
 revoke all on function uk_partner_seiten_daten(text), uk_partner_seiten_adresse(text, text), uk_partner_seiten_speichern(text, jsonb),
-  uk_partner_seiten_anfragen(text) from public;
+  uk_partner_seiten_anfragen(text), uk_partner_seiten_ebook(text, text, text) from public;
 grant execute on function uk_partner_seiten_daten(text), uk_partner_seiten_adresse(text, text), uk_partner_seiten_speichern(text, jsonb),
-  uk_partner_seiten_anfragen(text) to anon, authenticated;
+  uk_partner_seiten_anfragen(text), uk_partner_seiten_ebook(text, text, text) to anon, authenticated;
 
 -- Für die Edge Function partner-lead: Wer kümmert sich um Leads mit diesem Kürzel? Unbekannt = 'team' (wie bisher).
 create or replace function uk_partner_lead_zustaendig(p_kurz text) returns text

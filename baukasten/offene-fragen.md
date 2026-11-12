@@ -26,18 +26,16 @@ Im Portal gibt es eine Info-Seite zum Paket "Eigene Seite". Dort steht bei den P
 Heute ist die Seite am Tag nach dem Ende des Pakets weg. Wer den Link öffnet, liest "Diese Seite gibt es gerade nicht".
 Soll sie noch ein paar Tage weiterlaufen (zum Beispiel 7 Tage), damit kein Interessent ins Leere läuft?
 
-## 3. Wie heißen die drei E-Books?
+## 3. Die 9 E-Books gegenlesen
 
-Auf jeder Seite gibt es unten den Abschnitt "Kostenlos für dich" mit einer gezeichneten Titelseite des E-Books.
-Dort brauche ich den Titel. Ich habe vorläufig eingesetzt:
-
-| Seite | Titel, den ich eingesetzt habe |
-|---|---|
-| Neutral | Ein Gerät, fünf Wasserarten |
-| Sport | Das unterschätzte Supplement (wie bei Kevin) |
-| Gesundheit | Wasser im Alltag |
-
-Die E-Books selbst kommen aus dem anderen Auftrag (Paket E-Books). Heißen sie dort anders, sag mir die Titel.
+Die E-Books sind gebaut (Entwurf). Zum Lesen: `website/p/vorschau/ebook-<name>.pdf` im Paket, oder in der Vorschau
+unter "Meine Seiten", Bibliothek, "Ansehen". Bitte besonders prüfen:
+- Jede Überschrift und jeden Satz zum Gerät.
+- Zwei Lücken: Wie oft wird der Filter gewechselt? (E-Book "Ein Gerät, fünf Wasserarten", Häufige Fragen) und wer
+  steht als Herausgeber hinten drin? (neutrale Marke und Anschrift wie im Impressum)
+- Die Angabe der Deutschen Gesellschaft für Ernährung (rund 1,5 Liter Getränke am Tag), die ich als Quelle nenne.
+- Babynahrung: Ich schreibe "pH 7,0, und wie das Wasser vorbereitet wird, besprichst du mit deiner Hebamme".
+- Sollen echte Erfahrungen von Kunden rein? Dafür bräuchte ich echte Zitate mit Einverständnis.
 
 ## 4. Die "40 ml je Kilo" auf der Sportseite
 
@@ -92,7 +90,12 @@ Gesundheit hell mit Salbei?
 "Magazin" und "Bühne", siehe `drei-aufbauten.png`. Soll einer davon der Vorschlag für eine Seite werden, zum Beispiel
 Gesundheit als Magazin? Heute schlägt das Portal überall "Felder" vor.
 
-## 13. Später
+## 13. Welcher E-Mail-Dienst? (nächster Schritt)
+
+Für den E-Mail-Teil (E-Book per Mail mit Bestätigungsklick, danach 6 Mails über 3 Wochen) brauche ich den Dienst.
+Mein Rat: Brevo. Alternativen: CleverReach oder Klick-Tipp. Nutzt ihr schon einen?
+
+## 14. Später
 
 - Wie heißt die neutrale Domain? (Umstellen geht dann ohne neuen Upload.)
 - Die Datenschutzerklärung sollte erwähnen, dass Anfragen über eine Partnerseite dem Partner zugeordnet werden und,

@@ -1,6 +1,8 @@
 # Baukasten Partnerseiten (11.11.2026). In website/_redirects einfügen, VOR einer allgemeinen Regel wie /* .
 # Eine Zeile je Fassung. Die Seiten lesen die Adresse selbst aus. Kein Upload je Partner.
 # E-Book: wird beim Abruf von der Edge Function partner-ebook personalisiert (XXX = Projektkennung von Supabase).
+# /e-book/<buch> = ein bestimmtes Buch aus der Bibliothek, /<fassung>/e-book = das Buch, das diese Seite anbietet.
+/p/:adresse/e-book/:buch     https://XXX.supabase.co/functions/v1/partner-ebook/:adresse/buch/:buch  200
 /p/:adresse/:fassung/e-book  https://XXX.supabase.co/functions/v1/partner-ebook/:adresse/:fassung  200
 /p/:adresse/neutral          /p/neutral.html      200
 /p/:adresse/sport            /p/sport.html        200

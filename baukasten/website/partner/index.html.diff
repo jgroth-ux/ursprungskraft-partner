@@ -9,13 +9,14 @@
  </head>
  <body>
  <a class="sprung" href="#inhalt">Zum Inhalt</a>
-@@ -29,6 +31,9 @@
+@@ -29,6 +31,10 @@
  <script src="flyer-anpassen.js?v=20261111b"></script>
  <script src="wissen.js?v=20261111g"></script>
  <script src="vorschau.js?v=20261111c"></script>
 -<script src="partner.js?v=20261111d"></script>
 +<!-- BAUKASTEN 11.11.2026: Ansicht "Meine Seiten", muss vor partner.js stehen -->
 +<script src="../p/farben.js?v=20261112a"></script>
++<script src="../p/ebooks.js?v=20261112a"></script>
 +<script src="seiten.js?v=20261112a"></script>
 +<script src="partner.js?v=20261111e"></script>
  </body>

@@ -132,7 +132,7 @@ window.MeineSeiten = (() => {
         <ul>
           <li><b>Deine eigene Landingpage</b><span>Mit deinem Foto, deinem Namen und einem Satz von dir. Fertig gestaltet, du musst nichts bauen.</span></li>
           <li><b>Bis zu drei Fassungen</b><span>Neutral für alle, Sport für sportliche Interessenten, Gesundheit für Heilpraktiker, Osteopathen und ihre Klienten.</span></li>
-          <li><b>Dein persönliches E-Book</b><span>Wer sich auf deiner Seite einträgt, bekommt das E-Book mit deinem Namen, deinem Foto und deinem Link darin.</span></li>
+          <li><b>Neun E-Books mit deinem Namen</b><span>Je drei zu den Themen Alltag, Sport und Gesundheit. Mit deinem Namen, deinem Foto und deinem Link darin, im Look deiner Seite. Du wählst, welches deine Seite anbietet.</span></li>
           <li><b>Jede Anfrage bleibt bei dir</b><span>Wer über deine Seite kommt, ist dir für immer zugeordnet, auch wenn er erst Monate später kauft.</span></li>
         </ul>
       </section>
@@ -186,9 +186,8 @@ window.MeineSeiten = (() => {
             <div class="linkfeld"><code>${esc(oeffentlich(s.adresse, f))}</code><button class="knopf still" type="button" data-kopie="${esc(oeffentlich(s.adresse, f))}">${ico('kopie')} Link kopieren</button></div>
             <div class="knoepfe"><a class="knopf" href="${esc(hier(s.adresse, f))}" target="_blank" rel="noopener">${ico('auge')} Vorschau</a>
               <a class="knopf zweit" href="${esc(wa(f))}" target="_blank" rel="noopener">${ico('whatsapp')} Per WhatsApp teilen</a></div>
-            <div class="ms-ebook"><span>${ico('laden')}<b>E-Book zu dieser Seite</b></span>
-              <button class="knopf still" type="button" data-kopie="${esc(ebook(s.adresse, f))}" data-hinweis="E-Book-Link kopiert.">${ico('kopie')} Link kopieren</button>
-              <a class="knopf still" href="${esc(u.vorschau ? `/p/vorschau/ebook-${f}.pdf` : ebook(s.adresse, f))}" target="_blank" rel="noopener">Öffnen</a></div>
+            <div class="ms-ebook"><label class="feld"><span class="titel">${ico('laden')} E-Book, das diese Seite anbietet</span>${buchWahl(f, s)}</label>
+              <a class="knopf still" href="${esc(u.vorschau ? `/p/vorschau/ebook-${buchFuer(s, f)}.pdf` : ebook(s.adresse, f))}" target="_blank" rel="noopener" data-buch-auf="${f}">Ansehen</a></div>
             <p class="nebenbei">${Number(a[f]) === 1 ? '1 Anmeldung' : `${Number(a[f]) || 0} Anmeldungen`} über diese Seite.</p>
           </div></section>`).join('')}</div>
       <section class="abschnitt" id="anfragen"><div class="abschnitt-kopf"><h2>Deine Anfragen</h2></div>
@@ -197,6 +196,7 @@ window.MeineSeiten = (() => {
             <div class="ms-bot" id="ms-bot"></div><div id="ms-anfragen"><p class="laden">Einen Moment …</p></div>`
           : `<p class="hinweis">Daniel und Jasmin melden sich bei allen, die sich über deine Seiten eintragen. Oben siehst du, wie viele es sind.</p>`}
       </section>
+      ${bibliothek(s)}
       ${fehlen.length ? `<section class="abschnitt"><div class="abschnitt-kopf"><h2>Weitere Fassungen</h2></div>
         <div class="ms-mehr">${fehlen.map((f) => `<a href="#seiten/bearbeiten"><span><b>${esc(FASSUNG[f].name)}</b><small>${esc(FASSUNG[f].fuer)}</small></span>${ico('plus')}</a>`).join('')}</div></section>` : ''}
       <section class="abschnitt"><div class="abschnitt-kopf"><h2>Gut zu wissen</h2></div>
@@ -209,6 +209,34 @@ window.MeineSeiten = (() => {
     // In der Vorschau zeigen die kleinen Rahmen die gespeicherten Angaben (es gibt keine echte Seite)
     if (u.vorschau) box.querySelectorAll('.ms-mini iframe').forEach((f) => { const fa = (f.src.match(/\/p\/(\w+)\.html/) || [])[1]; vorschauVerbinden(f, () => seitenAngaben(s, fa)); });
     if (D.leads_bei === 'partner') { anfragenZeigen(box.querySelector('#ms-anfragen')); botZeigen(box.querySelector('#ms-bot')); }
+    // E-Book je Seite umstellen
+    box.querySelectorAll('[data-buch-wahl]').forEach((sel) => (sel.onchange = async () => {
+      const f = sel.dataset.buchWahl, r = await rpc('uk_partner_seiten_ebook', { p_fassung: f, p_buch: sel.value });
+      if (r.error || !r.data) return u.toast('Das hat nicht geklappt. Bitte versuch es noch einmal.');
+      s.ebooks = { ...(s.ebooks || {}), [f]: sel.value };
+      const a = box.querySelector(`[data-buch-auf="${f}"]`); if (a && u.vorschau) a.href = `/p/vorschau/ebook-${sel.value}.pdf`;
+      u.toast('Gespeichert. Deine Seite bietet jetzt dieses E-Book an.');
+    }));
+  }
+
+  // ---------- E-Books: Katalog aus /p/ebooks.js (erzeugt aus ebooks/inhalt.mjs) ----------
+  const KAT = () => window.UKEbooks || { themen: {}, standard: {}, buecher: [] };
+  const buchFuer = (s, f) => { const k = KAT(); const w = (s.ebooks || {})[f]; return k.buecher.some((b) => b.id === w) ? w : k.standard[f]; };
+  function buchWahl(f, s) {
+    const k = KAT(), jetzt = buchFuer(s, f);
+    return `<select data-buch-wahl="${f}">${Object.entries(k.themen).map(([t, name]) => `<optgroup label="${esc(name)}">${k.buecher.filter((b) => b.thema === t)
+      .map((b) => `<option value="${esc(b.id)}" ${b.id === jetzt ? 'selected' : ''}>${esc(b.titel)}${b.id === k.standard[f] ? ' (Vorschlag)' : ''}</option>`).join('')}</optgroup>`).join('')}</select>`;
+  }
+  const buchLink = (s, id) => `${D.basis}/p/${s.adresse}/e-book/${id}`;
+  function bibliothek(s) {
+    const k = KAT(); if (!k.buecher.length) return '';
+    return `<section class="abschnitt" id="ebooks"><div class="abschnitt-kopf"><h2>Deine E-Book-Bibliothek</h2></div>
+      <p class="leise" style="margin-bottom:var(--s-4);max-width:46em">${k.buecher.length} E-Books, alle mit deinem Namen, deinem Foto und deinem Link darin, im Look deiner Seite zum jeweiligen Thema. Am besten teilst du deine Seite, dort trägt man sich fürs E-Book ein, und du bekommst den Kontakt. Den direkten Link schickst du Leuten, mit denen du schon in Kontakt bist.</p>
+      ${Object.entries(k.themen).map(([t, name]) => `<p class="kicker" style="margin:var(--s-4) 0 var(--s-2)">${esc(name)}</p><div class="ms-buecher">${k.buecher.filter((b) => b.thema === t).map((b) => `<article class="ms-buch">
+          <b>${esc(b.titel)}</b><small>${esc(b.untertitel)}</small><p>${esc(b.kurz || '')}</p>
+          <div class="knoepfe"><a class="knopf zweit" href="${esc(u.vorschau ? `/p/vorschau/ebook-${b.id}.pdf` : buchLink(s, b.id))}" target="_blank" rel="noopener">${ico('auge')} Ansehen</a>
+            <button class="knopf still" type="button" data-kopie="${esc(buchLink(s, b.id))}" data-hinweis="E-Book-Link kopiert.">${ico('kopie')} Link kopieren</button></div></article>`).join('')}</div>`).join('')}
+    </section>`;
   }
 
   // Anfragen-Bot: eigener Telegram-Bot nur für Anfragen, getrennt vom Assistenten. Ein Klick verbindet ihn.
@@ -576,6 +604,7 @@ window.MeineSeiten = (() => {
         if (name === 'uk_partner_seiten_anfragen') return { data: leadsBei === 'partner' && gespeichert.seite ? anfragen : [] };
         if (name === 'uk_partner_anfragenbot') return { data: leadsBei !== 'partner' ? { moeglich: false }
           : { moeglich: true, bereit: true, bot: 'beispiel_anfragen_bot', verbunden: !!gespeichert.bot, link: 'https://t.me/beispiel_anfragen_bot?start=vorschau' } };
+        if (name === 'uk_partner_seiten_ebook') { gespeichert.seite.ebooks = { ...(gespeichert.seite.ebooks || {}), [args.p_fassung]: args.p_buch }; merken(); return { data: true }; }
         if (name === 'uk_partner_anfragenbot_trennen') { gespeichert.bot = false; merken(); return { data: true }; }
         return { error: new Error('Vorschau kennt ' + name + ' nicht') };
       },

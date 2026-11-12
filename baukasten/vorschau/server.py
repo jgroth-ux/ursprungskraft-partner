@@ -8,6 +8,7 @@ HIER = pathlib.Path(__file__).resolve().parent
 WEB = HIER.parent / 'website'
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8791
 FASSUNGEN = ('neutral', 'sport', 'gesundheit')
+STANDARD_BUCH = {'neutral': 'fuenf-wasserarten', 'sport': 'unterschaetztes-supplement', 'gesundheit': 'wasser-alltag'}
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **k):
@@ -21,9 +22,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return str(HIER / 'schriften' / pfad.split('/')[-1])
         if pfad.startswith('/vorschau/'):
             return str(HIER / pfad[len('/vorschau/'):])
-        m = re.fullmatch(r'/p/([a-z0-9-]+)/([a-z]+)/e-book', pfad)
+        if pfad.startswith('/ebooks/'):
+            return str(HIER.parent / 'ebooks' / pfad[len('/ebooks/'):])
+        m = re.fullmatch(r'/p/([a-z0-9-]+)/e-book/([a-z0-9-]+)', pfad)
         if m:
             return str(WEB / 'p' / 'vorschau' / f'ebook-{m.group(2)}.pdf')
+        m = re.fullmatch(r'/p/([a-z0-9-]+)/([a-z]+)/e-book', pfad)
+        if m:
+            return str(WEB / 'p' / 'vorschau' / f'ebook-{STANDARD_BUCH.get(m.group(2), "fuenf-wasserarten")}.pdf')
         m = re.fullmatch(r'/p/([a-z0-9-]+)(?:/([a-z]+))?/?', pfad)
         if m and not (WEB / pfad.lstrip('/')).exists():
             f = m.group(2) if m.group(2) in FASSUNGEN else 'neutral'

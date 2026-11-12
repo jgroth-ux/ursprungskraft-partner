@@ -35,7 +35,19 @@
   // Schöne Adresse /p/<adresse>/<fassung>. Lokal ohne Weiterleitung (Datei direkt geöffnet) die Datei mit ?seite=
   const huebsch = () => /^\/p\/[a-z0-9-]+(\/|$)/.test(location.pathname) && !location.pathname.endsWith('.html');
   const seitenPfad = (adresse, fassung) => (DEMO && !huebsch() ? `/p/${fassung}.html?seite=${encodeURIComponent(adresse)}&demo` : `/p/${adresse}/${fassung}${DEMO && q.has('demo') ? '?demo' : ''}`);
-  const ebookPfad = () => (DEMO || PORTAL ? `/p/vorschau/ebook-${FASSUNG}.pdf` : `/p/${P.adresse}/${FASSUNG}/e-book`);
+  // E-Book dieser Seite: Wahl des Partners (p.ebook) oder der Vorschlag aus dem Katalog (ebooks.js)
+  const K = window.UKEbooks || { standard: {}, buecher: [] };
+  const buchVon = (p) => K.buecher.find((b) => b.id === p?.ebook) || K.buecher.find((b) => b.id === K.standard[FASSUNG]) || null;
+  const ebookPfad = () => (DEMO || PORTAL ? `/p/vorschau/ebook-${buchVon(P)?.id || FASSUNG}.pdf` : `/p/${P.adresse}/${FASSUNG}/e-book`);
+  function ebookAnzeigen(p) {
+    const b = buchVon(p); if (!b) return;
+    $$('.buch-titel').forEach((el) => (el.textContent = b.titel));
+    $$('.buch-unter').forEach((el) => (el.textContent = b.untertitel));
+    $$('.buch-eyebrow').forEach((el) => (el.textContent = b.eyebrow));
+    const h = $('#ebook h2'); if (h) h.textContent = `Das E-Book: ${b.titel}`;
+    const t = $('#ebook .zwei > div:not(.buch) > p'); if (t && b.kurz) t.textContent = b.kurz;
+    $('#ebook .buch')?.setAttribute('aria-label', `Titelseite des E-Books ${b.titel}`);
+  }
 
   async function holen(adresse, fassung) {
     if (DEMO) {
@@ -81,6 +93,7 @@
   function einsetzen(p) {
     P = p;
     farben(p.aussehen);
+    ebookAnzeigen(p);
     const name = `${t(p.vorname)} ${t(p.nachname)}`.trim();
     const insta = t(p.insta).replace(/^@/, '');
     const werte = { name, vorname: t(p.vorname), rolle: t(p.rolle), satz: t(p.satz), insta };
@@ -174,7 +187,7 @@
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(t(w.email))) return (fehler.textContent = 'Bitte prüf deine E-Mail-Adresse.');
     if (!w.ok) return (fehler.textContent = 'Bitte bestätige noch, dass wir deinen Vornamen und deine E-Mail speichern dürfen.');
     fehler.textContent = '';
-    melden({ vorname: t(w.vorname), email: t(w.email), quelle: 'ebook' }).catch(() => {});
+    melden({ vorname: t(w.vorname), email: t(w.email), quelle: 'ebook', antworten: { buch: buchVon(P)?.id } }).catch(() => {});
     buchZeigen(e.target, w.vorname);
   }
 

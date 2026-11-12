@@ -1,0 +1,193 @@
+{
+ "buch": "was-steckt-im-wasser",
+ "titel": "Was steckt in deinem Wasser?",
+ "modus": "hell",
+ "akzent": "salbei",
+ "seiten": 9,
+ "farben": {
+  "akKnopf": "#4C7660",
+  "text": "#2A2C22"
+ },
+ "felder": [
+  {
+   "typ": "titel-name",
+   "seite": 0,
+   "x": 56.68,
+   "y": 68.03,
+   "w": 352.41,
+   "h": 25.51,
+   "schrift": "fett",
+   "groesse": 10,
+   "zeile": 12,
+   "farbe": "#2A2C22"
+  },
+  {
+   "typ": "foto",
+   "seite": 1,
+   "x": 56.68,
+   "y": 551.69,
+   "w": 164.4,
+   "h": 205.51,
+   "schrift": "text",
+   "groesse": 11,
+   "zeile": 16,
+   "farbe": "#2A2C22"
+  },
+  {
+   "typ": "name",
+   "seite": 1,
+   "x": 246.6,
+   "y": 659.02,
+   "w": 291.98,
+   "h": 68.03,
+   "schrift": "kopf",
+   "groesse": 26,
+   "zeile": 29,
+   "farbe": "#2A2C22"
+  },
+  {
+   "typ": "rolle",
+   "seite": 1,
+   "x": 246.6,
+   "y": 636.35,
+   "w": 291.98,
+   "h": 19.84,
+   "schrift": "text",
+   "groesse": 11,
+   "zeile": 14,
+   "farbe": "#5F6152"
+  },
+  {
+   "typ": "satz",
+   "seite": 1,
+   "x": 259.44,
+   "y": 539.99,
+   "w": 279.15,
+   "h": 85.03,
+   "schrift": "kopf",
+   "groesse": 13,
+   "zeile": 18,
+   "farbe": "#3E6651"
+  },
+  {
+   "typ": "intro",
+   "seite": 1,
+   "x": 56.68,
+   "y": 401.63,
+   "w": 481.9,
+   "h": 73.7,
+   "schrift": "text",
+   "groesse": 11,
+   "zeile": 16,
+   "farbe": "#2A2C22"
+  },
+  {
+   "typ": "kontakt",
+   "seite": 1,
+   "x": 76.52,
+   "y": 246.75,
+   "w": 442.22,
+   "h": 96.38,
+   "schrift": "fett",
+   "groesse": 11,
+   "zeile": 17,
+   "farbe": "#2A2C22"
+  },
+  {
+   "typ": "cta",
+   "seite": 3,
+   "x": 73.69,
+   "y": 303.86,
+   "w": 447.88,
+   "h": 14.99,
+   "schrift": "text",
+   "groesse": 10.5,
+   "zeile": 15,
+   "farbe": "#FFFFFF"
+  },
+  {
+   "typ": "cta",
+   "seite": 5,
+   "x": 73.69,
+   "y": 328.27,
+   "w": 447.88,
+   "h": 29.99,
+   "schrift": "text",
+   "groesse": 10.5,
+   "zeile": 15,
+   "farbe": "#FFFFFF"
+  },
+  {
+   "typ": "cta",
+   "seite": 6,
+   "x": 73.69,
+   "y": 432.62,
+   "w": 447.88,
+   "h": 29.99,
+   "schrift": "text",
+   "groesse": 10.5,
+   "zeile": 15,
+   "farbe": "#FFFFFF"
+  },
+  {
+   "typ": "qr",
+   "seite": 7,
+   "x": 76.52,
+   "y": 95.43,
+   "w": 107.71,
+   "h": 107.71,
+   "schrift": "text",
+   "groesse": 11,
+   "zeile": 16,
+   "farbe": "#2A2C22"
+  },
+  {
+   "typ": "link",
+   "seite": 7,
+   "x": 204.07,
+   "y": 145.95,
+   "w": 314.67,
+   "h": 19.84,
+   "schrift": "fett",
+   "groesse": 10.5,
+   "zeile": 13,
+   "farbe": "#3E6651"
+  },
+  {
+   "typ": "weiter-name",
+   "seite": 7,
+   "x": 204.07,
+   "y": 124.7,
+   "w": 314.67,
+   "h": 17,
+   "schrift": "text",
+   "groesse": 10,
+   "zeile": 13,
+   "farbe": "#5F6152"
+  },
+  {
+   "typ": "weiter-kontakt",
+   "seite": 7,
+   "x": 204.07,
+   "y": 87.87,
+   "w": 314.67,
+   "h": 34.01,
+   "schrift": "fett",
+   "groesse": 10,
+   "zeile": 13,
+   "farbe": "#2A2C22"
+  },
+  {
+   "typ": "rueck-name",
+   "seite": 8,
+   "x": 56.68,
+   "y": 157.2,
+   "w": 481.9,
+   "h": 22.68,
+   "schrift": "fett",
+   "groesse": 11,
+   "zeile": 14,
+   "farbe": "#F3F1EB"
+  }
+ ]
+}

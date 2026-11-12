@@ -98,6 +98,19 @@
 .ms-anfrage.heiss .marke-stufe { color: var(--heiss); }
 .ms-anfrage .knoepfe { margin-top: var(--s-2); }
 
+/* E-Books */
+.ms-ebook { display: flex; flex-wrap: wrap; align-items: end; gap: var(--s-2); margin-top: var(--s-4); padding-top: var(--s-3); border-top: var(--haar); }
+.ms-ebook .feld { flex: 1 1 260px; }
+.ms-ebook .titel { display: inline-flex !important; align-items: center; gap: var(--s-1); }
+.ms-ebook .titel svg { width: 16px; height: 16px; color: var(--c-olive); }
+.ms-buecher { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2); }
+.ms-buch { display: grid; gap: var(--s-1); align-content: start; padding: var(--s-4); border: var(--haar); border-radius: var(--radius); background: var(--c-surface); }
+.ms-buch b { font: 500 var(--g-h3)/var(--z-h3) var(--f-kopf); }
+.ms-buch small { color: var(--c-olive); font-weight: 600; font-size: 13px; }
+.ms-buch p { color: var(--c-muted); font-size: 14px; line-height: 22px; }
+.ms-buch .knoepfe { margin-top: var(--s-2); }
+@media (min-width: 900px) { .ms-buecher { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
 /* Anfragen-Bot */
 .ms-bot { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: var(--s-3); padding: var(--s-4); margin-bottom: var(--s-4); border: var(--haar); border-radius: var(--radius); background: var(--c-surface); }
 .ms-bot b { display: block; font: 500 var(--g-h3)/var(--z-h3) var(--f-kopf); margin-bottom: var(--s-1); }

@@ -15,8 +15,8 @@ Jeder Partner bekommt eigene Empfehlungsseiten mit E-Book, ohne dass jemand von 
 - **Leads** gehen wie bei Kevin und Johny an die Edge Function `partner-lead`, mit `von` = Kürzel des Partners
   (`uk_partner.kurz`). Die Adresse der Seite darf sich ändern, das Kürzel nie. So bleibt jeder Lead für immer beim
   Partner, über den er kam. Zusätzlich gespeichert: `antworten.fassung` und `antworten.seite`.
-- **E-Book:** eine Vorlage je Fassung. Die Edge Function `partner-ebook` fügt beim Abruf nach der Titelseite die Seite
-  "Empfohlen von" ein (Foto, Name, Rolle, Satz, Kontakt mit Freigabe, Link zur Seite).
+- **E-Books:** eine Bibliothek mit 9 E-Books, je 3 zu Neutral, Sport und Gesundheit (Abschnitt unten). Jedes E-Book
+  kommt im Look der passenden Seite des Partners, mit seinem Namen, Foto, Kontakt (mit Freigabe), Link und QR-Code.
 - **Portal:** neue Ansicht "Meine Seiten". Nicht gebucht: lebendige Vorschau mit den Seiten von Daniel und Jasmin,
   Klick öffnet die Info-Seite. Gebucht: einmal das Formular, danach je Fassung "Link kopieren", "Vorschau" und E-Book.
 - **Anmeldung** im Portal wie bisher mit Sitzungsschlüssel (`uk_partner_konten`, `uk_partner_sitzungen`),
@@ -84,6 +84,43 @@ Die Wahl steht mit in `aussehen` (`"aufbau": "felder" | "magazin" | "buehne"`). 
 Ausprobieren: `http://localhost:8791/vorschau/farbwelten.html` (alle Kombinationen aus Aufbau, Grundton und Akzent,
 Handy und Rechner nebeneinander).
 
+## E-Book-Bibliothek (12.11.2026)
+
+**Was der Partner bekommt:** alle 9 E-Books. Jede seiner Seiten bietet eins davon an (Vorschlag: das erste des Themas),
+umstellen kann er das im Portal unter "Meine Seiten". Darunter steht die ganze Bibliothek mit "Ansehen" und "Link kopieren".
+
+| Neutral | Sport | Gesundheit |
+|---|---|---|
+| Ein Gerät, fünf Wasserarten (Vorschlag) | Das unterschätzte Supplement (Vorschlag) | Wasser im Alltag (Vorschlag) |
+| Wasser in der Küche | Meal Prep mit den fünf Wasserarten | Gutes Wasser für die ganze Familie |
+| Flasche, Filter oder Gerät? | Dein Trinkplan für Trainingstage | Was steckt in deinem Wasser? |
+
+**Aufbau jedes E-Books (Lead-Magnet mit Brücke zum Gerät):** Titelseite, "Empfohlen von" mit Foto und Kontakt,
+fünf Kapitel (Alltag, Wissen, Lösung Gerät, Praxis, Checkliste), am Ende jedes Kapitels ein Kasten mit Link zurück auf
+die Seite, dann "So geht es weiter" mit QR-Code und Link zur Seite des Partners, hinten der rechtliche Hinweis.
+
+**Look:** Ein Sport-E-Book kommt im Look der Sportseite des Partners (Hell oder Dunkel, Akzent), ein Gesundheits-E-Book
+im Look seiner Gesundheitsseite usw. Hat er diese Seite nicht, gilt der Look seiner ersten Seite.
+
+**Wie es gebaut ist:**
+- Texte an EINER Stelle: `ebooks/inhalt.mjs`. Gestaltung: `ebooks/vorlage.html`, `vorlage.css`, `vorlage.js`.
+- `werkzeuge/ebooks-bauen.mjs` druckt daraus jedes Buch in jedem Look als PDF (Chromium) und vermisst die freien
+  Felder (Name, Foto, Kontakt, QR-Code, Links) in eine `.json` daneben. Es meldet, wenn Text über eine Seite hinausläuft.
+  Außerdem schreibt es `ausgabe/vorlagen/katalog.json` und `website/p/ebooks.js` (Katalog für Seiten und Portal).
+- Beim Abruf füllt `partner-ebook` (Datei `fuellen.js`) die Felder mit pdf-lib. Kein Upload je Partner.
+- Ansehen im Browser: `http://localhost:8791/ebooks/vorlage.html?buch=meal-prep&modus=hell&akzent=beere&felder`
+  (`&felder` zeigt die freien Felder gestrichelt).
+
+**Text ändern:** in `ebooks/inhalt.mjs`, dann im Ordner `werkzeuge`:
+```bash
+npm install
+```
+```bash
+node ebooks-bauen.mjs --alle --proben
+```
+Danach den Ordner `ausgabe/vorlagen` neu in den Speicher laden (Schritt 2). Im Paket liegen nur die 9 Vorschlags-Looks
+(alle 126 wären 70 MB). Fehlt ein Look im Speicher, nimmt die Funktion den Vorschlags-Look des Buches.
+
 ## Was wo liegt
 
 ```
@@ -100,7 +137,8 @@ baukasten/
       farben.js                                  Grundtöne und Akzente, eine Stelle für alle Editoren
       vorschau-daten.js                          Beispieldaten, nur lokal oder mit ?demo geladen
       bilder/                                    Fotos (verkleinert), sport-hero.jpg fehlt noch
-      vorschau/ebook-*.pdf                       Beispiel-E-Books, nur für die lokale Vorschau
+      ebooks.js                                  E-Book-Katalog (erzeugt, nicht von Hand ändern)
+      vorschau/ebook-*.pdf                       Beispiel-E-Books mit Max Muster, nur für die lokale Vorschau
     partner/               Partnerportal
       seiten.js seiten.css NEU: Ansicht "Meine Seiten"
       partner.js           geändert, alle Stellen mit "BAUKASTEN 11.11.2026" markiert
@@ -123,7 +161,9 @@ baukasten/
     farbwelten.html        alle Grundtöne und Akzente zum Durchklicken
     portal-stand-2026-11-11.css   unveränderte Kopie von partner/portal.css
     schriften/             Jost und Inter (liegen auf dem Server schon unter /schriften/)
-  werkzeuge/ebook-probe.mjs   baut die Beispiel-E-Books mit demselben Code wie die Edge Function
+  ebooks/                  Inhalt (inhalt.mjs) und Druckvorlage der 9 E-Books, dazu ein paar Fotos
+  ausgabe/vorlagen/        fertige E-Book-Vorlagen (PDF und Lage der Felder) für den Speicher, plus katalog.json
+  werkzeuge/ebooks-bauen.mjs  baut die E-Book-Vorlagen und die Beispiel-E-Books
 ```
 
 ## Ansehen (lokal, ohne Datenbank)
@@ -145,8 +185,9 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
    `seiten_basis` und die Speicher-Buckets `partner-seiten` (öffentlich, Fotos) und `partner-ebooks` (privat) an.
    Am Ende zeigt sie die Seiten von Daniel und Jasmin, falls es Partner mit Kürzel `daniel` und `jasmin` gibt.
 2. **Speicher:** Die drei Dateien aus `supabase/ebook-schriften/` nach `partner-ebooks/schriften/` hochladen.
-   Sobald die E-Books aus dem Paket E-Books da sind: als `partner-ebooks/vorlagen/ebook-neutral.pdf`,
-   `ebook-sport.pdf`, `ebook-gesundheit.pdf`. Bis dahin nimmt die Funktion eine schlichte Platzhalter-Vorlage.
+   Den Ordner `ausgabe/vorlagen/` (vorher am besten `node ebooks-bauen.mjs --alle` für alle Looks) nach
+   `partner-ebooks/vorlagen/` hochladen, mit `katalog.json` direkt darin. Zum Beispiel mit der Supabase-Oberfläche
+   oder `supabase storage cp -r ausgabe/vorlagen ss:///partner-ebooks/vorlagen --experimental`.
 3. **Anfragen-Bot anlegen** (einmal):
    - Bei Telegram mit @BotFather einen neuen Bot anlegen, zum Beispiel "Ursprungskraft Anfragen". Den Namen, der auf
      `bot` endet, notieren, den Schlüssel (Token) kopieren.
@@ -208,7 +249,9 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
       bei ihm unter "Meine Seiten" mit Kontakt. Bei "Daniel und Jasmin" umgekehrt, und er sieht dort keine Kontakte.
 - [ ] Im Portal: Formular speichern, Foto hochladen (landet in `partner-seiten/<partner_id>/`, das alte wird gelöscht),
       Adresse ändern (alter Link leitet weiter), Zahlen je Fassung stimmen.
-- [ ] `/p/<adresse>/sport/e-book` öffnet das PDF, Seite 2 ist "Empfohlen von" mit Foto und Link.
+- [ ] `/p/<adresse>/sport/e-book` öffnet das E-Book, das die Sportseite anbietet, im Look der Sportseite: Titelseite
+      "Empfohlen von", Seite 2 mit Foto und Kontakt, vorletzte Seite mit QR-Code (mit dem Handy scannen, führt zur Seite).
+- [ ] `/p/<adresse>/e-book/familie` öffnet ein bestimmtes E-Book aus der Bibliothek.
 - [ ] Alle drei Seiten am Handy (375 px) ohne seitliches Scrollen, Formulare abschicken.
 - [ ] Im Portal für eine Seite Aufbau, Hell und einen Akzent wählen, speichern: die echte Seite zeigt es, die anderen Seiten
       behalten ihren Vorschlag.
@@ -232,6 +275,9 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 - "Wer kümmert sich": SQL (Spalte, Prüfung auf erlaubte Werte, `uk_partner_lead_zustaendig`, Kontakte nur bei `partner`),
   Seiten ("Max meldet sich" und "Wir melden uns"), Portal mit Anfrageliste und mit Hinweis.
 - E-Book: `empfohlen.js` mit pdf-lib unter Node, Ergebnis als Bild geprüft (Seite 2 der Beispiel-PDFs).
+- E-Books: alle 9 Bücher in allen 14 Looks gebaut, kein Überlauf. Gefüllt mit Beispieldaten, QR-Code mit einem
+  QR-Leser geprüft (führt auf die Seite). Im Portal E-Book je Seite umgestellt, die Seite zeigt es, der Link nach dem
+  Eintragen öffnet das richtige PDF. SQL für die Auswahl getestet.
 - **Nicht getestet:** die drei Edge Functions unter Deno und Supabase, die Dashboard-Ergänzung im echten Dashboard (kein Zugang), die Weiterleitung an die
   Edge Function über Netlify, das echte Hochladen in den Speicher.
 
