@@ -7,9 +7,16 @@ Nichts davon ist hochgeladen oder eingespielt. Alle Schlüssel stehen als `XXX` 
 
 Jeder Partner bekommt eigene Empfehlungsseiten mit E-Book, ohne dass jemand von Hand baut oder hochlädt.
 
-- **Drei feste Seiten** für alle Partner: `website/p/neutral.html`, `sport.html`, `gesundheit.html`.
-- Die Adresse sagt, wer es ist: `/p/max-muster/sport`. Netlify leitet per `_redirects` auf die feste Seite um
-  (eine Zeile je Fassung). Die Seite holt Name, Foto, Rolle, Satz und Instagram über die öffentliche Funktion
+- **Drei feste Seiten** für alle Partner: `website/p/neutral.html`, `sport.html`, `gesundheit.html`. Dazu die
+  neutrale Startseite `start.html` für `wasseristmehr.com` (Abschnitt unten).
+- Die Adresse sagt, wer es ist: **`wasseristmehr.com/max-muster`** (Jasmin, 12.11.2026: einfach Domain und Name,
+  "nicht Sport oder irgendwas"). Der kurze Link zeigt die **Hauptseite** des Partners. Hat er mehrere Fassungen, wählt
+  er im Portal, welche das ist (Standard: die erste in der Reihe Neutral, Sport, Gesundheit). Die anderen erreicht man
+  über `wasseristmehr.com/max-muster/sport`. Die alte Form `/p/max-muster/sport` geht weiterhin (auch auf
+  mein.ursprungskraft.net), auf wasseristmehr.com schreibt die Seite sie selbst auf die kurze Form um.
+  Netlify leitet per `_redirects` auf die feste Seite um (eine Zeile je Fassung). Bei `/max-muster` liefert Netlify immer
+  `neutral.html`. Ist die Hauptseite eine andere, lädt die Seite die richtige Datei nach, der Link bleibt kurz.
+  Die Seite holt Name, Foto, Rolle, Satz und Instagram über die öffentliche Funktion
   `uk_seite_oeffentlich()`. Telefon und E-Mail des Partners nur, wenn er es im Formular ausdrücklich freigibt.
 - **Kein Upload je Partner.** Ein neuer Partner ist nur eine Zeile in der Datenbank.
 - **Leads** gehen wie bei Kevin und Johny an die Edge Function `partner-lead`, mit `von` = Kürzel des Partners
@@ -26,6 +33,26 @@ Jeder Partner bekommt eigene Empfehlungsseiten mit E-Book, ohne dass jemand von 
   `uk_einstellungen`, Name `seiten_basis`.
   Portal und E-Book lesen sie dort. Die Seiten selbst laufen unter jeder Domain. Domain wechseln heißt also:
   Domain in Netlify dazunehmen, einen Wert in der Datenbank ändern, **kein** Upload.
+
+## Startseite wasseristmehr.com (Jasmin, 12.11.2026)
+
+Wer nur `wasseristmehr.com` aufruft, sieht eine neutrale Seite **ohne Person**: oben "Wasser ist mehr", darüber
+"Wasser, das unterschätzte Supplement". Aufgebaut wie die neutrale Seite (Magazin, Hell, Oliv): fünf Wasserarten,
+sechs Felder "Warum Wasser mehr ist" (Alltag, Training, Geschmack, Pflege, Haushalt, Kisten), Kisten-Rechner, Fragen,
+Anfrage-Formular und E-Book. Datei: `website/p/start.html`.
+
+- Technisch ist die Startseite ein Eintrag wie ein Partner: `uk_partner.kurz = 'wasseristmehr'`, `leads_bei = 'team'`,
+  Paket bis 2099, Seite mit Adresse `wasseristmehr` (legt die SQL an, Abschnitt 8). Anfragen von dort landen also wie
+  gewohnt in der Gruppe "Leads", mit Herkunft `wasseristmehr`. **Den Eintrag nicht löschen.**
+- Das E-Book der Startseite spricht als "wir": "Ein E-Book von Wasser ist mehr", "Warum wir dir das empfehlen",
+  unterschrieben mit "Dein Team von Wasser ist mehr". Der Text steht in `uk_partner_seiten.brief` dieses Eintrags.
+  Beispiel: `website/p/vorschau/ebook-wasseristmehr.pdf`.
+- Antwortet die Datenbank nicht, zeigt sich die Startseite trotzdem (Anfragen gehen dann ans Team).
+- Sie steht noch auf `noindex` (Google zeigt sie nicht). Umstellen, wenn Impressum und Datenschutz für
+  wasseristmehr.com fertig sind (`<meta name="robots">` in `start.html`).
+- Für Partner gesperrte Adressen: alle Ordner der Website (`p`, `partner`, `dashboard`, `bestellen`, `impressum`,
+  `datenschutz` ...) und `wasseristmehr`. Liste in `uk_seiten_adresse_reserviert`. Kommt ein neuer Ordner auf die
+  Website, das Wort dort ergänzen.
 
 ## Wer kümmert sich um die Anfragen (Jasmin, 11.11.2026)
 
@@ -136,9 +163,10 @@ baukasten/
   bild-prompts.md          Prompts für fehlende Fotos, Liste der übernommenen Fotos
   ueberschriften.md        alle Überschriften und Knöpfe zum Abhaken (Jasmin)
   website/
-    _redirects-ergaenzung.txt   5 Zeilen für website/_redirects
+    _redirects-ergaenzung.txt   Zeilen für website/_redirects (ganz oben)
     p/                     NEU, kommt so nach website/p/
       neutral.html sport.html gesundheit.html   die drei Seiten
+      start.html             Startseite wasseristmehr.com, ohne Person
       seiten.css seiten.js                      Gestaltung und Ablauf für alle drei
       farben.js                                  Grundtöne und Akzente, eine Stelle für alle Editoren
       vorschau-daten.js                          Beispieldaten, nur lokal oder mit ?demo geladen
@@ -180,7 +208,8 @@ Im Ordner `baukasten`:
 python3 vorschau/server.py
 ```
 
-Dann `http://localhost:8791/` öffnen. Dort sind alle Seiten, die drei Zustände im Portal und die Beispiel-E-Books
+Dann `http://localhost:8791/` öffnen. Die Startseite von wasseristmehr.com liegt lokal unter
+`http://localhost:8791/startseite`, die Partner wie online unter `http://localhost:8791/max-muster`. Dort sind alle Seiten, die drei Zustände im Portal und die Beispiel-E-Books
 verlinkt. Am Handy-Format ansehen (375 px). In der Portal-Vorschau kannst du das Formular wirklich ausfüllen,
 ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit diesen Angaben (bleibt im Browser).
 
@@ -192,9 +221,12 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
    - Bei IONOS unter "Domains & SSL", Domain, "DNS": die Einträge eintragen, die Netlify anzeigt. Üblich sind ein
      A-Eintrag für `@` auf die IP von Netlify und ein CNAME für `www` auf `<name-der-website>.netlify.app`.
      Die DNS-Verwaltung bleibt bei IONOS (nicht zu Netlify umziehen), dann lassen sich später die Mail-Einträge dazutun.
-   - Warten, bis Netlify das Zertifikat ausgestellt hat (HTTPS), dann `https://wasseristmehr.com/p/` testen.
-   - Die vier Zeilen ganz oben in `_redirects-ergaenzung.txt`: ohne www, und Portal, Dashboard und Backoffice
-     bleiben auf mein.ursprungskraft.net.
+   - Warten, bis Netlify das Zertifikat ausgestellt hat (HTTPS).
+   - Die Zeilen in `_redirects-ergaenzung.txt` mit `https://wasseristmehr.com/...`: ohne www, Portal, Dashboard und
+     Backoffice bleiben auf mein.ursprungskraft.net, `/` zeigt die Startseite, `/<adresse>` die Partner.
+     **Bitte prüfen:** Regeln mit Domain vorne, die auf einen Pfad derselben Website umschreiben (Status 200), sind bei
+     Netlify so vorgesehen, ich konnte es aber nicht ausprobieren. Klappt es nicht, ist der Ausweg eine kleine
+     Netlify Edge Function, die für den Host wasseristmehr.com dieselben Pfade umschreibt.
    - Später für den E-Mail-Dienst: Absender zum Beispiel `hallo@wasseristmehr.com`. Der Dienst nennt drei Einträge
      (SPF, DKIM, DMARC), die kommen ebenfalls bei IONOS unter "DNS" dazu. Ein Postfach ist dafür nicht nötig.
 1. **Datenbank:** `supabase/umbau-2026-11-11-baukasten.sql` im SQL-Editor ausführen. Legt die Tabellen
@@ -236,7 +268,8 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 5. **Schlüssel eintragen:** `XXX` in `website/p/seiten.js` (Supabase-Adresse und öffentlicher Schlüssel, derselbe wie in
    `dashboard/daten.js`) und in `website/_redirects-ergaenzung.txt` (Projektkennung). `partner.js` hat sie schon.
 6. **Website:** `website/p/` in die Website legen (ohne `vorschau/`, die PDFs dort sind nur für die lokale Vorschau),
-   die fünf Zeilen aus `_redirects-ergaenzung.txt` in `website/_redirects` vor eine allgemeine Regel wie `/*`.
+   alle Zeilen aus `_redirects-ergaenzung.txt` **ganz oben** in `website/_redirects`, in derselben Reihenfolge (vor allem
+   vor der Regel für die Empfehlungslinks `/:kurz` von ursprungskraft.net, falls es die gibt).
    Im Partnerportal `seiten.js` und `seiten.css` dazulegen, `partner.js` und `index.html` ersetzen. Hat sich
    `partner.js` seit dem Paket geändert, die Diffs nehmen oder die markierten Stellen von Hand übertragen.
 7. **Dashboard:** die zwei Zeilen aus `dashboard-ergaenzung/app.js.diff` in `website/dashboard/app.js` übernehmen.
@@ -256,8 +289,13 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
       keine E-Mail, solange "zeigen" nicht angehakt ist.
 - [ ] Mit dem öffentlichen Schlüssel lässt sich `uk_partner_seiten` nicht direkt lesen (REST-Abfrage auf die Tabelle
       liefert nichts oder einen Fehler). Nur die Funktionen geben etwas heraus.
-- [ ] `/p/daniel-zuercher/neutral` zeigt Daniels Seite, `/p/daniel-zuercher/gesundheit` leitet auf seine erste Fassung um,
-      `/p/gibt-es-nicht/sport` zeigt "Diese Seite gibt es gerade nicht".
+- [ ] `https://wasseristmehr.com` zeigt die Startseite "Wasser ist mehr", ohne Person. Testanfrage dort kommt mit
+      Herkunft `wasseristmehr` in die Gruppe "Leads". `https://www.wasseristmehr.com` leitet auf ohne www um.
+- [ ] `wasseristmehr.com/daniel-zuercher` zeigt Daniels Hauptseite, `/daniel-zuercher/sport` seine Sportseite,
+      `/daniel-zuercher/gesundheit` leitet auf seine Hauptseite um, `/gibt-es-nicht` zeigt "Diese Seite gibt es gerade nicht".
+- [ ] Partner mit Hauptseite Sport: `wasseristmehr.com/<adresse>` zeigt die Sportseite, der Link bleibt kurz.
+- [ ] Alte Form `wasseristmehr.com/p/daniel-zuercher/neutral` geht und zeigt danach `/daniel-zuercher` in der Adresszeile.
+- [ ] `wasseristmehr.com/impressum.html` und `/datenschutz/` gehen (Dateien gehen vor), `/partner/` führt ins Portal.
 - [ ] Testanfrage über eine Partnerseite: Zeile in `uk_partner_leads` mit `herkunft` = Kürzel des Partners,
       `antworten->>'fassung'` gesetzt, Meldung in der Gruppe "Leads".
 - [ ] Anfragen-Bot: Im Portal "Telegram verbinden", in Telegram "Starten", Begrüßung kommt, im Portal steht
@@ -266,9 +304,11 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
       bei ihm unter "Meine Seiten" mit Kontakt. Bei "Daniel und Jasmin" umgekehrt, und er sieht dort keine Kontakte.
 - [ ] Im Portal: Formular speichern, Foto hochladen (landet in `partner-seiten/<partner_id>/`, das alte wird gelöscht),
       Adresse ändern (alter Link leitet weiter), Zahlen je Fassung stimmen.
-- [ ] `/p/<adresse>/sport/e-book` öffnet das E-Book, das die Sportseite anbietet, im Look der Sportseite: Titelseite
+- [ ] `wasseristmehr.com/<adresse>/sport/e-book` öffnet das E-Book, das die Sportseite anbietet, im Look der Sportseite: Titelseite
       "Empfohlen von", Seite 2 mit Foto und Kontakt, vorletzte Seite mit QR-Code (mit dem Handy scannen, führt zur Seite).
-- [ ] `/p/<adresse>/e-book/familie` öffnet ein bestimmtes E-Book aus der Bibliothek.
+- [ ] `wasseristmehr.com/<adresse>/e-book/familie` öffnet ein bestimmtes E-Book aus der Bibliothek.
+- [ ] `wasseristmehr.com/wasseristmehr/neutral/e-book` öffnet das E-Book der Startseite ("Warum wir dir das empfehlen").
+- [ ] Im Portal: oben "Dein Link" mit `wasseristmehr.com/<adresse>`, bei mehreren Seiten "Als Hauptseite nehmen".
 - [ ] Alle drei Seiten am Handy (375 px) ohne seitliches Scrollen, Formulare abschicken.
 - [ ] Im Portal für eine Seite Aufbau, Hell und einen Akzent wählen, speichern: die echte Seite zeigt es, die anderen Seiten
       behalten ihren Vorschlag.
@@ -295,7 +335,12 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 - E-Books: alle 9 Bücher in allen 14 Looks gebaut, kein Überlauf. Gefüllt mit Beispieldaten, QR-Code mit einem
   QR-Leser geprüft (führt auf die Seite). Im Portal E-Book je Seite umgestellt, die Seite zeigt es, der Link nach dem
   Eintragen öffnet das richtige PDF. SQL für die Auswahl getestet.
-- **Nicht getestet:** die drei Edge Functions unter Deno und Supabase, die Dashboard-Ergänzung im echten Dashboard (kein Zugang), die Weiterleitung an die
+- Startseite und kurze Links (12.11.2026): SQL (Hauptseite wählen, ungültige Wahl abgelehnt, ohne Fassung kommt die
+  Hauptseite, Startseiten-Eintrag, gesperrte Wörter, zweimal hintereinander). Lokal mit nachgebildeten Regeln:
+  Startseite, `/max-muster` (Hauptseite Sport, Link bleibt kurz), `/max-muster/neutral`, fehlende Fassung leitet um,
+  unbekannte Adresse, alte Form `/p/...`. Startseite bei 1440 und 375 px ohne seitliches Scrollen, keine Fehler.
+  Portal: kurzer Link, Hauptseite umstellen, E-Book-Links in kurzer Form. E-Book der Startseite als Bild geprüft.
+- **Nicht getestet:** die Regeln mit Domain bei Netlify (siehe Schritt 0), die drei Edge Functions unter Deno und Supabase, die Dashboard-Ergänzung im echten Dashboard (kein Zugang), die Weiterleitung an die
   Edge Function über Netlify, das echte Hochladen in den Speicher.
 
 ## Bewusst nicht gebaut

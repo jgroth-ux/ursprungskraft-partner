@@ -57,6 +57,8 @@ async function vermessen(page) {
         schrift: /Jost/.test(cs.fontFamily) ? 'kopf' : +cs.fontWeight >= 600 ? 'fett' : 'text',
         groesse: +(parseFloat(cs.fontSize) * PT).toFixed(2), zeile: +(parseFloat(cs.lineHeight) * PT || parseFloat(cs.fontSize) * 1.3 * PT).toFixed(2),
         farbe: hex(cs.color),
+        ...(cs.textTransform === 'uppercase' ? { gross: true } : {}),
+        ...(Math.abs(parseFloat(cs.letterSpacing) * PT) >= 0.3 ? { abstand: +(parseFloat(cs.letterSpacing) * PT).toFixed(2) } : {}),
       };
     });
     // Überlauf prüfen: Inhalt darf nicht in den Fuß laufen
@@ -115,8 +117,18 @@ if (PROBEN) {
     const std = F.STANDARD[b.thema], name = path.join(AUS, b.id, `${std.modus}-${std.akzent}`);
     const lage = JSON.parse(await readFile(name + '.json', 'utf8'));
     const pdf = await fuellen({ PDFLib, fontkit, qrcode, vorlage: await readFile(name + '.pdf'), lage, schriften, foto: null, partner, briefStandard: BRIEFE[b.thema],
-      link: `https://wasseristmehr.com/p/max-muster/${b.thema}` });
+      link: `https://wasseristmehr.com/max-muster/${b.thema}` });
     await writeFile(path.join(BAUKASTEN, `website/p/vorschau/ebook-${b.id}.pdf`), pdf);
+  }
+  // Startseite wasseristmehr.com: kein Partner, das E-Book spricht als "wir"
+  {
+    const std = F.STANDARD.neutral, name = path.join(AUS, katalog.standard.neutral, `${std.modus}-${std.akzent}`);
+    const lage = JSON.parse(await readFile(name + '.json', 'utf8'));
+    const pdf = await fuellen({ PDFLib, fontkit, qrcode, vorlage: await readFile(name + '.pdf'), lage, schriften, foto: null, briefStandard: BRIEFE.neutral,
+      partner: { marke: true, vorname: 'Wasser ist mehr', nachname: '', rolle: 'Wasser, das unterschätzte Supplement',
+        brief: 'Wasser ist mehr als etwas gegen den Durst. Du trinkst es jeden Tag, du kochst damit, du pflegst dich damit. Darum lohnt sich ein genauer Blick darauf, was aus deinem Hahn kommt.\n\nIn diesem E-Book zeigen wir dir, was ein Gerät mit fünf Wasserarten im Alltag kann. Lies es in Ruhe. Wenn du Fragen hast oder das Gerät kennenlernen möchtest, trag dich auf wasseristmehr.com ein. Wir melden uns bei dir.' },
+      link: 'https://wasseristmehr.com' });
+    await writeFile(path.join(BAUKASTEN, 'website/p/vorschau/ebook-wasseristmehr.pdf'), pdf);
   }
   console.log('Beispiel-E-Books gebaut:', BUECHER.length);
 }

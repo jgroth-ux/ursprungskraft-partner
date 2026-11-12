@@ -43,9 +43,9 @@ seiten.push(`<section class="seite titel"><span class="marke-band"></span>
   <div class="unten"><span class="ratgeber">Kein medizinischer Ratgeber</span></div></section>`);
 // 2 Empfohlen von
 seiten.push(`<section class="seite empf">
-  <div class="kopf">${slot('foto')}<div class="wer"><span class="eyebrow">Empfohlen von</span>${slot('name')}${slot('rolle')}</div></div>
-  <h2>Warum ich dir das empfehle</h2>${slot('brief')}
-  <div class="kontaktbox"><span class="eyebrow">So erreichst du mich</span>${slot('kontakt')}</div>
+  <div class="kopf">${slot('foto')}<div class="wer">${slot('empf-eyebrow', 'eyebrow')}${slot('name')}${slot('rolle')}</div></div>
+  <h2 class="slot-brief-titel" data-slot="brief-titel"></h2>${slot('brief')}
+  <div class="kontaktbox">${slot('kontakt-titel', 'eyebrow')}${slot('kontakt')}</div>
   <p class="ratgeber"><b>Kein medizinischer Ratgeber.</b> Dieses E-Book informiert über das Gerät und seine Anwendung im Alltag. Bei Fragen zu deiner Gesundheit sprich mit deinem Arzt oder Therapeuten.</p>
   ${fuss()}</section>`);
 // Inhaltsseiten

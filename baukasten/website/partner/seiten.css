@@ -64,6 +64,15 @@
 .ms-stand dt { font: 600 12px/16px var(--f-text); letter-spacing: .08em; text-transform: uppercase; color: var(--c-muted); }
 .ms-stand dd { margin: var(--s-1) 0 0; font: 500 28px/32px var(--f-kopf); font-variant-numeric: tabular-nums; }
 .ms-stand dd.klein { font: 600 15px/32px var(--f-text); }
+/* Kurzer Link wasseristmehr.com/<adresse> (12.11.2026) */
+.ms-kurz { margin: 0 0 var(--s-6); padding: var(--s-4); border: var(--haar); border-radius: var(--radius-gross); }
+.ms-kurz .kicker { margin-bottom: var(--s-2); }
+.ms-kurz .linkfeld code { font-size: 17px; font-weight: 600; }
+.ms-kurz .leise { margin-top: var(--s-2); }
+.ms-haupt { display: inline-flex; align-items: center; gap: var(--s-1); margin-top: var(--s-2); font: 600 13px/20px var(--f-text); color: var(--c-olive); }
+.ms-haupt svg { width: 16px; height: 16px; }
+.ms-haupt-wahl { margin-top: var(--s-2); padding: 0; border: 0; background: none; font: 600 13px/20px var(--f-text); color: var(--c-ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.ms-haupt-wahl:disabled { opacity: .5; cursor: default; }
 .ms-reihen { display: grid; gap: var(--s-7); }
 .ms-reihe { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); align-items: center; }
 .ms-reihe .zahl-gross { display: block; margin-bottom: var(--s-2); }

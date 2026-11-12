@@ -73,6 +73,10 @@ alter table uk_partner_seiten add column if not exists aussehen jsonb not null d
 alter table uk_partner_seiten add column if not exists ebooks jsonb not null default '{}'::jsonb;
 -- "Warum ich dir das empfehle" (12.11.2026): steht vorne in den E-Books. Leer: Vorschlag des Themas (ebooks/inhalt.mjs).
 alter table uk_partner_seiten add column if not exists brief text;
+-- Kurzer Link wasseristmehr.com/<adresse> (Jasmin, 12.11.2026): zeigt die Hauptseite. Leer: die erste gewählte Fassung.
+alter table uk_partner_seiten add column if not exists haupt text;
+alter table uk_partner_seiten drop constraint if exists uk_partner_seiten_haupt_check;
+alter table uk_partner_seiten add constraint uk_partner_seiten_haupt_check check (haupt is null or haupt in ('neutral', 'sport', 'gesundheit'));
 alter table uk_partner_seiten drop constraint if exists uk_partner_seiten_fassungen_check;
 alter table uk_partner_seiten add constraint uk_partner_seiten_fassungen_check
   check (fassungen <@ array['neutral', 'sport', 'gesundheit']::text[]);
@@ -124,7 +128,10 @@ $$;
 create or replace function uk_seiten_adresse_reserviert(p_adresse text) returns boolean
 language sql immutable as $$
   select p_adresse = any (array['neutral', 'sport', 'gesundheit', 'e-book', 'ebook', 'vorschau', 'bilder', 'beispiel',
-    'seiten', 'index', 'admin', 'impressum', 'datenschutz', 'test', 'partner', 'portal'])
+    'seiten', 'index', 'admin', 'impressum', 'datenschutz', 'test', 'partner', 'portal',
+    -- Ordner und Seiten der Website (Partner stehen direkt unter wasseristmehr.com/<adresse>, 12.11.2026)
+    'p', 'start', 'schriften', 'vendor', 'dashboard', 'backoffice', 'bestellen', 'wasser', 'fragebogen', 'kunden',
+    'agb', 'kontakt', 'hilfe', 'login', 'anmelden', 'wasseristmehr', 'ursprungskraft'])
 $$;
 
 -- Ist die Adresse frei für diesen Partner? Auch frühere Adressen anderer Partner zählen als vergeben.
@@ -214,6 +221,8 @@ declare
   v_kurz text;
   v_leads text;
   v_fassungen text[];
+  v_f text;
+  v_haupt text;
 begin
   if v_adresse !~ '^[a-z0-9]+(-[a-z0-9]+)*$' or length(v_adresse) > 40 then return null; end if;
   select partner_id into v_partner from uk_partner_seiten where adresse = v_adresse;
@@ -228,13 +237,18 @@ begin
   select coalesce(array_agg(f order by array_position(array['neutral', 'sport', 'gesundheit'], f)), '{}') into v_fassungen
     from unnest(s.fassungen) f where f = any (uk_seiten_erlaubt(v_partner));
   if cardinality(v_fassungen) = 0 then return null; end if;
+  -- Hauptseite (kurzer Link ohne Fassung), sonst die erste
+  v_haupt := case when s.haupt = any (v_fassungen) then s.haupt else v_fassungen[1] end;
+  v_f := case when p_fassung = any (v_fassungen) then p_fassung else v_haupt end;
 
   return jsonb_build_object(
     'von', v_kurz,
     'adresse', s.adresse,
-    'fassung', case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end,
-    'aussehen', s.aussehen -> (case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end),
-    'ebook', s.ebooks ->> (case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end),
+    'fassung', v_f,
+    'haupt', v_haupt,
+    'marke', s.adresse = 'wasseristmehr',   -- Startseite: keine Person, E-Book spricht als "wir"
+    'aussehen', s.aussehen -> v_f,
+    'ebook', s.ebooks ->> v_f,
     'brief', s.brief,
     'fassungen', to_jsonb(v_fassungen),
     'vorname', s.vorname,
@@ -276,7 +290,7 @@ begin
     'seite', case when s.partner_id is null then null else jsonb_build_object(
       'adresse', s.adresse, 'vorname', s.vorname, 'nachname', s.nachname, 'rolle', s.rolle, 'satz', s.satz,
       'insta', s.insta, 'foto', s.foto, 'lead_telefon', s.lead_telefon, 'lead_email', s.lead_email,
-      'kontakt_zeigen', s.kontakt_zeigen, 'fassungen', to_jsonb(s.fassungen), 'aussehen', s.aussehen, 'ebooks', s.ebooks, 'brief', s.brief, 'geaendert', s.geaendert) end,
+      'kontakt_zeigen', s.kontakt_zeigen, 'fassungen', to_jsonb(s.fassungen), 'aussehen', s.aussehen, 'ebooks', s.ebooks, 'brief', s.brief, 'haupt', s.haupt, 'geaendert', s.geaendert) end,
     'beispiele', coalesce((select jsonb_agg(jsonb_build_object('adresse', b.adresse, 'fassung', b.fassungen[1],
         'fassungen', to_jsonb(b.fassungen), 'vorname', b.vorname, 'nachname', b.nachname, 'rolle', b.rolle) order by b.erstellt)
       from uk_partner_seiten b where b.beispiel and cardinality(b.fassungen) > 0 and uk_seiten_gebucht(b.partner_id)), '[]'::jsonb),
@@ -379,10 +393,20 @@ begin
   return found;
 end $$;
 
+-- Welche Seite unter dem kurzen Link wasseristmehr.com/<adresse> erscheint
+create or replace function uk_partner_seiten_haupt(p_sitzung text, p_fassung text) returns boolean
+language plpgsql security definer set search_path = public as $$
+declare v uuid := uk_partner_von_sitzung(p_sitzung);
+begin
+  if v is null or p_fassung not in ('neutral', 'sport', 'gesundheit') then return false; end if;
+  update uk_partner_seiten set haupt = p_fassung, geaendert = now() where partner_id = v and p_fassung = any (fassungen);
+  return found;
+end $$;
+
 revoke all on function uk_partner_seiten_daten(text), uk_partner_seiten_adresse(text, text), uk_partner_seiten_speichern(text, jsonb),
-  uk_partner_seiten_anfragen(text), uk_partner_seiten_ebook(text, text, text) from public;
+  uk_partner_seiten_anfragen(text), uk_partner_seiten_ebook(text, text, text), uk_partner_seiten_haupt(text, text) from public;
 grant execute on function uk_partner_seiten_daten(text), uk_partner_seiten_adresse(text, text), uk_partner_seiten_speichern(text, jsonb),
-  uk_partner_seiten_anfragen(text), uk_partner_seiten_ebook(text, text, text) to anon, authenticated;
+  uk_partner_seiten_anfragen(text), uk_partner_seiten_ebook(text, text, text), uk_partner_seiten_haupt(text, text) to anon, authenticated;
 
 -- Für die Edge Function partner-lead: Wer kümmert sich um Leads mit diesem Kürzel? Unbekannt = 'team' (wie bisher).
 create or replace function uk_partner_lead_zustaendig(p_kurz text) returns text
@@ -554,6 +578,26 @@ from (values ('daniel', 'daniel-zuercher', array['neutral', 'sport']),
 join uk_partner p on p.kurz = x.kurz
 where not exists (select 1 from uk_partner_seiten s where s.partner_id = p.id)
   and uk_seiten_adresse_status(x.adresse, p.id) = 'ok';
+
+-- ---------------------------------------------------------------------------------------------------------------
+-- 8. Startseite wasseristmehr.com (12.11.2026): neutrale Seite ohne Namen. Anfragen von dort kommen mit von = 'wasseristmehr'
+-- und landen bei Daniel und Jasmin (leads_bei = team). Das E-Book dort wird mit "Wasser ist mehr" statt eines Namens gefüllt.
+-- ---------------------------------------------------------------------------------------------------------------
+insert into uk_partner (kurz, vorname, nachname, aktiv, status, leads_bei, notiz)
+select 'wasseristmehr', 'Wasser ist mehr', '', true, 'freigegeben', 'team', 'Startseite wasseristmehr.com, kein echter Partner. Bitte nicht löschen.'
+where not exists (select 1 from uk_partner where kurz = 'wasseristmehr');
+insert into uk_partner_seiten_paket (partner_id, gebucht_bis, notiz)
+select id, date '2099-12-31', 'Startseite wasseristmehr.com' from uk_partner where kurz = 'wasseristmehr'
+on conflict (partner_id) do nothing;
+-- Adresse "wasseristmehr" ist für Partner reserviert, hier wird sie direkt gesetzt
+insert into uk_partner_seiten (partner_id, adresse, vorname, nachname, rolle, fassungen, aussehen, brief)
+select id, 'wasseristmehr', 'Wasser ist mehr', '', 'Wasser, das unterschätzte Supplement', array['neutral'], '{"neutral": {"modus": "hell", "akzent": "oliv", "aufbau": "magazin"}}'::jsonb,
+  'Wasser ist mehr als etwas gegen den Durst. Du trinkst es jeden Tag, du kochst damit, du pflegst dich damit. '
+  || 'Darum lohnt sich ein genauer Blick darauf, was aus deinem Hahn kommt.' || chr(10) || chr(10)
+  || 'In diesem E-Book zeigen wir dir, was ein Gerät mit fünf Wasserarten im Alltag kann. Lies es in Ruhe. '
+  || 'Wenn du Fragen hast oder das Gerät kennenlernen möchtest, trag dich auf wasseristmehr.com ein. Wir melden uns bei dir.'
+from uk_partner where kurz = 'wasseristmehr'
+on conflict (partner_id) do nothing;
 
 -- Stand ansehen
 select p.kurz, p.leads_bei, s.adresse, s.fassungen, s.beispiel, k.gebucht_bis, uk_seiten_basis() as basis

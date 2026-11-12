@@ -1,5 +1,7 @@
 // Partnerseiten aus dem Baukasten (11.11.2026). Eine Datei für alle drei Fassungen und alle Partner.
-// 1. Liest aus der Adresse, wer es ist: /p/<adresse>/<fassung> (online) oder ?seite=<adresse> (lokal).
+// 1. Liest aus der Adresse, wer es ist: wasseristmehr.com/<adresse> (Hauptseite des Partners),
+//    wasseristmehr.com/<adresse>/<fassung>, die alte Form /p/<adresse>/<fassung> oder ?seite=<adresse> (lokal).
+//    Die Startseite wasseristmehr.com (start.html) ist die Seite des Eintrags "wasseristmehr" (data-start).
 // 2. Holt die Angaben über die öffentliche Funktion uk_seite_oeffentlich (nur Name, Foto, Rolle, Satz, Instagram,
 //    Telefon und E-Mail nur, wenn der Partner sie freigegeben hat) und setzt sie in die Seite.
 // 3. Formulare: Leads gehen wie bei Kevin und Johny an die Edge Function partner-lead, mit von = kurz des Partners.
@@ -26,19 +28,32 @@
   let P = null; // Angaben des Partners
 
   // ---------- Wer ist es? ----------
+  const START = document.body.dataset.start || '';
   function adresseLesen() {
-    const teile = location.pathname.split('/').filter(Boolean);
-    // /p/<adresse>/<fassung> oder /p/<adresse>
-    if (teile[0] === 'p' && teile[1] && !teile[1].includes('.')) return { adresse: teile[1].toLowerCase(), fassung: FASSUNGEN.includes(teile[2]) ? teile[2] : null };
+    if (START) return { adresse: START, fassung: FASSUNG };
+    const teile = location.pathname.split('/').filter(Boolean).map((x) => decodeURIComponent(x).toLowerCase());
+    const lesen = (a, f) => ({ adresse: a, fassung: FASSUNGEN.includes(f) ? f : null });
+    // /p/<adresse>/<fassung> oder /p/<adresse> (alte Form, bleibt gültig)
+    if (teile[0] === 'p' && teile[1] && !teile[1].includes('.')) return lesen(teile[1], teile[2]);
+    // /<adresse> oder /<adresse>/<fassung> (kurzer Link auf wasseristmehr.com)
+    if (teile[0] && teile[0] !== 'p' && !teile[0].includes('.')) return lesen(teile[0], teile[1]);
     return { adresse: t(q.get('seite')).toLowerCase() || (DEMO ? 'max-muster' : ''), fassung: FASSUNG };
   }
   // Schöne Adresse /p/<adresse>/<fassung>. Lokal ohne Weiterleitung (Datei direkt geöffnet) die Datei mit ?seite=
   const huebsch = () => /^\/p\/[a-z0-9-]+(\/|$)/.test(location.pathname) && !location.pathname.endsWith('.html');
-  const seitenPfad = (adresse, fassung) => (DEMO && !huebsch() ? `/p/${fassung}.html?seite=${encodeURIComponent(adresse)}&demo` : `/p/${adresse}/${fassung}${DEMO && q.has('demo') ? '?demo' : ''}`);
+  // Kurze Links (/<adresse>): wenn die Seite so aufgerufen wurde oder wir auf der Basis-Domain (p.basis) sind.
+  // Auf einer anderen Domain (zum Beispiel mein.ursprungskraft.net/p/...) gibt es die kurzen Regeln nicht.
+  const aufBasis = (p) => { try { return !!p?.basis && new URL(p.basis).origin === location.origin; } catch (e) { return false; } };
+  const kurz = (p) => !START && ((!location.pathname.startsWith('/p/') && !location.pathname.endsWith('.html')) || (!DEMO && aufBasis(p)));
+  const seitenPfad = (p, fassung) => {
+    const a = p.adresse, demo = DEMO && q.has('demo') ? '?demo' : '';
+    if (kurz(p)) return (fassung === (p.haupt || fassung) ? `/${a}` : `/${a}/${fassung}`) + demo;
+    return DEMO && !huebsch() ? `/p/${fassung}.html?seite=${encodeURIComponent(a)}&demo` : `/p/${a}/${fassung}${demo}`;
+  };
   // E-Book dieser Seite: Wahl des Partners (p.ebook) oder der Vorschlag aus dem Katalog (ebooks.js)
   const K = window.UKEbooks || { standard: {}, buecher: [] };
   const buchVon = (p) => K.buecher.find((b) => b.id === p?.ebook) || K.buecher.find((b) => b.id === K.standard[FASSUNG]) || null;
-  const ebookPfad = () => (DEMO || PORTAL ? `/p/vorschau/ebook-${buchVon(P)?.id || FASSUNG}.pdf` : `/p/${P.adresse}/${FASSUNG}/e-book`);
+  const ebookPfad = () => (DEMO || PORTAL ? `/p/vorschau/ebook-${START || buchVon(P)?.id || FASSUNG}.pdf` : `${kurz(P) || START ? '' : '/p'}/${P.adresse}/${FASSUNG}/e-book`);
   function ebookAnzeigen(p) {
     const b = buchVon(p); if (!b) return;
     $$('.buch-titel').forEach((el) => (el.textContent = b.titel));
@@ -310,17 +325,40 @@
     const { adresse, fassung } = adresseLesen();
     if (!adresse) return nichtDa();
     let p = null;
-    try { p = await holen(adresse, fassung || FASSUNG); } catch (e) { console.warn(e); }
+    // Ohne Fassung in der Adresse (kurzer Link /<adresse>) liefert die Datenbank die Hauptseite des Partners
+    try { p = await holen(adresse, fassung); } catch (e) { console.warn(e); }
+    // Die Startseite zeigt sich immer, auch wenn die Datenbank gerade nicht antwortet (Anfragen gehen dann ans Team)
+    if (!p && START) p = { von: START, adresse: START, fassung: FASSUNG, haupt: FASSUNG, marke: true, leads_bei: 'team', vorname: 'Wasser ist mehr', nachname: '' };
     if (!p) return nichtDa();
-    // Andere Fassung (diese hat der Partner nicht) oder alte Adresse: zur richtigen Seite
-    if (p.fassung !== FASSUNG) return location.replace(seitenPfad(p.adresse, p.fassung) + location.hash);
-    if (!DEMO && p.adresse !== adresse) history.replaceState(null, '', seitenPfad(p.adresse, FASSUNG) + location.hash);
+    if (p.fassung !== FASSUNG) {
+      // Kurzer Link /<adresse>: Netlify liefert immer neutral.html. Ist die Hauptseite eine andere Fassung,
+      // tauschen wir die Seite aus und die Adresse bleibt kurz.
+      if (!fassung && !START && kurz(p)) return tauschen(p.fassung, p);
+      // Diese Fassung hat der Partner nicht: zu seiner Seite
+      return location.replace(seitenPfad(p, p.fassung) + location.hash);
+    }
+    // Alte Adresse (Partner hat umbenannt) oder alte Form /p/...: auf die richtige, kurze Adresse umschreiben
+    if (!DEMO && !START) {
+      const soll = seitenPfad(p, FASSUNG);
+      if (soll !== location.pathname + location.search && (p.adresse !== adresse || kurz(p))) history.replaceState(null, '', soll + location.hash);
+    }
     if (DEMO) {
       const band = document.createElement('p'); band.className = 'vorschau-band';
-      band.textContent = `Vorschau mit Beispieldaten (${p.vorname} ${p.nachname}). Formulare senden nichts.`;
+      band.textContent = `Vorschau mit Beispieldaten (${`${t(p.vorname)} ${t(p.nachname)}`.trim()}). Formulare senden nichts.`;
       document.body.prepend(band);
     }
     einsetzen(p);
+  }
+  // Andere Fassung unter derselben Adresse zeigen (kurzer Link, Hauptseite ist nicht neutral)
+  async function tauschen(f, p) {
+    try {
+      const r = await fetch(`/p/${f}.html`, { credentials: 'same-origin' });
+      if (!r.ok) throw new Error(r.status);
+      const html = await r.text();
+      document.open(); document.write(html); document.close();
+    } catch (e) {
+      location.replace(`/${p.adresse}/${f}${location.hash}`);
+    }
   }
   start();
 })();

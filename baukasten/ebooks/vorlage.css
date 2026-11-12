@@ -37,6 +37,9 @@ p { margin: 0 0 3.5mm; text-wrap: pretty; }
 .slot-brief { height: 100mm; font: 400 12pt/18.5pt Inter, sans-serif; color: var(--text); margin-top: 2mm; }
 .slot-satz { height: 30mm; margin-top: 4mm; font: 500 13pt/18pt Jost, sans-serif; color: var(--ak-d); border-left: 2px solid var(--ak); padding-left: 4mm; }
 .empf h2 { font-size: 26pt; line-height: 30pt; letter-spacing: -.01em; margin-bottom: 5mm; }
+/* Drei Zeilen, die beim Abruf geschrieben werden (Person: "ich", Startseite wasseristmehr.com: "wir") */
+.slot-empf-eyebrow, .slot-kontakt-titel { display: block; height: 11pt; }
+.slot-brief-titel { height: 30pt; }
 .slot-intro { height: 26mm; font: 400 11pt/16pt Inter, sans-serif; color: var(--text); }
 .empf .kontaktbox { margin-top: 6mm; background: var(--feld); border-radius: 4px; padding: 6mm 7mm; }
 .slot-kontakt { height: 34mm; margin-top: 3mm; font: 600 11pt/17pt Inter, sans-serif; color: var(--text); }

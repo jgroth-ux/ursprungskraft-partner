@@ -1,6 +1,8 @@
 # Lokale Vorschau der Partnerseiten und der Portal-Ansicht "Meine Seiten", ohne Netlify und ohne Datenbank.
 # Aufruf im Ordner baukasten:  python3 vorschau/server.py   dann im Browser http://localhost:8791/
-# Bildet die Zeilen aus website/_redirects-ergaenzung.txt nach (/p/<adresse>/<fassung>) und liefert Schriften
+# Bildet die Zeilen aus website/_redirects-ergaenzung.txt nach (kurz /<adresse> und /<adresse>/<fassung> wie auf
+# wasseristmehr.com, dazu die alte Form /p/<adresse>/<fassung>). Die Startseite von wasseristmehr.com liegt hier unter
+# /startseite, weil / die Übersicht der Vorschau zeigt. Liefert außerdem Schriften
 # aus vorschau/schriften, weil der Ordner /schriften/ nur auf dem Server liegt.
 import http.server, pathlib, re, socketserver, sys
 
@@ -24,11 +26,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return str(HIER / pfad[len('/vorschau/'):])
         if pfad.startswith('/ebooks/'):
             return str(HIER.parent / 'ebooks' / pfad[len('/ebooks/'):])
+        if pfad in ('/startseite', '/startseite/'):
+            return str(WEB / 'p' / 'start.html')
+        # Kurze Adressen wie auf wasseristmehr.com: auf die Form /p/... abbilden, wenn es keine Datei gibt
+        erstes = pfad.strip('/').split('/')[0]
+        if erstes and erstes not in ('p', 'partner', 'schriften', 'vorschau', 'ebooks', 'bilder') and '.' not in erstes \
+                and re.fullmatch(r'/[a-z0-9-]+(/[a-z0-9-]+){0,2}/?', pfad) and not (WEB / pfad.lstrip('/')).exists():
+            pfad = '/p' + pfad
         m = re.fullmatch(r'/p/([a-z0-9-]+)/e-book/([a-z0-9-]+)', pfad)
         if m:
             return str(WEB / 'p' / 'vorschau' / f'ebook-{m.group(2)}.pdf')
         m = re.fullmatch(r'/p/([a-z0-9-]+)/([a-z]+)/e-book', pfad)
         if m:
+            if m.group(1) == 'wasseristmehr':
+                return str(WEB / 'p' / 'vorschau' / 'ebook-wasseristmehr.pdf')
             return str(WEB / 'p' / 'vorschau' / f'ebook-{STANDARD_BUCH.get(m.group(2), "fuenf-wasserarten")}.pdf')
         m = re.fullmatch(r'/p/([a-z0-9-]+)(?:/([a-z]+))?/?', pfad)
         if m and not (WEB / pfad.lstrip('/')).exists():

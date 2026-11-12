@@ -1,13 +1,28 @@
 # Neutrale Domain wasseristmehr.com (12.11.2026): ohne www, Portal, Dashboard und Backoffice bleiben auf der Hauptadresse.
-# Diese Zeilen GANZ OBEN in website/_redirects (Regeln mit Domain und ! gelten vor allen anderen).
+# Alle Zeilen dieser Datei GANZ OBEN in website/_redirects einfügen, in dieser Reihenfolge
+# (vor allen anderen Regeln, besonders vor der Regel für die Empfehlungslinks /:kurz von ursprungskraft.net).
 https://www.wasseristmehr.com/*          https://wasseristmehr.com/:splat                    301!
 https://wasseristmehr.com/partner/*      https://mein.ursprungskraft.net/partner/:splat      301!
 https://wasseristmehr.com/dashboard/*    https://mein.ursprungskraft.net/dashboard/:splat    301!
 https://wasseristmehr.com/backoffice/*   https://mein.ursprungskraft.net/backoffice/:splat   301!
 
-# Baukasten Partnerseiten (11.11.2026). In website/_redirects einfügen, VOR einer allgemeinen Regel wie /* .
-# Eine Zeile je Fassung. Die Seiten lesen die Adresse selbst aus. Kein Upload je Partner.
+# Startseite und kurze Links (Jasmin, 12.11.2026): wasseristmehr.com zeigt die neutrale Startseite ohne Person,
+# wasseristmehr.com/<adresse> die Hauptseite des Partners, wasseristmehr.com/<adresse>/<fassung> eine bestimmte Seite.
+# Gelten nur auf wasseristmehr.com. Vorhandene Dateien und Ordner (Impressum, Datenschutz, Bilder ...) gehen vor,
+# darum sind diese Wörter als Adresse für Partner gesperrt (uk_seiten_adresse_reserviert).
+# Die Startseite braucht das !, weil unter / schon die index.html der Hauptseite liegt.
 # E-Book: wird beim Abruf von der Edge Function partner-ebook personalisiert (XXX = Projektkennung von Supabase).
+https://wasseristmehr.com/                          /p/start.html                                                           200!
+https://wasseristmehr.com/:adresse/e-book/:buch     https://XXX.supabase.co/functions/v1/partner-ebook/:adresse/buch/:buch  200!
+https://wasseristmehr.com/:adresse/:fassung/e-book  https://XXX.supabase.co/functions/v1/partner-ebook/:adresse/:fassung     200!
+https://wasseristmehr.com/:adresse/neutral          /p/neutral.html      200
+https://wasseristmehr.com/:adresse/sport            /p/sport.html        200
+https://wasseristmehr.com/:adresse/gesundheit       /p/gesundheit.html   200
+https://wasseristmehr.com/:adresse                  /p/neutral.html      200
+
+# Alte Form /p/<adresse>/<fassung> (11.11.2026). Bleibt, damit schon verschickte Links und die Vorschau im Portal
+# funktionieren, auch auf mein.ursprungskraft.net. Auf wasseristmehr.com schreibt die Seite die Adresse selbst auf die
+# kurze Form um. Eine Zeile je Fassung, kein Upload je Partner.
 # /e-book/<buch> = ein bestimmtes Buch aus der Bibliothek, /<fassung>/e-book = das Buch, das diese Seite anbietet.
 /p/:adresse/e-book/:buch     https://XXX.supabase.co/functions/v1/partner-ebook/:adresse/buch/:buch  200
 /p/:adresse/:fassung/e-book  https://XXX.supabase.co/functions/v1/partner-ebook/:adresse/:fassung  200

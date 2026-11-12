@@ -22,10 +22,24 @@
    "farbe": "#2A2C22"
   },
   {
+   "typ": "empf-eyebrow",
+   "seite": 1,
+   "x": 161.55,
+   "y": 766.95,
+   "w": 377.03,
+   "h": 10.99,
+   "schrift": "fett",
+   "groesse": 8,
+   "zeile": 11,
+   "farbe": "#3E6651",
+   "gross": true,
+   "abstand": 1.12
+  },
+  {
    "typ": "name",
    "seite": 1,
    "x": 161.55,
-   "y": 724.77,
+   "y": 727.28,
    "w": 377.03,
    "h": 34.01,
    "schrift": "kopf",
@@ -37,13 +51,25 @@
    "typ": "rolle",
    "seite": 1,
    "x": 161.55,
-   "y": 704.94,
+   "y": 707.45,
    "w": 377.03,
    "h": 17,
    "schrift": "text",
    "groesse": 11,
    "zeile": 14,
    "farbe": "#5F6152"
+  },
+  {
+   "typ": "brief-titel",
+   "seite": 1,
+   "x": 56.68,
+   "y": 636.17,
+   "w": 481.9,
+   "h": 30,
+   "schrift": "kopf",
+   "groesse": 26,
+   "zeile": 30,
+   "farbe": "#2A2C22"
   },
   {
    "typ": "brief",
@@ -58,10 +84,24 @@
    "farbe": "#2A2C22"
   },
   {
+   "typ": "kontakt-titel",
+   "seite": 1,
+   "x": 76.52,
+   "y": 287.89,
+   "w": 442.22,
+   "h": 10.99,
+   "schrift": "fett",
+   "groesse": 8,
+   "zeile": 11,
+   "farbe": "#3E6651",
+   "gross": true,
+   "abstand": 1.12
+  },
+  {
    "typ": "kontakt",
    "seite": 1,
    "x": 76.52,
-   "y": 178.01,
+   "y": 183.01,
    "w": 442.22,
    "h": 96.38,
    "schrift": "fett",

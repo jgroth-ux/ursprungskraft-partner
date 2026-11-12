@@ -28,6 +28,9 @@ export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schrifte
   const insta = String(partner.insta || '').replace(/^@/, '');
   const tel = String(partner.telefon || '').trim(), mail = String(partner.email || '').trim();
   const linkText = String(link || '').replace(/^https?:\/\//, '');
+  // Startseite wasseristmehr.com (partner.marke): keine Person, das E-Book spricht als "wir"
+  const marke = !!partner.marke;
+  const empfohlen = marke ? name : `Empfohlen von ${name}`;
 
   function verweis(page, url, x, y, w, h) {
     const a = doc.context.register(doc.context.obj({ Type: 'Annot', Subtype: 'Link', Rect: [x, y, x + w, y + h], Border: [0, 0, 0], A: { Type: 'Action', S: 'URI', URI: PDFString.of(url) } }));
@@ -37,19 +40,23 @@ export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schrifte
   // Text mit Umbruch in ein Feld, oben beginnend. Gibt die genutzte Höhe zurück.
   function text(page, s, f, inhalt, opt = {}) {
     const font = SCHRIFT[opt.schrift || f.schrift] || SCHRIFT.text, groesse = opt.groesse || f.groesse, zeile = opt.zeile || f.zeile || groesse * 1.3;
+    const abstand = f.abstand || 0; // Sperrung (Eyebrows), dann Buchstabe für Buchstabe
+    const breite = (x) => font.widthOfTextAtSize(x, groesse) + abstand * Math.max(0, x.length - 1);
     const zeilen = [];
-    for (const absatz of String(inhalt).split('\n')) {
+    for (const absatz of String(f.gross ? String(inhalt).toUpperCase() : inhalt).split('\n')) {
       let z = '';
       for (const w of absatz.split(/\s+/).filter(Boolean)) {
         const probe = z ? `${z} ${w}` : w;
-        if (font.widthOfTextAtSize(probe, groesse) > f.w && z) { zeilen.push(z); z = w; } else z = probe;
+        if (breite(probe) > f.w && z) { zeilen.push(z); z = w; } else z = probe;
       }
       zeilen.push(z);
     }
     let y = f.y + f.h - groesse * 0.95;
     for (const z of zeilen) {
       if (y < f.y - 1) break; // Feld voll
-      page.drawText(z, { x: f.x, y, size: groesse, font, color: farbe(opt.farbe || f.farbe) });
+      const color = farbe(opt.farbe || f.farbe);
+      if (!abstand) page.drawText(z, { x: f.x, y, size: groesse, font, color });
+      else { let x = f.x; for (const c of z) { page.drawText(c, { x, y, size: groesse, font, color }); x += font.widthOfTextAtSize(c, groesse) + abstand; } }
       y -= zeile;
     }
     return zeilen.length * zeile;
@@ -58,15 +65,20 @@ export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schrifte
   for (const f of lage.felder) {
     const page = seiten[f.seite]; if (!page) continue;
     switch (f.typ) {
-      case 'titel-name': text(page, null, f, `Empfohlen von ${name}`); break;
-      case 'rueck-name': text(page, null, f, `Empfohlen von ${name}`); break;
+      case 'titel-name': text(page, null, f, empfohlen); break;
+      case 'rueck-name': text(page, null, f, empfohlen); break;
+      case 'empf-eyebrow': text(page, null, f, marke ? 'Ein E-Book von' : 'Empfohlen von'); break;
+      case 'brief-titel': text(page, null, f, marke ? 'Warum wir dir das empfehlen' : 'Warum ich dir das empfehle'); break;
+      case 'kontakt-titel': text(page, null, f, marke ? 'So erreichst du uns' : 'So erreichst du mich'); break;
       case 'name': text(page, null, f, name); break;
       case 'rolle': if (partner.rolle) text(page, null, f, partner.rolle); break;
       case 'satz': if (partner.satz) text(page, null, f, `„${partner.satz}“`); break;
       // Warum ich dir das empfehle: eigener Text des Partners, sonst der Vorschlag des Themas. Darunter der Gruß.
-      case 'brief': text(page, null, f, `${String(partner.brief || briefStandard).trim()}\n\nViele Grüße\n${name}`); break;
+      case 'brief': text(page, null, f, `${String(partner.brief || briefStandard).trim()}\n\nViele Grüße\n${marke ? `Dein Team von ${name}` : name}`); break;
       case 'intro':
-        text(page, null, f, `Dieses E-Book hast du von ${vorname} bekommen. Lies es in Ruhe, so oft du magst. Wenn du Fragen hast oder das Gerät persönlich kennenlernen möchtest, melde dich direkt bei ${vorname}.`);
+        text(page, null, f, marke
+          ? `Lies dieses E-Book in Ruhe, so oft du magst. Wenn du Fragen hast oder das Gerät persönlich kennenlernen möchtest, trag dich auf ${linkText || 'unserer Seite'} ein. Wir melden uns bei dir.`
+          : `Dieses E-Book hast du von ${vorname} bekommen. Lies es in Ruhe, so oft du magst. Wenn du Fragen hast oder das Gerät persönlich kennenlernen möchtest, melde dich direkt bei ${vorname}.`);
         break;
       case 'kontakt': case 'weiter-kontakt': {
         const zeilen = [tel && `Telefon: ${tel}`, mail && `E-Mail: ${mail}`, insta && `Instagram: @${insta}`, f.typ === 'kontakt' && link && `Seite: ${linkText}`].filter(Boolean);
@@ -78,7 +90,7 @@ export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schrifte
         }
         break;
       }
-      case 'weiter-name': text(page, null, f, tel || mail ? `Oder melde dich direkt bei ${name}:` : `Empfohlen von ${name}`); break;
+      case 'weiter-name': text(page, null, f, tel || mail ? `Oder melde dich direkt bei ${name}:` : empfohlen); break;
       case 'link': if (link) { text(page, null, f, linkText); verweis(page, link, f.x, f.y, f.w, f.h); } break;
       case 'cta': if (link) verweis(page, link, f.x, f.y, f.w, f.h); break;
       case 'qr': if (link && qrcode) {
@@ -107,7 +119,7 @@ export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schrifte
       }
     }
   }
-  doc.setTitle(`${lage.titel}, empfohlen von ${name}`);
+  doc.setTitle(marke ? `${lage.titel}, von ${name}` : `${lage.titel}, empfohlen von ${name}`);
   doc.setAuthor(name);
   doc.setProducer('Baukasten Partnerseiten');
   return doc.save();

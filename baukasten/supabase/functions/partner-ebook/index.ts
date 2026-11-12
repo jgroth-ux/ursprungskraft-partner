@@ -70,7 +70,9 @@ Deno.serve(async (req) => {
     if (typeof p.foto === 'string' && p.foto.startsWith(FOTO_PFAD)) { // nur aus dem eigenen Speicher laden
       const r = await fetch(p.foto); if (r.ok) foto = new Uint8Array(await r.arrayBuffer());
     }
-    const link = `${p.basis}/p/${p.adresse}/${p.fassung}`;
+    // Kurzer Link (12.11.2026): wasseristmehr.com/<adresse> für die Hauptseite, sonst /<adresse>/<fassung>.
+    // Startseite (p.marke): nur die Domain.
+    const link = p.marke ? p.basis : p.fassung === p.haupt ? `${p.basis}/${p.adresse}` : `${p.basis}/${p.adresse}/${p.fassung}`;
     let pdf: Uint8Array;
     // Look: Wahl des Partners für diese Seite, sonst Vorschlag des Themas
     const L = katalog?.looks, std = L?.standard?.[buch?.thema || p.fassung] || { modus: 'hell', akzent: 'oliv' };

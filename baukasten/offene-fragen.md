@@ -1,6 +1,6 @@
 # Offene Fragen an Jasmin
 
-Stand 11.11.2026, zweite Fassung. Nur noch das, was ihr entscheiden müsst. Technisches für den Claude, der einspielt,
+Stand 12.11.2026, dritte Fassung. Nur noch das, was ihr entscheiden müsst. Technisches für den Claude, der einspielt,
 steht in `LIESMICH.md`.
 
 **Schon geklärt und eingebaut:**
@@ -9,6 +9,10 @@ steht in `LIESMICH.md`.
 - Die Seiten sehen jetzt aus wie die von Kevin und Johny, mit denselben Effekten.
 - Jede Seite gibt es hell und dunkel mit sieben Akzentfarben, der Partner wählt im Portal per Klick.
 - Eure allgemeine Ursprungskraft-Landingpage bleibt, wie sie ist. Ich habe sie nicht angefasst.
+- Domain **wasseristmehr.com**. Die Links sind kurz: `wasseristmehr.com/kevin`. Wer nur `wasseristmehr.com` aufruft,
+  sieht eine neutrale Startseite ohne Person mit "Wasser ist mehr" und "Wasser, das unterschätzte Supplement".
+  Anfragen von dort gehen an euch beide.
+- Hat ein Partner mehrere Seiten, wählt er im Portal, welche unter seinem kurzen Link erscheint.
 
 ---
 
@@ -102,10 +106,19 @@ verschickt nur. Dann passt jede Mail zur Landingpage, und ein Wechsel des Dienst
 Heute: eigener Text oder Vorlage übernehmen. Auf Wunsch kann ein Knopf "Text vorschlagen lassen" dazukommen, der aus ein
 paar Stichworten des Partners einen Text schreibt (über die Claude-API, Kosten je Text im Cent-Bereich, Schlüssel nötig).
 
-## 14. Später
+## 14. Startseite wasseristmehr.com
 
-- Neutrale Domain ist **wasseristmehr.com** (eingetragen). Was soll erscheinen, wenn jemand nur `wasseristmehr.com`
-  ohne Partneradresse aufruft? Heute käme dort die Startseite von mein.ursprungskraft.net. Vorschlag: eine kleine
-  neutrale Seite ("Hier findest du die Empfehlungsseiten unserer Partner"), oder eine Weiterleitung.
-- Die Datenschutzerklärung sollte erwähnen, dass Anfragen über eine Partnerseite dem Partner zugeordnet werden und,
-  je nach Einstellung, der Partner selbst anruft. Bitte einmal prüfen lassen.
+Die Startseite ist gebaut (lokal unter `/startseite`, siehe `LIESMICH.md`). Bitte einmal ansehen:
+- Passen die Texte? Oben: "Wasser, das unterschätzte Supplement", "Wasser ist mehr." und der Satz darunter.
+- Ganz unten bei den Fragen steht neu: "Jemand hat mir einen Link zu seiner Seite geschickt. Dann öffne am besten
+  genau diesen Link." Damit Interessenten von Partnern nicht über die Startseite bei euch landen. Passt das?
+- Das Trainingsfoto (Feld 02) kommt von eurem Server (`/bilder/partner/schneller-fit.jpg`), lokal sieht man nur den
+  Platzhalter.
+
+## 15. Impressum und Datenschutz für wasseristmehr.com
+
+Unten auf allen Seiten stehen "Impressum" und "Datenschutz". Heute führen sie zu euren bestehenden Seiten.
+Wer steht im Impressum von wasseristmehr.com (Name, Anschrift)? Dieselbe Angabe fehlt hinten in den E-Books
+(siehe Frage 3). Bis das steht, ist die Startseite für Google ausgeblendet.
+Die Datenschutzerklärung sollte außerdem erwähnen, dass Anfragen über eine Partnerseite dem Partner zugeordnet werden
+und, je nach Einstellung, der Partner selbst anruft. Bitte einmal prüfen lassen.

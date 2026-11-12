@@ -31,8 +31,11 @@ window.MeineSeiten = (() => {
   const datum = (d) => (d ? new Date(d + 'T12:00:00').toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '');
 
   // Adressen: öffentlich (zum Teilen) und im Portal (gleicher Ursprung, für die Vorschau im Rahmen)
-  const oeffentlich = (adresse, f) => `${D.basis}/p/${adresse}/${f}`;
-  const ebook = (adresse, f) => `${D.basis}/p/${adresse}/${f}/e-book`;
+  // Kurze Links (12.11.2026): wasseristmehr.com/<adresse> zeigt die Hauptseite, die anderen /<adresse>/<fassung>
+  const hauptVon = (s) => { const m = REIHE.filter((f) => (s?.fassungen || []).includes(f)); return m.includes(s?.haupt) ? s.haupt : m[0]; };
+  const oeffentlich = (adresse, f, haupt = hauptVon(D.seite)) => (f === haupt ? `${D.basis}/${adresse}` : `${D.basis}/${adresse}/${f}`);
+  const ohneHttps = (x) => x.replace(/^https?:\/\//, '');
+  const ebook = (adresse, f) => `${D.basis}/${adresse}/${f}/e-book`;
   const hier = (adresse, f) => (u.vorschau ? `/p/${f}.html?seite=${encodeURIComponent(adresse)}&demo` : `/p/${adresse}/${f}`);
   const rahmenAdresse = (f) => `/p/${f}.html?vorschau=portal`;
 
@@ -171,6 +174,7 @@ window.MeineSeiten = (() => {
     const meine = REIHE.filter((f) => (s.fassungen || []).includes(f));
     const fehlen = REIHE.filter((f) => !meine.includes(f) && (D.erlaubt || REIHE).includes(f));
     const wa = (f) => `https://wa.me/?text=${encodeURIComponent('Schau mal, das habe ich für dich: ' + oeffentlich(s.adresse, f))}`;
+    const haupt = hauptVon(s);
     box.innerHTML = `${u.kopf('Meine Seiten', '', `<a class="knopf zweit" href="#seiten/bearbeiten">Angaben ändern</a>`)}
       <section class="ms-stand">
         <div class="ms-wer">${fotoHtml(s)}<div><b>${esc(name(s))}</b><span>${esc(s.rolle || 'Ohne Rolle')}</span></div></div>
@@ -178,12 +182,19 @@ window.MeineSeiten = (() => {
           <div><dt>Neu, 7 Tage</dt><dd>${Number(a.woche) || 0}</dd></div>
           <div><dt>Paket</dt><dd class="klein">${D.gebucht_bis ? `bis ${datum(D.gebucht_bis)}` : 'gebucht'}</dd></div></dl>
       </section>
+      <section class="ms-kurz">
+        <p class="kicker">Dein Link</p>
+        <div class="linkfeld"><code>${esc(ohneHttps(oeffentlich(s.adresse, haupt)))}</code><button class="knopf still" type="button" data-kopie="${esc(oeffentlich(s.adresse, haupt))}">${ico('kopie')} Link kopieren</button></div>
+        <p class="leise">Unter diesem Link erscheint deine Hauptseite: <b>${esc(FASSUNG[haupt].name)}</b>.${meine.length > 1 ? ' Welche das ist, stellst du unten bei jeder Seite ein.' : ''}</p>
+      </section>
       <div class="ms-reihen">${meine.map((f, i) => `<section class="ms-reihe">
           <div class="ms-mini">${handy(u.vorschau ? rahmenAdresse(f) : hier(s.adresse, f), `${FASSUNG[f].name}: so sieht sie aus`, '')}</div>
           <div class="text">
             <span class="zahl-gross" aria-hidden="true">0${i + 1}</span>
             <p class="kicker">${esc(FASSUNG[f].fuer)}</p><h2>${esc(FASSUNG[f].titel)}</h2>
-            <div class="linkfeld"><code>${esc(oeffentlich(s.adresse, f))}</code><button class="knopf still" type="button" data-kopie="${esc(oeffentlich(s.adresse, f))}">${ico('kopie')} Link kopieren</button></div>
+            <div class="linkfeld"><code>${esc(ohneHttps(oeffentlich(s.adresse, f)))}</code><button class="knopf still" type="button" data-kopie="${esc(oeffentlich(s.adresse, f))}">${ico('kopie')} Link kopieren</button></div>
+            ${meine.length > 1 ? (f === haupt ? `<p class="ms-haupt">${ico('haken')} Deine Hauptseite, unter deinem kurzen Link</p>`
+              : `<button class="ms-haupt-wahl" type="button" data-haupt="${f}">Als Hauptseite nehmen</button>`) : ''}
             <div class="knoepfe"><a class="knopf" href="${esc(hier(s.adresse, f))}" target="_blank" rel="noopener">${ico('auge')} Vorschau</a>
               <a class="knopf zweit" href="${esc(wa(f))}" target="_blank" rel="noopener">${ico('whatsapp')} Per WhatsApp teilen</a></div>
             <div class="ms-ebook"><label class="feld"><span class="titel">${ico('laden')} E-Book, das diese Seite anbietet</span>${buchWahl(f, s)}</label>
@@ -209,6 +220,15 @@ window.MeineSeiten = (() => {
     // In der Vorschau zeigen die kleinen Rahmen die gespeicherten Angaben (es gibt keine echte Seite)
     if (u.vorschau) box.querySelectorAll('.ms-mini iframe').forEach((f) => { const fa = (f.src.match(/\/p\/(\w+)\.html/) || [])[1]; vorschauVerbinden(f, () => seitenAngaben(s, fa)); });
     if (D.leads_bei === 'partner') { anfragenZeigen(box.querySelector('#ms-anfragen')); botZeigen(box.querySelector('#ms-bot')); }
+    // Hauptseite wählen: die erscheint unter wasseristmehr.com/<adresse>
+    box.querySelectorAll('[data-haupt]').forEach((b) => (b.onclick = async () => {
+      b.disabled = true;
+      const r = await rpc('uk_partner_seiten_haupt', { p_fassung: b.dataset.haupt });
+      if (r.error || !r.data) { b.disabled = false; return u.toast('Das hat nicht geklappt. Bitte versuch es noch einmal.'); }
+      s.haupt = b.dataset.haupt;
+      uebersicht(box);
+      u.toast(`Erledigt. Unter deinem kurzen Link erscheint jetzt die Seite ${FASSUNG[s.haupt].name}.`);
+    }));
     // E-Book je Seite umstellen
     box.querySelectorAll('[data-buch-wahl]').forEach((sel) => (sel.onchange = async () => {
       const f = sel.dataset.buchWahl, r = await rpc('uk_partner_seiten_ebook', { p_fassung: f, p_buch: sel.value });
@@ -227,7 +247,7 @@ window.MeineSeiten = (() => {
     return `<select data-buch-wahl="${f}">${Object.entries(k.themen).map(([t, name]) => `<optgroup label="${esc(name)}">${k.buecher.filter((b) => b.thema === t)
       .map((b) => `<option value="${esc(b.id)}" ${b.id === jetzt ? 'selected' : ''}>${esc(b.titel)}${b.id === k.standard[f] ? ' (Vorschlag)' : ''}</option>`).join('')}</optgroup>`).join('')}</select>`;
   }
-  const buchLink = (s, id) => `${D.basis}/p/${s.adresse}/e-book/${id}`;
+  const buchLink = (s, id) => `${D.basis}/${s.adresse}/e-book/${id}`;
   function bibliothek(s) {
     const k = KAT(); if (!k.buecher.length) return '';
     return `<section class="abschnitt" id="ebooks"><div class="abschnitt-kopf"><h2>Deine E-Book-Bibliothek</h2></div>
@@ -431,8 +451,7 @@ window.MeineSeiten = (() => {
     const adressePruefen = () => {
       clearTimeout(pruefZeit);
       const a = werte().adresse, nr = ++pruefNr;
-      const f1 = REIHE.find((x) => werte().fassungen.includes(x)) || 'sport';
-      beispiel.textContent = a ? `Zum Beispiel: ${D.basis.replace(/^https?:\/\//, '')}/p/${a}/${f1}` : '';
+      beispiel.textContent = a ? `Dein Link: ${ohneHttps(D.basis)}/${a}` : '';
       if (D.seite && a === D.seite.adresse) { stand.className = 'regel gut'; stand.textContent = 'Deine aktuelle Adresse.'; adresseOk = true; return; }
       stand.className = 'regel'; stand.textContent = 'Wird geprüft …'; adresseOk = false;
       pruefZeit = setTimeout(async () => {
@@ -605,7 +624,7 @@ window.MeineSeiten = (() => {
         if (name === 'uk_partner_seiten_adresse') {
           const a = args.p_adresse;
           return { data: !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(a) || a.length < 3 || a.length > 40 ? 'form'
-            : ['neutral', 'sport', 'gesundheit', 'e-book', 'vorschau'].includes(a) ? 'reserviert'
+            : ['neutral', 'sport', 'gesundheit', 'e-book', 'vorschau', 'p', 'start', 'wasseristmehr', 'partner', 'impressum', 'datenschutz'].includes(a) ? 'reserviert'
             : ['daniel-zuercher', 'jasmin-groth', 'max-muster'].includes(a) ? 'vergeben' : 'ok' };
         }
         if (name === 'uk_partner_seiten_speichern') {
@@ -618,6 +637,7 @@ window.MeineSeiten = (() => {
         if (name === 'uk_partner_seiten_anfragen') return { data: leadsBei === 'partner' && gespeichert.seite ? anfragen : [] };
         if (name === 'uk_partner_anfragenbot') return { data: leadsBei !== 'partner' ? { moeglich: false }
           : { moeglich: true, bereit: true, bot: 'beispiel_anfragen_bot', verbunden: !!gespeichert.bot, link: 'https://t.me/beispiel_anfragen_bot?start=vorschau' } };
+        if (name === 'uk_partner_seiten_haupt') { if (!gespeichert.seite?.fassungen?.includes(args.p_fassung)) return { data: false }; gespeichert.seite.haupt = args.p_fassung; merken(); return { data: true }; }
         if (name === 'uk_partner_seiten_ebook') { gespeichert.seite.ebooks = { ...(gespeichert.seite.ebooks || {}), [args.p_fassung]: args.p_buch }; merken(); return { data: true }; }
         if (name === 'uk_partner_anfragenbot_trennen') { gespeichert.bot = false; merken(); return { data: true }; }
         return { error: new Error('Vorschau kennt ' + name + ' nicht') };
