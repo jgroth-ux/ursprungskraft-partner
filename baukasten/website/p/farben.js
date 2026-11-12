@@ -1,4 +1,4 @@
-// Farbwelten für alle Editoren (12.11.2026): Partnerseiten heute, Flyer-Editor und weitere später.
+// Farbwelten und Aufbau für alle Editoren (12.11.2026): Partnerseiten heute, Flyer-Editor und weitere später.
 // EINE Stelle für alle Farben. Zwei Grundtöne (Dunkel wie Kevin und Johny, Hell in Creme und Beige) und mehrere
 // Akzente. Jede Kombination ist erlaubt, jeder Akzent ist auf Hell und Dunkel geprüft (Schrift mindestens 4,5 : 1).
 // Benutzen: UKFarben.anwenden(element, 'hell', 'oliv') setzt die CSS-Variablen auf dem Element.
@@ -38,11 +38,20 @@
     blau: { name: 'Blau', ak: '#4261CC', knopf: '#4261CC', kleinDunkel: '#9EAEF2', kleinHell: '#3A57BD' }, // 5,1 wie Johny
     beere: { name: 'Beere', ak: '#C0637B', knopf: '#9B4058', kleinDunkel: '#EBA6B7', kleinHell: '#8E3A50' }, // 5,5
   };
+  // Aufbau: dieselben Inhalte, andere Anordnung (Regeln in seiten.css, Abschnitt AUFBAU). bild = kleines Symbol für Knöpfe.
+  const AUFBAU = {
+    felder: { name: 'Felder', text: 'Mosaik aus runden Feldern, wie bei Kevin und Johny',
+      bild: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="8" height="16" rx="2"/><rect x="13" y="4" width="8" height="7" rx="2"/><rect x="13" y="13" width="8" height="7" rx="2"/></svg>' },
+    magazin: { name: 'Magazin', text: 'Ruhig und mittig, viel Luft, Bild und Text im Wechsel',
+      bild: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M7 5h10M9 8h6"/><rect x="3" y="11" width="18" height="5" rx="1"/><path d="M3 19h7M14 19h7"/></svg>' },
+    buehne: { name: 'Bühne', text: 'Großes Foto über die ganze Breite, gerade Kanten, Farbband',
+      bild: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="20" height="12"/><rect x="4" y="10" width="7" height="3" fill="currentColor"/><path d="M2 18h20M2 21h20"/></svg>' },
+  };
   // Was eine Fassung zeigt, solange der Partner nichts gewählt hat
   const STANDARD = {
-    sport: { modus: 'dunkel', akzent: 'kupfer' },
-    neutral: { modus: 'hell', akzent: 'oliv' },
-    gesundheit: { modus: 'hell', akzent: 'salbei' },
+    sport: { modus: 'dunkel', akzent: 'kupfer', aufbau: 'felder' },
+    neutral: { modus: 'hell', akzent: 'oliv', aufbau: 'felder' },
+    gesundheit: { modus: 'hell', akzent: 'salbei', aufbau: 'felder' },
   };
 
   // Gültige Wahl oder der Standard der Fassung
@@ -51,6 +60,7 @@
     return {
       modus: MODI[wahl?.modus] ? wahl.modus : s.modus,
       akzent: AKZENTE[wahl?.akzent] ? wahl.akzent : s.akzent,
+      aufbau: AUFBAU[wahl?.aufbau] ? wahl.aufbau : s.aufbau,
     };
   }
   // Setzt die Variablen, die seiten.css (und später der Flyer) nutzt
@@ -66,5 +76,8 @@
     if (el.dataset) { el.dataset.modus = modus; el.dataset.akzent = akzent; }
   }
 
-  window.UKFarben = { MODI, AKZENTE, STANDARD, pruefen, anwenden };
+  // Aufbau setzen (data-aufbau, die Regeln stehen in seiten.css)
+  function aufbauen(el, aufbau) { el.dataset.aufbau = AUFBAU[aufbau] ? aufbau : 'felder'; }
+
+  window.UKFarben = { MODI, AKZENTE, AUFBAU, STANDARD, pruefen, anwenden, aufbauen };
 })();

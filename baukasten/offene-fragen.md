@@ -87,7 +87,12 @@ Kupfer, Oliv, Salbei, Khaki, Petrol, Blau, Beere. Das Bild `farbwelten-beispiele
 Fehlt eine Farbe oder soll eine raus? Und passen die Vorschläge: Sport dunkel mit Kupfer, Neutral hell mit Oliv,
 Gesundheit hell mit Salbei?
 
-## 12. Später
+## 12. Gefallen dir die zwei neuen Aufbauten?
+
+"Magazin" und "Bühne", siehe `drei-aufbauten.png`. Soll einer davon der Vorschlag für eine Seite werden, zum Beispiel
+Gesundheit als Magazin? Heute schlägt das Portal überall "Felder" vor.
+
+## 13. Später
 
 - Wie heißt die neutrale Domain? (Umstellen geht dann ohne neuen Upload.)
 - Die Datenschutzerklärung sollte erwähnen, dass Anfragen über eine Partnerseite dem Partner zugeordnet werden und,

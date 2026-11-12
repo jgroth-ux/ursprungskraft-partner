@@ -65,12 +65,14 @@
     }
   }
   // Farben: Hell oder Dunkel und Akzent, aus farben.js. Gewählt im Portal je Fassung (p.aussehen), sonst der Standard.
-  // Lokal lässt sich das über die Adresse ausprobieren: ?modus=hell&akzent=beere
+  // Lokal lässt sich das über die Adresse ausprobieren: ?modus=hell&akzent=beere&aufbau=magazin
   function farben(wahl) {
     if (!window.UKFarben) return;
-    const probe = DEMO && (q.get('modus') || q.get('akzent')) ? { modus: q.get('modus') || wahl?.modus, akzent: q.get('akzent') || wahl?.akzent } : wahl;
+    const probe = DEMO && (q.get('modus') || q.get('akzent') || q.get('aufbau'))
+      ? { modus: q.get('modus') || wahl?.modus, akzent: q.get('akzent') || wahl?.akzent, aufbau: q.get('aufbau') || wahl?.aufbau } : wahl;
     const f = UKFarben.pruefen(probe, FASSUNG);
     UKFarben.anwenden(document.body, f.modus, f.akzent);
+    UKFarben.aufbauen(document.body, f.aufbau);
     // Schon gezeigte Platzhalter in den neuen Farben
     $$('img[data-platzhalter]').forEach((img) => { if (img.src.startsWith('data:')) img.src = platzhalter(img.dataset.platzhalter); });
     $$('video[data-platzhalter]').forEach((v) => { if (v.poster.startsWith('data:')) v.poster = platzhalter(v.dataset.platzhalter); });

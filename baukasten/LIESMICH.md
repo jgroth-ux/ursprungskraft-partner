@@ -70,7 +70,19 @@ und Oliv, Gesundheit Hell und Salbei.
 (`UKFarben.MODI`, `UKFarben.AKZENTE`, `UKFarben.anwenden(element, modus, akzent)`). Neuer Akzent: dort ergänzen und in
 der SQL in `uk_seiten_akzente()`. Gespeichert wird die Wahl in `uk_partner_seiten.aussehen`.
 
-Ausprobieren: `http://localhost:8791/vorschau/farbwelten.html` (alle Kombinationen, Handy und Rechner nebeneinander).
+**Aufbau (12.11.2026):** Dieselben Inhalte gibt es in drei Anordnungen, unabhängig von den Farben:
+
+- **Felder:** wie Kevin und Johny, ein Mosaik aus runden Feldern. Das ist der Vorschlag für alle drei Seiten.
+- **Magazin:** ruhig und mittig, große zentrierte Überschrift, darunter ein breites Bild, die Karten als Reihen mit Bild
+  und Text im Wechsel, die Zahlen schlicht mit Haarlinien.
+- **Bühne:** ein großes Foto über die ganze Breite mit dem Textfeld darauf, gerade Kanten, die Zahlen auf einem Band in
+  der Akzentfarbe, die Karten als gleichmäßiges Raster ohne Abstand.
+
+Die Wahl steht mit in `aussehen` (`"aufbau": "felder" | "magazin" | "buehne"`). Die Regeln stehen am Ende von
+`website/p/seiten.css` (Abschnitt AUFBAU), die Namen in `farben.js` (`UKFarben.AUFBAU`). Kein zusätzliches HTML.
+
+Ausprobieren: `http://localhost:8791/vorschau/farbwelten.html` (alle Kombinationen aus Aufbau, Grundton und Akzent,
+Handy und Rechner nebeneinander).
 
 ## Was wo liegt
 
@@ -198,7 +210,7 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
       Adresse ändern (alter Link leitet weiter), Zahlen je Fassung stimmen.
 - [ ] `/p/<adresse>/sport/e-book` öffnet das PDF, Seite 2 ist "Empfohlen von" mit Foto und Link.
 - [ ] Alle drei Seiten am Handy (375 px) ohne seitliches Scrollen, Formulare abschicken.
-- [ ] Im Portal für eine Seite Hell und einen Akzent wählen, speichern: die echte Seite zeigt es, die anderen Seiten
+- [ ] Im Portal für eine Seite Aufbau, Hell und einen Akzent wählen, speichern: die echte Seite zeigt es, die anderen Seiten
       behalten ihren Vorschlag.
 - [ ] Jasmin hat `ueberschriften.md` abgehakt und `offene-fragen.md` beantwortet.
 - [ ] Datenschutzerklärung passt für Partnerseiten (siehe offene Frage 11).

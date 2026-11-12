@@ -62,7 +62,7 @@ create table if not exists uk_partner_seiten (
   geaendert      timestamptz not null default now()
 );
 create unique index if not exists uk_partner_seiten_adresse on uk_partner_seiten (adresse);
--- Aussehen je Fassung (12.11.2026): {"sport": {"modus": "dunkel", "akzent": "kupfer"}, ...}. Fehlt eine Fassung,
+-- Aussehen je Fassung (12.11.2026): {"sport": {"modus": "dunkel", "akzent": "kupfer", "aufbau": "buehne"}, ...}. Fehlt eine Fassung,
 -- nimmt die Seite den Vorschlag aus website/p/farben.js. Die Namen müssen zu farben.js passen (uk_seiten_akzente).
 alter table uk_partner_seiten add column if not exists aussehen jsonb not null default '{}'::jsonb;
 alter table uk_partner_seiten drop constraint if exists uk_partner_seiten_fassungen_check;
@@ -153,10 +153,11 @@ end $$;
 create or replace function uk_seiten_akzente() returns text[]
 language sql immutable as $$ select array['kupfer', 'oliv', 'salbei', 'khaki', 'petrol', 'blau', 'beere'] $$;
 
--- Aussehen aufräumen: nur gewählte Fassungen, nur bekannte Grundtöne und Akzente
+-- Aussehen aufräumen: nur gewählte Fassungen, nur bekannte Grundtöne, Akzente und Aufbauten (Aufbau fehlt: felder)
 create or replace function uk_seiten_aussehen_pruefen(p jsonb, p_fassungen text[]) returns jsonb
 language sql immutable set search_path = public as $$
-  select coalesce(jsonb_object_agg(e.key, jsonb_build_object('modus', e.value->>'modus', 'akzent', e.value->>'akzent')), '{}'::jsonb)
+  select coalesce(jsonb_object_agg(e.key, jsonb_build_object('modus', e.value->>'modus', 'akzent', e.value->>'akzent',
+    'aufbau', case when e.value->>'aufbau' in ('felder', 'magazin', 'buehne') then e.value->>'aufbau' else 'felder' end)), '{}'::jsonb)
   from jsonb_each(case when jsonb_typeof(p) = 'object' then p else '{}'::jsonb end) e
   where e.key = any (p_fassungen) and jsonb_typeof(e.value) = 'object'
     and e.value->>'modus' in ('hell', 'dunkel') and e.value->>'akzent' = any (uk_seiten_akzente())

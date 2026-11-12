@@ -361,10 +361,12 @@ window.MeineSeiten = (() => {
       if (!F) { look.remove(); return; }
       const jetzt = F.pruefen(aussehen[live], live), std = F.STANDARD[live];
       look.innerHTML = `<p class="kicker">Aussehen deiner Seite ${esc(FASSUNG[live].name)}</p>
+        <div class="ms-aufbau-wahl" role="radiogroup" aria-label="Aufbau">${Object.entries(F.AUFBAU).map(([k, a]) => `<button type="button" role="radio" data-aufbau="${k}" aria-checked="${k === jetzt.aufbau}" title="${esc(a.text)}">${a.bild}<span>${esc(a.name)}</span></button>`).join('')}</div>
         <div class="umschalter ms-modus" role="group" aria-label="Grundton">${Object.entries(F.MODI).map(([k, m]) => `<button type="button" data-modus="${k}" aria-pressed="${k === jetzt.modus}"><i style="background:${m.muster}"></i>${esc(m.name)}</button>`).join('')}</div>
         <div class="ms-akzente" role="radiogroup" aria-label="Akzentfarbe">${Object.entries(F.AKZENTE).map(([k, a]) => `<button type="button" role="radio" data-akzent="${k}" aria-checked="${k === jetzt.akzent}" title="${esc(a.name)}"><i style="background:${a.knopf}"></i><span>${esc(a.name)}</span></button>`).join('')}</div>
-        <button class="knopf still ms-standard" type="button" data-standard ${aussehen[live] ? '' : 'hidden'}>Zurück zum Vorschlag (${esc(F.MODI[std.modus].name)}, ${esc(F.AKZENTE[std.akzent].name)})</button>`;
+        <button class="knopf still ms-standard" type="button" data-standard ${aussehen[live] ? '' : 'hidden'}>Zurück zum Vorschlag (${esc(F.AUFBAU[std.aufbau].name)}, ${esc(F.MODI[std.modus].name)}, ${esc(F.AKZENTE[std.akzent].name)})</button>`;
       look.querySelectorAll('[data-modus]').forEach((b) => (b.onclick = () => waehlen({ modus: b.dataset.modus })));
+      look.querySelectorAll('[data-aufbau]').forEach((b) => (b.onclick = () => waehlen({ aufbau: b.dataset.aufbau })));
       look.querySelectorAll('[data-akzent]').forEach((b) => (b.onclick = () => waehlen({ akzent: b.dataset.akzent })));
       look.querySelector('[data-standard]').onclick = () => { delete aussehen[live]; lookZeigen(); senden(); };
     }

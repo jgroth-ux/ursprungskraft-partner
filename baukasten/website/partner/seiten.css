@@ -141,7 +141,12 @@
 .ms-live figcaption { font: 400 13px/20px var(--f-text); color: var(--c-muted); text-align: center; }
 .ms-live .umschalter { max-width: 100%; }
 
-/* Aussehen: Grundton und Akzent */
+/* Aussehen: Aufbau, Grundton und Akzent */
+.ms-aufbau-wahl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-1); }
+.ms-aufbau-wahl button { appearance: none; display: grid; justify-items: center; gap: 4px; padding: 10px 4px 8px; border: 1px solid var(--c-line); border-radius: var(--radius); background: transparent; color: var(--c-muted); font: 600 12px/1 var(--f-text); cursor: pointer; transition: border-color var(--t-klein), color var(--t-klein), background var(--t-klein); }
+.ms-aufbau-wahl button svg { width: 26px; height: 26px; }
+.ms-aufbau-wahl button:hover { color: var(--c-ink); }
+.ms-aufbau-wahl button[aria-checked=true] { border-color: var(--c-olive); color: var(--c-ink); background: var(--c-ground); }
 .ms-look { width: 100%; max-width: 340px; display: grid; gap: var(--s-2); padding: var(--s-3); border: var(--haar); border-radius: var(--radius); background: var(--c-surface); }
 .ms-look .kicker { margin-bottom: var(--s-1); }
 .ms-modus { width: 100%; }

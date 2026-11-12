@@ -33,11 +33,12 @@
 </head>
 <body>
 <header class="kopf">
-  <h1>Farbwelten</h1>
-  <p>Grundton und Akzent anklicken. Links das Handy, rechts der Rechner. Alles kommt aus <code>website/p/farben.js</code>.</p>
+  <h1>Farbwelten und Aufbau</h1>
+  <p>Aufbau, Grundton und Akzent anklicken. Links das Handy, rechts der Rechner. Alles kommt aus <code>website/p/farben.js</code>.</p>
 </header>
 <nav class="wahl"><div class="innen">
   <div class="gruppe" id="fassung"><span>Seite</span></div>
+  <div class="gruppe" id="aufbau"><span>Aufbau</span></div>
   <div class="gruppe" id="modus"><span>Grundton</span></div>
   <div class="gruppe" id="akzent"><span>Akzent</span></div>
 </div></nav>
@@ -48,7 +49,7 @@
 <script src="/p/farben.js"></script>
 <script>
   const F = window.UKFarben;
-  const stand = { fassung: 'neutral', modus: 'hell', akzent: 'oliv' };
+  const stand = { fassung: 'neutral', modus: 'hell', akzent: 'oliv', aufbau: 'felder' };
   const knoepfe = (id, eintraege, schluessel) => {
     const g = document.getElementById(id);
     g.insertAdjacentHTML('beforeend', eintraege.map(([k, name, farbe]) => `<button type="button" data-k="${k}">${farbe ? `<i style="background:${farbe}"></i>` : ''}${name}</button>`).join(''));
@@ -59,12 +60,13 @@
     }));
   };
   knoepfe('fassung', [['neutral', 'Neutral'], ['sport', 'Sport'], ['gesundheit', 'Gesundheit']], 'fassung');
+  knoepfe('aufbau', Object.entries(F.AUFBAU).map(([k, a]) => [k, a.name]), 'aufbau');
   knoepfe('modus', Object.entries(F.MODI).map(([k, m]) => [k, m.name, m.muster]), 'modus');
   knoepfe('akzent', Object.entries(F.AKZENTE).map(([k, a]) => [k, a.name, a.knopf]), 'akzent');
   function zeigen() {
-    for (const id of ['fassung', 'modus', 'akzent']) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === stand[id])));
+    for (const id of ['fassung', 'aufbau', 'modus', 'akzent']) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === stand[id])));
     const adresse = stand.fassung === 'gesundheit' ? 'lena-beispiel' : 'max-muster';
-    const url = `/p/${stand.fassung}.html?seite=${adresse}&demo&modus=${stand.modus}&akzent=${stand.akzent}`;
+    const url = `/p/${stand.fassung}.html?seite=${adresse}&demo&modus=${stand.modus}&akzent=${stand.akzent}&aufbau=${stand.aufbau}`;
     document.getElementById('handy').src = url;
     document.getElementById('rechner').src = url;
   }
