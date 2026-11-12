@@ -83,5 +83,28 @@ window.UKEbooks = {
    "kurz": "Woher dein Leitungswasser kommt, was du selbst prüfen kannst und wie Flasche, Filter und Gerät im Vergleich abschneiden.",
    "eyebrow": "E-Book"
   }
+ ],
+ "briefe": {
+  "neutral": "Ich empfehle dir dieses E-Book, weil gutes Wasser im Alltag mehr ausmacht, als man denkt: beim Trinken, beim Kochen und im Haushalt. Darin findest du alles Wichtige zu den fünf Wasserarten, ohne Fachchinesisch. Lies es in Ruhe. Wenn du Fragen hast oder das Gerät selbst ausprobieren willst, melde dich einfach bei mir.",
+  "sport": "Du achtest auf Training, Ernährung und Regeneration. Ich empfehle dir dieses E-Book, weil Wasser dabei oft vergessen wird, obwohl du jeden Tag literweise davon trinkst. Darin steht, worauf du achten kannst und was die fünf Wasserarten für dein Training und deine Küche können. Wenn du Fragen hast oder das Gerät ausprobieren willst, melde dich einfach bei mir.",
+  "gesundheit": "Ich empfehle dir dieses E-Book, weil gute Gewohnheiten oft beim Einfachsten anfangen: beim Wasser, das du jeden Tag trinkst. Darin findest du, worauf es beim Trinken ankommt und was du über dein Wasser wissen solltest. Ganz ohne große Versprechen, dafür mit vielen Ideen für deinen Alltag. Wenn du Fragen hast, melde dich gern bei mir."
+ },
+ "briefVorlagen": [
+  {
+   "name": "Alltag",
+   "text": "Ich empfehle dir dieses E-Book, weil gutes Wasser im Alltag mehr ausmacht, als man denkt: beim Trinken, beim Kochen und im Haushalt. Darin findest du alles Wichtige zu den fünf Wasserarten, ohne Fachchinesisch. Lies es in Ruhe. Wenn du Fragen hast oder das Gerät selbst ausprobieren willst, melde dich einfach bei mir."
+  },
+  {
+   "name": "Sport",
+   "text": "Du achtest auf Training, Ernährung und Regeneration. Ich empfehle dir dieses E-Book, weil Wasser dabei oft vergessen wird, obwohl du jeden Tag literweise davon trinkst. Darin steht, worauf du achten kannst und was die fünf Wasserarten für dein Training und deine Küche können. Wenn du Fragen hast oder das Gerät ausprobieren willst, melde dich einfach bei mir."
+  },
+  {
+   "name": "Gesundheit",
+   "text": "Ich empfehle dir dieses E-Book, weil gute Gewohnheiten oft beim Einfachsten anfangen: beim Wasser, das du jeden Tag trinkst. Darin findest du, worauf es beim Trinken ankommt und was du über dein Wasser wissen solltest. Ganz ohne große Versprechen, dafür mit vielen Ideen für deinen Alltag. Wenn du Fragen hast, melde dich gern bei mir."
+  },
+  {
+   "name": "Meine Geschichte",
+   "text": "Ich bin [was du machst] und trinke das Wasser aus dem Gerät seit [wie lange]. Was mich überzeugt hat: [dein Grund in einem Satz]. Darum gebe ich dir dieses E-Book. Lies es in Ruhe, und wenn du Fragen hast oder das Wasser selbst probieren willst, melde dich einfach bei mir."
+  }
  ]
 };

@@ -25,7 +25,7 @@ const ALLE = process.argv.includes('--alle'), PROBEN = process.argv.includes('--
 const fenster = {};
 new Function('window', await readFile(path.join(BAUKASTEN, 'website/p/farben.js'), 'utf8'))(fenster);
 const F = fenster.UKFarben;
-const { BUECHER, THEMEN } = await import(path.join(BAUKASTEN, 'ebooks/inhalt.mjs'));
+const { BUECHER, THEMEN, BRIEFE, BRIEF_VORLAGEN } = await import(path.join(BAUKASTEN, 'ebooks/inhalt.mjs'));
 
 // Kleiner Server: /p und /partner aus website, /ebooks aus ebooks, /schriften aus vorschau/schriften
 const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.jpg': 'image/jpeg', '.png': 'image/png', '.woff2': 'font/woff2' };
@@ -73,7 +73,7 @@ async function vermessen(page) {
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 900, height: 1200 } });
 // Katalog: Bücher, Vorschlags-Buch je Seite, Vorschlags-Look je Thema und erlaubte Looks (für die Edge Function)
-const katalog = { stand: new Date().toISOString().slice(0, 10), standard: {}, buecher: [],
+const katalog = { stand: new Date().toISOString().slice(0, 10), standard: {}, buecher: [], briefe: BRIEFE,
   looks: { standard: Object.fromEntries(Object.entries(F.STANDARD).map(([k, v]) => [k, { modus: v.modus, akzent: v.akzent }])), modi: Object.keys(F.MODI), akzente: Object.keys(F.AKZENTE) } };
 let anzahl = 0, fehler = 0;
 for (const b of BUECHER) {
@@ -99,7 +99,7 @@ await writeFile(path.join(AUS, 'katalog.json'), JSON.stringify(katalog, null, 1)
 // Katalog für Portal und Seiten (gleicher Inhalt, als Browser-Datei)
 await writeFile(path.join(BAUKASTEN, 'website/p/ebooks.js'),
   `// E-Book-Katalog (erzeugt von werkzeuge/ebooks-bauen.mjs am ${katalog.stand}, nicht von Hand ändern, Quelle: ebooks/inhalt.mjs)\n` +
-  `window.UKEbooks = ${JSON.stringify({ themen: THEMEN, standard: katalog.standard, buecher: katalog.buecher }, null, 1)};\n`);
+  `window.UKEbooks = ${JSON.stringify({ themen: THEMEN, standard: katalog.standard, buecher: katalog.buecher, briefe: BRIEFE, briefVorlagen: BRIEF_VORLAGEN }, null, 1)};\n`);
 
 // Beispiel-E-Books mit Max Muster für die lokale Vorschau (website/p/vorschau/ebook-<buch>.pdf)
 if (PROBEN) {
@@ -114,7 +114,7 @@ if (PROBEN) {
   for (const b of BUECHER) {
     const std = F.STANDARD[b.thema], name = path.join(AUS, b.id, `${std.modus}-${std.akzent}`);
     const lage = JSON.parse(await readFile(name + '.json', 'utf8'));
-    const pdf = await fuellen({ PDFLib, fontkit, qrcode, vorlage: await readFile(name + '.pdf'), lage, schriften, foto: null, partner,
+    const pdf = await fuellen({ PDFLib, fontkit, qrcode, vorlage: await readFile(name + '.pdf'), lage, schriften, foto: null, partner, briefStandard: BRIEFE[b.thema],
       link: `https://mein.ursprungskraft.net/p/max-muster/${b.thema}` });
     await writeFile(path.join(BAUKASTEN, `website/p/vorschau/ebook-${b.id}.pdf`), pdf);
   }

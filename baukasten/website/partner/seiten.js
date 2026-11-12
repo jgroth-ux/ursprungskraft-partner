@@ -327,6 +327,9 @@ window.MeineSeiten = (() => {
               <label class="feld ganz"><span class="titel">Was du machst</span><input name="rolle" value="${esc(s.rolle)}" maxlength="60" placeholder="z. B. Wasserberaterin, Personal Trainer, Heilpraktiker"><small class="regel">Steht unter deinem Namen. Freiwillig.</small></label>
               <label class="feld ganz"><span class="titel">Eine Zeile über dich</span><input name="satz" value="${esc(s.satz)}" maxlength="160" placeholder="z. B. Ich trinke dieses Wasser seit drei Jahren und zeige es dir gern."><small class="regel"><span id="ms-zaehler">0</span> von 160 Zeichen. Freiwillig.</small></label>
               <label class="feld ganz"><span class="titel">Instagram</span><input name="insta" value="${esc(s.insta ? '@' + s.insta : '')}" maxlength="80" placeholder="@deinname" autocapitalize="off" spellcheck="false"><small class="regel">Freiwillig. Erscheint als Link auf deiner Seite.</small></label>
+              <label class="feld ganz ms-brief"><span class="titel">Warum ich dir das empfehle</span><textarea name="brief" rows="6" maxlength="700" placeholder="Leer lassen: Dann steht in jedem E-Book ein Vorschlag passend zum Thema.">${esc(s.brief || '')}</textarea>
+                <small class="regel">Steht vorne in deinen E-Books, unter deinem Foto. <span id="ms-brief-zaehler">0</span> von 700 Zeichen. Was in eckigen Klammern steht, ersetzt du.</small>
+                <span class="ms-vorlagen">${(window.UKEbooks?.briefVorlagen || []).map((v, i) => `<button class="knopf still" type="button" data-brief="${i}">Vorlage ${esc(v.name)}</button>`).join('')}</span></label>
             </div></section>
 
           <section><p class="kicker">02 · Für Anfragen an dich</p>
@@ -460,6 +463,16 @@ window.MeineSeiten = (() => {
     });
     f.addEventListener('change', (e) => { if (e.target.name === 'fassungen' || e.target.name === 'kontakt_zeigen') { senden(); adressePruefen(); } });
     zaehler.textContent = f.satz.value.length;
+    // Text für die E-Books: Vorlage übernehmen (fragt nach, wenn schon etwas drinsteht), Zeichen zählen
+    const bz = box.querySelector('#ms-brief-zaehler'), bt = f.brief;
+    const briefZaehlen = () => { bz.textContent = bt.value.length; };
+    bt.addEventListener('input', briefZaehlen); briefZaehlen();
+    box.querySelectorAll('[data-brief]').forEach((b) => (b.onclick = () => {
+      const v = window.UKEbooks.briefVorlagen[Number(b.dataset.brief)];
+      if (t(bt.value) && !confirm('Deinen bisherigen Text durch die Vorlage ersetzen?')) return;
+      bt.value = v.text; briefZaehlen(); bt.focus();
+      const k = bt.value.indexOf('['); if (k >= 0) bt.setSelectionRange(k, bt.value.indexOf(']', k) + 1);
+    }));
     fotoZeigen(); adressePruefen();
 
     const FEHLER = {
@@ -476,6 +489,7 @@ window.MeineSeiten = (() => {
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(w.lead_email)) return (m.textContent = FEHLER.email);
       if (w.insta && !/^[A-Za-z0-9._]{1,30}$/.test(w.insta)) return (m.textContent = FEHLER.insta);
       if (!w.fassungen.length) return (m.textContent = FEHLER.fassungen);
+      if (/\[[^\]]*\]/.test(w.brief || '')) return (m.textContent = 'Bitte ersetz im Text für deine E-Books noch, was in eckigen Klammern steht.');
       if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(w.adresse) || w.adresse.length < 3) return (m.textContent = FEHLER.adresse_form);
       const k = f.querySelector('[type=submit]'); k.disabled = true;
       try {

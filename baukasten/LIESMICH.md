@@ -95,6 +95,11 @@ umstellen kann er das im Portal unter "Meine Seiten". Darunter steht die ganze B
 | Wasser in der Küche | Meal Prep mit den fünf Wasserarten | Gutes Wasser für die ganze Familie |
 | Flasche, Filter oder Gerät? | Dein Trinkplan für Trainingstage | Was steckt in deinem Wasser? |
 
+**Persönlich, aber neutrales Cover (Jasmin 12.11.2026):** Das Cover zeigt nur Thema und Foto, keinen Partner. Seite 2:
+kleines rundes Foto, "Empfohlen von", Name, Rolle und darunter "Warum ich dir das empfehle". Den Text schreibt der
+Partner im Portal (Feld unter Instagram, bis 700 Zeichen) oder übernimmt eine von vier Vorlagen. Leer: Vorschlag passend
+zum Thema (`BRIEFE` in `ebooks/inhalt.mjs`). Gespeichert in `uk_partner_seiten.brief`.
+
 **Aufbau jedes E-Books (Lead-Magnet mit Brücke zum Gerät):** Titelseite, "Empfohlen von" mit Foto und Kontakt,
 fünf Kapitel (Alltag, Wissen, Lösung Gerät, Praxis, Checkliste), am Ende jedes Kapitels ein Kasten mit Link zurück auf
 die Seite, dann "So geht es weiter" mit QR-Code und Link zur Seite des Partners, hinten der rechtliche Hinweis.

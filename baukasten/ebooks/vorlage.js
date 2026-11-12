@@ -40,11 +40,11 @@ seiten.push(`<section class="seite titel"><span class="marke-band"></span>
   <span class="eyebrow">${esc(buch.eyebrow)}</span>
   <div class="titelbild"><img src="${esc(buch.cover)}" alt=""></div>
   <h1>${esc(buch.titel)}</h1><p class="unter">${esc(buch.untertitel)}</p>
-  <div class="unten">${slot('titel-name')}<span class="ratgeber">Kein medizinischer Ratgeber</span></div></section>`);
+  <div class="unten"><span class="ratgeber">Kein medizinischer Ratgeber</span></div></section>`);
 // 2 Empfohlen von
-seiten.push(`<section class="seite empf"><span class="eyebrow">Persönlich für dich</span>
-  <div class="kopf">${slot('foto')}<div class="wer"><span class="eyebrow">Empfohlen von</span>${slot('name')}${slot('rolle')}${slot('satz')}</div></div>
-  <h2>Schön, dass du reinliest.</h2>${slot('intro')}
+seiten.push(`<section class="seite empf">
+  <div class="kopf">${slot('foto')}<div class="wer"><span class="eyebrow">Empfohlen von</span>${slot('name')}${slot('rolle')}</div></div>
+  <h2>Warum ich dir das empfehle</h2>${slot('brief')}
   <div class="kontaktbox"><span class="eyebrow">So erreichst du mich</span>${slot('kontakt')}</div>
   <p class="ratgeber"><b>Kein medizinischer Ratgeber.</b> Dieses E-Book informiert über das Gerät und seine Anwendung im Alltag. Bei Fragen zu deiner Gesundheit sprich mit deinem Arzt oder Therapeuten.</p>
   ${fuss()}</section>`);

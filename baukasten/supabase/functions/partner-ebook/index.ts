@@ -83,7 +83,8 @@ Deno.serve(async (req) => {
       lage = vorlage ? await json(`vorlagen/${buchId}/${std.modus}-${std.akzent}.json`) : null;
     }
     if (vorlage && lage) {
-      pdf = await fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schriften: { jost, inter, interFett }, foto, partner: p, link });
+      pdf = await fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schriften: { jost, inter, interFett }, foto, partner: p, link,
+        briefStandard: katalog?.briefe?.[buch?.thema || p.fassung] || '' });
     } else {
       // Noch keine Bibliothek im Speicher: alte Fassung mit Platzhalter-Vorlage
       pdf = await personalisieren({ PDFLib, fontkit, vorlage: await datei(`vorlagen/ebook-${p.fassung}.pdf`), schriften: { jost, inter, interFett }, foto, fassung: p.fassung, partner: p, link });

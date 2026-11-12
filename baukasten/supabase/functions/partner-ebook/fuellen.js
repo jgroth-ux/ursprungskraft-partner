@@ -6,8 +6,13 @@
 // Felder: titel-name, foto, name, rolle, satz, intro, kontakt, qr, link, weiter-name, weiter-kontakt, rueck-name, cta.
 // Telefon und E-Mail stehen nur drin, wenn der Partner sie freigegeben hat (partner.telefon / partner.email gesetzt).
 
-export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schriften = {}, foto, partner, link }) {
-  const { PDFDocument, StandardFonts, rgb, PDFString, PDFName, pushGraphicsState, popGraphicsState, rectangle, clip, endPath } = PDFLib;
+export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schriften = {}, foto, partner, link, briefStandard = '' }) {
+  const { PDFDocument, StandardFonts, rgb, PDFString, PDFName, pushGraphicsState, popGraphicsState, moveTo, appendBezierCurve, closePath, clip, endPath } = PDFLib;
+  // Kreis als Pfad (vier Bézier-Bögen), zum Zuschneiden des Fotos
+  const KR = 0.5523;
+  const kreis = (cx, cy, r) => [moveTo(cx + r, cy), appendBezierCurve(cx + r, cy + r * KR, cx + r * KR, cy + r, cx, cy + r),
+    appendBezierCurve(cx - r * KR, cy + r, cx - r, cy + r * KR, cx - r, cy), appendBezierCurve(cx - r, cy - r * KR, cx - r * KR, cy - r, cx, cy - r),
+    appendBezierCurve(cx + r * KR, cy - r, cx + r, cy - r * KR, cx + r, cy), closePath()];
   const doc = await PDFDocument.load(vorlage);
   doc.registerFontkit(fontkit);
   const laden = async (bytes, ersatz) => (bytes ? doc.embedFont(bytes, { subset: true }) : doc.embedFont(ersatz));
@@ -58,6 +63,8 @@ export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schrifte
       case 'name': text(page, null, f, name); break;
       case 'rolle': if (partner.rolle) text(page, null, f, partner.rolle); break;
       case 'satz': if (partner.satz) text(page, null, f, `„${partner.satz}“`); break;
+      // Warum ich dir das empfehle: eigener Text des Partners, sonst der Vorschlag des Themas. Darunter der Gruß.
+      case 'brief': text(page, null, f, `${String(partner.brief || briefStandard).trim()}\n\nViele Grüße\n${name}`); break;
       case 'intro':
         text(page, null, f, `Dieses E-Book hast du von ${vorname} bekommen. Lies es in Ruhe, so oft du magst. Wenn du Fragen hast oder das Gerät persönlich kennenlernen möchtest, melde dich direkt bei ${vorname}.`);
         break;
@@ -83,16 +90,18 @@ export async function fuellen({ PDFLib, fontkit, qrcode, vorlage, lage, schrifte
         verweis(page, link, f.x, f.y, f.w, f.h);
       } break;
       case 'foto': {
+        // Rundes Foto (Feld ist quadratisch). Das Portal schneidet 4 : 5 zu, hier zählt der obere Teil mit dem Gesicht.
+        const r = Math.min(f.w, f.h) / 2, cx = f.x + f.w / 2, cy = f.y + f.h / 2;
         if (foto) {
           const bild = await doc.embedJpg(foto);
           const s = Math.max(f.w / bild.width, f.h / bild.height), w = bild.width * s, h = bild.height * s;
-          page.pushOperators(pushGraphicsState(), rectangle(f.x, f.y, f.w, f.h), clip(), endPath());
-          page.drawImage(bild, { x: f.x + (f.w - w) / 2, y: f.y + (f.h - h) / 2, width: w, height: h });
+          page.pushOperators(pushGraphicsState(), ...kreis(cx, cy, r), clip(), endPath());
+          page.drawImage(bild, { x: f.x + (f.w - w) / 2, y: f.y + f.h - h * 0.9, width: w, height: h });
           page.pushOperators(popGraphicsState());
         } else {
-          page.drawRectangle({ x: f.x, y: f.y, width: f.w, height: f.h, color: farbe(lage.farben.akKnopf) });
-          const ini = `${(partner.vorname || ' ')[0]}${(partner.nachname || ' ')[0]}`.trim().toUpperCase(), g = f.w * 0.36;
-          page.drawText(ini, { x: f.x + (f.w - SCHRIFT.kopf.widthOfTextAtSize(ini, g)) / 2, y: f.y + f.h / 2 - g * 0.36, size: g, font: SCHRIFT.kopf, color: rgb(1, 1, 1) });
+          page.drawEllipse({ x: cx, y: cy, xScale: r, yScale: r, color: farbe(lage.farben.akKnopf) });
+          const ini = `${(partner.vorname || ' ')[0]}${(partner.nachname || ' ')[0]}`.trim().toUpperCase(), g = f.w * 0.34;
+          page.drawText(ini, { x: cx - SCHRIFT.kopf.widthOfTextAtSize(ini, g) / 2, y: cy - g * 0.36, size: g, font: SCHRIFT.kopf, color: rgb(1, 1, 1) });
         }
         break;
       }

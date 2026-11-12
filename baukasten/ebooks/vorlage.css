@@ -23,19 +23,20 @@ p { margin: 0 0 3.5mm; text-wrap: pretty; }
 .titel .titelbild img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .titel h1 { font-size: 38pt; line-height: 40pt; letter-spacing: -.02em; margin: 3mm 0 4mm; }
 .titel .unter { font-size: 13pt; line-height: 18pt; color: var(--text-2); max-width: 140mm; }
-.titel .unten { margin-top: auto; display: flex; justify-content: space-between; align-items: end; gap: 10mm; padding-top: 5mm; border-top: 1px solid var(--linie-d); }
+.titel .unten { margin-top: auto; display: flex; justify-content: flex-end; align-items: end; gap: 10mm; padding-top: 5mm; border-top: 1px solid var(--linie-d); }
 .slot-titel-name { flex: 1; height: 9mm; font: 600 10pt/12pt Inter, sans-serif; color: var(--text); }
 .titel .ratgeber { font-size: 7.5pt; color: var(--text-2); white-space: nowrap; }
 .titel .marke-band { position: absolute; left: 0; top: 0; bottom: 0; width: 6mm; background: var(--ak-knopf); }
 
 /* ---------- Empfohlen von ---------- */
-.empf .kopf { display: grid; grid-template-columns: 58mm 1fr; gap: 9mm; margin: 6mm 0 10mm; align-items: start; }
-.slot-foto { width: 58mm; height: 72.5mm; border-radius: 4px; background: var(--feld); }
-.empf .wer { padding-top: 2mm; }
-.slot-name { height: 24mm; font: 500 26pt/29pt Jost, sans-serif; color: var(--text); margin: 3mm 0 1mm; }
-.slot-rolle { height: 7mm; font: 400 11pt/14pt Inter, sans-serif; color: var(--text-2); }
+/* Kleines rundes Foto, daneben Name und Rolle (Jasmin 12.11.2026: Cover neutral, innen persönlich) */
+.empf .kopf { display: grid; grid-template-columns: 30mm 1fr; gap: 7mm; margin: 0 0 12mm; align-items: center; }
+.slot-foto { width: 30mm; height: 30mm; border-radius: 50%; background: var(--feld); }
+.slot-name { height: 12mm; font: 500 24pt/27pt Jost, sans-serif; color: var(--text); margin: 2mm 0 1mm; }
+.slot-rolle { height: 6mm; font: 400 11pt/14pt Inter, sans-serif; color: var(--text-2); }
+.slot-brief { height: 100mm; font: 400 12pt/18.5pt Inter, sans-serif; color: var(--text); margin-top: 2mm; }
 .slot-satz { height: 30mm; margin-top: 4mm; font: 500 13pt/18pt Jost, sans-serif; color: var(--ak-d); border-left: 2px solid var(--ak); padding-left: 4mm; }
-.empf h2 { font-size: 20pt; line-height: 25pt; margin-bottom: 4mm; }
+.empf h2 { font-size: 26pt; line-height: 30pt; letter-spacing: -.01em; margin-bottom: 5mm; }
 .slot-intro { height: 26mm; font: 400 11pt/16pt Inter, sans-serif; color: var(--text); }
 .empf .kontaktbox { margin-top: 6mm; background: var(--feld); border-radius: 4px; padding: 6mm 7mm; }
 .slot-kontakt { height: 34mm; margin-top: 3mm; font: 600 11pt/17pt Inter, sans-serif; color: var(--text); }

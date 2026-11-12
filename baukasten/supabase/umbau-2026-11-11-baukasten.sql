@@ -68,6 +68,8 @@ alter table uk_partner_seiten add column if not exists aussehen jsonb not null d
 -- Welches E-Book jede Seite anbietet (12.11.2026): {"sport": "meal-prep", ...}. Fehlt eine Seite: Vorschlag aus
 -- ebooks/inhalt.mjs (das erste Buch des Themas). Die Namen stehen im Katalog (katalog.json, website/p/ebooks.js).
 alter table uk_partner_seiten add column if not exists ebooks jsonb not null default '{}'::jsonb;
+-- "Warum ich dir das empfehle" (12.11.2026): steht vorne in den E-Books. Leer: Vorschlag des Themas (ebooks/inhalt.mjs).
+alter table uk_partner_seiten add column if not exists brief text;
 alter table uk_partner_seiten drop constraint if exists uk_partner_seiten_fassungen_check;
 alter table uk_partner_seiten add constraint uk_partner_seiten_fassungen_check
   check (fassungen <@ array['neutral', 'sport', 'gesundheit']::text[]);
@@ -230,6 +232,7 @@ begin
     'fassung', case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end,
     'aussehen', s.aussehen -> (case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end),
     'ebook', s.ebooks ->> (case when p_fassung = any (v_fassungen) then p_fassung else v_fassungen[1] end),
+    'brief', s.brief,
     'fassungen', to_jsonb(v_fassungen),
     'vorname', s.vorname,
     'nachname', s.nachname,
@@ -270,7 +273,7 @@ begin
     'seite', case when s.partner_id is null then null else jsonb_build_object(
       'adresse', s.adresse, 'vorname', s.vorname, 'nachname', s.nachname, 'rolle', s.rolle, 'satz', s.satz,
       'insta', s.insta, 'foto', s.foto, 'lead_telefon', s.lead_telefon, 'lead_email', s.lead_email,
-      'kontakt_zeigen', s.kontakt_zeigen, 'fassungen', to_jsonb(s.fassungen), 'aussehen', s.aussehen, 'ebooks', s.ebooks, 'geaendert', s.geaendert) end,
+      'kontakt_zeigen', s.kontakt_zeigen, 'fassungen', to_jsonb(s.fassungen), 'aussehen', s.aussehen, 'ebooks', s.ebooks, 'brief', s.brief, 'geaendert', s.geaendert) end,
     'beispiele', coalesce((select jsonb_agg(jsonb_build_object('adresse', b.adresse, 'fassung', b.fassungen[1],
         'fassungen', to_jsonb(b.fassungen), 'vorname', b.vorname, 'nachname', b.nachname, 'rolle', b.rolle) order by b.erstellt)
       from uk_partner_seiten b where b.beispiel and cardinality(b.fassungen) > 0 and uk_seiten_gebucht(b.partner_id)), '[]'::jsonb),
@@ -331,13 +334,13 @@ begin
   end if;
   delete from uk_partner_seiten_alt where adresse = v_adresse and partner_id = v;
 
-  insert into uk_partner_seiten (partner_id, adresse, vorname, nachname, rolle, satz, insta, lead_telefon, lead_email, kontakt_zeigen, fassungen, aussehen)
+  insert into uk_partner_seiten (partner_id, adresse, vorname, nachname, rolle, satz, insta, lead_telefon, lead_email, kontakt_zeigen, fassungen, aussehen, brief)
   values (v, v_adresse, v_vor, v_nach, uk_txt(p->>'rolle', 60), uk_txt(p->>'satz', 160), v_insta, v_tel, v_email,
-          coalesce((p->>'kontakt_zeigen')::boolean, false), v_fassungen, uk_seiten_aussehen_pruefen(p->'aussehen', v_fassungen))
+          coalesce((p->>'kontakt_zeigen')::boolean, false), v_fassungen, uk_seiten_aussehen_pruefen(p->'aussehen', v_fassungen), uk_txt(p->>'brief', 700))
   on conflict (partner_id) do update set adresse = excluded.adresse, vorname = excluded.vorname, nachname = excluded.nachname,
     rolle = excluded.rolle, satz = excluded.satz, insta = excluded.insta, lead_telefon = excluded.lead_telefon,
     lead_email = excluded.lead_email, kontakt_zeigen = excluded.kontakt_zeigen, fassungen = excluded.fassungen,
-    aussehen = excluded.aussehen, geaendert = now();
+    aussehen = excluded.aussehen, brief = excluded.brief, geaendert = now();
   return jsonb_build_object('ok', true, 'adresse', v_adresse);
 end $$;
 

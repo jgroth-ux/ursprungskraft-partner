@@ -565,3 +565,19 @@ export const ARTEN = [
 
 // Rechtlicher Hinweis hinten (CI: kein medizinischer Ratgeber, Markenvermerk)
 export const RECHTLICHES = 'Dieses E-Book informiert über das Gerät und seine Anwendung im Alltag. Es ist kein medizinischer Ratgeber, ersetzt keine ärztliche Beratung und gibt keine Heilversprechen. Genannte Marken gehören ihren Inhabern. Herausgegeben von [FEHLT: neutrale Marke und Anschrift wie im Impressum]. Stand: November 2026.';
+
+// "Warum ich dir das empfehle" (12.11.2026): steht vorne im E-Book unter dem Foto des Partners. Der Partner schreibt
+// den Text im Portal selbst oder übernimmt eine Vorlage. Hat er nichts eingetragen, steht hier der Vorschlag des Themas.
+// Ich-Form aus Sicht des Partners, nichts, was er selbst erlebt haben müsste.
+export const BRIEFE = {
+  neutral: 'Ich empfehle dir dieses E-Book, weil gutes Wasser im Alltag mehr ausmacht, als man denkt: beim Trinken, beim Kochen und im Haushalt. Darin findest du alles Wichtige zu den fünf Wasserarten, ohne Fachchinesisch. Lies es in Ruhe. Wenn du Fragen hast oder das Gerät selbst ausprobieren willst, melde dich einfach bei mir.',
+  sport: 'Du achtest auf Training, Ernährung und Regeneration. Ich empfehle dir dieses E-Book, weil Wasser dabei oft vergessen wird, obwohl du jeden Tag literweise davon trinkst. Darin steht, worauf du achten kannst und was die fünf Wasserarten für dein Training und deine Küche können. Wenn du Fragen hast oder das Gerät ausprobieren willst, melde dich einfach bei mir.',
+  gesundheit: 'Ich empfehle dir dieses E-Book, weil gute Gewohnheiten oft beim Einfachsten anfangen: beim Wasser, das du jeden Tag trinkst. Darin findest du, worauf es beim Trinken ankommt und was du über dein Wasser wissen solltest. Ganz ohne große Versprechen, dafür mit vielen Ideen für deinen Alltag. Wenn du Fragen hast, melde dich gern bei mir.',
+};
+// Vorlagen zum Übernehmen im Portal. Was in eckigen Klammern steht, ersetzt der Partner.
+export const BRIEF_VORLAGEN = [
+  { name: 'Alltag', text: BRIEFE.neutral },
+  { name: 'Sport', text: BRIEFE.sport },
+  { name: 'Gesundheit', text: BRIEFE.gesundheit },
+  { name: 'Meine Geschichte', text: 'Ich bin [was du machst] und trinke das Wasser aus dem Gerät seit [wie lange]. Was mich überzeugt hat: [dein Grund in einem Satz]. Darum gebe ich dir dieses E-Book. Lies es in Ruhe, und wenn du Fragen hast oder das Wasser selbst probieren willst, melde dich einfach bei mir.' },
+];

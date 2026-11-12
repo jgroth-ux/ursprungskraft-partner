@@ -98,6 +98,11 @@
 .ms-anfrage.heiss .marke-stufe { color: var(--heiss); }
 .ms-anfrage .knoepfe { margin-top: var(--s-2); }
 
+/* Text "Warum ich dir das empfehle" */
+.ms-brief textarea { min-height: 150px; }
+.ms-vorlagen { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-top: var(--s-2); }
+.ms-vorlagen .knopf { min-height: 34px; font-size: 13px; border: var(--haar); }
+
 /* E-Books */
 .ms-ebook { display: flex; flex-wrap: wrap; align-items: end; gap: var(--s-2); margin-top: var(--s-4); padding-top: var(--s-3); border-top: var(--haar); }
 .ms-ebook .feld { flex: 1 1 260px; }

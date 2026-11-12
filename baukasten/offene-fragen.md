@@ -93,7 +93,14 @@ Gesundheit als Magazin? Heute schlägt das Portal überall "Felder" vor.
 ## 13. Welcher E-Mail-Dienst? (nächster Schritt)
 
 Für den E-Mail-Teil (E-Book per Mail mit Bestätigungsklick, danach 6 Mails über 3 Wochen) brauche ich den Dienst.
-Mein Rat: Brevo. Alternativen: CleverReach oder Klick-Tipp. Nutzt ihr schon einen?
+Die Preisseiten konnte ich aus der Arbeitsumgebung nicht öffnen (Netzwerk gesperrt), Preise bitte selbst prüfen oder
+die Seiten freigeben. Vorschlag zum Aufbau: Die Mails bauen wir selbst im Look der Seite des Partners, der Dienst
+verschickt nur. Dann passt jede Mail zur Landingpage, und ein Wechsel des Dienstes ist später einfach.
+
+## 13b. Text für die E-Books mit KI schreiben lassen?
+
+Heute: eigener Text oder Vorlage übernehmen. Auf Wunsch kann ein Knopf "Text vorschlagen lassen" dazukommen, der aus ein
+paar Stichworten des Partners einen Text schreibt (über die Claude-API, Kosten je Text im Cent-Bereich, Schlüssel nötig).
 
 ## 14. Später
 
