@@ -1,6 +1,6 @@
 # Baukasten Partnerseiten (Paket "Eigene Seite")
 
-Stand 11.11.2026. Für Jasmin und den Claude mit Zugang zu Datenbank und Server.
+Stand 12.11.2026. Für Jasmin und den Claude mit Zugang zu Datenbank und Server. Zuerst `UEBERGABE.md` lesen.
 Nichts davon ist hochgeladen oder eingespielt. Alle Schlüssel stehen als `XXX` drin.
 
 ## Worum es geht
@@ -48,8 +48,10 @@ Anfrage-Formular und E-Book. Datei: `website/p/start.html`.
   unterschrieben mit "Dein Team von Wasser ist mehr". Der Text steht in `uk_partner_seiten.brief` dieses Eintrags.
   Beispiel: `website/p/vorschau/ebook-wasseristmehr.pdf`.
 - Antwortet die Datenbank nicht, zeigt sich die Startseite trotzdem (Anfragen gehen dann ans Team).
-- Sie steht noch auf `noindex` (Google zeigt sie nicht). Umstellen, wenn Impressum und Datenschutz für
-  wasseristmehr.com fertig sind (`<meta name="robots">` in `start.html`).
+- **Nicht bei Google** (Jasmin, 12.11.2026): Alle Seiten werden nur gezielt weitergegeben. Darum haben Startseite,
+  alle Partnerseiten (`<meta name="robots" content="noindex, nofollow">`) und die E-Books (`X-Robots-Tag` in
+  `partner-ebook`) die Sperre. Bitte so lassen. Überlegung für später: nur die Startseite öffentlich machen, keine
+  Unterseite. Dann vorher Impressum und Datenschutz prüfen lassen und nur in `start.html` auf `index, follow` stellen.
 - Für Partner gesperrte Adressen: alle Ordner der Website (`p`, `partner`, `dashboard`, `bestellen`, `impressum`,
   `datenschutz` ...) und `wasseristmehr`. Liste in `uk_seiten_adresse_reserviert`. Kommt ein neuer Ordner auf die
   Website, das Wort dort ergänzen.
@@ -159,7 +161,8 @@ Danach den Ordner `ausgabe/vorlagen` neu in den Speicher laden (Schritt 2). Im P
 ```
 baukasten/
   LIESMICH.md              diese Datei
-  offene-fragen.md         was ich nicht entscheiden konnte
+  UEBERGABE.md             zuerst lesen: was gebaut ist, was Jasmin entschieden hat
+  offene-fragen.md         was Jasmin noch entscheiden muss, jeweils mit Vorgabe
   bild-prompts.md          Prompts für fehlende Fotos, Liste der übernommenen Fotos
   ueberschriften.md        alle Überschriften und Knöpfe zum Abhaken (Jasmin)
   website/
@@ -313,7 +316,7 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 - [ ] Im Portal für eine Seite Aufbau, Hell und einen Akzent wählen, speichern: die echte Seite zeigt es, die anderen Seiten
       behalten ihren Vorschlag.
 - [ ] Jasmin hat `ueberschriften.md` abgehakt und `offene-fragen.md` beantwortet.
-- [ ] Datenschutzerklärung passt für Partnerseiten (siehe offene Frage 11).
+- [ ] Datenschutzerklärung passt für Partnerseiten (siehe offene Frage 12).
 
 ## Was ich getestet habe
 

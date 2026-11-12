@@ -95,9 +95,9 @@ Deno.serve(async (req) => {
     return new Response(req.method === 'HEAD' ? null : pdf, {
       headers: {
         'Content-Type': 'application/pdf',
+        'X-Robots-Tag': 'noindex, nofollow', // nicht bei Google (Jasmin, 12.11.2026: nur gezielt weitergeben)
         'Content-Disposition': `inline; filename="e-book-${buchId || p.fassung}.pdf"; filename*=UTF-8''${encodeURIComponent(name)}.pdf`,
         'Cache-Control': 'public, max-age=3600',
-        'X-Robots-Tag': 'noindex',
       },
     });
   } catch (e) {

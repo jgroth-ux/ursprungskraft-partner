@@ -1,124 +1,103 @@
 # Offene Fragen an Jasmin
 
-Stand 12.11.2026, dritte Fassung. Nur noch das, was ihr entscheiden müsst. Technisches für den Claude, der einspielt,
-steht in `LIESMICH.md`.
+Stand 12.11.2026, vierte Fassung, bewusst einfach gehalten.
 
-**Schon geklärt und eingebaut:**
-- Je Partner legt ihr fest, ob ihr euch bei seinen Interessenten meldet (wie bei Kevin und Johny) oder ob er es selbst macht.
-- Wer es selbst macht, verbindet mit einem Klick seinen eigenen Anfragen-Bot in Telegram, getrennt vom Assistenten.
-- Die Seiten sehen jetzt aus wie die von Kevin und Johny, mit denselben Effekten.
-- Jede Seite gibt es hell und dunkel mit sieben Akzentfarben, der Partner wählt im Portal per Klick.
-- Eure allgemeine Ursprungskraft-Landingpage bleibt, wie sie ist. Ich habe sie nicht angefasst.
-- Domain **wasseristmehr.com**. Die Links sind kurz: `wasseristmehr.com/kevin`. Wer nur `wasseristmehr.com` aufruft,
-  sieht eine neutrale Startseite ohne Person mit "Wasser ist mehr" und "Wasser, das unterschätzte Supplement".
-  Anfragen von dort gehen an euch beide.
-- Hat ein Partner mehrere Seiten, wählt er im Portal, welche unter seinem kurzen Link erscheint.
+**So ist es gedacht:** Keine Frage hält das Einspielen auf. Bei jeder steht, was gilt, wenn Jasmin nichts sagt.
+Der Claude, der einspielt, geht die Fragen am besten einzeln mit ihr durch, in ganz einfachen Worten, und zeigt dabei
+die passende Stelle (Bild oder Seite in der Vorschau).
 
 ---
 
-## 1. Was kostet das Paket?
+## Geld
 
-Im Portal gibt es eine Info-Seite zum Paket "Eigene Seite". Dort steht bei den Preisen gerade nur "[Preis folgt]".
+**1. Was kostet das Paket "Eigene Seite"?**
+Im Portal steht bei den Preisen "[Preis folgt]". Gebraucht wird: Einrichtung (einmal) und Hosting (jeden Monat).
+Und: Nimmt ein Partner zwei Seiten (zum Beispiel Neutral und Sport), zahlt er die Einrichtung einmal oder zweimal?
+Das Hosting zahlt er nur einmal, das hat Jasmin schon gesagt.
+*Solange nichts kommt:* Es bleibt "[Preis folgt]". Stelle: `website/partner/seiten.js`, ganz oben `PREIS`.
 
-- Was kostet die **Einrichtung** (einmal)?
-- Was kostet das **Hosting** (jeden Monat)?
-- Ein Partner kann bis zu drei Seiten haben: Neutral, Sport, Gesundheit. Nimmt er zum Beispiel Neutral **und** Sport:
-  Zahlt er die Einrichtung **einmal oder zweimal**? Das Hosting zahlt er laut deiner Vorgabe nur einmal.
+**2. Partner kündigt: Wie lange bleibt seine Seite noch online?**
+*Solange nichts kommt:* Die Seite ist am Tag nach dem Ende weg. Vorschlag: noch 7 Tage weiterlaufen lassen.
 
-## 2. Paket gekündigt: was passiert mit der Seite?
+## Texte zum Abnicken
 
-Heute ist die Seite am Tag nach dem Ende des Pakets weg. Wer den Link öffnet, liest "Diese Seite gibt es gerade nicht".
-Soll sie noch ein paar Tage weiterlaufen (zum Beispiel 7 Tage), damit kein Interessent ins Leere läuft?
+**3. Die 9 E-Books einmal lesen.**
+Zwei Stellen fehlen noch und sind mit `[FEHLT]` markiert: Wie oft wird der Filter gewechselt? Und wer steht hinten
+als Herausgeber drin (Name und Anschrift)?
+*Solange nichts kommt:* `[FEHLT]` bleibt stehen. Vor dem Start müssen die zwei Stellen gefüllt sein.
 
-## 3. Die 9 E-Books gegenlesen
+**4. "40 ml Wasser je Kilo Körpergewicht" auf der Sportseite.**
+Die Zahl kommt von Kevins Seite. Unsere Regel: keine Zahl ohne Quelle.
+*Solange nichts kommt:* Sie bleibt. Hat niemand eine Quelle, besser rausnehmen.
 
-Die E-Books sind gebaut (Entwurf). Zum Lesen: `website/p/vorschau/ebook-<name>.pdf` im Paket, oder in der Vorschau
-unter "Meine Seiten", Bibliothek, "Ansehen". Bitte besonders prüfen:
-- Jede Überschrift und jeden Satz zum Gerät.
-- Zwei Lücken: Wie oft wird der Filter gewechselt? (E-Book "Ein Gerät, fünf Wasserarten", Häufige Fragen) und wer
-  steht als Herausgeber hinten drin? (neutrale Marke und Anschrift wie im Impressum)
-- Die Angabe der Deutschen Gesellschaft für Ernährung (rund 1,5 Liter Getränke am Tag), die ich als Quelle nenne.
-- Babynahrung: Ich schreibe "pH 7,0, und wie das Wasser vorbereitet wird, besprichst du mit deiner Hebamme".
-- Sollen echte Erfahrungen von Kunden rein? Dafür bräuchte ich echte Zitate mit Einverständnis.
+**5. Diese Sätze sind von Kevin übernommen. Dürfen sie so bleiben?**
+- Sportseite ohne die Videos mit Eddie Hall und Ronaldo (Jasmin sagte "ohne Promi").
+- Im Formular die Antwort "Selbst Partner werden" (auf der Gesundheitsseite: "Das Gerät für meine Praxis").
+- Gesundheitsseite, Kasten "Ehrlich gesagt": "Das Gerät macht Wasser. Es ist kein Heilmittel und ersetzt keine
+  Behandlung."
+- Bei pH 7,0: "Für Babynahrung und zum Einnehmen von Medikamenten".
+- In den Fragen: "Das Gerät steht neben deiner Spüle und wird an den Wasserhahn angeschlossen."
+- Startseite, letzte Frage: "Jemand hat mir einen Link geschickt? Dann öffne genau diesen Link."
 
-## 4. Die "40 ml je Kilo" auf der Sportseite
+*Solange nichts kommt:* Alles bleibt so.
 
-Auf der Sportseite steht oben ein Feld: "40 ml Wasser je Kilo Körpergewicht gelten als Faustregel am Tag".
-Darunter gibt es einen kleinen Rechner "Wie viel solltest du trinken?": Man tippt sein Gewicht ein, die Seite rechnet
-die Liter aus (80 kg ergibt 3,2 Liter). Das habe ich von der Seite von Kevin übernommen.
-Unsere Regel ist: keine Zahl ohne Quelle. **Haben wir eine Quelle dafür?** Wenn nicht, nehme ich das Feld und den
-Rechner raus oder ersetze den Rechner durch den Kisten-Rechner der neutralen Seite.
+**6. Was steht unter Daniels und Jasmins Namen auf ihren Beispielseiten?**
+Eine Zeile, zum Beispiel "Wasserberaterin".
+*Solange nichts kommt:* Dort steht `[FEHLT: Rolle]`. Foto und Satz tragen beide selbst im Portal ein.
 
-## 5. Videos mit Eddie Hall und Ronaldo
+## Aussehen
 
-Kevins Seite hat einen Abschnitt "Die Besten trinken es schon" mit diesen zwei Videos. Auf der neuen Sportseite habe ich
-ihn weggelassen, weil du "ohne Promi" gesagt hast. Bleibt das so?
+**7. Passen die Farben und die Anordnungen?**
+Sieben Akzentfarben (Kupfer, Oliv, Salbei, Khaki, Petrol, Blau, Beere) und drei Anordnungen (Felder, Magazin, Bühne).
+Bilder: `farbwelten-beispiele.png`, `drei-aufbauten.png`.
+*Solange nichts kommt:* Alles bleibt. Vorschlag beim Einrichten: Sport dunkel mit Kupfer, Neutral hell mit Oliv,
+Gesundheit hell mit Salbei, überall "Felder".
 
-## 6. Antwort "Selbst Partner werden"
+**8. Fotos.**
+Für die Sportseite fehlt oben ein Sportfoto (Prompt in `bild-prompts.md`).
+*Solange nichts kommt:* Dort steht ein Platzhalter.
 
-Im Formular "Lern das Gerät persönlich kennen" fragt die Seite: "Was interessiert dich am meisten?"
-Bei Neutral und Sport ist die dritte Antwort "Selbst Partner werden" (wie bei Kevin). Bei Gesundheit steht dort
-"Das Gerät für meine Praxis". Passt das?
+## Technik, die Jasmin nur einmal entscheiden muss
 
-## 7. Kasten auf der Gesundheitsseite
+**9. Wie heißt der Telegram-Bot für die Anfragen?**
+Den sehen nur die Partner, nie ihre Interessenten.
+*Solange nichts kommt:* "Ursprungskraft Anfragen". Anlegen dauert zwei Minuten (LIESMICH, Schritt 3).
 
-Dort steht ein Kasten "Ehrlich gesagt": "Das Gerät macht Wasser. Es ist kein Heilmittel und ersetzt keine Behandlung.
-Bei Fragen zu deiner Gesundheit sprich mit deinem Arzt oder Therapeuten." Ist der Satz so in Ordnung?
+**10. Welcher Dienst verschickt später die E-Mails?**
+Das ist erst für den nächsten Schritt nötig (E-Book per Mail mit Bestätigungsklick, danach ein paar Mails).
+*Solange nichts kommt:* Noch nichts gebaut. Rat: Brevo. Die Preise bitte selbst auf der Seite des Anbieters prüfen
+(aus dieser Arbeitsumgebung waren die Seiten gesperrt). Ein eigenes Postfach braucht ihr dafür nicht.
 
-## 8. Zwei Sätze, bei denen ich unsicher bin
+**11. Soll es einen Knopf "Text vorschlagen lassen" geben?**
+Für den Text "Warum ich dir das empfehle" im E-Book. Heute schreibt der Partner selbst oder nimmt eine Vorlage.
+*Solange nichts kommt:* Nein, kein Knopf.
 
-- In der Liste der fünf Wasserarten steht bei pH 7,0: "Für Babynahrung und zum Einnehmen von Medikamenten" (wie bei Kevin).
-  Darf das auch auf der Gesundheitsseite so stehen?
-- Auf der neutralen Seite bei den Fragen: "Das Gerät steht neben deiner Spüle und wird an den Wasserhahn angeschlossen."
-  Stimmt das so?
+## Rechtliches
 
-## 9. Eure eigenen Beispielseiten
+**12. Impressum und Datenschutz für wasseristmehr.com.**
+Auch wenn Google die Seiten nicht zeigt, braucht jede Seite, die man öffnen kann, ein Impressum und eine
+Datenschutzerklärung. Heute führen die Links unten auf allen Seiten zu euren bestehenden Seiten auf
+mein.ursprungskraft.net. Die Datenschutzerklärung sollte zusätzlich erwähnen, dass Anfragen über eine Partnerseite
+dem Partner zugeordnet werden und der Partner je nach Einstellung selbst anruft.
+*Solange nichts kommt:* Links zeigen auf das Bestehende. Bitte einmal prüfen lassen.
 
-Im Portal sehen Partner ohne Paket eure zwei Seiten als Beispiel. Vorgesehen: Daniel mit Neutral und Sport, du mit
-Gesundheit und Neutral. Unter eurem Namen steht eine Zeile, was ihr macht (zum Beispiel "Wasserberaterin").
-Was soll da bei euch stehen? Foto und den Satz tragt ihr selbst im Portal ein.
+---
 
-## 10. Name des Anfragen-Bots
+## Schon entschieden (nicht mehr fragen)
 
-Der neue Bot muss einmal bei Telegram angelegt werden (geht in zwei Minuten, Anleitung in `LIESMICH.md`, Schritt 3).
-Wie soll er heißen? Vorschlag: "Ursprungskraft Anfragen". Den sehen die Partner in Telegram, ihre Interessenten nie.
-
-## 11. Passen die sieben Akzentfarben?
-
-Kupfer, Oliv, Salbei, Khaki, Petrol, Blau, Beere. Das Bild `farbwelten-beispiele.png` zeigt einige Kombinationen.
-Fehlt eine Farbe oder soll eine raus? Und passen die Vorschläge: Sport dunkel mit Kupfer, Neutral hell mit Oliv,
-Gesundheit hell mit Salbei?
-
-## 12. Gefallen dir die zwei neuen Aufbauten?
-
-"Magazin" und "Bühne", siehe `drei-aufbauten.png`. Soll einer davon der Vorschlag für eine Seite werden, zum Beispiel
-Gesundheit als Magazin? Heute schlägt das Portal überall "Felder" vor.
-
-## 13. Welcher E-Mail-Dienst? (nächster Schritt)
-
-Für den E-Mail-Teil (E-Book per Mail mit Bestätigungsklick, danach 6 Mails über 3 Wochen) brauche ich den Dienst.
-Die Preisseiten konnte ich aus der Arbeitsumgebung nicht öffnen (Netzwerk gesperrt), Preise bitte selbst prüfen oder
-die Seiten freigeben. Vorschlag zum Aufbau: Die Mails bauen wir selbst im Look der Seite des Partners, der Dienst
-verschickt nur. Dann passt jede Mail zur Landingpage, und ein Wechsel des Dienstes ist später einfach.
-
-## 13b. Text für die E-Books mit KI schreiben lassen?
-
-Heute: eigener Text oder Vorlage übernehmen. Auf Wunsch kann ein Knopf "Text vorschlagen lassen" dazukommen, der aus ein
-paar Stichworten des Partners einen Text schreibt (über die Claude-API, Kosten je Text im Cent-Bereich, Schlüssel nötig).
-
-## 14. Startseite wasseristmehr.com
-
-Die Startseite ist gebaut (lokal unter `/startseite`, siehe `LIESMICH.md`). Bitte einmal ansehen:
-- Passen die Texte? Oben: "Wasser, das unterschätzte Supplement", "Wasser ist mehr." und der Satz darunter.
-- Ganz unten bei den Fragen steht neu: "Jemand hat mir einen Link zu seiner Seite geschickt. Dann öffne am besten
-  genau diesen Link." Damit Interessenten von Partnern nicht über die Startseite bei euch landen. Passt das?
-- Das Trainingsfoto (Feld 02) kommt von eurem Server (`/bilder/partner/schneller-fit.jpg`), lokal sieht man nur den
-  Platzhalter.
-
-## 15. Impressum und Datenschutz für wasseristmehr.com
-
-Unten auf allen Seiten stehen "Impressum" und "Datenschutz". Heute führen sie zu euren bestehenden Seiten.
-Wer steht im Impressum von wasseristmehr.com (Name, Anschrift)? Dieselbe Angabe fehlt hinten in den E-Books
-(siehe Frage 3). Bis das steht, ist die Startseite für Google ausgeblendet.
-Die Datenschutzerklärung sollte außerdem erwähnen, dass Anfragen über eine Partnerseite dem Partner zugeordnet werden
-und, je nach Einstellung, der Partner selbst anruft. Bitte einmal prüfen lassen.
+- Je Partner legen Daniel und Jasmin fest, wer sich bei den Interessenten meldet: das Team (wie bei Kevin und Johny)
+  oder der Partner selbst.
+- Wer sich selbst kümmert, verbindet mit einem Klick seinen eigenen Anfragen-Bot in Telegram, getrennt vom Assistenten.
+- Die Seiten sehen aus wie die von Kevin und Johny, mit denselben Effekten. Es gibt sie hell und dunkel, mit sieben
+  Akzentfarben und drei Anordnungen. Der Partner wählt im Portal.
+- E-Books: 9 Stück, je 3 zu Neutral, Sport und Gesundheit, im Look der Seite. Cover ohne Person, innen ein kleines
+  rundes Foto, "Empfohlen von" und "Warum ich dir das empfehle".
+- Kein Cookie-Banner nötig (nichts wird gemessen oder gespeichert, was eins bräuchte).
+- Kein E-Mail-Postfach kaufen.
+- Domain: **wasseristmehr.com**. Links sind kurz: `wasseristmehr.com/kevin`.
+- `wasseristmehr.com` allein zeigt eine neutrale Startseite ohne Person: "Wasser ist mehr" und
+  "Wasser, das unterschätzte Supplement". Anfragen dort gehen an Daniel und Jasmin.
+- **Nichts davon ist bei Google zu finden.** Alles wird nur gezielt weitergegeben. Überlegung für später: nur die
+  Startseite öffentlich machen, keine Unterseite. Dann vorher Impressum und Datenschutz prüfen lassen.
+- Die allgemeine Ursprungskraft-Landingpage für Daniel und Jasmin bleibt, wie sie ist.
+- Stripe bauen Daniel und Jasmin selbst. Hier gibt es nur die Stelle, an der "gebucht bis" eingetragen wird.
