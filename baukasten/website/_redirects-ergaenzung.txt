@@ -1,3 +1,10 @@
+# Neutrale Domain wasseristmehr.com (12.11.2026): ohne www, Portal, Dashboard und Backoffice bleiben auf der Hauptadresse.
+# Diese Zeilen GANZ OBEN in website/_redirects (Regeln mit Domain und ! gelten vor allen anderen).
+https://www.wasseristmehr.com/*          https://wasseristmehr.com/:splat                    301!
+https://wasseristmehr.com/partner/*      https://mein.ursprungskraft.net/partner/:splat      301!
+https://wasseristmehr.com/dashboard/*    https://mein.ursprungskraft.net/dashboard/:splat    301!
+https://wasseristmehr.com/backoffice/*   https://mein.ursprungskraft.net/backoffice/:splat   301!
+
 # Baukasten Partnerseiten (11.11.2026). In website/_redirects einfügen, VOR einer allgemeinen Regel wie /* .
 # Eine Zeile je Fassung. Die Seiten lesen die Adresse selbst aus. Kein Upload je Partner.
 # E-Book: wird beim Abruf von der Edge Function partner-ebook personalisiert (XXX = Projektkennung von Supabase).

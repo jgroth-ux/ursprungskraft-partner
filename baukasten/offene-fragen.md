@@ -104,6 +104,8 @@ paar Stichworten des Partners einen Text schreibt (über die Claude-API, Kosten 
 
 ## 14. Später
 
-- Wie heißt die neutrale Domain? (Umstellen geht dann ohne neuen Upload.)
+- Neutrale Domain ist **wasseristmehr.com** (eingetragen). Was soll erscheinen, wenn jemand nur `wasseristmehr.com`
+  ohne Partneradresse aufruft? Heute käme dort die Startseite von mein.ursprungskraft.net. Vorschlag: eine kleine
+  neutrale Seite ("Hier findest du die Empfehlungsseiten unserer Partner"), oder eine Weiterleitung.
 - Die Datenschutzerklärung sollte erwähnen, dass Anfragen über eine Partnerseite dem Partner zugeordnet werden und,
   je nach Einstellung, der Partner selbst anruft. Bitte einmal prüfen lassen.

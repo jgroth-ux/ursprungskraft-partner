@@ -115,7 +115,7 @@ if (PROBEN) {
     const std = F.STANDARD[b.thema], name = path.join(AUS, b.id, `${std.modus}-${std.akzent}`);
     const lage = JSON.parse(await readFile(name + '.json', 'utf8'));
     const pdf = await fuellen({ PDFLib, fontkit, qrcode, vorlage: await readFile(name + '.pdf'), lage, schriften, foto: null, partner, briefStandard: BRIEFE[b.thema],
-      link: `https://mein.ursprungskraft.net/p/max-muster/${b.thema}` });
+      link: `https://wasseristmehr.com/p/max-muster/${b.thema}` });
     await writeFile(path.join(BAUKASTEN, `website/p/vorschau/ebook-${b.id}.pdf`), pdf);
   }
   console.log('Beispiel-E-Books gebaut:', BUECHER.length);

@@ -27,11 +27,14 @@
 
 -- ---------------------------------------------------------------------------------------------------------------
 -- 0. Einstellung: Basis-Adresse. Später nur hier die neutrale Domain eintragen, zum Beispiel:
---    update uk_einstellungen set wert = 'https://[FEHLT: neutrale Domain]' where name = 'seiten_basis';
+--    update uk_einstellungen set wert = 'https://wasseristmehr.com' where name = 'seiten_basis';
 -- ---------------------------------------------------------------------------------------------------------------
 insert into uk_einstellungen (name, wert)
-select 'seiten_basis', 'https://mein.ursprungskraft.net'
+select 'seiten_basis', 'https://wasseristmehr.com'
 where not exists (select 1 from uk_einstellungen where name = 'seiten_basis');
+-- Neutrale Domain gesichert (Jasmin, 12.11.2026): wasseristmehr.com. Stand noch die alte Vorgabe drin, umstellen.
+-- Eine später von Hand gesetzte Adresse bleibt unberührt. Vorher die Domain mit Netlify verbinden (LIESMICH, Schritt 0).
+update uk_einstellungen set wert = 'https://wasseristmehr.com' where name = 'seiten_basis' and wert = 'https://mein.ursprungskraft.net';
 
 -- ---------------------------------------------------------------------------------------------------------------
 -- 1. Tabellen
@@ -185,7 +188,7 @@ $$;
 create or replace function uk_seiten_basis() returns text
 language sql stable security definer set search_path = public as $$
   select rtrim(coalesce((select nullif(btrim(wert), '') from uk_einstellungen where name = 'seiten_basis'),
-                        'https://mein.ursprungskraft.net'), '/')
+                        'https://wasseristmehr.com'), '/')
 $$;
 
 revoke all on function uk_seiten_akzente(), uk_seiten_aussehen_pruefen(jsonb, text[]) from public, anon, authenticated;

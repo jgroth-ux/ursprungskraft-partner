@@ -599,7 +599,7 @@ window.MeineSeiten = (() => {
       async rpc(name, args) {
         await warten();
         if (name === 'uk_partner_seiten_daten') return { data: {
-          basis: 'https://mein.ursprungskraft.net', leads_bei: leadsBei, gebucht: stand !== 'gesperrt', gebucht_bis: stand === 'gesperrt' ? null : '2026-12-11',
+          basis: 'https://wasseristmehr.com', leads_bei: leadsBei, gebucht: stand !== 'gesperrt', gebucht_bis: stand === 'gesperrt' ? null : '2026-12-11',
           erlaubt: REIHE, vorschlag: 'anna-beispiel', vorgabe: { vorname: 'Anna', nachname: 'Beispiel', email: 'anna@example.com', telefon: '+49 170 1234567' },
           seite: gespeichert.seite, beispiele, anmeldungen: gespeichert.seite ? { gesamt: 14, woche: 3, neutral: 5, sport: 9, gesundheit: 0 } : { gesamt: 0, woche: 0 } } };
         if (name === 'uk_partner_seiten_adresse') {

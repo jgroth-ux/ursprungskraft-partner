@@ -22,7 +22,8 @@ Jeder Partner bekommt eigene Empfehlungsseiten mit E-Book, ohne dass jemand von 
 - **Anmeldung** im Portal wie bisher mit Sitzungsschlüssel (`uk_partner_konten`, `uk_partner_sitzungen`),
   nicht über Supabase Auth (Grund oben in `umbau-2026-11-11-backoffice-sportler.sql`).
 - **Bezahlen:** nur die Schnittstelle (`uk_partner_seiten_paket.gebucht_bis`). Stripe baut ihr.
-- **Basis-Adresse** (später die neutrale Domain) steht an **einer** Stelle: `uk_einstellungen`, Name `seiten_basis`.
+- **Basis-Adresse:** die neutrale Domain **wasseristmehr.com** (gesichert am 12.11.2026). Steht an **einer** Stelle:
+  `uk_einstellungen`, Name `seiten_basis`.
   Portal und E-Book lesen sie dort. Die Seiten selbst laufen unter jeder Domain. Domain wechseln heißt also:
   Domain in Netlify dazunehmen, einen Wert in der Datenbank ändern, **kein** Upload.
 
@@ -185,6 +186,17 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
 
 ## Einspielen, in dieser Reihenfolge
 
+0. **Domain wasseristmehr.com mit Netlify verbinden** (zuerst, sonst zeigen die Links der Partner ins Leere):
+   - In Netlify bei der Website unter "Domain management" `wasseristmehr.com` als weitere Domain hinzufügen, dazu
+     `www.wasseristmehr.com`. Netlify zeigt danach genau an, welche Einträge nötig sind.
+   - Bei IONOS unter "Domains & SSL", Domain, "DNS": die Einträge eintragen, die Netlify anzeigt. Üblich sind ein
+     A-Eintrag für `@` auf die IP von Netlify und ein CNAME für `www` auf `<name-der-website>.netlify.app`.
+     Die DNS-Verwaltung bleibt bei IONOS (nicht zu Netlify umziehen), dann lassen sich später die Mail-Einträge dazutun.
+   - Warten, bis Netlify das Zertifikat ausgestellt hat (HTTPS), dann `https://wasseristmehr.com/p/` testen.
+   - Die vier Zeilen ganz oben in `_redirects-ergaenzung.txt`: ohne www, und Portal, Dashboard und Backoffice
+     bleiben auf mein.ursprungskraft.net.
+   - Später für den E-Mail-Dienst: Absender zum Beispiel `hallo@wasseristmehr.com`. Der Dienst nennt drei Einträge
+     (SPF, DKIM, DMARC), die kommen ebenfalls bei IONOS unter "DNS" dazu. Ein Postfach ist dafür nicht nötig.
 1. **Datenbank:** `supabase/umbau-2026-11-11-baukasten.sql` im SQL-Editor ausführen. Legt die Tabellen
    `uk_partner_seiten`, `uk_partner_seiten_alt`, `uk_partner_seiten_paket`, die Funktionen, die Einstellung
    `seiten_basis` und die Speicher-Buckets `partner-seiten` (öffentlich, Fotos) und `partner-ebooks` (privat) an.
@@ -235,8 +247,8 @@ ein Foto zuschneiden und speichern. "Vorschau" zeigt danach deine Seite mit dies
    select uk_seiten_paket_setzen('anna-beispiel', current_date + 31);
    ```
    Nur bestimmte Fassungen: `select uk_seiten_paket_setzen('anna-beispiel', current_date + 31, '{sport}');`
-10. **Später neutrale Domain:** in Netlify als weitere Domain eintragen, dann
-   `update uk_einstellungen set wert = 'https://neue-domain.de' where name = 'seiten_basis';`
+10. **Domain wechseln** (falls je nötig): neue Domain wie in Schritt 0 verbinden, dann
+   `update uk_einstellungen set wert = 'https://neue-domain.de' where name = 'seiten_basis';` Kein Upload nötig.
 
 ## Prüfen, bevor es online geht
 
