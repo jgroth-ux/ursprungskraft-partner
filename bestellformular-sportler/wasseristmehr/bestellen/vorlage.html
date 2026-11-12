@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gerät bestellen · {{NAME}}</title>
+<meta name="robots" content="noindex, nofollow">
+<!-- Bestellseite der Sportler (12.11.2026). Eine Vorlage für alle: das Upload-Skript setzt Kürzel, Name, Rolle und Vorname
+     aus der Sportseite ein und legt die Seite unter /(Sportseite)/bestellen/ ab. Nur der K8, keine anderen Produkte. -->
+<link rel="stylesheet" href="/schriften/schriften.css">
+<link rel="stylesheet" href="/seiten/empfehlung.css?v=20261111y">
+<link rel="stylesheet" href="/seiten/bestellen.css?v=20261112a">
+</head>
+<body data-kurz="{{KURZ}}" data-vorname="{{VORNAME}}" class="bestellseite">
+
+<header>
+  <div class="innen">
+    <a class="marke" href="/{{SEITE}}/"><b>{{NAME}}</b><span>{{ROLLE}}</span></a>
+    <a class="knopf klein rahmen" href="/{{SEITE}}/">Zurück</a>
+  </div>
+</header>
+
+<main class="innen">
+
+  <div class="start" id="start">
+    <div class="start-text">
+      <div class="eyebrow">Gerät bestellen</div>
+      <h1>Bestell deinen <span class="betont">K8</span></h1>
+      <p class="gross">Trag hier einmal deine Angaben ein. Wir füllen damit die Bestellunterlagen für Enagic für dich aus, du musst nichts ausdrucken oder einscannen.</p>
+      <div class="vertrauen"><span>Ratenzahlung möglich</span><span>Persönliche Betreuung</span></div>
+
+      <div class="land" id="land-wahl">
+        <h2>Wo wohnst du?</h2>
+        <p class="hilfe">Bitte wähl zuerst dein Land.</p>
+        <div class="laender" id="laender"></div>
+        <label class="feld" id="land-sonst-feld" hidden>Welches Land?<select id="land-sonst"></select></label>
+      </div>
+      <div class="land land-gewaehlt" id="land-gewaehlt">
+        <div class="start-preis" id="start-preis"></div>
+        <div class="land-zeile">Land: <b class="land-name"></b> <button type="button" class="link-knopf land-aendern">Land ändern</button></div>
+      </div>
+    </div>
+    <figure class="start-bild">
+      <img src="/bilder/k8-glas.jpg" alt="Ein Glas frisches Wasser auf der Küchenarbeitsplatte">
+      <figcaption><b>LeveLuk K8</b><span>Wasserionisierer von Enagic</span></figcaption>
+    </figure>
+  </div>
+
+  <div class="mehr">
+    <div class="vorteile">
+      <div class="eyebrow">Das Wichtigste</div>
+      <ul>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s7 7.5 7 12a7 7 0 0 1-14 0c0-4.5 7-12 7-12z"/></svg>5 Wasserarten von pH 2,5 bis pH 11,5</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v6"/><path d="M13 9a2 2 0 0 1 4 0v4"/><path d="M17 11a2 2 0 0 1 4 0v3a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.5L4 14a2 2 0 0 1 3.4-2L9 14"/></svg>Touchscreen mit Sprachansage in mehreren Sprachen</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>Reinigt sich nach jeder Nutzung automatisch</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>Filteranzeige meldet, wann ein Wechsel fällig ist</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg>Netzteil für jede Stromversorgung weltweit</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9"/><path d="M6.4 6.4a8 8 0 1 0 11.2 0"/></svg>Schaltet sich zwischen den Nutzungen selbst ab</li>
+      </ul>
+    </div>
+    <div class="aufklapp">
+      <details>
+        <summary>Technische Daten</summary>
+        <table class="daten">
+          <tr><th>Elektrodenplatten</th><td>8, platinbeschichtetes Titan</td></tr>
+          <tr><th>Plattengröße</th><td>135 × 75 mm</td></tr>
+          <tr><th>pH-Bereich</th><td>2,5 bis 11,5</td></tr>
+          <tr><th>Wasserarten</th><td>5</td></tr>
+          <tr><th>Durchfluss Trinkwasser</th><td>4,5 bis 7,6 l/min</td></tr>
+          <tr><th>Leistung</th><td>230 W</td></tr>
+          <tr><th>Gewicht</th><td>5 kg</td></tr>
+          <tr><th>Maße (B × H × T)</th><td>279 × 349 × 147 mm</td></tr>
+          <tr><th>Bedienung</th><td>vollautomatisch, Touchscreen</td></tr>
+        </table>
+      </details>
+      <details>
+        <summary>Häufige Fragen</summary>
+        <div class="fragen">
+          <b>Wie wird der K8 angeschlossen?</b>
+          <p>Er kommt neben die Spüle und wird mit einem Umschaltventil an deinen Wasserhahn angeschlossen. Dazu brauchst du eine Steckdose in der Nähe. Beim Anschließen helfen wir dir.</p>
+          <b>Ist das dasselbe wie Umkehrosmose?</b>
+          <p>Nein. Umkehrosmose entfernt fast alles aus dem Wasser, auch die Mineralien. Der K8 filtert und lässt die Mineralien aus deinem Leitungswasser weitgehend drin. Danach teilt die Elektrolyse das Wasser auf.</p>
+          <b>Welches Wasser kann ich trinken?</b>
+          <p>Zum Trinken und Kochen sind pH 7 und pH 8,5 bis 9,5 gedacht. Die anderen Wasserarten sind für Haushalt und Pflege. Für Babynahrung nimmst du pH 7.</p>
+          <b>Wie oft wird der Filter gewechselt?</b>
+          <p>Je nach Verbrauch etwa einmal im Jahr. Das Gerät zeigt dir an, wann es so weit ist.</p>
+          <b>Kann ich in Raten zahlen?</b>
+          <p>Ja, in Monatsraten über Enagic. Laufzeit und Raten wählst du unten bei der Bezahlung.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <form id="bestellung" novalidate>
+
+    <!-- Vertriebspartner nur nach Absprache, mit Haken bestätigt (wie auf der bisherigen Bestellseite, 31.10.2026) -->
+    <section class="block">
+      <div class="block-kopf"><div class="nr"></div><h2>Kunde oder Vertriebspartner?</h2></div>
+      <div class="block-inhalt">
+        <div class="wahl">
+          <label><input type="radio" name="als" value="Verbraucher" checked><span><b>Als Kunde bestellen</b></span></label>
+          <label><input type="radio" name="als" value="Distributor"><span><b>Bestellen und gleich Vertriebspartner werden</b><small>Wenn du das mit deinem Ansprechpartner schon besprochen hast, erledigst du es hier direkt mit.</small></span></label>
+        </div>
+        <div class="wichtig" id="distributor-hinweis" hidden>
+          <p><b>Schön, dass du dabei sein willst.</b> Damit alles für dich passt, wähl das bitte erst, wenn du mit deinem Ansprechpartner darüber gesprochen hast. Du bekommst dann eine eigene Enagic-ID und unterschreibst zusätzlich den Vertrag mit Enagic. Dafür brauchen wir auch deinen Ausweis, den lädst du weiter unten hoch.</p>
+          <label class="haken"><input type="checkbox" name="abgesprochen" value="ja"> <span>Ja, wir haben darüber gesprochen. Ich möchte Vertriebspartner werden.</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-kopf"><div class="nr"></div><h2>Deine Angaben</h2><p class="hilfe">Felder mit <span class="pflicht">*</span> braucht Enagic zwingend.</p></div>
+      <div class="block-inhalt raster">
+        <label class="feld">Anrede<select name="anrede"><option value="">bitte wählen</option><option>Frau</option><option>Herr</option></select></label>
+        <label class="feld">Geburtsdatum <span class="pflicht">*</span><input type="date" name="geburtsdatum" required></label>
+        <label class="feld">Vorname <span class="pflicht">*</span><input type="text" name="vorname" autocomplete="given-name" required></label>
+        <label class="feld">Nachname <span class="pflicht">*</span><input type="text" name="nachname" autocomplete="family-name" required></label>
+        <label class="feld breit">Firma (nur falls du über eine Firma bestellst)<input type="text" name="firma" autocomplete="organization"></label>
+        <label class="feld breit">Straße und Hausnummer <span class="pflicht">*</span><input type="text" name="strasse" autocomplete="street-address" required></label>
+        <label class="feld">PLZ <span class="pflicht">*</span><input type="text" name="plz" autocomplete="postal-code" required></label>
+        <label class="feld">Ort <span class="pflicht">*</span><input type="text" name="ort" autocomplete="address-level2" required></label>
+        <input type="hidden" name="land_kurz">
+        <div class="land-zeile breit">Land: <b class="land-name"></b> <button type="button" class="link-knopf land-aendern">Land ändern</button></div>
+        <label class="feld" id="land-anders" hidden>Welches Land?<input type="text" name="land_anders"></label>
+        <label class="feld" id="ustid" hidden>USt-IdNr. der Firma<input type="text" name="ustid"></label>
+        <label class="feld">Handy <span class="pflicht">*</span><input type="tel" name="handy" autocomplete="tel" required></label>
+        <label class="feld">Telefon (falls anders)<input type="tel" name="telefon"></label>
+        <label class="feld breit">E-Mail <span class="pflicht">*</span><input type="email" name="email" autocomplete="email" required></label>
+        <label class="haken breit"><input type="checkbox" name="liefer_anders" id="liefer-anders"> <span>Abweichende Lieferadresse</span></label>
+        <label class="feld breit" data-liefer hidden>Name <span class="pflicht">*</span><input type="text" name="liefer_name" autocomplete="shipping name"></label>
+        <label class="feld breit" data-liefer hidden>Straße und Hausnummer <span class="pflicht">*</span><input type="text" name="liefer_strasse" autocomplete="shipping street-address"></label>
+        <label class="feld" data-liefer hidden>PLZ <span class="pflicht">*</span><input type="text" name="liefer_plz" autocomplete="shipping postal-code"></label>
+        <label class="feld" data-liefer hidden>Ort <span class="pflicht">*</span><input type="text" name="liefer_ort" autocomplete="shipping address-level2"></label>
+        <label class="feld" data-liefer hidden>Land <span class="pflicht">*</span><select name="liefer_land_kurz"><option value="">bitte wählen</option><option value="CH">Schweiz</option><option value="DE">Deutschland</option><option value="AT">Österreich</option><option value="LI">Liechtenstein</option><option value="IT">Italien</option><option value="FR">Frankreich</option><option value="NL">Niederlande</option><option value="BE">Belgien</option><option value="LU">Luxemburg</option><option value="ES">Spanien</option><option value="NO">Norwegen</option><option value="GB">Vereinigtes Königreich</option><option value="XX">anderes Land</option></select></label>
+        <label class="feld" id="liefer-land-anders" hidden>Welches Land?<input type="text" name="liefer_land_anders"></label>
+      </div>
+    </section>
+
+    <section class="block" id="bezahlung">
+      <div class="block-kopf"><div class="nr"></div><h2>Bezahlung</h2></div>
+      <div class="block-inhalt">
+        <div class="preis-info" id="preis-info"></div>
+        <div class="wahl">
+          <label><input type="radio" name="zahlung" value="ueberweisung"><span><b>Überweisung</b><small>Du überweist den Betrag an Enagic. Die Bankverbindung bekommst du mit der Bestätigung.</small></span></label>
+          <label id="raten-wahl"><input type="radio" name="zahlung" value="raten"><span><b>Ratenzahlung über Enagic</b><small>Monatlich per Lastschrift vom Bankkonto. Dafür braucht Enagic eine Ausweiskopie.</small></span></label>
+        </div>
+        <div id="raten" class="raster" hidden>
+          <!-- Laufzeiten kommen aus uk_preise (raten_k8), hier steht keine eigene Liste -->
+          <label class="feld breit">Laufzeit<select name="raten_anzahl" id="raten-anzahl"></select></label>
+          <label class="feld">Abbuchung jeweils am<select name="zahltag"><option value="1">1. des Monats</option><option value="15">15. des Monats</option></select></label>
+          <label class="feld">Finanzierst du bereits ein Gerät mit Enagic?<select name="schon_finanziert"><option value="Nein">Nein</option><option value="Ja">Ja</option></select></label>
+        </div>
+        <div id="bank" hidden>
+          <p class="unterfrage">Wer zahlt die Raten?</p>
+          <div class="wahl">
+            <label><input type="radio" name="zahler" value="ich" checked><span><b>Ich selbst</b></span></label>
+            <label><input type="radio" name="zahler" value="anderer"><span><b>Jemand anderes</b><small>Zum Beispiel ein Familienmitglied. Er muss nichts unterschreiben.</small></span></label>
+          </div>
+          <div id="zahler-felder" class="raster" hidden>
+            <label class="feld breit">In welchem Land ist das Konto? <span class="pflicht">*</span><select name="zahler_land_kurz" id="zahler-land"></select></label>
+            <label class="feld breit">Vor- und Nachname <span class="pflicht">*</span><input type="text" name="zahler_name" autocomplete="off"></label>
+            <label class="feld breit">Straße und Hausnummer <span class="pflicht">*</span><input type="text" name="zahler_strasse" autocomplete="off"></label>
+            <label class="feld">PLZ <span class="pflicht">*</span><input type="text" name="zahler_plz" autocomplete="off"></label>
+            <label class="feld">Ort <span class="pflicht">*</span><input type="text" name="zahler_ort" autocomplete="off"></label>
+            <label class="feld">Telefon <span class="pflicht">*</span><input type="tel" name="zahler_tel" autocomplete="off"></label>
+            <label class="feld">E-Mail <span class="pflicht">*</span><input type="email" name="zahler_email" autocomplete="off"></label>
+          </div>
+          <div id="iban-felder" class="raster">
+            <label class="feld">IBAN <span class="pflicht">*</span><input type="text" name="iban" autocomplete="off"></label>
+            <label class="feld">BIC<input type="text" name="bic" autocomplete="off"></label>
+          </div>
+          <p class="hilfe" id="dauerauftrag" hidden>Von einem Konto außerhalb des Euro-Raums, zum Beispiel aus der Schweiz, geht kein Bankeinzug. Die Raten zahlst du dann per Dauerauftrag. Die Bankverbindung von Enagic bekommst du von uns.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="ausweis-block" hidden>
+      <div class="block-kopf"><div class="nr"></div><h2>Ausweis</h2><p class="hilfe">Ein Foto von Vorder- und Rückseite deines Ausweises genügt.</p></div>
+      <div class="block-inhalt">
+        <div class="ausweis">
+          <label id="ausweis-vorne-feld">Vorderseite hochladen<input type="file" name="ausweis_vorne" accept="image/*,application/pdf"></label>
+          <label id="ausweis-hinten-feld">Rückseite hochladen<input type="file" name="ausweis_hinten" accept="image/*,application/pdf"></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-kopf"><div class="nr"></div><h2>Unterschrift</h2><p class="hilfe">Unterschreib einfach mit dem Finger oder der Maus. Sie wird auf die Bestellunterlagen gesetzt.</p></div>
+      <div class="block-inhalt">
+        <div class="unterschrift"><canvas id="pad"></canvas><div class="linie"></div><div class="platz">Unterschrift</div></div>
+        <div class="knopfzeile"><span class="hilfe" id="ort-datum"></span><button type="button" class="knopf leise" id="pad-leeren">Neu unterschreiben</button></div>
+        <table class="zusammenfassung" id="zusammenfassung"></table>
+        <label class="haken"><input type="checkbox" name="agb" required> <span>Ich habe die <a href="/agb-enagic.pdf" target="_blank" rel="noopener">AGB von Enagic</a> gelesen und bestelle mit meiner Unterschrift verbindlich.</span></label>
+        <label class="haken"><input type="checkbox" name="newsletter"> <span>Schick mir Tipps und Neuigkeiten per E-Mail.</span></label>
+        <div class="fehler" id="fehler" role="alert"></div>
+        <button class="knopf" type="submit" id="senden">Verbindlich bestellen</button>
+        <p class="klein">Damit Enagic deine Bestellung ausführen kann, geben wir deine Angaben an die Enagic Europe GmbH weiter. Mehr dazu im <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutz</a>.</p>
+      </div>
+    </section>
+  </form>
+
+  <section class="danke" id="danke" hidden>
+    <div class="eyebrow">Bestellung angekommen</div>
+    <h2>Danke, <span id="danke-name"></span></h2>
+    <p class="gross">Deine Bestellung ist bei uns angekommen. So geht es jetzt weiter:</p>
+    <ol class="schritte">
+      <li><b>Wir prüfen deine Angaben</b><span>und schicken die Unterlagen an Enagic.</span></li>
+      <li><b>Du bekommst die Bestätigung von Enagic</b><span>und bei Überweisung die Bankverbindung.</span></li>
+      <li><b>Enagic schickt dir den K8 nach Hause</b><span>Beim Einrichten helfen wir dir gern.</span></li>
+    </ol>
+    <a class="knopf" href="/{{SEITE}}/">Zurück zu {{VORNAME}}</a>
+  </section>
+
+</main>
+
+<footer>
+  <div class="innen">
+    <span>{{NAME}} · {{ROLLE}}</span>
+    <span><a href="/impressum.html">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></span>
+  </div>
+</footer>
+
+<script src="/vendor/supabase.js"></script>
+<script src="/seiten/bestellen.js?v=20261112a"></script>
+</body>
+</html>

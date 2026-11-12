@@ -1,0 +1,185 @@
+/* Bestellseite der Sportler (12.11.2026). Baut auf empfehlung.css auf: Farben, Schriften, Kopfleiste, Fuß, Knöpfe und Felder
+   kommen von dort, der Akzent je Sportler über body[data-kurz]. Hier steht nur, was die Bestellung zusätzlich braucht.
+   Helle Felder auf Anthrazit wie auf der Sportseite, keine Glas-, Leucht- oder Verlaufseffekte. */
+
+a.marke{text-decoration:none;color:inherit}
+main.innen{padding-top:8px;padding-bottom:var(--t4)}
+.pflicht{color:#A23B2A}
+.hilfe{color:var(--leise);font-size:15px;line-height:1.55;margin:0 0 16px}
+.link-knopf{background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:600;color:var(--tinte);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.link-knopf:hover{color:var(--ak-h)}
+.knopf:disabled{opacity:.6;cursor:wait;transform:none}
+
+/* ===== Start: helles Textfeld mit Land und Preis, daneben das Bild ===== */
+.start{scroll-margin-top:76px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke)}
+.start-text{grid-column:1/8;background:var(--papier);color:var(--tinte);border-radius:var(--r);padding:48px;display:flex;flex-direction:column}
+.start-text .eyebrow{color:var(--ak-h)}
+.start h1{font-size:var(--t7);line-height:.96;letter-spacing:-.045em;margin:24px 0 24px}
+.start h1 .betont{color:var(--ak-h)}
+.start-text .gross{color:var(--leise);max-width:40ch;margin-bottom:20px}
+.vertrauen{display:flex;flex-wrap:wrap;gap:8px}
+.vertrauen span{font-size:14px;font-weight:600;color:var(--tinte);background:var(--papier-2);border-radius:999px;padding:6px 14px}
+.land{margin-top:auto;padding-top:40px}
+.land h2{font-size:var(--t2);line-height:1.15;letter-spacing:-.02em;margin:0 0 4px;padding-top:24px;border-top:1px solid var(--linie-h)}
+.laender{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.land-knopf{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 8px 14px;border:1.5px solid var(--linie-h);border-radius:var(--r-klein);background:var(--papier);font:600 15px/1.25 Inter,sans-serif;color:var(--tinte);cursor:pointer;text-align:center;transition:border-color .2s,background-color .2s}
+.land-knopf:hover{border-color:var(--leise)}
+.land-knopf[aria-pressed=true]{border-color:var(--tinte);background:#fff}
+.land-knopf svg{width:44px;height:30px;border-radius:4px;box-shadow:0 0 0 1px rgba(56,62,66,.16)}
+#land-sonst-feld{max-width:360px;margin:4px 0 0}
+.land-gewaehlt{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px}
+.land-gewaehlt .start-preis{padding-top:24px;border-top:1px solid var(--linie-h);flex:1 1 100%}
+.start-preis b{display:block;font:500 var(--t5)/1 Jost,sans-serif;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.start-preis small{display:block;margin-top:8px;font-size:15px;color:var(--leise)}
+.land-zeile{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--leise)}
+.land-zeile b{color:var(--tinte);font-weight:600}
+.start-bild{grid-column:8/13;position:relative;margin:0;border-radius:var(--r);overflow:hidden;background:var(--feld);min-height:560px}
+.start-bild img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:40% 60%;display:block}
+.start-bild figcaption{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 24px);background:var(--grund);color:var(--stein);border-radius:var(--r-klein);padding:18px 22px;font-size:14px;line-height:1.4}
+.start-bild figcaption b{display:block;font:500 var(--t2)/1.1 Jost,sans-serif;letter-spacing:-.02em;color:var(--papier)}
+.start-bild figcaption span{display:block;margin-top:4px;color:var(--ak-d);font-weight:600}
+
+/* Land zuerst: die Bestellung erscheint, sobald ein Land gewählt ist. "Land ändern" holt die Flaggen zurück. */
+body:not(.land-ok) #bestellung,body:not(.land-ok) #land-gewaehlt,body.land-aendern #land-gewaehlt{display:none}
+body.land-ok:not(.land-aendern) #land-wahl{display:none}
+
+/* ===== Das Wichtigste, Technische Daten, Fragen: dunkle Felder ===== */
+.mehr{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--luecke);margin-top:var(--luecke);align-items:start}
+.vorteile{grid-column:1/9;background:var(--feld);border-radius:var(--r);padding:32px}
+.vorteile ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 32px}
+.vorteile li{display:flex;flex-direction:column;gap:12px;font-size:15px;line-height:1.45;color:var(--stein)}
+.vorteile svg{width:28px;height:28px;fill:none;stroke:var(--ak-d);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.aufklapp{grid-column:9/13;display:grid;gap:var(--luecke)}
+.aufklapp details{background:var(--feld);border-radius:var(--r);padding:0 28px}
+.aufklapp summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:24px 0;font:500 var(--t1)/1.3 Jost,sans-serif;color:var(--papier)}
+.aufklapp summary::-webkit-details-marker{display:none}
+.aufklapp summary::after{content:"+";font:400 28px/1 Inter,sans-serif;color:var(--ak-d);transition:transform .3s var(--weich)}
+.aufklapp details[open] summary::after{transform:rotate(45deg)}
+.aufklapp summary:focus-visible{outline:2px solid var(--ak-d);outline-offset:-2px}
+.daten{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px}
+.daten th{text-align:left;font-weight:400;color:var(--stein);padding:9px 12px 9px 0;border-top:1px solid var(--linie-d);width:48%;vertical-align:top}
+.daten td{padding:9px 0;border-top:1px solid var(--linie-d);color:var(--papier);font-weight:500}
+.fragen{padding-bottom:16px}
+.fragen b{display:block;font:500 var(--t0)/1.35 Jost,sans-serif;color:var(--papier);padding-top:14px;border-top:1px solid var(--linie-d)}
+.fragen p{font-size:14px;color:var(--stein);margin:6px 0 14px}
+
+/* ===== Bestellung: ein helles Feld je Schritt, links Überschrift, rechts die Felder ===== */
+#bestellung{background:none;color:inherit;border-radius:0;padding:0;margin-top:var(--luecke);display:grid;gap:var(--luecke);scroll-margin-top:76px;counter-reset:schritt}
+.block{padding:48px;background:var(--papier);color:var(--tinte);border-radius:var(--r);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:0 var(--luecke);scroll-margin-top:76px;counter-increment:schritt}
+.block-kopf{grid-column:1/5;padding-right:32px}
+.block-inhalt{grid-column:5/13;min-width:0}
+.block .nr::before{content:"0" counter(schritt);display:block;font:500 var(--t0)/1 Jost,sans-serif;color:var(--ak-h);margin-bottom:12px;font-variant-numeric:tabular-nums}
+.block h2{font-size:var(--t3);line-height:1.1;letter-spacing:-.02em;margin:0 0 12px}
+.raster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+.raster .breit{grid-column:1/-1}
+.block .feld{color:var(--leise)}
+.block .feld input[type=date]{-webkit-appearance:none;appearance:none}
+.block-inhalt>.haken:last-child{margin-bottom:0}
+.raster>.haken{margin:0 0 16px}
+.raster>.land-zeile{margin:-4px 0 20px}
+
+/* Auswahl wie die Fragen im Formular der Sportseite */
+.wahl{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;margin-bottom:24px}
+.wahl label{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--linie-h);border-radius:var(--r-klein);padding:16px;cursor:pointer;line-height:1.4;background:var(--papier);transition:border-color .2s,background-color .2s}
+.wahl label:hover{border-color:var(--leise)}
+.wahl label:has(input:checked){border-color:var(--tinte);background:#fff}
+.wahl label:has(input:focus-visible){outline:2px solid var(--ak);outline-offset:2px}
+.wahl input{accent-color:var(--ak);width:18px;height:18px;margin:1px 0 0;flex:none}
+.wahl b{display:block;font-weight:600}
+.wahl small{display:block;margin-top:4px;font-size:14px;line-height:1.5;color:var(--leise)}
+.unterfrage{font:500 var(--t1)/1.3 Jost,sans-serif;margin:8px 0 12px}
+.wichtig{background:var(--papier-2);border-left:4px solid var(--ak);border-radius:var(--r-klein);padding:20px 22px;margin-bottom:8px}
+.wichtig p{font-size:15px;color:var(--tinte);margin:0 0 12px;max-width:none}
+.wichtig .haken{margin:0;color:var(--tinte)}
+
+/* Preis */
+.preis-info{background:var(--papier-2);border-radius:var(--r-klein);padding:20px 22px;margin:0 0 16px;font-size:15px;line-height:1.5}
+.preis-info:empty{display:none}
+.preis-info b{font:500 var(--t2)/1.1 Jost,sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.preis-info .warn{display:block;margin-top:8px;font-size:14px}
+
+/* Ausweis und Unterschrift */
+.ausweis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
+.ausweis label{display:flex;align-items:center;justify-content:center;min-height:96px;border:1.5px dashed var(--leise);border-radius:var(--r-klein);padding:16px;text-align:center;font-size:15px;font-weight:600;cursor:pointer;background:var(--papier);transition:border-color .2s,background-color .2s;word-break:break-word}
+.ausweis label:hover{border-color:var(--tinte)}
+.ausweis label.da{border-style:solid;border-color:var(--tinte);background:#fff}
+.ausweis label:focus-within{outline:2px solid var(--ak);outline-offset:2px}
+.ausweis input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.unterschrift{position:relative;border:1.5px solid var(--linie-h);border-radius:var(--r-klein);background:#fff;height:200px;touch-action:none;margin-bottom:8px}
+.unterschrift canvas{width:100%;height:100%;display:block;border-radius:var(--r-klein);cursor:crosshair}
+.unterschrift .linie{position:absolute;left:20px;right:20px;bottom:40px;border-bottom:1px solid var(--linie-h);pointer-events:none}
+.unterschrift .platz{position:absolute;left:20px;bottom:14px;font-size:12px;color:var(--leise);pointer-events:none}
+.knopfzeile{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}
+.knopfzeile .hilfe{margin:0}
+.knopf.leise{background:none;color:var(--tinte);box-shadow:inset 0 0 0 1.5px var(--linie-h);min-height:40px;padding:8px 18px;font-size:14px}
+.knopf.leise:hover{box-shadow:inset 0 0 0 1.5px var(--tinte)}
+.zusammenfassung{width:100%;border-collapse:collapse;margin:0 0 24px;font-size:15px;border-bottom:1.5px solid var(--tinte)}
+.zusammenfassung:empty{display:none}
+.zusammenfassung th{text-align:left;font-weight:400;color:var(--leise);padding:12px 16px 12px 0;border-top:1px solid var(--linie-h);vertical-align:top;width:38%}
+.zusammenfassung td{padding:12px 0;border-top:1px solid var(--linie-h);font-weight:500}
+.zusammenfassung tr:first-child th,.zusammenfassung tr:first-child td{border-top:1.5px solid var(--tinte)}
+.zusammenfassung .summe td{font:500 var(--t2)/1.1 Jost,sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.zusammenfassung small{display:block;font-weight:400;font-size:14px;color:var(--leise);margin-top:4px}
+#senden{width:100%;min-height:56px;margin:8px 0 16px}
+.block .klein{color:var(--leise);margin:0}
+.block .klein a{color:var(--tinte)}
+
+/* ===== Danke ===== */
+.danke{background:var(--papier);color:var(--tinte);border-radius:var(--r);padding:var(--t5) 48px;margin-top:0;scroll-margin-top:76px}
+.danke .eyebrow{color:var(--ak-h)}
+.danke h2{font-size:var(--t6);letter-spacing:-.04em}
+.danke .gross{color:var(--leise)}
+.schritte{list-style:none;counter-reset:d;padding:0;margin:32px 0 40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--luecke)}
+.schritte li{counter-increment:d;background:var(--papier-2);border-radius:var(--r-klein);padding:24px}
+.schritte li::before{content:"0" counter(d);display:block;font:500 var(--t2)/1 Jost,sans-serif;color:var(--ak-h);margin-bottom:16px}
+.schritte b{display:block;font-weight:600}
+.schritte span{color:var(--leise)}
+
+body.bestellseite footer{padding-bottom:48px}
+
+/* ===== Tablet ===== */
+@media (max-width:1100px){
+  .start h1{font-size:var(--t6)}
+  .start-text{padding:40px}
+  .vorteile,.aufklapp{grid-column:1/-1}
+  .aufklapp{grid-template-columns:1fr 1fr}
+  .block{padding:40px}
+  .block-kopf,.block-inhalt{grid-column:1/-1;padding-right:0}
+  .block-kopf{margin-bottom:8px}
+}
+
+/* ===== Handy ===== */
+@media (max-width:820px){
+  .start{grid-template-columns:1fr}
+  .start-text,.start-bild{grid-column:1}
+  .start-bild{order:-1;min-height:0;aspect-ratio:16/10;max-height:34svh}
+  .start-bild figcaption{left:8px;bottom:8px;padding:12px 16px}
+  .start-bild figcaption b{font-size:var(--t1)}
+  .start-text{padding:28px 24px 24px}
+  .start h1{font-size:var(--t5);line-height:1;letter-spacing:-.035em;margin:12px 0 16px}
+  .land{padding-top:28px}
+  .start-preis b{font-size:var(--t4)}
+  .laender{grid-template-columns:1fr 1fr}
+  .vorteile{padding:24px 20px}
+  .vorteile ul{grid-template-columns:1fr;gap:14px}
+  .vorteile li{flex-direction:row;align-items:center;gap:14px}
+  .vorteile svg{flex:none;width:24px;height:24px}
+  .aufklapp{grid-template-columns:1fr}
+  .aufklapp details{padding:0 20px}
+  .aufklapp summary{padding:20px 0}
+  .block{padding:28px 20px 24px}
+  .block h2{font-size:var(--t2)}
+  .raster{grid-template-columns:1fr}
+  .wahl{grid-template-columns:1fr}
+  .ausweis{grid-template-columns:1fr}
+  .knopfzeile{flex-wrap:wrap}
+  .zusammenfassung th{width:42%}
+  .danke{padding:32px 20px}
+  .danke h2{font-size:var(--t4)}
+  .schritte{grid-template-columns:1fr}
+  .danke .knopf{width:100%}
+}
+@media (max-width:360px){
+  .start h1{font-size:var(--t4)}
+  .land-knopf{font-size:14px;padding:14px 6px 12px}
+}

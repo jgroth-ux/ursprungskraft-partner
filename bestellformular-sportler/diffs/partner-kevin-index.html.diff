@@ -1,0 +1,11 @@
+--- a/website/partner/kevin/index.html
++++ b/website/partner/kevin/index.html
+@@ -192,6 +192,8 @@
+         <li><b>Du lernst den K8 kennen</b><span>Wie er arbeitet und was du mit jeder Wasserart machst.</span></li>
+       </ol>
+       <p class="klein">Du willst dich erst mal nur einlesen? Dann hol dir weiter unten mein E-Book.</p>
++      <p class="klein">Du hast dich schon entschieden? Dann bestell deinen K8 direkt hier.</p>
++      <a class="knopf rahmen" href="/kevin-wolter/bestellen/">Gerät bestellen</a>
+     </div>
+     <form id="anfrage" novalidate>
+       <fieldset>

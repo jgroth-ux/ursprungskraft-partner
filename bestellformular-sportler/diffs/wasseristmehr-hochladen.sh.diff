@@ -1,0 +1,63 @@
+--- a/wasseristmehr-hochladen.sh
++++ b/wasseristmehr-hochladen.sh
+@@ -2,7 +2,7 @@
+ # Lädt wasseristmehr.com zu Netlify hoch. Seit 12.11.2026 abends als eigene Seite "wasseristmehr" im bezahlten
+ # Ursprungskraft-Konto (Jasmin: ein Konto, ein Chrome, beide Projekte getrennt). Das zweite Konto wird nicht mehr benutzt.
+ # Claude darf nicht veröffentlichen, deshalb dieser Knopf. Jasmin startet ihn, wenn sie "Abfahrt" sagt.
+-# Inhalt: Startseite (Baukasten), Kevin Wolter, Johny Yusupov. Die Daten laufen weiter in die Ursprungskraft-Supabase.
++# Inhalt: Startseite (Baukasten), Kevin Wolter, Johny Yusupov, je mit Bestellseite. Die Daten laufen weiter in die Ursprungskraft-Supabase.
+ # Schlüssel und Seitenkennung liegen in ~/.claude/.env.netlify-ursprungskraft (NETLIFY_AUTH_TOKEN, WASSERISTMEHR_SITE_ID).
+ # NETLIFY_SITE_ID in derselben Datei ist das Dashboard: hier nie benutzen, sonst landet wasseristmehr auf mein.ursprungskraft.net.
+ set -e
+@@ -32,6 +32,10 @@
+ cp -R "$WEB/bilder/partner" "$ZIEL/bilder/"
+ cp -R "$WEB/partner/ebook" "$ZIEL/"
+ cp "$WEB/partner/empfehlung.css" "$WEB/partner/empfehlung.js" "$ZIEL/seiten/"
++# Bestellseiten der Sportler (12.11.2026): Stil und Skript, Bild des K8 und die AGB von Enagic
++cp "$QUELLE/bestellen/bestellen.css" "$QUELLE/bestellen/bestellen.js" "$ZIEL/seiten/"
++cp "$WEB/bilder/k8-glas.jpg" "$ZIEL/bilder/"
++cp "$WEB/agb-enagic.pdf" "$ZIEL/"
+ # Kevin und Johny: Pfade auf die neue Ordnung umstellen, Dashboard-Skripte weglassen (die Seiten brauchen sie nicht)
+ seite() {
+   mkdir -p "$ZIEL/$2"
+@@ -41,6 +45,23 @@
+       -e 's#"\.\./\.\./#"/#g' \
+       "$WEB/partner/$1/index.html" > "$ZIEL/$2/index.html"
+   grep -q '\.\./' "$ZIEL/$2/index.html" && { echo "ABBRUCH: In $2 steht noch ein alter Pfad."; exit 1; }
++  bestellseite "$1" "$2"
++  return 0
++}
++# Bestellseite je Sportler unter /<seite>/bestellen/ aus einer Vorlage. Kürzel und Adresse kommen aus dem Aufruf von seite,
++# Name, Rolle und Vorname aus der Sportseite (Kopfleiste und data-vorname), damit sie nur an einer Stelle stehen.
++bestellseite() {
++  local quelle="$WEB/partner/$1/index.html" name rolle vorname
++  name=$(sed -n 's#.*<span class="marke"><b>\([^<]*\)</b><span>\([^<]*\)</span></span>.*#\1#p' "$quelle" | head -1)
++  rolle=$(sed -n 's#.*<span class="marke"><b>\([^<]*\)</b><span>\([^<]*\)</span></span>.*#\2#p' "$quelle" | head -1)
++  vorname=$(sed -n 's#.*data-vorname="\([^"]*\)".*#\1#p' "$quelle" | head -1)
++  [ -n "$name" ] && [ -n "$rolle" ] && [ -n "$vorname" ] || { echo "ABBRUCH: Name, Rolle oder Vorname für $2/bestellen nicht gefunden."; exit 1; }
++  esc() { printf '%s' "$1" | sed 's/[#&\\]/\\&/g'; }
++  mkdir -p "$ZIEL/$2/bestellen"
++  sed -e "s#{{KURZ}}#$1#g" -e "s#{{SEITE}}#$2#g" -e "s#{{NAME}}#$(esc "$name")#g" \
++      -e "s#{{ROLLE}}#$(esc "$rolle")#g" -e "s#{{VORNAME}}#$(esc "$vorname")#g" \
++      "$QUELLE/bestellen/vorlage.html" > "$ZIEL/$2/bestellen/index.html"
++  grep -q '{{' "$ZIEL/$2/bestellen/index.html" && { echo "ABBRUCH: In $2/bestellen ist ein Platzhalter offen."; exit 1; }
+   return 0
+ }
+ # Backoffice für Kevin und Johny (Jasmin 12.11.2026: gehört auf diese Domain, nicht auf mein.ursprungskraft.net).
+@@ -56,7 +77,8 @@
+ printf 'User-agent: *\nDisallow: /\n' > "$ZIEL/robots.txt"
+ printf 'https://www.wasseristmehr.com/*  https://wasseristmehr.com/:splat  301!\n' > "$ZIEL/_redirects"
+ grep -q "XXX" "$ZIEL/p/seiten.js" && { echo "ABBRUCH: Platzhalter-Schlüssel in p/seiten.js."; exit 1; }
+-for d in . kevin-wolter johny-yusupov backoffice; do
++grep -q "XXX" "$ZIEL/seiten/bestellen.js" && { echo "ABBRUCH: Platzhalter-Schlüssel in seiten/bestellen.js."; exit 1; }
++for d in . kevin-wolter johny-yusupov kevin-wolter/bestellen johny-yusupov/bestellen backoffice; do
+   [ -f "$ZIEL/$d/index.html" ] || { echo "ABBRUCH: $d/index.html fehlt."; exit 1; }
+ done
+ 
+@@ -75,4 +97,6 @@
+ echo "Fertig. Startseite:  https://wasseristmehr.com/"
+ echo "Kevin Wolter:        https://wasseristmehr.com/kevin-wolter"
+ echo "Johny Yusupov:       https://wasseristmehr.com/johny-yusupov"
++echo "Bestellen Kevin:     https://wasseristmehr.com/kevin-wolter/bestellen/"
++echo "Bestellen Johny:     https://wasseristmehr.com/johny-yusupov/bestellen/"
+ echo "Backoffice:          https://wasseristmehr.com/backoffice/"
