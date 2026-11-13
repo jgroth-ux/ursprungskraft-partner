@@ -1,3 +1,5 @@
+> Ersetzt am 13.11.2026 durch `ci/README.md` (Design System „Ursprungskraft“). Diese Fassung bleibt nur zum Nachschlagen.
+
 # Ursprungskraft: Corporate Design (CI)
 
 Kompaktfassung des Design Systems zum Übernehmen in andere Projekte.
