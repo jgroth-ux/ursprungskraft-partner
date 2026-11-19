@@ -18,13 +18,11 @@
   /* Neutrale Farben */
   :root {
     --grund: #FAF7F0;     /* dezentes Creme, Hintergrund */
-    --flaeche: #EDEAE3;   /* helles Feld */
-    --dunkel: #262624;    /* dunkles Feld */
-    --text: #1E1E1C;      /* Haupttext */
-    --text2: #5E5B55;     /* Nebentext */
-    --text-hell: #FAF7F0; /* Text auf dunkel */
-    --text2-hell: #BDB8AE;/* Nebentext auf dunkel */
-    --grafik: #A19C92;    /* Linien in Zeichnungen */
+    --flaeche: #F0ECE5;   /* helles Feld */
+    --hervor: #E4DDCF;    /* hervorgehobenes Feld, etwas kräftiger */
+    --text: #3B3834;      /* Haupttext, warmes Dunkelgrau */
+    --text2: #7A756C;     /* Nebentext */
+    --grafik: #B3ADA2;    /* Linien in Zeichnungen */
     --rand: 100px;        /* Seitenrand links und rechts */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,13 +48,12 @@
     display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
   .feld { background: var(--flaeche); display: flex; flex-direction: column; align-items: center;
     justify-content: center; padding: 40px; border-radius: 4px; }
-  .feld.hervor { background: var(--dunkel); color: var(--text-hell); }
+  .feld.hervor { background: var(--hervor); }
   .feld .bilder { display: flex; align-items: center; gap: 40px; }
   .feld svg { width: 340px; height: 340px; flex: none; }
   .feld .bilder img { width: 340px; height: 340px; border-radius: 4px; display: block; }
   .feld .name { font-family: "Jost"; font-weight: 500; font-size: 68px; line-height: 1; margin-top: 52px; }
   .feld .zusatz { font-size: 42px; margin-top: 16px; color: var(--text2); }
-  .feld.hervor .zusatz { color: var(--text2-hell); }
 
   /* ---------- Folie 4: pH-Wert ---------- */
   .ph-skala { position: absolute; left: var(--rand); right: var(--rand); top: 600px; height: 150px;
@@ -70,9 +67,9 @@
   .ph-marke.oben { bottom: calc(1080px - 480px); }
   .ph-marke.unten { top: 890px; }
   .ph-marke.links { transform: none; text-align: left; }
-  .ph-marke.haupt { background: var(--dunkel); padding: 24px 36px 26px; border-radius: 4px; }
-  .ph-marke.haupt .wert { color: var(--text-hell); font-size: 84px; }
-  .ph-marke.haupt .was { color: var(--text2-hell); font-size: 38px; }
+  .ph-marke.haupt { background: var(--hervor); padding: 24px 36px 26px; border-radius: 4px; }
+  .ph-marke.haupt .wert { font-size: 84px; }
+  .ph-marke.haupt .was { font-size: 38px; }
   .ph-linien { position: absolute; inset: 0; pointer-events: none; }
 </style>
 </head>
@@ -156,7 +153,7 @@ const css = name => getComputedStyle(document.documentElement).getPropertyValue(
   const g = el("g", { transform: "rotate(30)" }, svg);
   kanten.forEach(([a, b]) => el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1],
     stroke: css("--grafik"), "stroke-width": 4, "stroke-linecap": "round" }, g));
-  punkte.forEach(p => el("circle", { cx: p[0], cy: p[1], r: 8.5, fill: css("--text-hell") }, g));
+  punkte.forEach(p => el("circle", { cx: p[0], cy: p[1], r: 8.5, fill: css("--text") }, g));
 
   // Ungeordnet: gleiche Anzahl Teilchen, zufällig verteilt (fester Startwert, damit gleich bleibt)
   let seed = 7;
@@ -185,9 +182,9 @@ document.fonts.ready.then(function () {
   // Farben aus der Original-Farbtabelle (Tropfentest), gemessen
   const VON = 4;
   const FELDER = [
-    { wert: 4,  farbe: "#FDAF05", schrift: "#1E1E1C" },
-    { wert: 5,  farbe: "#F8C909", schrift: "#1E1E1C" },
-    { wert: 6,  farbe: "#D5B60E", schrift: "#1E1E1C" },
+    { wert: 4,  farbe: "#FDAF05", schrift: "#3B3834" },
+    { wert: 5,  farbe: "#F8C909", schrift: "#3B3834" },
+    { wert: 6,  farbe: "#D5B60E", schrift: "#3B3834" },
     { wert: 7,  farbe: "#188647", schrift: "#FFFFFF" },
     { wert: 8,  farbe: "#092384", schrift: "#FFFFFF" },
     { wert: 9,  farbe: "#4958BF", schrift: "#FFFFFF" },
