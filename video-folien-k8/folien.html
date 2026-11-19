@@ -58,8 +58,8 @@
   /* ---------- Folie 4: pH-Wert ---------- */
   /* Alle Zahlen gleich groß (56px), alle Namen gleich groß (36px), alles auf einer Höhe. */
   .ph-skala { position: absolute; left: var(--rand); right: var(--rand); top: 600px; height: 150px;
-    display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
-  .ph-skala div { display: flex; align-items: center; justify-content: center; border-radius: 4px;
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 0; border-radius: 4px; overflow: hidden; }
+  .ph-skala div { display: flex; align-items: center; justify-content: center;
     font-family: "Jost"; font-weight: 500; font-size: 56px; }
   .ph-marke { position: absolute; transform: translateX(-50%); text-align: center; white-space: nowrap; }
   .ph-marke .wert { font-family: "Jost"; font-weight: 500; font-size: 56px; line-height: 1; color: var(--text); }
@@ -269,7 +269,7 @@
   <svg class="ph-linien" viewBox="0 0 1920 1080"></svg>
 
   <!-- obere Reihe -->
-  <div class="ph-marke oben" data-ph="4.5"><div class="wert">ca. 4,5</div><div class="was">Abwasser</div></div>
+  <div class="ph-marke oben" data-ph="4.5"><div class="wert">ca. 4,5</div><div class="was">Abwasser der Maschine</div></div>
   <div class="ph-marke oben" data-ph="7.5" data-von="7" data-bis="8"><div class="wert">7 bis 8</div><div class="was">Leitungswasser</div></div>
   <div class="ph-marke oben haupt" data-ph="9.5"><div class="wert">9,5</div><div class="was">Kangenwasser</div></div>
 
@@ -313,7 +313,7 @@
       <div class="kachel hervor"><img src="bilder/wasser-9-5.jpg" alt="" style="object-position:50% 55%">
         <div class="t"><div class="k-zahl">9,5</div><div class="k-name">Trinken</div><div class="k-text">jeden Tag</div></div></div>
       <div class="kachel"><img src="bilder/wasser-9-0.jpg" alt="" style="object-position:50% 30%">
-        <div class="t"><div class="k-zahl">9,0</div><div class="k-name">Kochen</div></div></div>
+        <div class="t"><div class="k-zahl">9,0</div><div class="k-name">Kochen</div><div class="k-text">Suppen und Eintöpfe</div></div></div>
       <div class="kachel"><img src="bilder/wasser-8-5.jpg" alt="" style="object-position:0% 55%">
         <div class="t"><div class="k-zahl">8,5</div><div class="k-name">Kaffee und Tee</div></div></div>
       <div class="kachel"><img src="bilder/wasser-neutral.jpg" alt="" style="object-position:50% 68%">
@@ -529,14 +529,14 @@ document.fonts.ready.then(function () {
   FELDER.forEach(f => { const d = document.createElement("div"); d.textContent = f.wert;
     d.style.background = f.farbe; d.style.color = f.schrift; skala.appendChild(d); });
 
-  const rand = parseFloat(css("--rand")), luecke = 10;
+  const rand = parseFloat(css("--rand")), luecke = 0;
   const zelle = (1920 - 2 * rand - luecke * (FELDER.length - 1)) / FELDER.length;
   const xVon = ph => rand + (ph - VON) * (zelle + luecke) + zelle / 2;
   const top = 600, unten = 750;          // Ober- und Unterkante der Skala
   const linieOben = 502, linieUnten = 852; // wo die senkrechten Linien beginnen
   const svg = folie.querySelector(".ph-linien"), NS = "http://www.w3.org/2000/svg", farbe = css("--text");
   const linie = (x1, y1, x2, y2) => { const l = document.createElementNS(NS, "line");
-    Object.entries({ x1, y1, x2, y2, stroke: farbe, "stroke-width": 3, "stroke-linecap": "round" })
+    Object.entries({ x1, y1, x2, y2, stroke: farbe, "stroke-width": 3, "stroke-linecap": "butt" })
       .forEach(([k, v]) => l.setAttribute(k, v)); svg.appendChild(l); };
   const punkt = (x, y) => { const c = document.createElementNS(NS, "circle");
     Object.entries({ cx: x, cy: y, r: 10, fill: farbe, stroke: css("--grund"), "stroke-width": 4 })
@@ -548,11 +548,11 @@ document.fonts.ready.then(function () {
     if (m.classList.contains("oben")) {
       if (m.dataset.von) {   // Bereich als Klammer
         const a = xVon(+m.dataset.von), b = xVon(+m.dataset.bis), y = top - 24;
-        linie(a, y, b, y); linie(a, y, a, top - 4); linie(b, y, b, top - 4);
+        linie(a, y, b, y); linie(a, y, a, top); linie(b, y, b, top);
         linie(x, linieOben, x, y);
-      } else { linie(x, linieOben, x, top - 4); punkt(x, top); }
+      } else { linie(x, linieOben, x, top); }   // Linie endet an der Kachel, ohne Punkt
     } else {
-      linie(x, unten + 4, x, linieUnten); punkt(x, unten);
+      linie(x, unten, x, linieUnten);
     }
   });
 }).then(() => { window.fertig = true; });
