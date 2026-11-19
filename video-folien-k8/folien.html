@@ -109,6 +109,7 @@
   .tasten .kachel { grid-column: span 3; padding: 0; overflow: hidden; }
   .tasten .kachel.breit { grid-column: span 4; }
   .tasten img { width: 100%; height: 140px; object-fit: cover; display: block; }
+  .tasten .doppel { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
   .tasten .t { padding: 18px 28px 20px; }
   .tasten .k-zahl { font-size: 50px; }
   .tasten .k-name { font-size: 38px; margin-top: 6px; }
@@ -116,10 +117,11 @@
 
   /* Folie 7 */
   .obst { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-  .obst .kachel { align-items: center; text-align: center; justify-content: center; }
-  .obst svg { width: 420px; height: 300px; margin-bottom: 24px; }
-  .obst .k-name { font-size: 60px; }
-  .obst .k-text { font-size: 38px; }
+  .obst-foto { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; display: block; }
+  .obst-text { display: grid; grid-template-rows: 1fr 1fr; gap: 24px; }
+  .obst .kachel { justify-content: center; padding: 40px 48px; }
+  .obst .k-name { font-size: 56px; margin-top: 0; }
+  .obst .k-text { font-size: 38px; margin-top: 14px; }
 
   /* Folie 8 */
   .sechs { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 24px; height: 100%; }
@@ -132,12 +134,11 @@
 
   /* Folie 9 */
   .drei { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; height: 100%; }
-  .drei .kachel { align-items: center; text-align: center; padding: 36px 32px; }
-  .drei .menge { width: 100%; height: 360px; display: flex; align-items: center; justify-content: center; }
-  .drei .menge svg { max-width: 100%; max-height: 100%; }
-  .drei .k-zahl { font-size: 96px; margin-top: 28px; }
-  .drei .k-name { font-size: 48px; margin-top: 10px; }
-  .drei .k-text { font-size: 32px; margin-top: 6px; }
+  .drei .kachel { padding: 0; overflow: hidden; text-align: center; }
+  .drei img { width: 100%; height: 420px; object-fit: cover; display: block; }
+  .drei .t { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .drei .k-zahl { font-size: 104px; }
+  .drei .k-name { font-size: 52px; margin-top: 10px; }
 
   /* Zeichnungen */
   .teil { fill: var(--hervor); stroke: var(--text); stroke-width: 4; }
@@ -314,9 +315,9 @@
         <div class="t"><div class="k-zahl">9,5</div><div class="k-name">Trinken</div><div class="k-text">jeden Tag</div></div></div>
       <div class="kachel"><img src="bilder/wasser-9-0.jpg" alt="" style="object-position:50% 30%">
         <div class="t"><div class="k-zahl">9,0</div><div class="k-name">Kochen</div><div class="k-text">Suppen und Eintöpfe</div></div></div>
-      <div class="kachel"><img src="bilder/wasser-8-5.jpg" alt="" style="object-position:0% 55%">
-        <div class="t"><div class="k-zahl">8,5</div><div class="k-name">Kaffee und Tee</div></div></div>
-      <div class="kachel"><img src="bilder/wasser-neutral.jpg" alt="" style="object-position:50% 68%">
+      <div class="kachel"><img src="bilder/wasser-8-5.jpg" alt="" style="object-position:50% 60%">
+        <div class="t"><div class="k-zahl">8,5</div><div class="k-name">Kaffee und Tee</div><div class="k-text">Heißgetränke</div></div></div>
+      <div class="kachel"><div class="doppel"><img src="bilder/wasser-neutral-baby.jpg" alt="" style="object-position:75% 60%"><img src="bilder/wasser-neutral-tabletten.jpg" alt="" style="object-position:55% 70%"></div>
         <div class="t"><div class="k-zahl">7,5 bis 8</div><div class="k-name">Neutral</div><div class="k-text">Babynahrung, Medikamente</div></div></div>
       <div class="kachel breit"><img src="bilder/wasser-6-0.jpg" alt="" style="object-position:50% 25%">
         <div class="t"><div class="k-zahl">6,0</div><div class="k-name">Schönheitswasser</div><div class="k-text">Haut und Haare</div></div></div>
@@ -333,15 +334,16 @@
   <div class="dachzeile">OBST UND GEMÜSE EINLEGEN</div>
   <h1>11,5 löst Spritzmittel</h1>
   <div class="inhalt obst">
-    <div class="kachel">
-      <svg viewBox="0 0 420 300" aria-hidden="true" id="obst-links"></svg>
-      <div class="k-name">Leitungswasser</div>
-      <div class="k-text">Spritzmittel und Wachs<br>bleiben auf der Schale</div>
-    </div>
-    <div class="kachel hervor">
-      <svg viewBox="0 0 420 300" aria-hidden="true" id="obst-rechts"></svg>
-      <div class="k-name">pH 11,5</div>
-      <div class="k-text">löst Spritzmittel auf Öl- und Fettbasis<br>und die Wachsschicht</div>
+    <img class="obst-foto" src="bilder/obst-einlegen.jpg" alt="Trauben in einer Schüssel mit Wasser">
+    <div class="obst-text">
+      <div class="kachel">
+        <div class="k-name">Leitungswasser</div>
+        <div class="k-text">Spritzmittel und Wachs bleiben auf der Schale</div>
+      </div>
+      <div class="kachel hervor">
+        <div class="k-name">pH 11,5</div>
+        <div class="k-text">löst Spritzmittel auf Öl- und Fettbasis und die Wachsschicht. Ca. 45 Minuten einlegen.</div>
+      </div>
     </div>
   </div>
 </section>
@@ -375,18 +377,17 @@
 </section>
 
 <!-- ===================== FOLIE 9 ===================== -->
-<!-- Die Mengen werden als Symbole gezeichnet (40 Karotten, 16 Schalen à 125 g = 2 kg, 70 Bananen). -->
 <section class="folie" data-datei="folie-09-antioxidantien">
   <div class="dachzeile">ANTIOXIDANTIEN IN KANGENWASSER</div>
   <h1>1,5 Liter entsprechen etwa</h1>
   <div class="inhalt">
     <div class="drei">
-      <div class="kachel"><div class="menge"><svg id="menge-karotten" aria-hidden="true"></svg></div>
-        <div class="k-zahl">40</div><div class="k-name">Karotten</div><div class="k-text">&nbsp;</div></div>
-      <div class="kachel"><div class="menge"><svg id="menge-heidelbeeren" aria-hidden="true"></svg></div>
-        <div class="k-zahl">2 kg</div><div class="k-name">Heidelbeeren</div><div class="k-text">16 Schalen à 125 g</div></div>
-      <div class="kachel"><div class="menge"><svg id="menge-bananen" aria-hidden="true"></svg></div>
-        <div class="k-zahl">70</div><div class="k-name">Bananen</div><div class="k-text">&nbsp;</div></div>
+      <div class="kachel"><img src="bilder/karotten.jpg" alt="Karotten in einer Holzkiste" style="object-position:50% 50%">
+        <div class="t"><div class="k-zahl">40</div><div class="k-name">Karotten</div></div></div>
+      <div class="kachel"><img src="bilder/heidelbeeren.jpg" alt="Schale voller Heidelbeeren" style="object-position:50% 55%">
+        <div class="t"><div class="k-zahl">2 kg</div><div class="k-name">Heidelbeeren</div></div></div>
+      <div class="kachel"><img src="bilder/bananen.jpg" alt="Viele Bananen" style="object-position:50% 50%">
+        <div class="t"><div class="k-zahl">70</div><div class="k-name">Bananen</div></div></div>
     </div>
   </div>
 </section>
@@ -460,19 +461,6 @@ const css = name => getComputedStyle(document.documentElement).getPropertyValue(
   const platten = document.getElementById("platten");
   for (let i = 0; i < 8; i++) el("rect", { x: 40 + i * 30, y: 15, width: 16, height: 220, rx: 3, class: "teil" }, platten);
 
-  // Obst in Schale: links Rückstände auf der Schale, rechts lösen sie sich
-  [["obst-links", false], ["obst-rechts", true]].forEach(([id, loest]) => {
-    const svg = document.getElementById(id);
-    el("circle", { cx: 210, cy: 135, r: 82, class: "teil" }, svg);
-    el("path", { d: "M210 55 Q214 35 226 22", class: "umriss" }, svg);
-    el("path", { d: "M220 40 Q250 20 270 36 Q245 52 220 40 Z", class: "teil" }, svg);
-    if (!loest) [[175, 92], [240, 86], [205, 122], [258, 128], [152, 132], [212, 68]]
-      .forEach(([x, y]) => el("circle", { cx: x, cy: y, r: 10, fill: css("--text2") }, svg));
-    el("path", { d: "M30 150 L390 150 Q380 290 210 290 Q40 290 30 150 Z", style: "fill:#FFFDF8" }, svg);
-    el("path", { d: "M30 150 L390 150 Q380 290 210 290 Q40 290 30 150 Z", class: "umriss" }, svg);
-    if (loest) [[110, 190], [300, 196], [150, 248], [270, 252], [345, 172], [80, 172], [210, 210]]
-      .forEach(([x, y]) => el("circle", { cx: x, cy: y, r: 10, fill: css("--text2") }, svg));
-  });
 })();
 
 /* ---------- Folie 8 und 9: Symbole ---------- */
@@ -487,29 +475,6 @@ const css = name => getComputedStyle(document.documentElement).getPropertyValue(
   el("path", { d: "M" + ecken.map(p => p.join(" ")).join(" L") + " Z", class: "symbol-flaeche" }, hx);
   ecken.forEach(([x, y]) => el("circle", { cx: x, cy: y, r: 10, fill: css("--text") }, hx));
 
-  // Mengen-Raster: n Symbole in spalten Spalten
-  // basis = Größe, für die das Symbol gezeichnet ist; zelle = Größe auf der Folie
-  const raster = (id, n, spalten, zelle, basis, zeichne) => {
-    const svg = document.getElementById(id), zeilen = Math.ceil(n / spalten), f = zelle / basis;
-    svg.setAttribute("viewBox", `0 0 ${spalten * zelle} ${zeilen * zelle}`);
-    svg.setAttribute("width", spalten * zelle); svg.setAttribute("height", zeilen * zelle);
-    for (let i = 0; i < n; i++) { const g = el("g", { transform: `translate(${(i % spalten) * zelle} ${Math.floor(i / spalten) * zelle}) scale(${f})` }, svg); zeichne(g); }
-  };
-  const karotte = g => {
-    el("path", { d: "M20 14 L16 3 M20 14 L20 1 M20 14 L24 3", stroke: "#6F8A4A", "stroke-width": 3, "stroke-linecap": "round", fill: "none" }, g);
-    el("path", { d: "M13 13 Q20 10 27 13 Q25 28 20 40 Q15 28 13 13 Z", fill: "#E0893A" }, g);
-  };
-  const schale = g => {
-    [[24, 26], [38, 22], [52, 26], [31, 16], [45, 15]].forEach(([x, y]) => el("circle", { cx: x, cy: y, r: 8, fill: "#4E5F8E" }, g));
-    el("path", { d: "M10 30 H66 L60 58 H16 Z", fill: "#FFFDF8", stroke: css("--text"), "stroke-width": 3, "stroke-linejoin": "round" }, g);
-  };
-  const banane = g => {
-    el("path", { d: "M8 9 Q9 30 34 33 Q37 32 35 29 Q16 26 13 8 Q11 5 8 9 Z", fill: "#E7C04F" }, g);
-    el("path", { d: "M8 9 L6 6", stroke: "#8A6B2E", "stroke-width": 3, "stroke-linecap": "round" }, g);
-  };
-  raster("menge-karotten", 40, 8, 60, 42, karotte);
-  raster("menge-heidelbeeren", 16, 4, 88, 76, schale);
-  raster("menge-bananen", 70, 10, 48, 42, banane);
 })();
 
 /* ---------- Folie 4: Skala und Hinweislinien ---------- */
