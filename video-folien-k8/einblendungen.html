@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Einblendungen LeveLuk K8</title>
+<!--
+  Einblendungen für das untere Bilddrittel, 1920 x 1080, transparenter Hintergrund.
+  Rendern:  node render-einblendungen.js   (PNG mit Transparenz in png-einblendungen/)
+-->
+<style>
+  @font-face { font-family: "Jost"; font-weight: 500; src: url("schriften/jost-latin-500-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("schriften/inter-latin-600-normal.woff2") format("woff2"); }
+  :root { --grund: #FAF7F0; --hervor: #EADFCC; --text: #2F3524; --text2: #5F6650; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: transparent; }
+  .einblendung { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: transparent; }
+  .leiste { position: absolute; left: 100px; right: 100px; bottom: 70px; background: var(--grund);
+    border-radius: 4px; padding: 28px 40px 32px; display: grid; grid-template-columns: 320px 1fr; align-items: center; gap: 40px; }
+  .titel { font-family: "Jost"; font-weight: 500; font-size: 84px; line-height: 1; color: var(--text); }
+  .titel small { display: block; font-size: 38px; margin-top: 8px; color: var(--text2); }
+  .band { position: relative; display: grid; grid-template-columns: repeat(7, 1fr); height: 96px; border-radius: 4px; overflow: hidden; }
+  .band div { display: flex; align-items: center; justify-content: center; font-family: "Jost"; font-weight: 500; font-size: 48px; }
+  .zeiger { position: absolute; top: -22px; bottom: -22px; width: 0; border-left: 6px solid var(--text); }
+  .bandrahmen { position: relative; }
+</style>
+</head>
+<body>
+
+<!-- data-ph = wo der Zeiger steht; Titel und Wert links anpassen -->
+<section class="einblendung" data-datei="einblendung-ph-kangenwasser" data-ph="9.5">
+  <div class="leiste">
+    <div class="titel">pH 9,5<small>Kangenwasser</small></div>
+    <div class="bandrahmen"><div class="band"></div><div class="zeiger"></div></div>
+  </div>
+</section>
+
+<script>
+const FELDER = [["4","#FDAF05","#2F3524"],["5","#F8C909","#2F3524"],["6","#D5B60E","#2F3524"],["7","#188647","#FFFFFF"],
+                ["8","#092384","#FFFFFF"],["9","#4958BF","#FFFFFF"],["10","#431376","#FFFFFF"]];
+document.fonts.ready.then(() => {
+  document.querySelectorAll(".einblendung").forEach(e => {
+    const band = e.querySelector(".band");
+    FELDER.forEach(([w, bg, fg]) => { const d = document.createElement("div"); d.textContent = w;
+      d.style.background = bg; d.style.color = fg; band.appendChild(d); });
+    const ph = parseFloat(e.dataset.ph), z = e.querySelector(".zeiger");
+    z.style.left = `calc(${(ph - 3.5) / 7 * 100}% - 3px)`;   // Feld n reicht von n-0,5 bis n+0,5
+  });
+  window.fertig = true;
+});
+</script>
+</body>
+</html>
