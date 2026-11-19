@@ -20,9 +20,9 @@
     --grund: #FAF7F0;     /* dezentes Creme, Hintergrund */
     --flaeche: #F3EDE3;   /* helles Feld */
     --hervor: #EADFCC;    /* hervorgehobenes Feld, warmer Sand */
-    --text: #5A4434;      /* Haupttext, warmes Braun */
-    --text2: #8F7A66;     /* Nebentext, helleres Braun */
-    --grafik: #CDBFAE;    /* Linien in Zeichnungen */
+    --text: #2F3524;      /* Haupttext, Dunkel-Olive */
+    --text2: #5F6650;     /* Nebentext, helleres Olivgrau */
+    --grafik: #C9C3AE;    /* Linien in Zeichnungen */
     --rand: 100px;        /* Seitenrand links und rechts */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -104,9 +104,15 @@
   .spalten .k-kopf { padding: 0 24px 22px; }
 
   /* Folie 6 */
+  .inhalt.hoch { top: 280px; bottom: 60px; }
   .tasten { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: 1fr 1fr; gap: 24px; height: 100%; }
-  .tasten .kachel { grid-column: span 3; }
+  .tasten .kachel { grid-column: span 3; padding: 0; overflow: hidden; }
   .tasten .kachel.breit { grid-column: span 4; }
+  .tasten img { width: 100%; height: 140px; object-fit: cover; display: block; }
+  .tasten .t { padding: 18px 28px 20px; }
+  .tasten .k-zahl { font-size: 50px; }
+  .tasten .k-name { font-size: 38px; margin-top: 6px; }
+  .tasten .k-text { font-size: 28px; line-height: 1.25; margin-top: 4px; }
 
   /* Folie 7 */
   .obst { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
@@ -117,15 +123,21 @@
 
   /* Folie 8 */
   .sechs { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 24px; height: 100%; }
-  .sechs .kachel { justify-content: space-between; }
-  .sechs .k-zahl { color: var(--text2); }
-  .sechs .k-name { font-size: 56px; margin-top: 0; }
+  .sechs .kachel { justify-content: space-between; padding: 40px 44px; }
+  .sechs svg { width: 140px; height: 140px; }
+  .sechs .k-name { font-size: 52px; margin-top: 0; }
+  .symbol { fill: none; stroke: var(--text); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+  .symbol-flaeche { fill: var(--hervor); stroke: var(--text); stroke-width: 5; stroke-linejoin: round; }
+  .symbol-text { font-family: "Jost"; font-weight: 500; fill: var(--text); stroke: none; }
 
   /* Folie 9 */
   .drei { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; height: 100%; }
-  .drei .kachel { justify-content: center; align-items: center; text-align: center; }
-  .drei .k-zahl { font-size: 180px; }
-  .drei .k-name { font-size: 56px; margin-top: 28px; }
+  .drei .kachel { align-items: center; text-align: center; padding: 36px 32px; }
+  .drei .menge { width: 100%; height: 360px; display: flex; align-items: center; justify-content: center; }
+  .drei .menge svg { max-width: 100%; max-height: 100%; }
+  .drei .k-zahl { font-size: 96px; margin-top: 28px; }
+  .drei .k-name { font-size: 48px; margin-top: 10px; }
+  .drei .k-text { font-size: 32px; margin-top: 6px; }
 
   /* Zeichnungen */
   .teil { fill: var(--hervor); stroke: var(--text); stroke-width: 4; }
@@ -292,18 +304,26 @@
 </section>
 
 <!-- ===================== FOLIE 6 ===================== -->
+<!-- Fotos liegen in bilder/. object-position verschiebt den sichtbaren Ausschnitt. -->
 <section class="folie" data-datei="folie-06-wassertypen">
   <div class="dachzeile">DIE TASTEN</div>
   <h1>Sieben Wassertypen</h1>
-  <div class="inhalt">
+  <div class="inhalt hoch">
     <div class="tasten">
-      <div class="kachel hervor"><div class="k-zahl">9,5</div><div class="k-name">Trinken</div><div class="k-text">jeden Tag</div></div>
-      <div class="kachel"><div class="k-zahl">9,0</div><div class="k-name">Kochen</div><div class="k-text"></div></div>
-      <div class="kachel"><div class="k-zahl">8,5</div><div class="k-name">Kaffee und Tee</div><div class="k-text"></div></div>
-      <div class="kachel"><div class="k-zahl">7,5 bis 8</div><div class="k-name">Neutral</div><div class="k-text">Babynahrung, Medikamente</div></div>
-      <div class="kachel breit"><div class="k-zahl">6,0</div><div class="k-name">Schönheitswasser</div><div class="k-text">Haut und Haare</div></div>
-      <div class="kachel breit"><div class="k-zahl">2,5</div><div class="k-name">Stark sauer</div><div class="k-text">unterer, kurzer Schlauch</div></div>
-      <div class="kachel breit"><div class="k-zahl">11,5</div><div class="k-name">Stark basisch</div><div class="k-text">oberer, langer Schlauch</div></div>
+      <div class="kachel hervor"><img src="bilder/wasser-9-5.jpg" alt="" style="object-position:50% 55%">
+        <div class="t"><div class="k-zahl">9,5</div><div class="k-name">Trinken</div><div class="k-text">jeden Tag</div></div></div>
+      <div class="kachel"><img src="bilder/wasser-9-0.jpg" alt="" style="object-position:50% 30%">
+        <div class="t"><div class="k-zahl">9,0</div><div class="k-name">Kochen</div></div></div>
+      <div class="kachel"><img src="bilder/wasser-8-5.jpg" alt="" style="object-position:0% 55%">
+        <div class="t"><div class="k-zahl">8,5</div><div class="k-name">Kaffee und Tee</div></div></div>
+      <div class="kachel"><img src="bilder/wasser-neutral.jpg" alt="" style="object-position:50% 68%">
+        <div class="t"><div class="k-zahl">7,5 bis 8</div><div class="k-name">Neutral</div><div class="k-text">Babynahrung, Medikamente</div></div></div>
+      <div class="kachel breit"><img src="bilder/wasser-6-0.jpg" alt="" style="object-position:50% 25%">
+        <div class="t"><div class="k-zahl">6,0</div><div class="k-name">Schönheitswasser</div><div class="k-text">Haut und Haare</div></div></div>
+      <div class="kachel breit"><img src="bilder/wasser-2-5.jpg" alt="" style="object-position:50% 40%">
+        <div class="t"><div class="k-zahl">2,5</div><div class="k-name">Stark sauer</div><div class="k-text">unterer, kurzer Schlauch</div></div></div>
+      <div class="kachel breit"><img src="bilder/wasser-11-5.jpg" alt="" style="object-position:50% 50%">
+        <div class="t"><div class="k-zahl">11,5</div><div class="k-name">Stark basisch</div><div class="k-text">oberer, langer Schlauch</div></div></div>
     </div>
   </div>
 </section>
@@ -332,25 +352,41 @@
   <h1>Sechs Eigenschaften</h1>
   <div class="inhalt">
     <div class="sechs">
-      <div class="kachel"><div class="k-zahl">1</div><div class="k-name">basisch</div></div>
-      <div class="kachel"><div class="k-zahl">2</div><div class="k-name">hexagonal</div></div>
-      <div class="kachel"><div class="k-zahl">3</div><div class="k-name">molekularer<br>Wasserstoff</div></div>
-      <div class="kachel"><div class="k-zahl">4</div><div class="k-name">Filterung</div></div>
-      <div class="kachel"><div class="k-zahl">5</div><div class="k-name">Mikroclusterung</div></div>
-      <div class="kachel"><div class="k-zahl">6</div><div class="k-name">Mineralien</div></div>
+      <div class="kachel">
+        <svg viewBox="0 0 140 140" aria-hidden="true"><path d="M70 12 C70 12 28 62 28 88 A42 42 0 0 0 112 88 C112 62 70 12 70 12 Z" class="symbol-flaeche"/><text x="70" y="104" text-anchor="middle" font-size="36" class="symbol-text">pH</text></svg>
+        <div class="k-name">basisch</div></div>
+      <div class="kachel">
+        <svg viewBox="0 0 140 140" aria-hidden="true" class="sym-hexagon"></svg>
+        <div class="k-name">hexagonal</div></div>
+      <div class="kachel">
+        <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="46" cy="70" r="32" class="symbol-flaeche"/><circle cx="94" cy="70" r="32" class="symbol-flaeche"/><text x="46" y="83" text-anchor="middle" font-size="36" class="symbol-text">H</text><text x="94" y="83" text-anchor="middle" font-size="36" class="symbol-text">H</text></svg>
+        <div class="k-name">molekularer Wasserstoff</div></div>
+      <div class="kachel">
+        <svg viewBox="0 0 140 140" aria-hidden="true"><path d="M18 22 H122 L82 72 V116 L58 128 V72 Z" class="symbol-flaeche"/><path d="M40 44 H100" class="symbol"/></svg>
+        <div class="k-name">Filterung</div></div>
+      <div class="kachel">
+        <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="17" class="symbol-flaeche"/><circle cx="70" cy="34" r="17" class="symbol-flaeche"/><circle cx="101" cy="52" r="17" class="symbol-flaeche"/><circle cx="101" cy="88" r="17" class="symbol-flaeche"/><circle cx="70" cy="106" r="17" class="symbol-flaeche"/><circle cx="39" cy="88" r="17" class="symbol-flaeche"/><circle cx="39" cy="52" r="17" class="symbol-flaeche"/></svg>
+        <div class="k-name">Mikroclusterung</div></div>
+      <div class="kachel">
+        <svg viewBox="0 0 140 140" aria-hidden="true"><path d="M40 20 H100 L128 52 L70 124 L12 52 Z" class="symbol-flaeche"/><path d="M12 52 H128 M40 20 L54 52 L70 124 L86 52 L100 20 M54 52 L70 20 L86 52" class="symbol"/></svg>
+        <div class="k-name">Mineralien</div></div>
     </div>
   </div>
 </section>
 
 <!-- ===================== FOLIE 9 ===================== -->
+<!-- Die Mengen werden als Symbole gezeichnet (40 Karotten, 16 Schalen à 125 g = 2 kg, 70 Bananen). -->
 <section class="folie" data-datei="folie-09-antioxidantien">
   <div class="dachzeile">ANTIOXIDANTIEN IN KANGENWASSER</div>
   <h1>1,5 Liter entsprechen etwa</h1>
   <div class="inhalt">
     <div class="drei">
-      <div class="kachel"><div class="k-zahl">40</div><div class="k-name">Karotten</div></div>
-      <div class="kachel"><div class="k-zahl">2 kg</div><div class="k-name">Heidelbeeren</div></div>
-      <div class="kachel"><div class="k-zahl">70</div><div class="k-name">Bananen</div></div>
+      <div class="kachel"><div class="menge"><svg id="menge-karotten" aria-hidden="true"></svg></div>
+        <div class="k-zahl">40</div><div class="k-name">Karotten</div><div class="k-text">&nbsp;</div></div>
+      <div class="kachel"><div class="menge"><svg id="menge-heidelbeeren" aria-hidden="true"></svg></div>
+        <div class="k-zahl">2 kg</div><div class="k-name">Heidelbeeren</div><div class="k-text">16 Schalen à 125 g</div></div>
+      <div class="kachel"><div class="menge"><svg id="menge-bananen" aria-hidden="true"></svg></div>
+        <div class="k-zahl">70</div><div class="k-name">Bananen</div><div class="k-text">&nbsp;</div></div>
     </div>
   </div>
 </section>
@@ -439,15 +475,52 @@ const css = name => getComputedStyle(document.documentElement).getPropertyValue(
   });
 })();
 
+/* ---------- Folie 8 und 9: Symbole ---------- */
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+  // Sechseck mit Punkten an den Ecken
+  const hx = document.querySelector(".sym-hexagon"), ecken = [];
+  for (let i = 0; i < 6; i++) { const a = Math.PI / 180 * (60 * i - 90); ecken.push([70 + 52 * Math.cos(a), 70 + 52 * Math.sin(a)]); }
+  el("path", { d: "M" + ecken.map(p => p.join(" ")).join(" L") + " Z", class: "symbol-flaeche" }, hx);
+  ecken.forEach(([x, y]) => el("circle", { cx: x, cy: y, r: 10, fill: css("--text") }, hx));
+
+  // Mengen-Raster: n Symbole in spalten Spalten
+  // basis = Größe, für die das Symbol gezeichnet ist; zelle = Größe auf der Folie
+  const raster = (id, n, spalten, zelle, basis, zeichne) => {
+    const svg = document.getElementById(id), zeilen = Math.ceil(n / spalten), f = zelle / basis;
+    svg.setAttribute("viewBox", `0 0 ${spalten * zelle} ${zeilen * zelle}`);
+    svg.setAttribute("width", spalten * zelle); svg.setAttribute("height", zeilen * zelle);
+    for (let i = 0; i < n; i++) { const g = el("g", { transform: `translate(${(i % spalten) * zelle} ${Math.floor(i / spalten) * zelle}) scale(${f})` }, svg); zeichne(g); }
+  };
+  const karotte = g => {
+    el("path", { d: "M20 14 L16 3 M20 14 L20 1 M20 14 L24 3", stroke: "#6F8A4A", "stroke-width": 3, "stroke-linecap": "round", fill: "none" }, g);
+    el("path", { d: "M13 13 Q20 10 27 13 Q25 28 20 40 Q15 28 13 13 Z", fill: "#E0893A" }, g);
+  };
+  const schale = g => {
+    [[24, 26], [38, 22], [52, 26], [31, 16], [45, 15]].forEach(([x, y]) => el("circle", { cx: x, cy: y, r: 8, fill: "#4E5F8E" }, g));
+    el("path", { d: "M10 30 H66 L60 58 H16 Z", fill: "#FFFDF8", stroke: css("--text"), "stroke-width": 3, "stroke-linejoin": "round" }, g);
+  };
+  const banane = g => {
+    el("path", { d: "M8 9 Q9 30 34 33 Q37 32 35 29 Q16 26 13 8 Q11 5 8 9 Z", fill: "#E7C04F" }, g);
+    el("path", { d: "M8 9 L6 6", stroke: "#8A6B2E", "stroke-width": 3, "stroke-linecap": "round" }, g);
+  };
+  raster("menge-karotten", 40, 8, 60, 42, karotte);
+  raster("menge-heidelbeeren", 16, 4, 88, 76, schale);
+  raster("menge-bananen", 70, 10, 48, 42, banane);
+})();
+
 /* ---------- Folie 4: Skala und Hinweislinien ---------- */
 document.fonts.ready.then(function () {
   const folie = document.getElementById("ph"), skala = document.getElementById("ph-skala");
   // Farben aus der Original-Farbtabelle (Tropfentest), gemessen
   const VON = 4;
   const FELDER = [
-    { wert: 4,  farbe: "#FDAF05", schrift: "#5A4434" },
-    { wert: 5,  farbe: "#F8C909", schrift: "#5A4434" },
-    { wert: 6,  farbe: "#D5B60E", schrift: "#5A4434" },
+    { wert: 4,  farbe: "#FDAF05", schrift: "#2F3524" },
+    { wert: 5,  farbe: "#F8C909", schrift: "#2F3524" },
+    { wert: 6,  farbe: "#D5B60E", schrift: "#2F3524" },
     { wert: 7,  farbe: "#188647", schrift: "#FFFFFF" },
     { wert: 8,  farbe: "#092384", schrift: "#FFFFFF" },
     { wert: 9,  farbe: "#4958BF", schrift: "#FFFFFF" },
