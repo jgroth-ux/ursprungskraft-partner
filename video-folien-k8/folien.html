@@ -15,14 +15,14 @@
   @font-face { font-family: "Inter"; font-weight: 500; src: url("schriften/inter-latin-500-normal.woff2") format("woff2"); }
   @font-face { font-family: "Inter"; font-weight: 600; src: url("schriften/inter-latin-600-normal.woff2") format("woff2"); }
 
-  /* Neutrale Farben */
+  /* Warme neutrale Farben */
   :root {
     --grund: #FAF7F0;     /* dezentes Creme, Hintergrund */
-    --flaeche: #F0ECE5;   /* helles Feld */
-    --hervor: #E4DDCF;    /* hervorgehobenes Feld, etwas kräftiger */
-    --text: #3B3834;      /* Haupttext, warmes Dunkelgrau */
-    --text2: #7A756C;     /* Nebentext */
-    --grafik: #B3ADA2;    /* Linien in Zeichnungen */
+    --flaeche: #F3EDE3;   /* helles Feld */
+    --hervor: #EADFCC;    /* hervorgehobenes Feld, warmer Sand */
+    --text: #5A4434;      /* Haupttext, warmes Braun */
+    --text2: #8F7A66;     /* Nebentext, helleres Braun */
+    --grafik: #CDBFAE;    /* Linien in Zeichnungen */
     --rand: 100px;        /* Seitenrand links und rechts */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,20 +56,20 @@
   .feld .zusatz { font-size: 42px; margin-top: 16px; color: var(--text2); }
 
   /* ---------- Folie 4: pH-Wert ---------- */
+  /* Alle Zahlen gleich groß (56px), alle Namen gleich groß (36px), alles auf einer Höhe. */
   .ph-skala { position: absolute; left: var(--rand); right: var(--rand); top: 600px; height: 150px;
     display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
   .ph-skala div { display: flex; align-items: center; justify-content: center; border-radius: 4px;
-    font-family: "Jost"; font-weight: 500; font-size: 64px; }
-  .ph-ende { position: absolute; top: 782px; font-weight: 600; font-size: 32px; letter-spacing: .16em; color: var(--text2); }
+    font-family: "Jost"; font-weight: 500; font-size: 56px; }
   .ph-marke { position: absolute; transform: translateX(-50%); text-align: center; white-space: nowrap; }
-  .ph-marke .wert { font-family: "Jost"; font-weight: 500; font-size: 62px; line-height: 1; color: var(--text); }
-  .ph-marke .was { font-size: 36px; font-weight: 500; line-height: 1.15; margin-top: 8px; color: var(--text2); }
-  .ph-marke.oben { bottom: calc(1080px - 480px); }
-  .ph-marke.unten { top: 890px; }
+  .ph-marke .wert { font-family: "Jost"; font-weight: 500; font-size: 56px; line-height: 1; color: var(--text); }
+  .ph-marke .was { font-size: 36px; font-weight: 500; line-height: 1.2; margin-top: 10px; color: var(--text2); }
+  .ph-marke.oben { bottom: calc(1080px - 470px); }
+  .ph-marke.unten { top: 870px; }
   .ph-marke.links { transform: none; text-align: left; }
-  .ph-marke.haupt { background: var(--hervor); padding: 24px 36px 26px; border-radius: 4px; }
-  .ph-marke.haupt .wert { font-size: 84px; }
-  .ph-marke.haupt .was { font-size: 38px; }
+  .ph-marke.haupt { background: var(--hervor); padding: 18px 32px; border-radius: 4px;
+    bottom: calc(1080px - 470px - 18px); }
+  .ph-marke.haupt .was { color: var(--text); }
   .ph-linien { position: absolute; inset: 0; pointer-events: none; }
 </style>
 </head>
@@ -102,28 +102,25 @@
 
 <!-- ===================== FOLIE 4 ===================== -->
 <!-- Skala von 4 bis 10 wie die Farbtabelle beim Tropfentest.
-     Marken: data-ph = Position auf der Skala, data-x = Mitte des Textes in Pixel (von links). -->
+     data-ph = Wert auf der Skala; der Text steht automatisch genau darüber bzw. darunter. -->
 <section class="folie" data-datei="folie-04-ph-wert" id="ph">
-  <div class="dachzeile">pH-WERT</div>
+  <div class="dachzeile">pH-WERT, 7 IST NEUTRAL</div>
   <h1>Kangenwasser ist basisch</h1>
 
   <svg class="ph-linien" viewBox="0 0 1920 1080"></svg>
 
-  <!-- oben: Wasser -->
-  <div class="ph-marke oben" data-ph="4.5" data-x="300"><div class="wert">ca. 4,5</div><div class="was">Abwasser</div></div>
-  <div class="ph-marke oben" data-ph="5.5" data-x="640"><div class="wert">sauer</div><div class="was">Sprudelwasser</div></div>
-  <div class="ph-marke oben" data-ph="7.5" data-x="990" data-von="7" data-bis="8"><div class="wert">7 bis 8</div><div class="was">Leitungswasser</div></div>
-  <div class="ph-marke oben" data-ph="8.5" data-x="1305"><div class="wert">ca. 8,5</div><div class="was">basisches<br>Flaschenwasser</div></div>
-  <div class="ph-marke oben haupt" data-ph="9.5" data-x="1650"><div class="wert">9,5</div><div class="was">Kangenwasser</div></div>
+  <!-- obere Reihe -->
+  <div class="ph-marke oben" data-ph="4.5"><div class="wert">ca. 4,5</div><div class="was">Abwasser</div></div>
+  <div class="ph-marke oben" data-ph="7.5" data-von="7" data-bis="8"><div class="wert">7 bis 8</div><div class="was">Leitungswasser</div></div>
+  <div class="ph-marke oben haupt" data-ph="9.5"><div class="wert">9,5</div><div class="was">Kangenwasser</div></div>
 
   <div class="ph-skala" id="ph-skala"></div>
-  <div class="ph-ende" style="left:var(--rand)">SAUER</div>
-  <div class="ph-ende" id="ph-neutral" style="transform:translateX(-50%)">NEUTRAL</div>
-  <div class="ph-ende" style="right:var(--rand)">BASISCH</div>
 
-  <!-- unten: Körper. Magen liegt links außerhalb der Skala (Pfeil nach links). -->
-  <div class="ph-marke unten links" data-ph="links" data-x="100"><div class="wert">← ca. 1,5</div><div class="was">Magen</div></div>
-  <div class="ph-marke unten" data-ph="7.35" data-x="1420"><div class="wert">7,35</div><div class="was">Blut</div></div>
+  <!-- untere Reihe. Magen liegt links außerhalb der Skala (Pfeil nach links, ohne Linie). -->
+  <div class="ph-marke unten links" data-ph="links"><div class="wert">← ca. 1,5</div><div class="was">Magen</div></div>
+  <div class="ph-marke unten" data-ph="5.5"><div class="wert">sauer</div><div class="was">Sprudelwasser</div></div>
+  <div class="ph-marke unten" data-ph="7.35"><div class="wert">7,35</div><div class="was">Blut</div></div>
+  <div class="ph-marke unten" data-ph="8.5"><div class="wert">ca. 8,5</div><div class="was">Flaschenwasser</div></div>
 </section>
 
 <script>
@@ -182,9 +179,9 @@ document.fonts.ready.then(function () {
   // Farben aus der Original-Farbtabelle (Tropfentest), gemessen
   const VON = 4;
   const FELDER = [
-    { wert: 4,  farbe: "#FDAF05", schrift: "#3B3834" },
-    { wert: 5,  farbe: "#F8C909", schrift: "#3B3834" },
-    { wert: 6,  farbe: "#D5B60E", schrift: "#3B3834" },
+    { wert: 4,  farbe: "#FDAF05", schrift: "#5A4434" },
+    { wert: 5,  farbe: "#F8C909", schrift: "#5A4434" },
+    { wert: 6,  farbe: "#D5B60E", schrift: "#5A4434" },
     { wert: 7,  farbe: "#188647", schrift: "#FFFFFF" },
     { wert: 8,  farbe: "#092384", schrift: "#FFFFFF" },
     { wert: 9,  farbe: "#4958BF", schrift: "#FFFFFF" },
@@ -196,8 +193,8 @@ document.fonts.ready.then(function () {
   const rand = parseFloat(css("--rand")), luecke = 10;
   const zelle = (1920 - 2 * rand - luecke * (FELDER.length - 1)) / FELDER.length;
   const xVon = ph => rand + (ph - VON) * (zelle + luecke) + zelle / 2;
-  document.getElementById("ph-neutral").style.left = xVon(7) + "px";
-  const top = 600, unten = 750;
+  const top = 600, unten = 750;          // Ober- und Unterkante der Skala
+  const linieOben = 502, linieUnten = 852; // wo die senkrechten Linien beginnen
   const svg = folie.querySelector(".ph-linien"), NS = "http://www.w3.org/2000/svg", farbe = css("--text");
   const linie = (x1, y1, x2, y2) => { const l = document.createElementNS(NS, "line");
     Object.entries({ x1, y1, x2, y2, stroke: farbe, "stroke-width": 3, "stroke-linecap": "round" })
@@ -206,21 +203,17 @@ document.fonts.ready.then(function () {
     Object.entries({ cx: x, cy: y, r: 10, fill: farbe, stroke: css("--grund"), "stroke-width": 4 })
       .forEach(([k, v]) => c.setAttribute(k, v)); svg.appendChild(c); };
   folie.querySelectorAll(".ph-marke").forEach(m => {
-    const x = parseFloat(m.dataset.x);
+    if (m.dataset.ph === "links") { m.style.left = rand + "px"; return; }
+    const x = xVon(parseFloat(m.dataset.ph));
     m.style.left = x + "px";
-    if (m.dataset.ph === "links") return;          // ohne Linie
-    const ph = parseFloat(m.dataset.ph), ziel = xVon(ph);
-    const box = m.getBoundingClientRect(), fb = folie.getBoundingClientRect();
     if (m.classList.contains("oben")) {
-      const yText = box.bottom - fb.top + 14;
       if (m.dataset.von) {   // Bereich als Klammer
-        const a = xVon(+m.dataset.von), b = xVon(+m.dataset.bis), y = top - 22;
+        const a = xVon(+m.dataset.von), b = xVon(+m.dataset.bis), y = top - 24;
         linie(a, y, b, y); linie(a, y, a, top - 4); linie(b, y, b, top - 4);
-        linie(ziel, y, x, yText);
-      } else { linie(ziel, top - 4, x, yText); punkt(ziel, top); }
+        linie(x, linieOben, x, y);
+      } else { linie(x, linieOben, x, top - 4); punkt(x, top); }
     } else {
-      const yText = box.top - fb.top - 14;
-      linie(ziel, unten + 4, x, yText); punkt(ziel, unten);
+      linie(x, unten + 4, x, linieUnten); punkt(x, unten);
     }
   });
 }).then(() => { window.fertig = true; });
