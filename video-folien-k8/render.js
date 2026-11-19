@@ -1,4 +1,5 @@
-// Rendert jede Folie aus folien.html als PNG (1920 x 1080) in den Ordner png/.
+// Rendert jede Folie aus folien.html als PNG (1920 x 1080) in den Ordner png/
+// und (bei allen Folien) zusätzlich folien-k8.pdf mit einer Folie pro Seite.
 // Aufruf:  node render.js            alle Folien
 //          node render.js 01 04      nur bestimmte Folien
 const { chromium } = require("playwright");
@@ -15,6 +16,12 @@ const path = require("path"), fs = require("fs");
     if (nur.length && !nur.some(n => name.startsWith("folie-" + n))) continue;
     await f.screenshot({ path: path.join(ziel, name + ".png") });
     console.log("png/" + name + ".png");
+  }
+  if (!nur.length) {   // PDF mit allen Folien
+    await page.emulateMedia({ media: "print" });
+    await page.pdf({ path: path.join(__dirname, "folien-k8.pdf"), width: "1920px", height: "1080px",
+      printBackground: true, preferCSSPageSize: true });
+    console.log("folien-k8.pdf");
   }
   await browser.close();
 })();
