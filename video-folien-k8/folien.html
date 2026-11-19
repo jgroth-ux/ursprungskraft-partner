@@ -51,17 +51,19 @@
   .vergleich { position: absolute; left: 140px; right: 140px; top: 320px; bottom: 170px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
   .feld { background: var(--flaeche); display: flex; flex-direction: column; align-items: center;
-    padding: 36px 40px 40px; }
+    justify-content: center; padding: 36px 40px 40px; border-radius: 4px; }
+  .feld .bilder { display: flex; align-items: center; gap: 44px; }
+  .feld .bilder img { width: 320px; height: 320px; border-radius: 4px; display: block; }
   .feld.hervor { background: var(--dunkel); color: var(--grund); }
-  .feld svg { width: 420px; height: 420px; flex: none; }
-  .feld .name { font-family: "Jost"; font-weight: 500; font-size: 60px; line-height: 1; margin-top: 18px; }
+  .feld svg { width: 320px; height: 320px; flex: none; }
+  .feld .name { font-family: "Jost"; font-weight: 500; font-size: 60px; line-height: 1; margin-top: 40px; }
   .feld .zusatz { font-size: 38px; margin-top: 14px; color: var(--olive); }
   .feld.hervor .zusatz { color: #CFC6A8; }
 
   /* ---------- Folie 4: pH-Wert ---------- */
   .ph-skala { position: absolute; left: 140px; right: 140px; top: 604px; height: 116px;
     display: grid; grid-template-columns: repeat(15, 1fr); gap: 6px; }
-  .ph-skala div { display: flex; align-items: center; justify-content: center;
+  .ph-skala div { display: flex; align-items: center; justify-content: center; border-radius: 4px;
     font-family: "Jost"; font-weight: 500; font-size: 46px; }
   .ph-ende { position: absolute; top: 742px; font-weight: 600; font-size: 30px; letter-spacing: .16em;
     text-transform: uppercase; color: var(--olive); }
@@ -70,7 +72,7 @@
   .ph-marke .was { font-size: 34px; font-weight: 500; line-height: 1.15; margin-top: 8px; color: var(--olive); }
   .ph-marke.oben { bottom: calc(1080px - 470px); }
   .ph-marke.unten { top: 850px; }
-  .ph-marke.haupt { background: var(--dunkel); padding: 24px 34px 26px; }
+  .ph-marke.haupt { background: var(--dunkel); padding: 24px 34px 26px; border-radius: 4px; }
   .ph-marke.haupt .wert { color: var(--grund); font-size: 80px; }
   .ph-marke.haupt .was { color: #CFC6A8; font-size: 36px; }
   .ph-linien { position: absolute; inset: 0; pointer-events: none; }
@@ -85,18 +87,24 @@
 
   <div class="vergleich">
     <div class="feld hervor">
-      <svg id="hexagon" viewBox="-210 -210 420 420" aria-hidden="true"></svg>
+      <div class="bilder">
+        <svg id="hexagon" viewBox="-210 -210 420 420" aria-hidden="true"></svg>
+        <img src="bilder/struktur-kangenwasser.png" alt="Aufnahme Kangenwasser: Schneeflockenstruktur">
+      </div>
       <div class="name">Kangenwasser</div>
       <div class="zusatz">sechseckig wie eine Schneeflocke</div>
     </div>
     <div class="feld">
-      <svg id="chaos" viewBox="-210 -210 420 420" aria-hidden="true"></svg>
+      <div class="bilder">
+        <svg id="chaos" viewBox="-210 -210 420 420" aria-hidden="true"></svg>
+        <img src="bilder/struktur-leitungswasser.png" alt="Aufnahme Leitungswasser: ungeordnete Struktur">
+      </div>
       <div class="name">Leitungswasser</div>
       <div class="zusatz">ungeordnet</div>
     </div>
   </div>
 
-  <div class="marke"><img src="logo-baum.png" alt="">URSPRUNGSKRAFT</div>
+  <div class="marke"><img src="bilder/logo-baum.png" alt="">URSPRUNGSKRAFT</div>
 </section>
 
 <!-- ===================== FOLIE 4 ===================== -->
@@ -123,7 +131,7 @@
   <div class="ph-marke unten" data-ph="1.5" data-x="373"><div class="wert">ca. 1,5</div><div class="was">Magen</div></div>
   <div class="ph-marke unten" data-ph="7.35" data-x="1500"><div class="wert">7,35</div><div class="was">Blut</div></div>
 
-  <div class="marke"><img src="logo-baum.png" alt="">URSPRUNGSKRAFT</div>
+  <div class="marke"><img src="bilder/logo-baum.png" alt="">URSPRUNGSKRAFT</div>
 </section>
 
 <script>
@@ -177,16 +185,16 @@
 /* ---------- Folie 4: Skala und Hinweislinien ---------- */
 document.fonts.ready.then(function () {
   const folie = document.getElementById("ph"), skala = document.getElementById("ph-skala");
-  // Farben: sauer = Khaki (dunkler zu 0 hin), 7 = hell, basisch = Olive (dunkler zu 14 hin)
-  const mix = (a, b, t) => "#" + [0, 2, 4].map(i => Math.round(parseInt(a.substr(i, 2), 16) * (1 - t) +
-    parseInt(b.substr(i, 2), 16) * t).toString(16).padStart(2, "0")).join("");
+  // Farben wie beim Tropfentest: 4 bis 10 aus der Original-Farbtabelle gemessen,
+  // 0 bis 3 und 11 bis 14 als Fortsetzung (rot bzw. dunkles Violett).
+  const FARBEN = ["#B5121B", "#D42420", "#E5481D", "#F27A12", "#FDAF05", "#F8C909", "#D5B60E",
+                  "#188647", "#092384", "#4958BF", "#431376", "#3A1068", "#310D5A", "#29094C", "#21073E"];
+  const HELLE_SCHRIFT = [0, 1, 2, 7, 8, 9, 10, 11, 12, 13, 14];
   for (let n = 0; n <= 14; n++) {
     const d = document.createElement("div"); d.textContent = n;
-    let bg, fg;
-    if (n < 7) { bg = mix("E9E1CB", "8C7D4F", (7 - n) / 7); fg = n <= 3 ? "#F5F1E8" : "#2F3524"; }
-    else if (n === 7) { bg = "#FFFFFF"; fg = "#2F3524"; d.style.outline = "3px solid #2F3524"; d.style.outlineOffset = "-3px"; }
-    else { bg = mix("D9DDC8", "2F3524", (n - 7) / 7); fg = n >= 10 ? "#F5F1E8" : "#2F3524"; }
-    d.style.background = bg.startsWith("#") ? bg : "#" + bg; d.style.color = fg; skala.appendChild(d);
+    d.style.background = FARBEN[n];
+    d.style.color = HELLE_SCHRIFT.includes(n) ? "#FFFFFF" : "#2A2C22";
+    skala.appendChild(d);
   }
   const L = 140, B = 1920 - 280, zelle = (B - 6 * 14) / 15;
   const xVon = ph => L + ph * (zelle + 6) + zelle / 2;
