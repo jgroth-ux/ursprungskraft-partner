@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Folien LeveLuk K8</title>
+<!--
+  Video-Folien Ursprungskraft, LeveLuk K8
+  Jede <section class="folie"> ist eine Folie in 1920 x 1080.
+  Texte direkt hier ändern, dann neu rendern:  node render.js
+  Dateiname der PNG steht im Attribut data-datei.
+-->
+<style>
+  @font-face { font-family: "Jost"; font-weight: 500; src: url("schriften/jost-latin-500-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 400; src: url("schriften/inter-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 500; src: url("schriften/inter-latin-500-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("schriften/inter-latin-600-normal.woff2") format("woff2"); }
+
+  :root {
+    --grund: #F5F1E8;
+    --flaeche: #ECE6D7;   /* etwas dunkler als Grund, für Felder */
+    --olive: #4F5A35;
+    --dunkel: #2F3524;
+    --khaki: #A8996A;
+    --linie: #D8D0BC;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #8c8c8c; }
+  body { display: flex; flex-direction: column; align-items: center; gap: 40px; padding: 40px 0; }
+
+  .folie {
+    position: relative; width: 1920px; height: 1080px; overflow: hidden; flex: none;
+    background: var(--grund); color: var(--dunkel);
+    font-family: "Inter", sans-serif; font-weight: 400;
+    padding: 96px 140px 0;
+  }
+  .dachzeile {   /* Großbuchstaben bitte direkt so schreiben (wegen pH) */
+    font-family: "Inter"; font-weight: 600; font-size: 30px; letter-spacing: .16em; color: var(--olive);
+  }
+  h1 {
+    font-family: "Jost"; font-weight: 500; font-size: 96px; line-height: 1.05;
+    letter-spacing: -.01em; color: var(--dunkel); margin-top: 18px;
+  }
+  .marke {
+    position: absolute; right: 140px; bottom: 56px;
+    display: flex; align-items: center; gap: 16px;
+    font-family: "Jost"; font-weight: 500; font-size: 24px; letter-spacing: .22em; color: var(--olive);
+  }
+  .marke img { height: 52px; }
+
+  /* ---------- Folie 1: Hexagonale Struktur ---------- */
+  .vergleich { position: absolute; left: 140px; right: 140px; top: 320px; bottom: 170px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .feld { background: var(--flaeche); display: flex; flex-direction: column; align-items: center;
+    padding: 36px 40px 40px; }
+  .feld.hervor { background: var(--dunkel); color: var(--grund); }
+  .feld svg { width: 420px; height: 420px; flex: none; }
+  .feld .name { font-family: "Jost"; font-weight: 500; font-size: 60px; line-height: 1; margin-top: 18px; }
+  .feld .zusatz { font-size: 38px; margin-top: 14px; color: var(--olive); }
+  .feld.hervor .zusatz { color: #CFC6A8; }
+
+  /* ---------- Folie 4: pH-Wert ---------- */
+  .ph-skala { position: absolute; left: 140px; right: 140px; top: 604px; height: 116px;
+    display: grid; grid-template-columns: repeat(15, 1fr); gap: 6px; }
+  .ph-skala div { display: flex; align-items: center; justify-content: center;
+    font-family: "Jost"; font-weight: 500; font-size: 46px; }
+  .ph-ende { position: absolute; top: 742px; font-weight: 600; font-size: 30px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--olive); }
+  .ph-marke { position: absolute; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+  .ph-marke .wert { font-family: "Jost"; font-weight: 500; font-size: 58px; line-height: 1; color: var(--dunkel); }
+  .ph-marke .was { font-size: 34px; font-weight: 500; line-height: 1.15; margin-top: 8px; color: var(--olive); }
+  .ph-marke.oben { bottom: calc(1080px - 470px); }
+  .ph-marke.unten { top: 850px; }
+  .ph-marke.haupt { background: var(--dunkel); padding: 24px 34px 26px; }
+  .ph-marke.haupt .wert { color: var(--grund); font-size: 80px; }
+  .ph-marke.haupt .was { color: #CFC6A8; font-size: 36px; }
+  .ph-linien { position: absolute; inset: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<!-- ===================== FOLIE 1 ===================== -->
+<section class="folie" data-datei="folie-01-hexagonal">
+  <div class="dachzeile">WASSERSTRUKTUR</div>
+  <h1>Kangenwasser ist geordnet</h1>
+
+  <div class="vergleich">
+    <div class="feld hervor">
+      <svg id="hexagon" viewBox="-210 -210 420 420" aria-hidden="true"></svg>
+      <div class="name">Kangenwasser</div>
+      <div class="zusatz">sechseckig wie eine Schneeflocke</div>
+    </div>
+    <div class="feld">
+      <svg id="chaos" viewBox="-210 -210 420 420" aria-hidden="true"></svg>
+      <div class="name">Leitungswasser</div>
+      <div class="zusatz">ungeordnet</div>
+    </div>
+  </div>
+
+  <div class="marke"><img src="logo-baum.png" alt="">URSPRUNGSKRAFT</div>
+</section>
+
+<!-- ===================== FOLIE 4 ===================== -->
+<!-- Marken: data-ph = Position auf der Skala, data-x = Mitte des Textes in Pixel (von links). -->
+<section class="folie" data-datei="folie-04-ph-wert" id="ph">
+  <div class="dachzeile">pH-WERT VON 0 BIS 14</div>
+  <h1>Kangenwasser ist basisch</h1>
+
+  <svg class="ph-linien" viewBox="0 0 1920 1080"></svg>
+
+  <!-- oben: Wasser -->
+  <div class="ph-marke oben" data-ph="4.5" data-x="380"><div class="wert">ca. 4,5</div><div class="was">Abwasser</div></div>
+  <div class="ph-marke oben" data-ph="5.5" data-x="670"><div class="wert">sauer</div><div class="was">Sprudelwasser</div></div>
+  <div class="ph-marke oben" data-ph="7.5" data-x="970" data-von="7" data-bis="8"><div class="wert">7 bis 8</div><div class="was">Leitungswasser</div></div>
+  <div class="ph-marke oben" data-ph="8.5" data-x="1265"><div class="wert">ca. 8,5</div><div class="was">basisches<br>Flaschenwasser</div></div>
+  <div class="ph-marke oben haupt" data-ph="9.5" data-x="1610"><div class="wert">9,5</div><div class="was">Kangenwasser</div></div>
+
+  <div class="ph-skala" id="ph-skala"></div>
+  <div class="ph-ende" style="left:140px">sauer</div>
+  <div class="ph-ende" style="left:960px; transform:translateX(-50%)">neutral</div>
+  <div class="ph-ende" style="right:140px">basisch</div>
+
+  <!-- unten: Körper -->
+  <div class="ph-marke unten" data-ph="1.5" data-x="373"><div class="wert">ca. 1,5</div><div class="was">Magen</div></div>
+  <div class="ph-marke unten" data-ph="7.35" data-x="1500"><div class="wert">7,35</div><div class="was">Blut</div></div>
+
+  <div class="marke"><img src="logo-baum.png" alt="">URSPRUNGSKRAFT</div>
+</section>
+
+<script>
+/* ---------- Folie 1: Zeichnungen ---------- */
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+  // Sechseck-Schneeflocke: Mitte, ein Ring, sechs Arme
+  const r = 40, svg = document.getElementById("hexagon");
+  const zellen = [[0, 0]];
+  const richt = [[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]];
+  richt.forEach(([q, s]) => { zellen.push([q, s]); zellen.push([2*q, 2*s]); });
+  const mitte = ([q, s]) => [Math.sqrt(3) * r * (q + s / 2), 1.5 * r * s];
+  const punkte = new Map(), kanten = new Map();
+  const key = (x, y) => Math.round(x * 10) + "," + Math.round(y * 10);
+  zellen.forEach(z => {
+    const [cx, cy] = mitte(z); const ecken = [];
+    for (let i = 0; i < 6; i++) { const a = Math.PI / 180 * (60 * i - 30);
+      const p = [cx + r * Math.cos(a), cy + r * Math.sin(a)]; ecken.push(p); punkte.set(key(...p), p); }
+    for (let i = 0; i < 6; i++) { const a = ecken[i], b = ecken[(i + 1) % 6];
+      const k = [key(...a), key(...b)].sort().join("|"); kanten.set(k, [a, b]); }
+  });
+  const g = el("g", { transform: "rotate(30)" }, svg);
+  kanten.forEach(([a, b]) => el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1],
+    stroke: "#A8996A", "stroke-width": 4, "stroke-linecap": "round" }, g));
+  punkte.forEach(p => el("circle", { cx: p[0], cy: p[1], r: 8.5, fill: "#F5F1E8" }, g));
+
+  // Ungeordnet: gleiche Anzahl Teilchen, zufällig verteilt (fester Startwert, damit gleich bleibt)
+  let seed = 7;
+  const zufall = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const svg2 = document.getElementById("chaos"), pts = [];
+  let versuche = 0;
+  while (pts.length < punkte.size && versuche < 5000) { versuche++;
+    const a = zufall() * Math.PI * 2, d = Math.sqrt(zufall()) * 190;
+    const p = [Math.cos(a) * d, Math.sin(a) * d];
+    if (pts.every(q => Math.hypot(p[0] - q[0], p[1] - q[1]) > 26)) pts.push(p); }
+  const g2 = el("g", {}, svg2), gesehen = new Set();
+  pts.forEach((p, i) => {
+    const nah = pts.map((q, j) => [Math.hypot(p[0]-q[0], p[1]-q[1]), j]).filter(x => x[1] !== i)
+      .sort((a, b) => a[0] - b[0]).slice(0, zufall() < .5 ? 1 : 2);
+    nah.forEach(([d, j]) => { const k = [i, j].sort().join("|");
+      if (d < 60 && !gesehen.has(k)) { gesehen.add(k); const q = pts[j];
+        el("line", { x1: p[0], y1: p[1], x2: q[0], y2: q[1], stroke: "#A8996A", "stroke-width": 4, "stroke-linecap": "round" }, g2); } });
+  });
+  pts.forEach(p => el("circle", { cx: p[0], cy: p[1], r: 8.5, fill: "#4F5A35" }, g2));
+})();
+
+/* ---------- Folie 4: Skala und Hinweislinien ---------- */
+document.fonts.ready.then(function () {
+  const folie = document.getElementById("ph"), skala = document.getElementById("ph-skala");
+  // Farben: sauer = Khaki (dunkler zu 0 hin), 7 = hell, basisch = Olive (dunkler zu 14 hin)
+  const mix = (a, b, t) => "#" + [0, 2, 4].map(i => Math.round(parseInt(a.substr(i, 2), 16) * (1 - t) +
+    parseInt(b.substr(i, 2), 16) * t).toString(16).padStart(2, "0")).join("");
+  for (let n = 0; n <= 14; n++) {
+    const d = document.createElement("div"); d.textContent = n;
+    let bg, fg;
+    if (n < 7) { bg = mix("E9E1CB", "8C7D4F", (7 - n) / 7); fg = n <= 3 ? "#F5F1E8" : "#2F3524"; }
+    else if (n === 7) { bg = "#FFFFFF"; fg = "#2F3524"; d.style.outline = "3px solid #2F3524"; d.style.outlineOffset = "-3px"; }
+    else { bg = mix("D9DDC8", "2F3524", (n - 7) / 7); fg = n >= 10 ? "#F5F1E8" : "#2F3524"; }
+    d.style.background = bg.startsWith("#") ? bg : "#" + bg; d.style.color = fg; skala.appendChild(d);
+  }
+  const L = 140, B = 1920 - 280, zelle = (B - 6 * 14) / 15;
+  const xVon = ph => L + ph * (zelle + 6) + zelle / 2;
+  const top = 604, unten = 720;
+  const svg = folie.querySelector(".ph-linien"), NS = "http://www.w3.org/2000/svg";
+  const linie = (x1, y1, x2, y2, w) => { const l = document.createElementNS(NS, "line");
+    Object.entries({ x1, y1, x2, y2, stroke: "#2F3524", "stroke-width": w || 3, "stroke-linecap": "round" })
+      .forEach(([k, v]) => l.setAttribute(k, v)); svg.appendChild(l); };
+  const punkt = (x, y) => { const c = document.createElementNS(NS, "circle");
+    Object.entries({ cx: x, cy: y, r: 9, fill: "#2F3524", stroke: "#F5F1E8", "stroke-width": 4 })
+      .forEach(([k, v]) => c.setAttribute(k, v)); svg.appendChild(c); };
+  folie.querySelectorAll(".ph-marke").forEach(m => {
+    const ph = parseFloat(m.dataset.ph), x = parseFloat(m.dataset.x);
+    m.style.left = x + "px";
+    const ziel = xVon(ph), box = m.getBoundingClientRect(), fb = folie.getBoundingClientRect();
+    if (m.classList.contains("oben")) {
+      const yText = box.bottom - fb.top + 14;
+      if (m.dataset.von) {   // Bereich als Klammer
+        const a = xVon(+m.dataset.von), b = xVon(+m.dataset.bis), y = top - 20;
+        linie(a, y, b, y); linie(a, y, a, top - 4); linie(b, y, b, top - 4);
+        linie(ziel, y, x, yText);
+      } else { linie(ziel, top - 4, x, yText); punkt(ziel, top); }
+    } else {
+      const yText = box.top - fb.top - 14;
+      linie(ziel, unten + 4, x, yText); punkt(ziel, unten);
+    }
+  });
+}).then(() => { window.fertig = true; });
+</script>
+</body>
+</html>
