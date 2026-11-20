@@ -1,13 +1,12 @@
 /* ==========================================================================
    VIP GROUP · Geldtyp-Test · ABLAUF
-   Stand: Entwurf. Fertig: Test, Auswertung, Formular, Story-Bild.
+   Stand: Entwurf. Fertig: Test, Auswertung, Formular, PDF, Story-Bild.
    Offen: echte Links und Webhook in EINSTELLUNGEN eintragen.
    ========================================================================== */
 
 /* ---------- EINSTELLUNGEN: vor dem Livegang ausfüllen -------------------- */
 const EINSTELLUNGEN = {
   videokursLink: '{{VIDEOKURS_LINK}}',     // Seite, auf der der kostenlose Videokurs startet
-  terminLink: '{{TERMIN_LINK}}',           // Buchung kostenfreies Telefoncoaching (z. B. Calendly)
   datenschutzLink: '{{DATENSCHUTZ_LINK}}',
   impressumLink: '{{IMPRESSUM_LINK}}',
   webhook: '',                             // ANSCHLUSS: Make, Zapier, ManyChat oder CRM. Leer = nur Vorschau
@@ -45,7 +44,7 @@ const HAKEN = '<path d="M20 6 9 17l-5-5"/>';
 const ZURUECK = '<path d="m15 18-6-6 6-6"/>';
 const SCHLOSS = '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>';
 const PLAY = '<polygon points="6 3 20 12 6 21 6 3"/>';
-const TELEFON = '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>';
+const DATEI = '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/>';
 const TEILEN = '<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/>';
 
 function aktiveFragen() {
@@ -138,18 +137,16 @@ function startSeite() {
   const anzahl = aktiveFragen().length;
   anzeigen(`
     <section class="start">
-      <div class="hero">
-        <img class="portrait" src="bilder/tobias-klein.webp" alt="" width="430" height="600">
-        <div class="hero-text">
-          <p class="eyebrow">VIP Academy · Geldtyp-Test</p>
-          <h1 class="titel">Welcher <span class="gold">Geldtyp</span> bist Du?</h1>
-          <p class="lead">Finde heraus, was Dich beim Thema Geld wirklich antreibt, wo Dein Fundament Lücken hat und welcher Schritt für Dich als Nächstes zählt.</p>
-        </div>
-      </div>
-      <div class="kacheln">
-        <div class="kachel"><span class="k">Fragen</span><span class="v">${anzahl}</span></div>
-        <div class="kachel"><span class="k">Dauer</span><span class="v">~3 Min</span></div>
-        <div class="kachel"><span class="k">Kosten</span><span class="v">0 €</span></div>
+      <p class="eyebrow">VIP Academy · Geldtyp-Test</p>
+      <h1 class="titel">Welcher <span class="gold">Geldtyp</span> bist Du?</h1>
+      <p class="lead">Finde heraus, was Dich beim Thema Geld wirklich antreibt, wo Dein Fundament Lücken hat und welcher Schritt für Dich als Nächstes zählt.</p>
+      <div class="vorstellung">
+        <dl class="fakten">
+          <div><dt>Fragen</dt><dd class="mono">${anzahl}</dd></div>
+          <div><dt>Dauer</dt><dd class="mono">~3 Min</dd></div>
+          <div><dt>Kosten</dt><dd class="mono">0 €</dd></div>
+        </dl>
+        <img class="portrait" src="bilder/tobias-klein.webp" alt="Tobias Rethaber" width="430" height="600">
       </div>
       <div class="aktion">
         <button class="btn" id="los">${angefangen ? 'Weitermachen' : 'Test starten'} ${ico(PFEIL)}</button>
@@ -160,7 +157,7 @@ function startSeite() {
       </div>
       <div class="absender">
         <img src="bilder/unterschrift.png" alt="Tobias Rethaber" class="unterschrift" width="461" height="308">
-        <p class="meta">Entwickelt von Tobias Rethaber, Cashflow Experte Nr. 1. Auf Basis der vier Geldtypen aus seiner Konzeptplanung.</p>
+        <p class="meta">Auf Basis der vier Geldtypen von Tobias Rethaber, Cashflow Experte Nr. 1. Am Ende bekommst Du Deine Auswertung als PDF.</p>
       </div>
     </section>
   `);
@@ -312,6 +309,7 @@ function formular(r) {
         <li><span class="dash"></span>Dein Fundament in sechs Bereichen, von 0 bis 100</li>
         <li><span class="dash"></span>Deine Zahlen: Lebenseinkommen und 3-Konten-Modell</li>
         <li><span class="dash"></span>Welches Video aus dem kostenlosen Videokurs Dir am meisten bringt</li>
+        <li><span class="dash"></span>Alles zusammen als PDF zum Speichern</li>
       </ul>
       <div class="felder">
         <label class="feld"><span>Vorname</span><input id="vorname" name="vorname" autocomplete="given-name" required value="${vor}"></label>
@@ -320,7 +318,7 @@ function formular(r) {
       </div>
       <label class="einwilligung">
         <input type="checkbox" id="ok" required>
-        <span>Ich möchte meine Auswertung und den Zugang zum kostenlosen Videokurs per E-Mail erhalten. Die VIP Group darf mich dazu kontaktieren. Abmelden geht jederzeit. <a href="${linkGesetzt(EINSTELLUNGEN.datenschutzLink) ? EINSTELLUNGEN.datenschutzLink : '#'}" target="_blank" rel="noopener">Datenschutz</a></span>
+        <span>Ich möchte meine Auswertung als PDF und den Zugang zum kostenlosen Videokurs per E-Mail erhalten. Die VIP Group darf mich dazu kontaktieren. Abmelden geht jederzeit. <a href="${linkGesetzt(EINSTELLUNGEN.datenschutzLink) ? EINSTELLUNGEN.datenschutzLink : '#'}" target="_blank" rel="noopener">Datenschutz</a></span>
       </label>
       <p class="fehler" id="fehler" role="alert" hidden></p>
       <button class="btn voll" type="submit" id="senden">Auswertung freischalten ${ico(PFEIL)}</button>
@@ -345,10 +343,15 @@ function formularBinden() {
     if (meldung) { fehler.textContent = meldung; fehler.hidden = false; return; }
     fehler.hidden = true;
     const knopf = document.getElementById('senden');
-    knopf.disabled = true; knopf.innerHTML = 'Wird freigeschaltet …';
+    knopf.disabled = true;
     z.lead = { vorname, email, handy, zeit: new Date().toISOString() };
     sichern();
-    await leadSenden(datenpaket());
+    const warten = wartenZeigen('Deine Auswertung wird erstellt');
+    const pdf = await pdfErstellen();
+    const antwort = await leadSenden(datenpaket(), pdf);
+    z.gesendet = !!(antwort.ok && !antwort.vorschau);
+    sichern();
+    warten.remove();
     ereignis('Lead', { geldtyp: auswerten().haupt });
     ergebnisSeite();
   });
@@ -363,14 +366,13 @@ function ergebnisSeite() {
   const n = r.zahlen;
   const name = z.lead?.vorname ? `${esc(z.lead.vorname)}, ` : '';
   const vk = linkGesetzt(EINSTELLUNGEN.videokursLink) ? zielLink(EINSTELLUNGEN.videokursLink, r) : '#';
-  const tl = linkGesetzt(EINSTELLUNGEN.terminLink) ? zielLink(EINSTELLUNGEN.terminLink, r) : '#';
-  const stimme = STIMMEN[r.haupt === 'geniesser' || r.haupt === 'planer' ? 0 : 1];
   const schwach = BEREICH_REIHE.slice().sort((a, b) => r.bereiche[a] - r.bereiche[b]).slice(0, 2);
 
   anzeigen(`
     <section class="ergebnis">
       ${typKopf(r)}
       <p class="lead">${name}${T.satz} Das ist Deine größte Stärke und zugleich Deine größte Falle.</p>
+      ${z.gesendet ? `<p class="hinweis-ok">${ico(HAKEN)}<span>Deine Auswertung als PDF geht an <b>${esc(z.lead.email)}</b>.</span></p>` : ''}
 
       <div class="block">
         <p class="eyebrow">01 · Dein Profil</p>
@@ -438,8 +440,11 @@ function ergebnisSeite() {
 
       <div class="block pitch">
         <p class="eyebrow">${n ? '04' : '03'} · Dein nächster Schritt</p>
-        <h2 class="titel-m">Der kostenlose Videokurs von Tobias Rethaber</h2>
-        <p class="lead">Drei Videos, die genau die Bereiche abdecken, die Du gerade bewertet hast. Vom Konten-System über die Regeln, die ein Investment erfüllen muss, bis zur Strategie der Vermögenden. Schau sie der Reihe nach. Für Dich als ${T.kurz} ist <b>Video ${r.empfehlung}</b> das wichtigste.</p>
+        <div class="pitch-kopf">
+          <h2 class="titel-m">Der kostenlose Videokurs von Tobias Rethaber</h2>
+          <span class="ring"><img src="bilder/tobias-klein.webp" alt="Tobias Rethaber" width="430" height="600"></span>
+        </div>
+        <p class="lead">Drei Videos, die genau die Bereiche abdecken, die Du gerade bewertet hast. Schau sie der Reihe nach. Für Dich als ${T.kurz} ist <b>Video ${r.empfehlung}</b> das wichtigste.</p>
         <div class="videos">
           ${VIDEOS.map((v) => `
             <div class="video${v.nr === r.empfehlung ? ' empfohlen' : ''}">
@@ -448,28 +453,18 @@ function ergebnisSeite() {
                 ${v.nr === r.empfehlung ? '<span class="badge gold">Für Dich am wichtigsten</span>' : ''}
               </div>
               <h3>${v.titel}</h3>
-              <ul>${v.punkte.map((p) => `<li>${p}</li>`).join('')}</ul>
+              <ul>${v.punkte.map((p) => `<li><b>${p.t}.</b> ${p.d}</li>`).join('')}</ul>
             </div>`).join('')}
         </div>
         <a class="btn voll" id="videokurs" href="${vk}" target="_blank" rel="noopener">${ico(PLAY)} Videokurs kostenlos starten</a>
         <p class="meta mitte">Kostenlos und ohne Verpflichtung.</p>
       </div>
 
-      <div class="block">
-        <div class="stimme">
-          <span class="quote-mark">„</span>
-          <p class="q">${stimme.text}</p>
-          <p class="attrib"><span class="ln"></span>${stimme.name}${stimme.rolle ? ` · ${stimme.rolle}` : ''}</p>
-        </div>
-        <div class="berater">
-          <span class="ring"><img src="bilder/tobias-klein.webp" alt="Tobias Rethaber" width="430" height="600"></span>
-          <div>
-            <p class="b-name">Tobias Rethaber</p>
-            <p class="b-rolle">Cashflow Experte Nr. 1 · VIP Group</p>
-            <p class="b-text">Lieber direkt sprechen? 45 Minuten kostenfreies Telefoncoaching, Deine Zahlen auf Deine Situation gerechnet.</p>
-            <a class="btn zweit-btn" id="termin" href="${tl}" target="_blank" rel="noopener">${ico(TELEFON)} Coaching buchen</a>
-          </div>
-        </div>
+      <div class="block pdf-block">
+        <p class="eyebrow">Zum Mitnehmen</p>
+        <h2 class="block-titel">Deine Auswertung als PDF</h2>
+        <p>Alles von dieser Seite auf ${n ? 'vier' : 'drei'} Seiten im Format A4: Dein Geldtyp, Dein Fundament${n ? ', Deine Zahlen' : ''} und Dein Weg durch den Videokurs.</p>
+        <button class="btn zweit-btn" id="pdf">${ico(DATEI)} PDF speichern</button>
       </div>
 
       <div class="block teilen">
@@ -493,7 +488,7 @@ function ergebnisSeite() {
     toast('Vorschau: Der Link wird in quiz.js unter EINSTELLUNGEN eingetragen.');
   };
   document.getElementById('videokurs').onclick = (e) => hinweisFehlt(e, 'VideokursGeklickt');
-  document.getElementById('termin').onclick = (e) => hinweisFehlt(e, 'TerminGeklickt');
+  document.getElementById('pdf').onclick = pdfSpeichern;
   document.getElementById('story').onclick = storyBild;
   document.getElementById('nochmal').onclick = () => { zuruecksetzen(); startSeite(); };
 }
@@ -527,17 +522,56 @@ function datenpaket() {
   };
 }
 
-// ANSCHLUSS: schickt den Lead an Make, Zapier, ManyChat oder das CRM (EINSTELLUNGEN.webhook)
-async function leadSenden(daten) {
-  if (!EINSTELLUNGEN.webhook) { console.log('Vorschau, nichts gesendet:', daten); return { ok: true, vorschau: true }; }
+// ANSCHLUSS: schickt den Lead an Make, Zapier oder das CRM (EINSTELLUNGEN.webhook).
+// Format: multipart/form-data. Jedes Feld einzeln, dazu "daten" als JSON und "auswertung" als PDF-Datei.
+async function leadSenden(daten, pdf) {
+  if (!EINSTELLUNGEN.webhook) { console.log('Vorschau, nichts gesendet:', daten, pdf ? `PDF ${Math.round(pdf.size / 1024)} KB` : 'ohne PDF'); return { ok: true, vorschau: true }; }
   try {
-    // text/plain vermeidet die CORS-Vorabfrage, Make und Zapier lesen das JSON trotzdem
-    await fetch(EINSTELLUNGEN.webhook, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify(daten), keepalive: true });
+    const fd = new FormData();
+    for (const [k, v] of Object.entries(daten)) fd.append(k, typeof v === 'object' && v !== null ? JSON.stringify(v) : String(v ?? ''));
+    fd.append('daten', JSON.stringify(daten));
+    if (pdf) fd.append('auswertung', pdf, pdfName());
+    // no-cors: Make und Zapier antworten ohne CORS-Freigabe, die Daten kommen trotzdem an
+    await fetch(EINSTELLUNGEN.webhook, { method: 'POST', mode: 'no-cors', body: fd });
     return { ok: true };
   } catch (e) {
     console.warn('Lead konnte nicht gesendet werden', e);
     return { ok: false };
   }
+}
+
+/* ---------- PDF ------------------------------------------------------- */
+let pdfBlob = null;
+const pdfName = () => `Geldtyp-Auswertung${z.lead?.vorname ? '-' + z.lead.vorname.replace(/[^\wäöüÄÖÜß-]/g, '') : ''}.pdf`;
+async function pdfErstellen() {
+  try {
+    const r = auswerten();
+    const link = linkGesetzt(EINSTELLUNGEN.videokursLink) ? zielLink(EINSTELLUNGEN.videokursLink, r) : null;
+    pdfBlob = await auswertungPdf(r, z.lead, { link, linkText: link ? EINSTELLUNGEN.videokursLink.replace(/^https?:\/\//, '') : '' });
+    return pdfBlob;
+  } catch (e) { console.warn('PDF konnte nicht erstellt werden', e); return null; }
+}
+async function pdfSpeichern() {
+  const knopf = document.getElementById('pdf');
+  knopf.disabled = true;
+  const blob = pdfBlob || await pdfErstellen();
+  knopf.disabled = false;
+  if (!blob) return toast('Das PDF konnte gerade nicht erstellt werden. Bitte versuch es noch einmal.');
+  const datei = new File([blob], pdfName(), { type: 'application/pdf' });
+  if (navigator.canShare && navigator.canShare({ files: [datei] }) && /Android|iPhone|iPad/i.test(navigator.userAgent)) {
+    try { await navigator.share({ files: [datei], title: 'Deine Geldtyp-Auswertung' }); ereignis('PdfGespeichert'); return; } catch (e) {}
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = pdfName();
+  document.body.appendChild(a); a.click(); a.remove();
+  ereignis('PdfGespeichert');
+}
+function wartenZeigen(text) {
+  const w = document.createElement('div');
+  w.className = 'warten'; w.setAttribute('role', 'status');
+  w.innerHTML = `<div class="warten-box"><span class="kreisel"></span><p>${text}</p></div>`;
+  document.body.appendChild(w);
+  return w;
 }
 
 // ANSCHLUSS: Messung (z. B. Meta-Pixel). Feuert nur, wenn ein Pixel eingebunden ist
@@ -567,7 +601,7 @@ async function storyBild() {
   const knopf = document.getElementById('story');
   knopf.disabled = true;
   try { await document.fonts.ready; } catch (e) {}
-  const [logo, portrait] = await Promise.all([bildLaden('bilder/vip-logo.png'), bildLaden('bilder/tobias.webp')]);
+  const logo = await bildLaden('bilder/vip-logo.png');
   const W = 1080, H = 1920;
   const c = document.createElement('canvas'); c.width = W; c.height = H;
   const x = c.getContext('2d');
@@ -578,43 +612,43 @@ async function storyBild() {
   sch.addColorStop(0, 'rgba(230,235,240,0.10)'); sch.addColorStop(1, 'rgba(230,235,240,0)');
   x.fillStyle = sch; x.fillRect(0, 0, W, H);
 
-  // Portrait rechts unten, ausgeblendet
-  if (portrait) {
-    const pw = 760, ph = pw * (portrait.height / portrait.width);
-    x.save(); x.globalAlpha = 0.28; x.drawImage(portrait, W - pw + 120, H - ph - 120, pw, ph); x.restore();
-    const ab = x.createLinearGradient(0, H - 700, 0, H);
-    ab.addColorStop(0, 'rgba(18,23,28,0)'); ab.addColorStop(0.6, 'rgba(18,23,28,0.92)'); ab.addColorStop(1, '#12171c');
-    x.fillStyle = ab; x.fillRect(0, H - 700, W, 700);
-  }
-
   const gold = x.createLinearGradient(0, 0, W, 0);
   gold.addColorStop(0, '#a8923a'); gold.addColorStop(0.48, '#d4b868'); gold.addColorStop(1, '#eedfa0');
   const L = 96;
 
-  if (logo) x.drawImage(logo, L, 150, 360, 360 * (logo.height / logo.width));
+  if (logo) x.drawImage(logo, L, 140, 360, 360 * (logo.height / logo.width));
+
+  // Symbol des Geldtyps im Goldkreis
+  const kx = L + 84, ky = 420;
+  const kreis = x.createLinearGradient(kx - 84, ky - 84, kx + 84, ky + 84);
+  kreis.addColorStop(0, '#a8923a'); kreis.addColorStop(0.48, '#d4b868'); kreis.addColorStop(1, '#eedfa0');
+  x.fillStyle = kreis; x.beginPath(); x.arc(kx, ky, 84, 0, Math.PI * 2); x.fill();
+  x.save(); x.translate(kx - 48, ky - 48); x.scale(4, 4);
+  x.strokeStyle = '#2a2410'; x.lineWidth = 1.6; x.lineCap = 'round'; x.lineJoin = 'round';
+  x.stroke(new Path2D(T.pfad)); x.restore();
 
   x.fillStyle = '#d4b868'; x.font = '600 30px Inter, Arial, sans-serif';
   if ('letterSpacing' in x) x.letterSpacing = '7px';
-  x.fillText('MEIN GELDTYP', L, 470);
+  x.fillText('MEIN GELDTYP', L, 600);
   if ('letterSpacing' in x) x.letterSpacing = '0px';
 
   x.fillStyle = '#e6ebf0'; x.font = '700 64px Inter, Arial, sans-serif';
-  x.fillText('Der', L, 570);
+  x.fillText('Der', L, 690);
   x.fillStyle = '#ffffff'; x.font = '800 128px Inter, Arial, sans-serif';
   const wort = T.kurz;
   let g = 128; while (x.measureText(wort).width > W - 2 * L && g > 70) { g -= 4; x.font = `800 ${g}px Inter, Arial, sans-serif`; }
-  x.fillText(wort, L, 700);
+  x.fillText(wort, L, 820);
 
-  x.fillStyle = gold; x.fillRect(L, 750, 150, 10);
+  x.fillStyle = gold; x.fillRect(L, 868, 150, 10);
 
   x.fillStyle = '#a9b2ba'; x.font = '500 40px Inter, Arial, sans-serif';
-  x.fillText('Motiv: ' + T.motiv, L, 840);
+  x.fillText('Motiv: ' + T.motiv, L, 955);
 
-  x.fillStyle = '#e6ebf0'; x.font = 'italic 600 52px "Playfair Display", Georgia, serif';
-  umbrechen(x, '„' + T.zitat + '“', L, 950, W - 2 * L, 70);
+  x.fillStyle = '#e6ebf0'; x.font = 'italic 600 54px "Playfair Display", Georgia, serif';
+  umbrechen(x, '„' + T.zitat + '“', L, 1060, W - 2 * L, 72);
 
   // Mischung
-  let y = 1140;
+  let y = 1240;
   TYP_REIHE.slice().sort((a, b) => r.mix[b] - r.mix[a]).forEach((t) => {
     const haupt = t === r.haupt;
     x.fillStyle = haupt ? '#ffffff' : '#a9b2ba'; x.font = `${haupt ? 700 : 500} 34px Inter, Arial, sans-serif`;
@@ -623,15 +657,16 @@ async function storyBild() {
     x.fillText(r.mix[t] + ' %', W - L, y); x.textAlign = 'left';
     x.fillStyle = 'rgba(255,255,255,0.08)'; rund(x, L, y + 22, W - 2 * L, 16, 8); x.fill();
     x.fillStyle = haupt ? gold : 'rgba(255,255,255,0.28)'; rund(x, L, y + 22, Math.max(16, (W - 2 * L) * r.mix[t] / 100), 16, 8); x.fill();
-    y += 112;
+    y += 104;
   });
 
   // Aufruf unten
+  x.fillStyle = 'rgba(255,255,255,0.10)'; x.fillRect(L, 1680, W - 2 * L, 2);
   x.fillStyle = '#ffffff'; x.font = '800 62px Inter, Arial, sans-serif';
-  x.fillText('Welcher Geldtyp bist Du?', L, 1690);
+  x.fillText('Welcher Geldtyp bist Du?', L, 1770);
   x.fillStyle = '#cdd4db'; x.font = '500 38px Inter, Arial, sans-serif';
-  x.fillText('Kommentiere „' + EINSTELLUNGEN.stichwort + '“ und mach den Test.', L, 1760);
-  if (!EINSTELLUNGEN.instagram.includes('{{')) { x.fillStyle = '#d4b868'; x.font = '600 36px Inter, Arial, sans-serif'; x.fillText(EINSTELLUNGEN.instagram, L, 1820); }
+  x.fillText('Kommentiere „' + EINSTELLUNGEN.stichwort + '“ und mach den Test.', L, 1835);
+  if (!EINSTELLUNGEN.instagram.includes('{{')) { x.fillStyle = '#d4b868'; x.font = '600 36px Inter, Arial, sans-serif'; x.fillText(EINSTELLUNGEN.instagram, L, 1885); }
 
   const blob = await new Promise((ok) => c.toBlob(ok, 'image/png'));
   const url = URL.createObjectURL(blob);

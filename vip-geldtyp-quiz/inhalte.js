@@ -18,6 +18,7 @@ const TYPEN = {
     kosten: 'Kaufkraft. Der Betrag auf dem Konto bleibt gleich, aber Du kannst Dir jedes Jahr weniger dafür kaufen.',
     hebel: 'Sicherheit neu definieren. Nicht der Nennwert auf dem Konto zählt, sondern was Dein Geld in zehn Jahren noch wert ist. Prüf Deine bestehenden Verträge, bevor Du weiter einzahlst.',
     video: 2,
+    pfad: 'M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z',
     icon: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>'
   },
   vermehrer: {
@@ -31,6 +32,7 @@ const TYPEN = {
     kosten: 'Lehrgeld. Ein einziges Investment, das nicht hält, frisst die Gewinne aus mehreren guten.',
     hebel: 'Ein fester Filter vor jeder Entscheidung: die 7 Grundregeln für ein Investment. Erst wenn alle sieben erfüllt sind, fließt Geld. Dazu eine Aufteilung, in der keine Anlage von der anderen abhängt.',
     video: 2,
+    pfad: 'M22 7 13.5 15.5 8.5 10.5 2 17M16 7h6v6',
     icon: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'
   },
   planer: {
@@ -44,6 +46,7 @@ const TYPEN = {
     kosten: 'Zeit. Jedes Jahr, in dem der Plan nur auf dem Papier steht, fehlt am Ende im Vermögen.',
     hebel: 'Eine Strategie mit festen Prozenten, die Du einmal gründlich prüfst und dann laufen lässt. Struktur statt Dauerrecherche.',
     video: 3,
+    pfad: 'm3 17 2 2 4-4m-6-8 2 2 4-4M13 6h8M13 12h8M13 18h8',
     icon: '<path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>'
   },
   geniesser: {
@@ -57,6 +60,7 @@ const TYPEN = {
     kosten: 'Freiheit später. Was heute ohne System ausgegeben wird, fehlt in zwanzig Jahren doppelt.',
     hebel: 'Die Reihenfolge drehen: Bezahl Dich zuerst. Im 3-Konten-Modell bekommt Genuss ein eigenes Konto, 10 % ohne schlechtes Gewissen. Und 20 % arbeiten für Dich, bevor der erste Euro ausgegeben ist.',
     video: 1,
+    pfad: 'M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41',
     icon: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>'
   }
 };
@@ -292,24 +296,32 @@ const FRAGEN = [
   }
 ];
 
-/* ---------- Der Videokurs ------------------------------------------------ */
+/* ---------- Der Videokurs ------------------------------------------------ *
+   Wortlaut aus den Begleitunterlagen, Seite 01 "Das nimmst Du aus Video X mit"
+   ------------------------------------------------------------------------- */
 const VIDEOS = [
   {
-    nr: 1, titel: 'Die Formel zum Wohlstand',
-    punkte: ['Warum Wohlstand nichts mit der Höhe Deines Einkommens zu tun hat', 'Bezahl Dich zuerst: die Reihenfolge, die 95 % falsch machen', 'Das 3-Konten-Modell, gerechnet an echten Zahlen']
+    nr: 1, titel: 'Formel zum Wohlstand und Money Management',
+    punkte: [
+      { t: 'Formel zum Wohlstand', d: 'Warum sie nichts mit der Höhe Deines Einkommens zu tun hat.' },
+      { t: 'Reiches Denken', d: 'Die fünf Lebensbereiche, in denen Du Profi werden musst.' },
+      { t: 'Perfektes Money Management', d: 'Das Drei-Konten-Modell, gerechnet an 2.000 €.' }
+    ]
   },
   {
     nr: 2, titel: 'Warum 95 % der Anleger verlieren',
-    punkte: ['Die Krisen der letzten 100 Jahre und das Muster dahinter', 'Wo das Geld der Deutschen wirklich liegt und warum das schadet', 'Die 7 Grundregeln, die jedes Investment erfüllen muss']
+    punkte: [
+      { t: 'Die Krisen der letzten Jahre', d: 'Von 1929 bis Corona und das Muster dahinter.' },
+      { t: 'Warum 95 % der Anleger verlieren', d: 'Wo das Vermögen der Deutschen wirklich liegt.' },
+      { t: 'Die 7 Grundregeln für ein Investment', d: 'Der Filter, den jedes Investment passieren muss.' }
+    ]
   },
   {
-    nr: 3, titel: 'Die Strategie der Vermögenden',
-    punkte: ['Die Drei-Speichen-Regel, seit 1.600 Jahren nicht gescheitert', 'Welche Gewinne nach welcher Frist steuerfrei sind', 'Was Eigentum von einer Forderung unterscheidet']
+    nr: 3, titel: 'Die geheime Elite-Strategie',
+    punkte: [
+      { t: 'Die geheime Elite-Strategie', d: 'Die Drei-Speichen-Regel aus dem Babylonischen Talmud.' },
+      { t: 'Steuerfreie Investments', d: 'Welche Gewinne nach welcher Frist steuerfrei sind.' },
+      { t: 'Schutz für Dein Lebenswerk', d: 'Was Eigentum von einer Forderung unterscheidet.' }
+    ]
   }
-];
-
-/* ---------- Stimmen aus dem Videokurs (Begleitunterlagen) ----------------- */
-const STIMMEN = [
-  { text: 'Tobias hat mein Leben positiv verändert. Ich wusste vorher nicht wirklich, wie ich mit Konsum, Ausgaben und Investitionen umgehen soll, und das als gelernter Finanzberater.', name: 'Paul Friesen', rolle: 'gelernter Finanzberater' },
-  { text: 'Seit 2013 kenne ich Tobias persönlich. Er ist absolut authentisch und immer hilfsbereit. Das hat mir sehr geholfen, aus der Tretmühle herauszukommen.', name: 'Robert Daniel', rolle: '' }
 ];
